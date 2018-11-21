@@ -1,5 +1,5 @@
 import GameObject from './gameObject';
-import Lib from './library';
+import Library from './library';
 
 export default class Engine {
 
@@ -28,7 +28,7 @@ export default class Engine {
 	constructor(){
 
 		this._objects = [];
-		this._lib = new Lib();
+		this._lib = new Library();
 
 		//this._sharedTicker = PIXI.ticker.shared;
 

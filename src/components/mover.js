@@ -1,4 +1,4 @@
-import Component from "gibbon/component";
+import Component from "../component";
 import { Point } from "pixi.js";
 
 export default class Mover extends Component {
