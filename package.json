@@ -1,5 +1,5 @@
 {
-  "name": "gibbon",
+  "name": "gibbon.js",
   "version": "1.0.0",
   "description": "GameObject/Component system for use with pixi.js.",
   "main": "index.js",
@@ -9,7 +9,11 @@
   "keywords": [
     "Component",
     "GameObject",
-    "Engine"
+	"Engine",
+	"pixi",
+	"pixi.js",
+	"Framework",
+	"Game"
   ],
   "author": "Justin Lacy",
   "license": "ISC",
