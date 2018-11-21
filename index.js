@@ -1,11 +1,11 @@
-import Engine from './src/engine';
-import Component from './src/component';
-import Factory from './src/factory';
-import GameObject from './src/gameObject';
-import Mover from './src/components/mover';
-import Camera from './src/components/camera';
-import SpriteTiler from './src/components/spriteTiler';
-import Library from './src/library';
+export {default} from './src/engine';
+export {default} from './src/component';
+export {default} from './src/factory';
+export {default} from './src/gameObject';
+export {default} from './src/components/mover';
+export {default} from './src/components/camera';
+export {default} from './src/components/spriteTiler';
+export {default} from './src/library';
 
 export default Gibbon = {
 
