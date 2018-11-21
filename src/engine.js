@@ -1,0 +1,122 @@
+import GameObject from './gameObject';
+import Lib from './library';
+
+export default class Engine {
+
+	get library() { return this._lib; }
+	set library(v) { this._lib = v;}
+
+	get factory() { return this._factory; }
+	set factory(v) { this._factory=v;}
+
+	get objects() { return this._objects; }
+	set objects(v) { this._objects = v; }
+
+	get objectLayer() { return this._objectLayer; }
+	set objectLayer(v) { this._objectLayer = v;}
+
+	/*get ticker() {return this._ticker; }
+	set ticker(v) { this._ticker =v; }
+
+	get sharedTicker() { return this._sharedTicker; }
+	set sharedTicker(v) { this._sharedTicker=v;}*/
+
+	/**
+	 * Optional factory for creating GameObjects.
+	 * @param {Object} factory 
+	 */
+	constructor(){
+
+		this._objects = [];
+		this._lib = new Lib();
+
+		//this._sharedTicker = PIXI.ticker.shared;
+
+		GameObject.setEngine(this);
+	}
+
+	/**
+	 * 
+	 * @param {string} key 
+	 * @param {Point} [loc=null]
+	 * @param {Object} [vars=null] variables to use in creating the new object.
+	 */
+	Create( key, loc=null, vars=null) {
+
+		let go = this._factory.create( key, loc, vars );
+		this.add(go);
+
+		return go;
+	}
+
+	/**
+	 * Instantiate a GameObject with a clip or a named clonable object from the library.
+	 * @param {*} clip 
+	 * @param {*} loc 
+	 */
+	Instantiate( clip=null, loc=null ) {
+
+		if ( typeof clip === 'string' ) {
+			 clip = this._lib.instance(clip, loc);
+		}
+
+		
+		let go = new GameObject( clip, loc );
+
+		this.add( go );
+
+		return go;
+
+	}
+
+	start() {
+
+	}
+
+	stop(){
+	}
+
+	/**
+	 * Add a GameObject to the engine.
+	 * @param {GameObject} obj 
+	*/
+	add(obj) {
+
+		if ( !obj ) {
+			console.log('ERROR: engine.add() object is null');
+			return;
+		}
+
+		if ( obj.clip && obj.clip.parent === null ) {
+			this._objectLayer.addChild( obj.clip );
+		}
+		this._objects.push(obj);
+
+	}
+
+	update( delta ) {
+
+		let objs = this._objects;
+		for( let i = objs.length-1; i>=0; i-- ) {
+			objs[i].update( delta );
+		}
+
+	}
+
+	/**
+	 * Remove a GameObject from the Engine.
+	 * @param {GameObject} obj 
+	 */
+	remove( obj ) {
+
+		let ind = this._objects.indexOf(obj);
+		if ( ind < 0 ) return false;
+
+		this._objects[ind] = this._objects[ this._objects.length-1];
+		this._objects.pop();
+
+		return true;
+
+	}
+
+}

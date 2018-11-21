@@ -1,0 +1,23 @@
+{
+  "name": "gibbon",
+  "version": "1.0.0",
+  "description": "GameObject/Component system for use with pixi.js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Component",
+    "GameObject",
+    "Engine"
+  ],
+  "author": "Justin Lacy",
+  "license": "ISC",
+  "dependencies": {
+    "pixi.js": "^4.8.2"
+  },
+  "devDependencies": {
+    "webpack": "^4.26.0",
+    "webpack-cli": "^3.1.2"
+  }
+}
