@@ -9,7 +9,7 @@ import Library from './src/library';
 
 export {Engine, Component, Factory, GameObject, Mover, Camera, SpriteTiler, Library };
 
-export default Gibbon = {
+const Gibbon = {
 
 	Engine,
 	Component,
@@ -21,3 +21,4 @@ export default Gibbon = {
 	SpriteTiler
 
 }
+export default Gibbon;
