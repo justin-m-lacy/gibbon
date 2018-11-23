@@ -30,7 +30,6 @@ export default class Factory {
 	create( key, ...args ){
 		let build = this.builds[key];
 		if ( !build ) return null;
-		console.log('build: ' + build );
 
 		return build(args);
 

@@ -62,7 +62,7 @@ export default class Camera extends Component {
 
 	init(){
 
-		this._target = this.gameObject;
+		this._target = null;
 		this.panClip = this.gameObject.clip;
 
 		this.rect = this.game.screen.clone();
@@ -73,6 +73,8 @@ export default class Camera extends Component {
 	}
 
 	update( delta ) {
+
+		if (!this._target ) return;
 
 		let targPos = this._target.position;
 

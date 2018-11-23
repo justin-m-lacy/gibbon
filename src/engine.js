@@ -1,5 +1,6 @@
 import GameObject from './gameObject';
 import Library from './library';
+import {quickSplice } from './utils/arrayutils';
 
 export default class Engine {
 
@@ -94,7 +95,6 @@ export default class Engine {
 		if ( obj.clip && obj.clip.parent === null ) {
 			this._objectLayer.addChild( obj.clip );
 		}
-		console.log('pushing obj');
 		this._objects.push(obj);
 
 	}
@@ -122,7 +122,12 @@ export default class Engine {
 
 	update( delta ) {
 
-		let objs = this._objects;
+		let objs = this._updaters;
+		for( let i = objs-length-1; i>=0; i-- ) {
+			objs[i].update(detlta);
+		}
+
+		objs = this._objects;
 		let obj;
 
 		for( let i = objs.length-1; i>=0; i-- ) {
@@ -130,7 +135,7 @@ export default class Engine {
 			obj = objs[i];
 			if ( obj.destroyed ) {
 
-				this.quickSplice( objs, i );
+				quickSplice( objs, i );
 
 			} else obj.update( delta );
 
@@ -168,20 +173,6 @@ export default class Engine {
 
 		}
 
-	}
-
-	/**
-	 * Splices an element from the array by replacing it
-	 * with the last element.
-	 * Array order is not preserved.
-	 * If used in a loop, the loop must be counting down
-	 * from the last element.
-	 * @param {Array} a 
-	 * @param {Number} i 
-	*/
-	quickSplice( a, i ) {
-		if ( i === a.length-1 ) a.pop();
-		else a[i] = a.pop();
 	}
 
 }

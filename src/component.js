@@ -30,10 +30,15 @@ export default class Component {
 	get rotation() { return this._clip.rotation; }
 	set rotation(v) { this._clip.rotation = v;}
 
+	get position() { return this._gameObject.position; }
+	set position(v) { this._gameObject.position = v;}
+
 	/**
 	 * {DisplayObject} Convenience accessor for GameObject clip.
 	 */
 	get clip() { return this._clip; }
+
+	get destroyed() { return this._destroyed; }
 
 	constructor(){}
 
@@ -82,12 +87,17 @@ export default class Component {
 	 */
 	require(cls) { return this._gameObject.require(cls); }
 
+	Destroy() {
+		this._destroy();
+	}
+
 	/**
 	 * calls destroy() and cleans up any variables.
 	 */
 	_destroy(){
 
-		if ( this.destroy ) this._destroy();
+		if ( this.destroy ) this.destroy();
+		this._destroyed = true;
 		this._gameObject = null;
 
 	}

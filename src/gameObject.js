@@ -1,5 +1,6 @@
 import {Point} from 'pixi.js';
 import * as PIXI from 'pixi.js';
+import { quickSplice } from './utils/arrayutils';
 
 export default class GameObject {
 
@@ -212,6 +213,11 @@ export default class GameObject {
 		for( let i = comps.length-1; i>=0; i-- ) {
 
 			comp = comps[i];
+			if ( comp._destroyed ) {
+
+				quickSplice( comps, i );
+				continue;
+			}
 			if ( comp.enabled && comp.update ) comp.update(delta );
 
 		}
@@ -239,12 +245,9 @@ export default class GameObject {
 
 	}
 
-	destroy() {
+	Destroy() {
 
-		this._destroyed = true;
 		this.emitter.emit( 'destroyed', this );
-		if ( this.clip ) this.clip.destroy( true );
-
 		this._destroy();
 
 	}
@@ -254,12 +257,17 @@ export default class GameObject {
 	 */
 	_destroy() {
 
+		this._destroyed = true;
+
 		let comps = this.components;
 		let len = comps.length-1;
 		for( let i = len; i >= 0; i-- ) {
 
 			this.remove( comps[i] );
 		}
+
+		if ( this.clip ) this.clip.destroy( true );
+		this.clip = null;
 
 		this.components = null;
 

@@ -6,11 +6,11 @@ export default class Mover extends Component {
 	/**
 	 * {number} wrappers for gameObject rotation.
 	 */
-	get rotation() { return this.clip.rotation; }
-	set rotation(v) { this.clip.rotation = v; }
+	get rotation() { return this._clip.rotation; }
+	set rotation(v) { this._clip.rotation = v; }
 
-	get position() { return this.clip.position; }
-	set position(v) { this.clip.position = v;}
+	get position() { return this._clip.position; }
+	set position(v) { this._clip.position = v;}
 
 	get velocity() { return this._velocity; }
 	set velocity(v) { this._velocity.set(v.x, v.y); }
@@ -54,7 +54,7 @@ export default class Mover extends Component {
 		 */
 		this.omegaMax = Math.PI/20;
 
-		this._accelMax = 10;
+		this._accelMax = 4;
 		this._velocityMax = 4;
 
 	}
@@ -65,11 +65,18 @@ export default class Mover extends Component {
 		vel.x += this._accel.x*delta;
 		vel.y += this._accel.y*delta;
 
+		let vabs = vel.x*vel.x + vel.y*vel.y;
+		if ( vabs > this.velocityMax*this.velocityMax ) {
+			vabs = Math.sqrt(vabs);
+			vel.set( vel.x*this.velocityMax/vabs, vel.y*this.velocityMax/vabs);
+		}
+
 		let pos = this.position;
 		pos.set( pos.x + vel.x*delta, pos.y +vel.y*delta );
 
+
 		//this.clip.position = pos;
-		if ( this.omega !== 0 ) this.clip.rotation += this.omega*delta;
+		this.clip.rotation += this.omega*delta;
 
 	}
 
