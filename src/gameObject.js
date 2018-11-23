@@ -1,4 +1,5 @@
 import {Point} from 'pixi.js';
+import { EventEmitter } from 'events';
 
 export default class GameObject {
 
@@ -8,8 +9,16 @@ export default class GameObject {
 	static getEngine() { return this.Engine;}
 	static setEngine(v) { this.Engine = v;}
 
+	get game() { return GameObject.Game; }
+
 	/**
-	 * {string}
+	 * {Number} bit-flags applied to this GameObject.
+	 */
+	get flags() { return this._flags; }
+	set flags(v) { this._flags = v; }
+
+	/**
+	 * {string} Name of the GameObject.
 	 */
 	get name() { return this._name; }
 	set name(v){this._name = v;}
@@ -21,6 +30,9 @@ export default class GameObject {
 	set active(v){this._active=v;}
 
 
+	/**
+	 * {Point} Position of the object and Display clip.
+	 */
 	get position() { return this._position; }
 	set position(v) {
 
@@ -34,15 +46,20 @@ export default class GameObject {
 	get y() { return this._position.y; }
 	set y(v) { this._position.y = v; }
 
-
 	/**
 	 * {Number} Rotation in radians.
 	 */
 	get rotation() { return this._clip.rotation; }
-	set rotation(v) {
-		this._clip.rotation = v;
-	}
+	set rotation(v) { this._clip.rotation = v; }
 
+	/**
+	 * {Boolean} Set the interactivity for the GameObject.
+	 * The setting is ignored if the GameObject has no clip.
+	 */
+	get interactive() { return this._clip ? this._clip.interactive : false; }
+	set interactive(v) { if ( this._clip ) this._clip.interactive = v; }
+
+	get emitter() { return this._clip ? this._clip : this._emitter; }
 	/**
 	 * {Point} returns the orientation vector of this object.
 	 */
@@ -53,8 +70,11 @@ export default class GameObject {
 
 	}
 
+	get destroyed(){ return this._destroyed; }
+
 	/**
-	 * {*} clip of the gameObject.
+	 * {*} clip of the gameObject. This must be set at the time
+	 * of GameObject creation, and cannot be changed.
 	 */
 	get clip() { return this._clip; }
 
@@ -72,16 +92,33 @@ export default class GameObject {
 		} else {
 
 			this._position = pos || new Point(0,0);
+			this._emitter = new EventEmitter();
+
 		}
 
 		this._clip = clip;
 
 	}
 
+	on( evt, func, context ) {
+		if ( this._clip ) return this._clip.on( evt, func, context );
+		else return this._emitter.on( evt, func, context);
+	}
+
+	/**
+	 * Emit an event through the underlying gameObject clip. If the gameObject
+	 * does not contain a clip, the event is emitted through a custom emitter.
+	 * @param {*} args - First argument should be the {string} event name.
+	 */
+	emit( ... args ) {
+		if ( this._clip ) this._clip.emit.apply( this._clip, args );
+		else this._emitter.emit.apply( this._emitter, args );
+	}
+
 	/**
 	 * Add an existing component to the GameObject.
-	 * @param {*} inst
-	 * @returns {*} Returns the instance.
+	 * @param {Component} inst
+	 * @returns {Component} Returns the instance.
 	 */
 	addExisting( inst ) {
 
@@ -180,10 +217,21 @@ export default class GameObject {
 
 		if ( destroy ) comp._destroy();
 
-		this.components[ind] = this.components[ this.components.length-1];
-		this.components.pop();
+		this.components.splice(ind, 1);
+		//this.components[ind] = this.components[ this.components.length-1];
+		//this.components.pop();
 
 		return true;
+
+	}
+
+	destroy() {
+
+		this._destroyed = true;
+		this.emitter.emit( 'destroyed', this );
+		if ( this.clip ) this.clip.destroy( true );
+
+		this._destroy();
 
 	}
 

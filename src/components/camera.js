@@ -64,7 +64,7 @@ export default class Camera extends Component {
 		this._target = this.gameObject;
 		this.panClip = this.gameObject.clip;
 
-		this.rect = GameObject.Game.screen.clone();
+		this.rect = this.game.screen.clone();
 
 		this.centerX = this.rect.width/2;
 		this.centerY = this.rect.height/2;

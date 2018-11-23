@@ -6,12 +6,14 @@ import Mover from './src/components/mover';
 import Camera from './src/components/camera';
 import SpriteTiler from './src/components/spriteTiler';
 import Library from './src/library';
+import Game from './src/game'
 
 export {Engine, Component, Factory, GameObject, Mover, Camera, SpriteTiler, Library };
 
 const Gibbon = {
 
 	Engine,
+	Game,
 	Component,
 	GameObject,
 	Factory,

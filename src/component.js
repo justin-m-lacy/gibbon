@@ -1,4 +1,14 @@
+import GameObject from "./gameObject";
+
 export default class Component {
+
+	get game() { return GameObject.game; }
+
+	/**
+	 * {Number} Convenience accessor for GameObject.flags.
+	 */
+	get flags() { return this._gameObject.flags; }
+	set flags(v) { this._gameObject.flags = v; }
 
 	/**
 	 * {GameObject} - Game object containing this component.
@@ -6,18 +16,26 @@ export default class Component {
 	get gameObject() { return this._gameObject; }
 
 	/**
-	 * {boolean}
+	 * {Boolean} Whether the component is enabled.
 	 */
 	get enabled(){ return this._enabled;}
 	set enabled(v) { this._enabled = v;}
 
+	get x() { return this._clip.x; }
+	set x(v) { this._clip.x = v;}
+
+	get y() { return this._clip.y; }
+	set y(v) { this._clip.y = v;}
+
+	get rotation() { return this._clip.rotation; }
+	set rotation(v) { this._clip.rotation = v;}
+
 	/**
-	 * Convenience accessor for GameObject clip.
+	 * {DisplayObject} Convenience accessor for GameObject clip.
 	 */
 	get clip() { return this._clip; }
 
-	constructor(){
-	}
+	constructor(){}
 
 	/**
 	 * Override init() in subclass.
@@ -42,6 +60,16 @@ export default class Component {
 	add( cls ) {
 		return this._gameObject.add( cls );
 	}
+
+	/**
+	 * Add a component already instantiated.
+	 * @param {Component} comp
+	 * @returns {Component} The added component instance.
+	 */
+	addExisting( comp ) {
+		return this._gameObject.addExisting(comp);
+	}
+
 	/**
 	 * 
 	 * @param {class} cls - wrapper for gameObject get() 

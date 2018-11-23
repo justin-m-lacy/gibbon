@@ -18,6 +18,7 @@
   "author": "Justin Lacy",
   "license": "ISC",
   "dependencies": {
+    "gsap": "^2.0.2",
     "pixi.js": "^4.8.2"
   },
   "devDependencies": {

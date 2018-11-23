@@ -10,10 +10,15 @@ export default class Engine {
 	set factory(v) { this._factory=v;}
 
 	get objects() { return this._objects; }
-	set objects(v) { this._objects = v; }
 
 	get objectLayer() { return this._objectLayer; }
 	set objectLayer(v) { this._objectLayer = v;}
+
+	/**
+	 * {Object[]} Updaters are for systems or objects with update
+	 * functions that don't require complex GameObjects.
+	 */
+	get updaters() { return this._updaters; }
 
 	/*get ticker() {return this._ticker; }
 	set ticker(v) { this._ticker =v; }
@@ -28,6 +33,8 @@ export default class Engine {
 	constructor(){
 
 		this._objects = [];
+		this._updaters = [];
+
 		this._lib = new Library();
 
 		//this._sharedTicker = PIXI.ticker.shared;
@@ -94,11 +101,41 @@ export default class Engine {
 
 	}
 
+	/**
+	 * 
+	 * @param {System|Object} sys 
+	 */
+	addUpdater( sys ) {
+		this._updaters.push( sys );
+	}
+
+	/**
+	 * 
+	 * @param {System|Object} sys 
+	 */
+	removeUpdater( sys ) {
+
+		let ind = this._updaters.indexOf(sys);
+		if ( ind >= 0 ) {
+			this._updaters.splice(ind,1);
+		}
+
+	}
+
 	update( delta ) {
 
 		let objs = this._objects;
+		let obj;
+
 		for( let i = objs.length-1; i>=0; i-- ) {
-			objs[i].update( delta );
+
+			obj = objs[i];
+			if ( obj.destroyed ) {
+
+				this.quickSplice( objs, i );
+
+			} else obj.update( delta );
+
 		}
 
 	}
@@ -112,11 +149,41 @@ export default class Engine {
 		let ind = this._objects.indexOf(obj);
 		if ( ind < 0 ) return false;
 
-		this._objects[ind] = this._objects[ this._objects.length-1];
-		this._objects.pop();
+		this._objects.splice( ind, 0 );
+	
+		//this._objects[ind] = this._objects[ this._objects.length-1];
+		//this._objects.pop();
 
 		return true;
 
+	}
+
+	/**
+	 * Destroy a game object.
+	 * @param {GameObject} obj 
+	 */
+	destroy(obj) {
+
+		if ( !obj.destroyed ) {
+
+			obj.destroy();
+
+		}
+
+	}
+
+	/**
+	 * Splices an element from the array by replacing it
+	 * with the last element.
+	 * Array order is not preserved.
+	 * If used in a loop, the loop must be counting down
+	 * from the last element.
+	 * @param {Array} a 
+	 * @param {Number} i 
+	*/
+	quickSplice( a, i ) {
+		if ( i === a.length-1 ) a.pop();
+		else a[i] = a.pop();
 	}
 
 }
