@@ -20,18 +20,19 @@ export default class Factory {
 	 * @param {Function} func 
 	 */
 	addCreator( key, func ) {
-		this.builds[key] = func.bind( this );
+		this.builds[key] = Function.prototype.apply.bind( func, this );
 	}
 
 	/**
 	 * Create a GameObject from the given key.
 	 * @param {string} key 
-	 * @param {Point} [loc=null] 
 	 */
-	create( key, loc=null){
+	create( key, ...args ){
 		let build = this.builds[key];
 		if ( !build ) return null;
-		return build( loc );
+		console.log('build: ' + build );
+
+		return build(args);
 
 	}
 

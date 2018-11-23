@@ -39,7 +39,7 @@ export default class LayerManager {
 
 		let clip = new Container();
 		clip.name = 'background';
-		stage.addChild( clip, 0 );
+		stage.addChild( clip );
 		this._background = clip;
 
 		clip = new Container();
@@ -47,13 +47,11 @@ export default class LayerManager {
 		stage.addChild( clip );
 		this._objectLayer = clip;
 	
-
 		clip = new Container();
 		clip.name = 'uiLayer';
 		stage.addChild( clip );
 		this._uiLayer = clip;
-
-
+	
 	}
 
 	initFromData( layerData ) {

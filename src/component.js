@@ -2,7 +2,7 @@ import GameObject from "./gameObject";
 
 export default class Component {
 
-	get game() { return GameObject.game; }
+	get game() { return GameObject.Game; }
 
 	/**
 	 * {Number} Convenience accessor for GameObject.flags.

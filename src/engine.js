@@ -66,12 +66,9 @@ export default class Engine {
 		if ( typeof clip === 'string' ) {
 			 clip = this._lib.instance(clip, loc);
 		}
-
-		
 		let go = new GameObject( clip, loc );
 
 		this.add( go );
-
 		return go;
 
 	}
@@ -97,6 +94,7 @@ export default class Engine {
 		if ( obj.clip && obj.clip.parent === null ) {
 			this._objectLayer.addChild( obj.clip );
 		}
+		console.log('pushing obj');
 		this._objects.push(obj);
 
 	}

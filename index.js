@@ -8,7 +8,7 @@ import SpriteTiler from './src/components/spriteTiler';
 import Library from './src/library';
 import Game from './src/game'
 
-export {Engine, Component, Factory, GameObject, Mover, Camera, SpriteTiler, Library };
+export {Engine, Game, Component, Factory, GameObject, Mover, Camera, SpriteTiler, Library };
 
 const Gibbon = {
 

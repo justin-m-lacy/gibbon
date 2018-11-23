@@ -42,7 +42,7 @@ export default class Mover extends Component {
 	init(){
 
 		this._velocity = new Point();
-		this.accel = new Point();
+		this._accel = new Point();
 
 		/**
 		 * {Number} Angular velocity in radians per frame.

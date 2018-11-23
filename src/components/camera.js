@@ -24,6 +24,7 @@ export default class Camera extends Component {
 	get top() { return this.rect.top; }
 	get bottom() { return this.rect.bottom; }
 
+	constructor() {super();}
 	/**
 	 * Determines if an item is completely within the view.
 	 * @param {*} it 

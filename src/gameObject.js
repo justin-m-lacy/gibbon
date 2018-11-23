@@ -1,5 +1,5 @@
 import {Point} from 'pixi.js';
-import { EventEmitter } from 'events';
+import * as PIXI from 'pixi.js';
 
 export default class GameObject {
 
@@ -88,11 +88,10 @@ export default class GameObject {
 			if ( pos ) clip.position = pos;
 			this._position = clip.position;
 
-
 		} else {
 
 			this._position = pos || new Point(0,0);
-			this._emitter = new EventEmitter();
+			this._emitter = new PIXI.utils.EventEmitter();
 
 		}
 
@@ -130,12 +129,27 @@ export default class GameObject {
 	}
 
 	/**
+	 * Checks if the Object's clip contains a global point.
+	 * false for objects without clips or clip.hitAreas.
+	 * @param {*} pt 
+	 */
+	contains( pt ) {
+
+		let clip = this._clip;
+		if ( !clip || !clip.hitArea ) return false;
+
+		pt = clip.toLocal( pt );
+		return clip.hitArea.contains( pt.x, pt.y );
+	}
+
+	/**
 	 * Instantiate and add a component to the GameObject.
 	 * @param {class} cls - component class to instantiate. 
 	*/
 	add( cls ) {
 
 		let comp = new cls();
+
 		this.components.push(comp);
 
 		comp._init( this );

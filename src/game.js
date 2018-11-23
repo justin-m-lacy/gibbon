@@ -1,5 +1,9 @@
 import {TweenMax} from 'gsap';
 import LayerManager from './layerManager';
+import Engine from './engine';
+import * as PIXI from 'pixi.js';
+import GameObject from './gameObject';
+import Camera from './components/camera';
 
 /**
  * Extendable Game class.
@@ -106,8 +110,9 @@ export default class Game {
 	init( layerData=null ) {
 
 		this._engine.factory = this._factory;
-
 		let layerManager = new LayerManager(this);
+
+
 		layerManager.initLayers( layerData );
 		this._layerManager = layerManager;
 		this._objectLayer = this._engine.objectLayer = layerManager.objectLayer;
@@ -115,11 +120,13 @@ export default class Game {
 
 		this._rootObject = this.engine.Instantiate( this._objectLayer );
 		this._camera = this.rootObject.add( Camera );
+		console.log('adding Camera');
 
 	}
 
 	start() {
 
+		console.log('game start()');
 		this.ticker.add( this.engine.update, this.engine );
 		this.ticker.start();
 		this.engine.start();
@@ -152,7 +159,7 @@ export default class Game {
 	 * @param {Point|Object} loc 
 	 */
 	makeEmpty( loc=null ) {
-		return this.engine.Instantiate( new Container(), loc );
+		return this.engine.Instantiate( new PIXI.Container(), loc );
 	}
 
 	/**
