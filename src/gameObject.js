@@ -82,7 +82,7 @@ export default class GameObject {
 
 	constructor( clip=null, pos=null ){
 
-		this.components = [];
+		this._components = [];
 
 		if ( clip ) {
 
@@ -122,7 +122,7 @@ export default class GameObject {
 	 */
 	addExisting( inst ) {
 
-		this.components.push( inst );
+		this._components.push( inst );
 		inst._init( this );
 
 		return inst;
@@ -151,7 +151,7 @@ export default class GameObject {
 
 		let comp = new cls();
 
-		this.components.push(comp);
+		this._components.push(comp);
 
 		comp._init( this );
 
@@ -168,8 +168,8 @@ export default class GameObject {
 
 	get( cls ) {
 
-		for( let i = this.components.length-1; i>=0; i-- ) {
-			if ( this.components[i] instanceof cls ) return this.components[i];
+		for( let i = this._components.length-1; i>=0; i-- ) {
+			if ( this._components[i] instanceof cls ) return this._components[i];
 		}
 		return null;
 
@@ -177,8 +177,8 @@ export default class GameObject {
 
 	require( cls ) {
 
-		for( let i = this.components.length-1; i>=0; i-- ) {
-			if ( this.components[i] instanceof cls ) return this.components[i];
+		for( let i = this._components.length-1; i>=0; i-- ) {
+			if ( this._components[i] instanceof cls ) return this._components[i];
 		}
 		return this.add(cls);
 
@@ -195,7 +195,7 @@ export default class GameObject {
 			Object.create( Object.getPrototypeOf(comp)),
 			comp );
 
-		this.components.push( copy );
+		this._components.push( copy );
 
 		console.log( 'const eql? ' + copy.constructor === comp.constructor );
 		console.log( 'proto eql? ' + copy.prototype === comp.prototype );
@@ -208,7 +208,7 @@ export default class GameObject {
 
 	update( delta ){
 
-		let comps = this.components;
+		let comps = this._components;
 		let comp;
 		for( let i = comps.length-1; i>=0; i-- ) {
 
@@ -232,12 +232,12 @@ export default class GameObject {
 	 */
 	remove( comp, destroy=true){
 
-		let ind = this.components.indexOf( comp);
+		let ind = this._components.indexOf( comp);
 		if ( ind < 0) return false;
 
 		if ( destroy ) comp._destroy();
 
-		this.components.splice(ind, 1);
+		this._components.splice(ind, 1);
 		//this.components[ind] = this.components[ this.components.length-1];
 		//this.components.pop();
 
@@ -248,7 +248,15 @@ export default class GameObject {
 	Destroy() {
 
 		this.emitter.emit( 'destroyed', this );
-		this._destroy();
+		
+		this._destroyed = true;
+
+		let comps = this._components;
+		let len = comps.length-1;
+		for( let i = len; i >= 0; i-- ) {
+
+			this.remove( comps[i] );
+		}
 
 	}
 
@@ -257,19 +265,10 @@ export default class GameObject {
 	 */
 	_destroy() {
 
-		this._destroyed = true;
+		if ( this._clip ) this._clip.destroy( true );
+		this._clip = null;
 
-		let comps = this.components;
-		let len = comps.length-1;
-		for( let i = len; i >= 0; i-- ) {
-
-			this.remove( comps[i] );
-		}
-
-		if ( this.clip ) this.clip.destroy( true );
-		this.clip = null;
-
-		this.components = null;
+		this._components = null;
 
 	}
 

@@ -135,6 +135,7 @@ export default class Engine {
 			obj = objs[i];
 			if ( obj.destroyed ) {
 
+				obj._destroy();
 				quickSplice( objs, i );
 
 			} else obj.update( delta );

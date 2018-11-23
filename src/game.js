@@ -126,7 +126,6 @@ export default class Game {
 
 	start() {
 
-		console.log('game start()');
 		this.ticker.add( this.engine.update, this.engine );
 		this.ticker.start();
 		this.engine.start();
@@ -168,7 +167,7 @@ export default class Game {
 	 * @param {Number} time - tween time.
 	 * @param {Object} config - configuration object for TweenMax tween.
 	 */
-	createTween( target, time, config ) {
+	createTween( target, time, config, from=null ) {
 		return TweenMax.to( target, time, config );
 	}
 
