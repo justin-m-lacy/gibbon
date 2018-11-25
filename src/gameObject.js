@@ -79,7 +79,6 @@ export default class GameObject {
 	 */
 	get clip() { return this._clip; }
 
-
 	constructor( clip=null, pos=null ){
 
 		this._components = [];
@@ -237,7 +236,7 @@ export default class GameObject {
 
 		if ( destroy ) comp._destroy();
 
-		this._components.splice(ind, 1);
+		//this._components.splice(ind, 1);
 		//this.components[ind] = this.components[ this.components.length-1];
 		//this.components.pop();
 
@@ -260,12 +259,22 @@ export default class GameObject {
 
 	}
 
+	setDestroyOpts( children, texture, baseTexture ) {
+
+		if ( !this._destroyOpts ) this._destroyOpts = {};
+
+		this._destroyOpts.children = children;
+		this._destroyOpts.texture = texture;
+		this._destroyOpts.baseTexture = baseTexture;
+
+	}
+
 	/**
 	 * destroys all components and then the GameObject itself.
 	 */
 	_destroy() {
 
-		if ( this._clip ) this._clip.destroy( true );
+		if ( this._clip ) this._clip.destroy( this._destroyOpts || true );
 		this._clip = null;
 
 		this._components = null;

@@ -20,7 +20,7 @@ export default class Factory {
 	 * @param {Function} func 
 	 */
 	addCreator( key, func ) {
-		this.builds[key] = Function.prototype.apply.bind( func, this );
+		this.builds[key] = func;
 	}
 
 	/**
@@ -31,7 +31,7 @@ export default class Factory {
 		let build = this.builds[key];
 		if ( !build ) return null;
 
-		return build(args);
+		return build.apply( this, args );
 
 	}
 
