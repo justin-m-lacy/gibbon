@@ -162,12 +162,27 @@ export default class Game {
 	}
 
 	/**
+	 * Replaces any existing tweens on the target with a newly created one.
+	 * Convenience accesor for setting config data.
+	 * @param {*} target 
+	 * @param {Number} time 
+	 * @param {Object} config
+	 * @returns {TweenMax} - The tween created.
+	 */
+	replaceTween( target, time, config ) {
+
+		config.overwrite = 'all';
+		return TweenMax.to( target, time, config );
+
+	}
+
+	/**
 	 * 
 	 * @param {*} target - target of the Tween. 
 	 * @param {Number} time - tween time.
 	 * @param {Object} config - configuration object for TweenMax tween.
 	 */
-	createTween( target, time, config, from=null ) {
+	createTween( target, time, config ) {
 		return TweenMax.to( target, time, config );
 	}
 
