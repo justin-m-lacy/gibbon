@@ -28,10 +28,18 @@ export default class Component {
 	set y(v) { this._clip.y = v;}
 
 	get rotation() { return this._clip.rotation; }
-	set rotation(v) { this._clip.rotation = v;}
+	set rotation(v) {
+
+		if ( v > Math.PI ) v-= 2*Math.PI;
+		else if ( v < -Math.PI) v += 2*Math.PI;
+
+		this._clip.rotation = v;
+	}
 
 	get position() { return this._gameObject.position; }
-	set position(v) { this._gameObject.position = v;}
+	set position(v) {
+		this._gameObject.position = v;
+	}
 
 	/**
 	 * {DisplayObject} Convenience accessor for GameObject clip.

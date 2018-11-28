@@ -51,7 +51,11 @@ export default class GameObject {
 	 * {Number} Rotation in radians.
 	 */
 	get rotation() { return this._clip.rotation; }
-	set rotation(v) { this._clip.rotation = v; }
+	set rotation(v) {
+		if ( v > Math.PI ) v-= 2*Math.PI;
+		else if ( v < -Math.PI) v += 2*Math.PI;
+		this._clip.rotation = v;
+	}
 
 	/**
 	 * {Boolean} Set the interactivity for the GameObject.
