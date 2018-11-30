@@ -86,8 +86,9 @@ export default class GameObject {
 	constructor( clip=null, pos=null ){
 
 		this._components = [];
+		this._compMap = new Map();
 
-		if ( clip ) {
+		if ( clip !== null ) {
 
 			if ( pos ) clip.position = pos;
 			this._position = clip.position;
@@ -99,12 +100,14 @@ export default class GameObject {
 
 		}
 
+		console.assert( clip !== undefined, 'GameObject: Clip undefined.');
+
 		this._clip = clip;
 
 	}
 
 	on( evt, func, context ) {
-		if ( this._clip ) return this._clip.on( evt, func, context );
+		if ( this._clip !== null ) return this._clip.on( evt, func, context );
 		else return this._emitter.on( evt, func, context);
 	}
 
@@ -114,7 +117,7 @@ export default class GameObject {
 	 * @param {*} args - First argument should be the {string} event name.
 	 */
 	emit( ... args ) {
-		if ( this._clip ) this._clip.emit.apply( this._clip, args );
+		if ( this._clip !== null ) this._clip.emit.apply( this._clip, args );
 		else this._emitter.emit.apply( this._emitter, args );
 	}
 
@@ -126,6 +129,8 @@ export default class GameObject {
 	addExisting( inst ) {
 
 		this._components.push( inst );
+		this._compMap.set( inst._constructor || inst, inst );
+
 		inst._init( this );
 
 		return inst;
@@ -140,7 +145,7 @@ export default class GameObject {
 	contains( pt ) {
 
 		let clip = this._clip;
-		if ( !clip || !clip.hitArea ) return false;
+		if ( clip === null || !clip.hitArea ) return false;
 
 		pt = clip.toLocal( pt );
 		return clip.hitArea.contains( pt.x, pt.y );
@@ -153,6 +158,8 @@ export default class GameObject {
 	add( cls ) {
 
 		let comp = new cls();
+
+		this._compMap.set( cls, comp );
 
 		this._components.push(comp);
 

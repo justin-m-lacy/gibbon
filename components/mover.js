@@ -1,6 +1,5 @@
-import Component from "../component";
+import Component from "../src/component";
 import { Point } from "pixi.js";
-import { AssertionError } from "assert";
 
 export default class Mover extends Component {
 

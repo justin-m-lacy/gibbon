@@ -1,6 +1,6 @@
 import { Point } from 'pixi.js';
-import Component from '../component';
-import GameObject from '../gameObject';
+import Component from '../src/component';
+import GameObject from '../src/gameObject';
 
 export default class Camera extends Component {
 

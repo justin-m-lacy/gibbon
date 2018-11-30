@@ -3,7 +3,7 @@ import LayerManager from './layerManager';
 import Engine from './engine';
 import * as PIXI from 'pixi.js';
 import GameObject from './gameObject';
-import Camera from './components/camera';
+import Camera from '../components/camera';
 
 /**
  * Extendable Game class.
@@ -120,7 +120,6 @@ export default class Game {
 
 		this._rootObject = this.engine.Instantiate( this._objectLayer );
 		this._camera = this.rootObject.add( Camera );
-		console.log('adding Camera');
 
 	}
 

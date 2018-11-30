@@ -2,13 +2,12 @@ import Engine from './src/engine';
 import Component from './src/component';
 import Factory from './src/factory';
 import GameObject from './src/gameObject';
-import Mover from './src/components/mover';
-import Camera from './src/components/camera';
-import SpriteTiler from './src/components/spriteTiler';
+import Mover from './components/mover';
+import Camera from './components/camera';
 import Library from './src/library';
 import Game from './src/game'
 
-export {Engine, Game, Component, Factory, GameObject, Mover, Camera, SpriteTiler, Library };
+export {Engine, Game, Component, Factory, GameObject, Mover, Camera, Library };
 
 const Gibbon = {
 
@@ -19,8 +18,7 @@ const Gibbon = {
 	Factory,
 	Library,
 	Camera,
-	Mover,
-	SpriteTiler
+	Mover
 
 }
 export default Gibbon;
