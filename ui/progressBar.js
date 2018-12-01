@@ -10,12 +10,12 @@ export default class ProgressBar extends Container {
 	get loading() { return this._loader && this._loading === true; }
 	get complete() { return this._complete; }
 
-	constructor( back, fillBar ) {
+	constructor( back, fill ) {
 
 		super();
 
 		this.back = back;
-		this.bar = fillBar;
+		this.bar = fill;
 
 		this._loading = false;
 		this._complete = false;
@@ -32,7 +32,7 @@ export default class ProgressBar extends Container {
 
 		} else {
 
-			this.bar.scale.x = this._loader.progress;
+			this.bar.scale.x += ( this._loader.progress - this.bar.scale.x )/8;
 
 		}
 

@@ -1,10 +1,21 @@
 import { EventEmitter } from "events";
+import { DisplayObject, Graphics } from "pixi.js";
+import * as PIXI from 'pixi.js';
+import ProgressBar from "./progressBar";
 
 /**
  * All the miscellaneous data and objects to define
  * the general look of the UI.
  */
-export default class UISkin extends EventEmitter {
+export default class UiSkin extends EventEmitter {
+
+	static SetDefaultSkin( skin) {
+		UISkin.Default = skin;
+	}
+
+	static GetDefaultSkin() {
+		return UISkin.Default;
+	}
 
 	get defaultFont() { return this._font;}
 	set defaultFont(v){this._font = v;}
@@ -36,16 +47,77 @@ export default class UISkin extends EventEmitter {
 		this.emit( 'skin-changed', 'checkMark' );
 	}
 
-	get box() { return this._box; }
-	set box(v) { this._box = v;
+	get box() {
+		return this._box;
+	}
+	set box(v) {
+		this._box = v;
 		this.emit( 'skin-changed', 'box' );
 	}
 
 	constructor( vars=null ){
 
 		super();
+
 		if ( vars ) Object.assign( this, vars );
 
+		this._skinData = {};
+
+	}
+
+	makeProgressBar() {
+
+		let backTex = this._skinData['box'];
+		let barTex = this._skinData['bar'];
+
+		let p = new ProgressBar(
+			new PIXI.mesh.NineSlicePlane( backTex ),
+			new PIXI.mesh.NineSlicePlane( barTex )
+		);
+
+		return p;
+
+	}
+
+	makeNineSlice( key, left=12, top=8, right=12, bottom=8 ) {
+
+		let data = this._skinData[key];
+		if ( !(data instanceof PIXI.Texture ) ) return null;
+
+		return new PIXI.mesh.NineSlicePlane( data, left, top, right, bottom );
+
+	}
+
+	/**
+	 * Generate a texture from the given Graphics and add it
+	 * to the skin under the given key.
+	 * @param {string} key 
+	 * @param {Graphics} g 
+	 */
+	addAsTexture( key, g ) {
+		return this._skinData[key] = g.generateCanvasTexture();
+	}
+
+	/**
+	 * Set the skinning data for a given key. The data can be style information,
+	 * a texture, or any information relevant to ui display.
+	 * A 'skin-changed' event will be fired, notifying listeners of the change.
+	 * @param {string} key 
+	 * @param {*} obj
+	 */
+	setSkinData( key, obj ) {
+
+		this._skinData[key] = obj;
+		this.emit( 'skin-changed', obj );
+
+	}
+
+	/**
+	 * Get the skinning data associated with a key.
+	 * @param {string} key 
+	 */
+	getSkinData( key ) {
+		return this._skinData[key];
 	}
 
 }

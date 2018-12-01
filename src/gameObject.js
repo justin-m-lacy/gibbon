@@ -1,6 +1,6 @@
 import {Point} from 'pixi.js';
 import * as PIXI from 'pixi.js';
-import { quickSplice } from './utils/arrayutils';
+import { quickSplice } from '../utils/arrayutils';
 
 export default class GameObject {
 
@@ -75,6 +75,9 @@ export default class GameObject {
 
 	}
 
+	get visible() { return this._clip && this._clip.visible; }
+	set visible(v) { this._clip.visible = v;}
+
 	get destroyed(){ return this._destroyed; }
 
 	/**
@@ -95,6 +98,7 @@ export default class GameObject {
 
 		} else {
 
+			this._clip=null;
 			this._position = pos || new Point(0,0);
 			this._emitter = new PIXI.utils.EventEmitter();
 
@@ -178,6 +182,9 @@ export default class GameObject {
 
 	get( cls ) {
 
+		let inst = this._compMap.get(cls);
+		if ( inst !== undefined ) return inst;
+
 		for( let i = this._components.length-1; i>=0; i-- ) {
 			if ( this._components[i] instanceof cls ) return this._components[i];
 		}
@@ -186,6 +193,9 @@ export default class GameObject {
 	}
 
 	require( cls ) {
+
+		let inst = this._compMap.get(cls);
+		if ( inst !== undefined ) return inst;
 
 		for( let i = this._components.length-1; i>=0; i-- ) {
 			if ( this._components[i] instanceof cls ) return this._components[i];
@@ -205,14 +215,7 @@ export default class GameObject {
 			Object.create( Object.getPrototypeOf(comp)),
 			comp );
 
-		this._components.push( copy );
-
-		console.log( 'const eql? ' + copy.constructor === comp.constructor );
-		console.log( 'proto eql? ' + copy.prototype === comp.prototype );
-
-		copy._init();
-
-		return copy;
+		return this.addExisting( copy );
 
 	}
 
@@ -223,12 +226,12 @@ export default class GameObject {
 		for( let i = comps.length-1; i>=0; i-- ) {
 
 			comp = comps[i];
-			if ( comp._destroyed ) {
+			if ( comp._destroyed === true ) {
 
 				quickSplice( comps, i );
 				continue;
 			}
-			if ( comp.enabled && comp.update ) comp.update(delta );
+			if ( comp.enabled === true && comp.update ) comp.update(delta );
 
 		}
 
@@ -242,10 +245,13 @@ export default class GameObject {
 	 */
 	remove( comp, destroy=true){
 
-		let ind = this._components.indexOf( comp);
-		if ( ind < 0) return false;
+		if ( destroy === true ) comp._destroy();
 
-		if ( destroy ) comp._destroy();
+		this._compMap.delete( comp.constructor || comp );
+
+
+		//let ind = this._components.indexOf( comp);
+		//if ( ind < 0) return false;
 
 		//this._components.splice(ind, 1);
 		//this.components[ind] = this.components[ this.components.length-1];
@@ -255,15 +261,27 @@ export default class GameObject {
 
 	}
 
-	Destroy() {
+	show() {
+		if ( this._clip === null ) return;
+		this._clip.visible = true;
+	}
+	hide() {
 
-		this.emitter.emit( 'destroyed', this );
+		if ( this._clip === null) return;
+		this._clip.visible = false;
+	}
+
+	/**
+	 * Call to destroy the game Object.
+	 * Do not call _destroy() directly.
+	 */
+	Destroy() {
 		
 		this._destroyed = true;
 
 		let comps = this._components;
-		let len = comps.length-1;
-		for( let i = len; i >= 0; i-- ) {
+
+		for( let i = comps.length-1; i >= 0; i-- ) {
 
 			this.remove( comps[i] );
 		}
@@ -288,6 +306,9 @@ export default class GameObject {
 		if ( this._clip ) this._clip.destroy( this._destroyOpts || true );
 		this._clip = null;
 
+		this._position = null;
+		this._emitter = null;
+		this._compMap = null;
 		this._components = null;
 
 	}

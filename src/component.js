@@ -95,6 +95,10 @@ export default class Component {
 	 */
 	require(cls) { return this._gameObject.require(cls); }
 
+	/**
+	 * Use to destroy a Component.
+	 * Do not call _destroy() or destroy() directly.
+	 */
 	Destroy() {
 		this._destroy();
 	}
@@ -105,7 +109,9 @@ export default class Component {
 	_destroy(){
 
 		if ( this.destroy ) this.destroy();
+		this._enabled = false;
 		this._destroyed = true;
+		this._clip = null;
 		this._gameObject = null;
 
 	}

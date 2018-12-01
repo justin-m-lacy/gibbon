@@ -4,6 +4,7 @@ import Engine from './engine';
 import * as PIXI from 'pixi.js';
 import GameObject from './gameObject';
 import Camera from '../components/camera';
+import { quickSplice } from '../utils/arrayutils';
 
 /**
  * Extendable Game class.
@@ -72,6 +73,8 @@ export default class Game {
 		this._engine.factory = v;
 	}
 
+	get groups() { return this._groups; }
+
 	/**
 	 * {Engine}
 	 */
@@ -90,6 +93,8 @@ export default class Game {
 		this._stage = app.stage;
 		this._stage.interactive = true;
 		this._stage.hitArea = this._screen;
+
+		this._groups = [];
 
 		this._ticker = new PIXI.ticker.Ticker();
 		this._sharedTicker = PIXI.ticker.shared;
@@ -131,6 +136,24 @@ export default class Game {
 
 	}
 
+	findGroup(name) {
+		return this._groups.find( (g)=>g.name===name );
+	}
+
+	addGroup(g) {
+		this._groups.push(g);
+	}
+
+	removeGroup(g) {
+
+		for( let i = this._groups.length-1; i >= 0; i-- ) {
+			if ( this._groups[i] === g) {
+				quickSplice( this._groups, i );
+				return;
+			}
+		}
+
+	}
 
 	/**
 	 * Wrapper for Engine.add(gameObject)

@@ -1,6 +1,6 @@
 import GameObject from './gameObject';
 import Library from './library';
-import {quickSplice } from './utils/arrayutils';
+import {quickSplice } from '../utils/arrayutils';
 
 export default class Engine {
 
@@ -87,7 +87,7 @@ export default class Engine {
 	*/
 	add(obj) {
 
-		if ( !obj ) {
+		if ( obj === null || obj === undefined ) {
 			console.log('ERROR: engine.add() object is null');
 			return;
 		}
@@ -133,7 +133,7 @@ export default class Engine {
 		for( let i = objs.length-1; i>=0; i-- ) {
 
 			obj = objs[i];
-			if ( obj.destroyed ) {
+			if ( obj.destroyed === true ) {
 
 				obj._destroy();
 				quickSplice( objs, i );
@@ -168,7 +168,7 @@ export default class Engine {
 	 */
 	destroy(obj) {
 
-		if ( !obj.destroyed ) {
+		if ( obj.destroyed !== true ) {
 
 			obj.destroy();
 
