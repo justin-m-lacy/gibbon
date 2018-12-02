@@ -1,5 +1,4 @@
-import { Text } from 'pixi.js';
-import { ticker } from 'pixi.js';
+import { Text, ticker } from 'pixi.js';
 
 const MIN_COUNT_DIST = 2;
 /**
@@ -36,8 +35,8 @@ export default class CounterField {
 
 	constructor( text, startVal=0, styleVars ){
 
-		this.text = text;
-		this.value = startVal;
+		this._text = text;
+		this._value = startVal;
 
 		this.clip = new Text( this.text + ': ' + startVal, styleVars );
 	

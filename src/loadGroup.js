@@ -23,8 +23,10 @@ export default class LoadGroup extends Group {
 	 */
 	constructor(game, clip=null, loader=null, createObject=false ) {
 
-		super(game);
+		super(game, clip);
 
+		console.log('creating load group');
+	
 		if ( loader ) this._loader = loader;
 		if ( createObject) this.makeGroupObject( clip );
 

@@ -2,19 +2,55 @@
  * Basic Skin and UI Components for UI prototyping.
  */
 import * as PIXI from 'pixi.js';
-import Skin from './uiSkin';
+import {Graphics} from 'pixi.js';
+import UiSkin from './uiSkin';
 
 export function MakeSkin( foreColor=0x444444, backColor=0xfefefe ){
 
-	let skin = new Skin();
+	let skin = new UiSkin();
 
-	addCross( skin, 'cross', 24, 8, foreColor );
+	addCross( skin, 'cross', 24, 12, foreColor );
 	addRoundRect( skin, 'box', 32, backColor, foreColor );
-	addCheck( skin, 'check', 32, thickness, foreColor )
+	addCheck( skin, 'check', 32, 12, foreColor )
+	addFrame( skin, 64, 4, backColor, foreColor );
+	addBar( skin, 128, 32, foreColor );
 
-	Skin.SetDefaultSkin( skin );
+	UiSkin.SetDefaultSkin( skin );
+
 
 	return skin;
+
+}
+
+function addBar( skin, width=128, height=32, foreColor=0 ) {
+
+	let g = new Graphics();
+	g.beginFill( foreColor );
+	g.lineStyle( 1, foreColor );
+	g.drawRoundedRect( 0, 0, width, height, (width+height)/10 );
+	g.endFill();
+
+	let tex = skin.addAsTexture( 'bar', g );
+
+	g.destroy();
+
+	return tex;
+
+}
+
+function addFrame( skin, size=64, thickness=4, backColor=0, foreColor=0xffffff ) {
+
+	let g = new Graphics();
+	g.beginFill( backColor );
+	g.lineStyle( thickness, foreColor );
+	g.drawRoundedRect( 0, 0, size, size, size/10 );
+	g.endFill();
+
+	let tex = skin.addAsTexture( 'frame', g );
+
+	g.destroy();
+
+	return tex;
 
 }
 
@@ -23,9 +59,9 @@ function addCheck( skin, key, size=32, thickness=8, color=0) {
 	let g = new Graphics();
 	g.lineStyle( thickness, color );
 
-	g.moveTo( -0.45*size, -size/10 );
-	g.lineTo( 0, 0.48*size );
-	g.lineto( 0.54*size, 0.58*size );
+	g.moveTo( -0.45*size, 0 );
+	g.lineTo( 0, 0.40*size );
+	g.lineTo( 0.54*size, -0.58*size );
 
 	let tex = skin.addAsTexture( key, g );
 	g.destroy();

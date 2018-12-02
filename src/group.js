@@ -14,8 +14,7 @@ export default class Group {
 
 	get paused() { return this._paused; }
 
-	get subgroups() {
-	}
+	get subgroups() { return this._subgroups; }
 
 	constructor( game, clip=null ) {
 

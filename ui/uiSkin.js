@@ -2,6 +2,7 @@ import { EventEmitter } from "events";
 import { DisplayObject, Graphics } from "pixi.js";
 import * as PIXI from 'pixi.js';
 import ProgressBar from "./progressBar";
+import Checkbox from "./checkbox";
 
 /**
  * All the miscellaneous data and objects to define
@@ -10,11 +11,11 @@ import ProgressBar from "./progressBar";
 export default class UiSkin extends EventEmitter {
 
 	static SetDefaultSkin( skin) {
-		UISkin.Default = skin;
+		UiSkin.Default = skin;
 	}
 
 	static GetDefaultSkin() {
-		return UISkin.Default;
+		return UiSkin.Default;
 	}
 
 	get defaultFont() { return this._font;}
@@ -65,10 +66,16 @@ export default class UiSkin extends EventEmitter {
 
 	}
 
+	makeCheckbox( label, checked=false ) {
+		return new Checkbox( this._skinData['box'], this._skinData['check'], label, checked );
+	}
+
 	makeProgressBar() {
 
 		let backTex = this._skinData['box'];
 		let barTex = this._skinData['bar'];
+
+		console.assert( backTex !=null && barTex != null, 'Missing Skin box or bar: ' + backTex + ' , ' + barTex );
 
 		let p = new ProgressBar(
 			new PIXI.mesh.NineSlicePlane( backTex ),
@@ -76,6 +83,15 @@ export default class UiSkin extends EventEmitter {
 		);
 
 		return p;
+
+	}
+
+	makePane( width=100, height=200 ) {
+
+		let data = this._skinData['frame'];
+		if ( !(data instanceof PIXI.Texture ) ) return null;
+
+		return new PIXI.mesh.NineSlicePlane( data );
 
 	}
 

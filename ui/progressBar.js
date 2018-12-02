@@ -10,12 +10,20 @@ export default class ProgressBar extends Container {
 	get loading() { return this._loader && this._loading === true; }
 	get complete() { return this._complete; }
 
-	constructor( back, fill ) {
+	constructor( back, bar ) {
 
 		super();
 
 		this.back = back;
-		this.bar = fill;
+		this.bar = bar;
+
+		console.assert( back && bar, 'back or bar null: ' + back + ', ' + bar );
+
+		bar.x = back.x+2;
+		bar.y = ( back.height - bar.height)/2;
+
+		this.addChild( back );
+		this.addChild( bar );
 
 		this._loading = false;
 		this._complete = false;
