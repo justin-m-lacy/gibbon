@@ -16,6 +16,11 @@ export default class Component {
 	get gameObject() { return this._gameObject; }
 
 	/**
+	 * {Group} Group controlled the component's GameObject, if any.
+	 */
+	get group() { return this._gameObject._group; }
+
+	/**
 	 * {Boolean} Whether the component is enabled.
 	 */
 	get enabled(){ return this._enabled;}

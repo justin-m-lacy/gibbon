@@ -40,7 +40,7 @@ export default class Engine {
 
 		//this._sharedTicker = PIXI.ticker.shared;
 
-		GameObject.setEngine(this);
+		GameObject.SetEngine(this);
 	}
 
 	/**

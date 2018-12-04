@@ -7,7 +7,7 @@ export default class Factory {
 
 		this.game = game;
 		this.engine = game.engine;
-		this.screen = game.screen;
+		this.viewRect = game.screen;
 
 		this.builds = {};
 

@@ -122,7 +122,8 @@ export default class Group {
 
 		if ( this._clip && obj.clip ) this._clip.addChild( obj.clip );
 
-		this._objects.add( obj );
+		obj.group = this;
+		this._objects.push( obj );
 		this._engine.add( obj )
 
 	}

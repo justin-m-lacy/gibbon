@@ -4,13 +4,26 @@ import { quickSplice } from '../utils/arrayutils';
 
 export default class GameObject {
 
-	static setGame(v) { this.Game =v;}
-	static getGame(){ return this.Game; }
+	static SetGame(v) {
+		this.Game =v;
+	}
+	static GetGame(){ return this.Game; }
 
-	static getEngine() { return this.Engine;}
-	static setEngine(v) { this.Engine = v;}
+	static GetEngine() { return this.Engine;}
+	static SetEngine(v) { this.Engine = v;}
 
-	get game() { return GameObject.Game; }
+	/**
+	 * {Game}
+	 */
+	get game() {
+		return GameObject.Game;
+	}
+
+	/**
+	 * {Group} group the game object belongs to, if any.
+	 */
+	get group() { return this._group; }
+	set group(v) { this._group = v;}
 
 	/**
 	 * {Number} bit-flags applied to this GameObject.
@@ -78,7 +91,14 @@ export default class GameObject {
 	get visible() { return this._clip && this._clip.visible; }
 	set visible(v) { this._clip.visible = v;}
 
-	get destroyed(){ return this._destroyed; }
+	/**
+	 * {Boolean} destroy was requested on the GameObject, and will be destroyed
+	 * on the next frame. It should be treated as destroyed.
+	 */
+	/** get destroying() { return this._destroying; }
+	set destroying() { this._destroying=true;}*/
+
+	get destroyed(){ return this._destroyed }
 
 	/**
 	 * {*} clip of the gameObject. This must be set at the time
@@ -130,15 +150,23 @@ export default class GameObject {
 	 * @param {Component} inst
 	 * @returns {Component} Returns the instance.
 	 */
-	addExisting( inst ) {
+	addExisting( inst, cls=null ) {
 
 		this._components.push( inst );
-		this._compMap.set( inst._constructor || inst, inst );
+		this._compMap.set( cls || inst._constructor || inst, inst );
 
 		inst._init( this );
 
 		return inst;
 
+	}
+
+	/**
+	 * Instantiate and add a component to the GameObject.
+	 * @param {class} cls - component class to instantiate. 
+	*/
+	add( cls ) {
+		return this.addExisting( new cls(), cls );
 	}
 
 	/**
@@ -153,24 +181,6 @@ export default class GameObject {
 
 		pt = clip.toLocal( pt );
 		return clip.hitArea.contains( pt.x, pt.y );
-	}
-
-	/**
-	 * Instantiate and add a component to the GameObject.
-	 * @param {class} cls - component class to instantiate. 
-	*/
-	add( cls ) {
-
-		let comp = new cls();
-
-		this._compMap.set( cls, comp );
-
-		this._components.push(comp);
-
-		comp._init( this );
-
-		return comp;
-
 	}
 
 	translate( x, y ) {
@@ -271,23 +281,6 @@ export default class GameObject {
 		this._clip.visible = false;
 	}
 
-	/**
-	 * Call to destroy the game Object.
-	 * Do not call _destroy() directly.
-	 */
-	Destroy() {
-		
-		this._destroyed = true;
-
-		let comps = this._components;
-
-		for( let i = comps.length-1; i >= 0; i-- ) {
-
-			this.remove( comps[i] );
-		}
-
-	}
-
 	setDestroyOpts( children, texture, baseTexture ) {
 
 		if ( !this._destroyOpts ) this._destroyOpts = {};
@@ -299,11 +292,28 @@ export default class GameObject {
 	}
 
 	/**
+	 * Call to destroy the game Object.
+	 * Do not call _destroy() directly.
+	 */
+	Destroy() {
+		
+		this._destroyed = true;
+
+		let comps = this._components;
+
+		for( let i = comps.length-1; i >= 0; i-- ) {
+			this.remove( comps[i] );
+		}
+
+	}
+
+	/**
 	 * destroys all components and then the GameObject itself.
 	 */
 	_destroy() {
 
 		if ( this._clip ) this._clip.destroy( this._destroyOpts || true );
+
 		this._clip = null;
 
 		this._position = null;

@@ -21,6 +21,9 @@ export default class Game {
 	 */
 	get stage() { return this._stage;}
 
+	get loader() { return this._loader;}
+	set loader(v) { this._loader = v;}
+
 	/**
 	 * {PIXI.Rectangle} - Screen/View Rectangle.
 	 */
@@ -94,6 +97,8 @@ export default class Game {
 		this._stage.interactive = true;
 		this._stage.hitArea = this._screen;
 
+		this._loader = PIXI.loaders.shared;
+
 		this._groups = [];
 
 		this._ticker = new PIXI.ticker.Ticker();
@@ -104,7 +109,7 @@ export default class Game {
 		this._engine = new Engine();
 		this.library = this._engine.library;
 
-		GameObject.setGame( this );
+		GameObject.SetGame( this );
 
 	}
 

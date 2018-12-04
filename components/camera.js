@@ -9,20 +9,54 @@ export default class Camera extends Component {
 
 		if ( v ) {
 			this._target = v;
-			this.panClip.position.set( this.centerX - v.x, this.centerY - v.y );
+			this._viewRect.x = v.x - this._halfWidth;
+			this._viewRect.y = v.y  - this._halfHeight;
+			this._panClip.position.set( this._halfWidth - v.x, this._halfHeight - v.y );
 		}
 
 	}
 
-	get viewRect() { return this.rect; }
-	set viewRect(v) { this.rect = v;}
+	get viewScale() {
+		return this._viewScale;
+	}
+	set viewScale(v) {
 
-	get center() { return new Point( this.rect.x + this.centerX, this.rect.y + this.centerY );}
+		this._viewScale = v;
+		this._panClip.scale.set(v,v);
 
-	get left() { return this.rect.left; }
-	get right() { return this.rect.right; }
-	get top() { return this.rect.top; }
-	get bottom() { return this.rect.bottom; }
+	}
+
+	get x(){return -this._panClip.x; }
+	set x(v) {
+		this._viewRect.x = v*this._viewScale;
+		this._panClip.x = -this._viewRect.x;
+	}
+
+	get y(){return -this._panClip.x;}
+	set y(v) {
+
+		this._viewRect.y = v*this._viewScale;
+		this._panClip.y = -this._viewRect.x;
+
+	}
+
+	/**
+	 * {Rectangle} Visible rectangle in the Camera's coordinate system.
+	 */
+	get viewRect() { return this._viewRect; }
+
+	get screen() { return this._screen; }
+	set screen(v) { this._screen = v;}
+
+	get centerX() { return this._viewRect.x + this._halfWidth; }
+	get centerY() { return this._viewRect.y + this._halfHeight; }
+
+	get center() { return new Point( this._viewRect.x + this._halfWidth, this._viewRect.y + this._halfHeight );}
+
+	get left() { return this._viewRect.left; }
+	get right() { return this._viewRect.right; }
+	get top() { return this._viewRect.top; }
+	get bottom() { return this._viewRect.bottom; }
 
 	constructor() {super();}
 	/**
@@ -48,7 +82,7 @@ export default class Camera extends Component {
 	 * @param {Point} p 
 	 */
 	ptInView(p) {
-		return this.rect.contains(p);
+		return this._viewRect.contains(p);
 	}
 
 	/**
@@ -57,38 +91,41 @@ export default class Camera extends Component {
 	 * @returns true if a rectangle falls within the camera view, false otherwise. 
 	 */
 	rectInView( r ) {
-		return r.x < this.rect.right && r.right > this.rect.x && r.y < this.rect.bottom && r.bottom > this.rect.y;
+		return r.x < this._viewRect.right && r.right > this._viewRect.x && r.y < this._viewRect.bottom && r.bottom > this._viewRect.y;
 	}
 
 	init(){
 
 		this._target = null;
-		this.panClip = this.gameObject.clip;
+		this._panClip = this.gameObject.clip;
 
-		this.rect = this.game.screen.clone();
+		this._viewScale = 1;
 
-		this.centerX = this.rect.width/2;
-		this.centerY = this.rect.height/2;
+		this._screen = this.game.screen;
+		this._viewRect = this._screen.clone();
+
+		this._halfWidth = this._screen.width/2;
+		this._halfHeight = this._screen.height/2;
 
 	}
 
 	update( delta ) {
 
-		if (!this._target ) return;
+		if ( this._target === null ) return;
 
 		let targPos = this._target.position;
 
-		let destX = this.centerX - targPos.x;
-		let destY = this.centerY - targPos.y;
+		let destX = this._halfWidth - targPos.x;
+		let destY = this._halfHeight - targPos.y;
 
-		let pos = this.panClip.position;
+		let pos = this._panClip.position;
 		pos.set(
 			pos.x + (destX- pos.x)/4,
 			pos.y + (destY- pos.y)/4
 		);
 
-		this.rect.x = -pos.x;
-		this.rect.y = -pos.y;
+		this._viewRect.x = -pos.x;
+		this._viewRect.y = -pos.y;
 	
 	}
 
