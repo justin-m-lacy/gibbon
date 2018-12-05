@@ -177,7 +177,8 @@ export default class GameObject {
 	contains( pt ) {
 
 		let clip = this._clip;
-		if ( clip === null || !clip.hitArea ) return false;
+		if ( clip === null ) return false;
+		if ( !clip.hitArea ) return clip.getBounds().contains( pt.x, pt.y );
 
 		pt = clip.toLocal( pt );
 		return clip.hitArea.contains( pt.x, pt.y );
