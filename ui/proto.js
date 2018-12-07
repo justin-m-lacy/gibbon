@@ -5,15 +5,30 @@ import * as PIXI from 'pixi.js';
 import {Graphics} from 'pixi.js';
 import UiSkin from './uiSkin';
 
-export function MakeSkin( foreColor=0x444444, backColor=0xfefefe ){
+export function MakeSkin( opts=null ){
 
-	let skin = new UiSkin();
+	let skin = new UiSkin( opts );
+
+	console.log('skin created');
+	skin.smallStyle = {
+
+		fontFamily:skin.fontFamily||'',
+		fontSize:skin.smallSize||12,
+		fill:skin.fontColor||0
+	}
+
+	console.log('small style set');
+
+	let foreColor = opts.foreColor || 0x444444;
+	let backColor = opts.backColor || 0xfefefe;
 
 	addCross( skin, 'cross', 24, 12, foreColor );
 	addRoundRect( skin, 'box', 32, backColor, foreColor );
 	addCheck( skin, 'check', 32, 12, foreColor )
 	addFrame( skin, 64, 4, backColor, foreColor );
 	addBar( skin, 128, 32, foreColor );
+
+	console.log('items added');
 
 	UiSkin.SetDefaultSkin( skin );
 

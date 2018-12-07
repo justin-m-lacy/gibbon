@@ -242,7 +242,7 @@ export default class GameObject {
 				quickSplice( comps, i );
 				continue;
 			}
-			if ( comp.enabled === true && comp.update ) comp.update(delta );
+			if ( comp.sleep !== true && comp.enabled === true && comp.update ) comp.update(delta );
 
 		}
 

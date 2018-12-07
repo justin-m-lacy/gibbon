@@ -7,6 +7,6 @@ export default {
 	CENTER = 16,
 
 	VERTICAL = 1,
-	HORIZONTAL = 2;
+	HORIZONTAL = 2
 
 }

@@ -18,26 +18,59 @@ export default class UiSkin extends EventEmitter {
 		return UiSkin.Default;
 	}
 
-	get defaultFont() { return this._font;}
-	set defaultFont(v){this._font = v;}
+	get fontColor() { return this._defaultStyle.fill; }
+	set fontColor( v ) {
+
+		this._defaultStyle.fill = v;
+		this.emit( 'skin-changed', 'fontColor');
+	
+	}
+
+	/**
+	 * {string} changes font family of the default font.
+	 */
+	get fontFamily() { return this._defaultStyle.fontFamily;}
+	set fontFamily(v) {
+
+		this._defaultStyle.fontFamily = v;
+		this.emit( 'skin-changed', 'fontFamily');
+	}
 
 	/**
 	 * {PIXI.TextStyle } Default text style.
 	 */
-	get textStyle() { return this._style;}
-	set textStyle(v) {
-		this._style = v;
-		this.emit( 'skin-changed', 'textStyle' );
+	get defaultStyle() { return this._defaultStyle;}
+	set defaultStyle(v) {
+		this._defaultStyle = v;
+		this.emit( 'skin-changed', 'defaultStyle' );
 	}
 
-	get largeStlye() { return this._largeStyle; }
+	get largeSize() { return this._largeStyle.fontSize;}
+	set largeSize(v) {
+
+		this._largeStyle.fontSize = v;
+		this.emit( 'skin-changed', 'largeSize' );
+
+	}
+
+	get largeStyle() { return this._largeStyle; }
 	set largeStyle(v) {
 		this._largeStyle = v;
 		this.emit( 'skin-changed', 'largeStyle' );
 	}
 
+	get smallSize() { return this._smallStyle.fontSize;}
+	set smallSize(v) {
+
+		this._smallStyle.fontSize = v;
+
+		this.emit( 'skin-changed', 'smallSize' );
+
+	}
+
 	get smallStyle() { return this._smallStyle;}
 	set smallStyle(v) {
+
 		this._smallStyle = v;
 		this.emit( 'skin-changed', 'smallStyle' );
 	}
@@ -62,8 +95,61 @@ export default class UiSkin extends EventEmitter {
 
 		if ( vars ) Object.assign( this, vars );
 
+		this.largeStyle = this._largeStyle || new PIXI.TextStyle();
+		this.smallStyle = this._smallStyle || new PIXI.TextStyle();
+		this.defaultStyle = this._defaultStyle || new PIXI.TextStyle();
+
 		this._skinData = {};
 
+	}
+
+	/**
+	 * Just creates a sprite with a click listener. Included for completeness.
+	 * @param {PIXI.Texture} tex 
+	 * @param {Function} onClick 
+	 * @param {*} context 
+	 */
+	makeIconButton( tex, onClick=null, context=null ) {
+
+		let clip = new PIXI.Sprite( tex );
+		let text = this.makeSmallText(str);
+
+		clip.addChild( text );
+
+		if ( onClick !== null ) clip.on( 'pointerdown', onClick, context );
+	
+		return clip;
+
+	}
+
+	makeTextButton( str, onClick=null, context=null ) {
+
+		let clip = new PIXI.mesh.NineSlicePlane( this._box );
+		let text = this.makeSmallText(str);
+
+		clip.addChild( text );
+
+		if ( onClick !== null ) clip.on( 'pointerdown', onClick, context );
+	
+
+		return clip;
+
+
+	}
+
+	makeLargeText( str, clone=false ) {
+		if ( clone === true ) return new Text( str, this._largeStyle.clone() );
+		return new Text( str, this._largeStyle );
+	}
+
+	makeSmallText( str, clone=false ) {
+		if ( clone === true ) return new Text( str, this._smallStyle.clone() );
+		new Text( str, this._smallStyle );
+	}
+
+	makeText( str='', clone=false ) {
+		if ( clone === true ) return new Text( str, this._defaultStyle.clone() );
+		return new Text( str, this._defaultStyle );
 	}
 
 	makeCheckbox( label, checked=false ) {

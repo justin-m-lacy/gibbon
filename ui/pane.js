@@ -29,6 +29,12 @@ export default class Pane extends Container {
 
 		this._bg = skin.makePane();
 
+		// placing these variables here allows opts to override.
+		this.interactive = true;
+		this.interactiveChildren = true;
+		this.visible = false;
+		this._padding = 12;
+
 		if ( opts ) {
 
 			Object.assign( this, opts );
@@ -36,21 +42,13 @@ export default class Pane extends Container {
 			this._bg.width = this.width;
 			this._bg.height = this.height;
 
-			this._padding = this._padding || 12;
-
 		}
-
-		// block clicks beneath pane.
-		//this._clip.hitArea = new Rectangle( 0, 0, width, height );
-		this.interactive = true;
-		this.interactiveChildren = true;
 
 		this.addChild( this._bg );
 		//this.on( 'pointerup', (e)=>e.stopPropagation() );
 		this.on( 'pointerdown', (e)=>e.stopPropagation() );
 
 		this._showing = false;
-		this.visible = false;
 	
 	}
 
