@@ -11,11 +11,15 @@ export default class Pane extends Container {
 	get padding() { return this._padding; }
 	set padding(v) { this._padding = v;}
 
-	get width() { return this._bg.width; }
-	set width(v) { this._bg.width = v; }
+	get width() { return this._width;}
+	set width(v) { this._width = v;
+		if ( this._bg ) this._bg.width = v; }
 
-	get height() { return this._bg.height; }
-	set height(v) { this._bg.height = v; }
+	get height() { return this._height; }
+	set height(v) {
+		this._height = v;
+		if ( this._bg ) this._bg.height = v;
+	}
 
 	get bg() { return this._bg; }
 	set bg(v) { this._bg = v; }
@@ -27,22 +31,19 @@ export default class Pane extends Container {
 		this.game = game;
 		this.skin = skin;
 
-		this._bg = skin.makePane();
-
 		// placing these variables here allows opts to override.
 		this.interactive = true;
 		this.interactiveChildren = true;
-		this.visible = false;
+		this._visible = true;
 		this._padding = 12;
 
 		if ( opts ) {
 
 			Object.assign( this, opts );
 
-			this._bg.width = this.width;
-			this._bg.height = this.height;
-
 		}
+
+		this._bg = skin.makePane( this._width||200, this._height||200);
 
 		this.addChild( this._bg );
 		//this.on( 'pointerup', (e)=>e.stopPropagation() );
@@ -52,24 +53,16 @@ export default class Pane extends Container {
 	
 	}
 
-	resize() {
-	}
-
-	onHide() {
-		this.visible = false;
-	}
-
 	toggle() {
 
 		if ( this._tween ) {
 
-			if ( this._showing === true || this.visible === true ) {
-				this._showing = false;
+			if ( this._showing === true ) {
 				this._tween.reverse();
 			} else {
 				this._tween.play();
-	
 			}
+			this._showing = !this._showing;
 
 		} else this.visible = !this.visible;
 
@@ -84,6 +77,7 @@ export default class Pane extends Container {
 
 	hide(){
 		this._showing = false;
+		this.interactive = false;
 		this.visible = false;
 	}
 

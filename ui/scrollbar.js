@@ -1,4 +1,5 @@
 import { Container, Sprite, Point } from "pixi.js";
+import * as PIXI from 'pixi.js';
 import Pane from "./pane";
 
 export default class Scrollbar extends Pane {
@@ -35,16 +36,19 @@ export default class Scrollbar extends Pane {
 	set target(v) {
 
 		this._target=v;
-		if ( v.mask ) this._viewHeight = v.mask.height;
+		if ( v.mask ) this._viewHeight = this.height = v.mask.height;
 
 	}
 
-	constructor( game, skin, opts ){
+	constructor( game, skin, opts=null ){
 
 		super( game, skin, opts );
 
 		if ( this._autoSizeThumb !== false ) this._autoSizeThumb = true;
+
 		this._viewHeight = this._viewHeight || this.height || 240;
+
+		this.width = this.width || skin.scrollbarWidth || 24;
 
 		this.makeThumb();
 
@@ -62,9 +66,14 @@ export default class Scrollbar extends Pane {
 
 	makeThumb() {
 
-		let thumb = this._thumb = new PIXI.mesh.NineSlicePlane( skin.box );
+		console.assert( this.skin != null, 'scrollbar.js: this.skin: ' + this.skin );
+		console.assert( this.skin.box != null, 'scrollbar.js: this.skin.box: ' + this.skin.box);
+
+		let thumb = this._thumb = new PIXI.mesh.NineSlicePlane( this.skin.box );
 
 		if ( this._autoSizeThumb === true ) this._thumbHeight = thumb.height = this.getThumbHeight();
+
+		thumb.width = this.width;
 
 		thumb.x = ( this.width - thumb.width)/2;
 		thumb.interactive = true;
@@ -72,6 +81,8 @@ export default class Scrollbar extends Pane {
 		thumb.on('pointerdown', this.startDrag, this );
 		thumb.on('pointerup', this.endDrag, this );
 		thumb.on('pointerupoutside', this.endDrag, this );
+
+		this.addChild( thumb );
 
 		return thumb;
 
@@ -123,7 +134,7 @@ export default class Scrollbar extends Pane {
 		else if ( y > maxY ) y = maxY;
 		
 		this._thumb.y = y;
-		if ( this._target ) this._target.y = (y/max)*(this._viewHeight - this._target.height );
+		if ( this._target ) this._target.y = (y/maxY)*(this._viewHeight - this._target.height );
 
 	}
 

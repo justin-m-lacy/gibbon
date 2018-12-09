@@ -9,7 +9,6 @@ export function MakeSkin( opts=null ){
 
 	let skin = new UiSkin( opts );
 
-	console.log('skin created');
 	skin.smallStyle = {
 
 		fontFamily:skin.fontFamily||'',
@@ -17,18 +16,14 @@ export function MakeSkin( opts=null ){
 		fill:skin.fontColor||0
 	}
 
-	console.log('small style set');
-
 	let foreColor = opts.foreColor || 0x444444;
 	let backColor = opts.backColor || 0xfefefe;
 
-	addCross( skin, 'cross', 24, 12, foreColor );
-	addRoundRect( skin, 'box', 32, backColor, foreColor );
-	addCheck( skin, 'check', 32, 12, foreColor )
+	skin.cross = addCross( skin, 'cross', 24, 12, foreColor );
+	skin.box = addRoundRect( skin, 'box', 32, backColor, foreColor );
+	skin.check = addCheck( skin, 'check', 32, 12, foreColor )
 	addFrame( skin, 64, 4, backColor, foreColor );
 	addBar( skin, 128, 32, foreColor );
-
-	console.log('items added');
 
 	UiSkin.SetDefaultSkin( skin );
 

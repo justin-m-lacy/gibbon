@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { DisplayObject, Graphics } from "pixi.js";
+import { DisplayObject, Graphics, Text} from "pixi.js";
 import * as PIXI from 'pixi.js';
 import ProgressBar from "./progressBar";
 import Checkbox from "./checkbox";
@@ -17,6 +17,12 @@ export default class UiSkin extends EventEmitter {
 	static GetDefaultSkin() {
 		return UiSkin.Default;
 	}
+
+	/**
+	 * {Number} width of scrollbars.
+	 */
+	get scrollbarWidth() { return this._scrollbarWidth; }
+	set scrollbarWidth(v) { this._scrollbarWidth=v;}
 
 	get fontColor() { return this._defaultStyle.fill; }
 	set fontColor( v ) {
@@ -75,15 +81,19 @@ export default class UiSkin extends EventEmitter {
 		this.emit( 'skin-changed', 'smallStyle' );
 	}
 
+	/**
+	 * {Texture}
+	 */
 	get checkMark() { return this._checkMark;}
 	set checkMark(v) {
 		this._checkMark = v;
 		this.emit( 'skin-changed', 'checkMark' );
 	}
 
-	get box() {
-		return this._box;
-	}
+	/**
+	 * {Texture}
+	 */
+	get box() { return this._box; }
 	set box(v) {
 		this._box = v;
 		this.emit( 'skin-changed', 'box' );
@@ -95,9 +105,9 @@ export default class UiSkin extends EventEmitter {
 
 		if ( vars ) Object.assign( this, vars );
 
-		this.largeStyle = this._largeStyle || new PIXI.TextStyle();
-		this.smallStyle = this._smallStyle || new PIXI.TextStyle();
-		this.defaultStyle = this._defaultStyle || new PIXI.TextStyle();
+		this._largeStyle = this._largeStyle || new PIXI.TextStyle();
+		this._smallStyle = this._smallStyle || new PIXI.TextStyle();
+		this._defaultStyle = this._defaultStyle || new PIXI.TextStyle();
 
 		this._skinData = {};
 
@@ -106,17 +116,16 @@ export default class UiSkin extends EventEmitter {
 	/**
 	 * Just creates a sprite with a click listener. Included for completeness.
 	 * @param {PIXI.Texture} tex 
-	 * @param {Function} onClick 
-	 * @param {*} context 
+	 * @param {Function} onClick - function to call on click.
+	 * @param {*} context - context of the event listener.
 	 */
 	makeIconButton( tex, onClick=null, context=null ) {
 
 		let clip = new PIXI.Sprite( tex );
-		let text = this.makeSmallText(str);
 
-		clip.addChild( text );
+		clip.interactive = true;
 
-		if ( onClick !== null ) clip.on( 'pointerdown', onClick, context );
+		if ( onClick ) clip.on( 'click', onClick, context );
 	
 		return clip;
 
@@ -124,13 +133,22 @@ export default class UiSkin extends EventEmitter {
 
 	makeTextButton( str, onClick=null, context=null ) {
 
-		let clip = new PIXI.mesh.NineSlicePlane( this._box );
+		let clip = new PIXI.Container();
+
+		console.assert( this._box, 'Skin box is null' );
+		let mesh = new PIXI.mesh.NineSlicePlane( this._box );
+
+		console.assert( this._smallStyle, 'small style null');
 		let text = this.makeSmallText(str);
 
-		clip.addChild( text );
+		clip.interactive = true;
+		clip.addChild( mesh, text );
 
-		if ( onClick !== null ) clip.on( 'pointerdown', onClick, context );
-	
+		//clip.addChild( text );
+
+		if ( onClick !== null ) {
+			clip.on( 'pointerdown', onClick, context );
+		}
 
 		return clip;
 
@@ -144,7 +162,7 @@ export default class UiSkin extends EventEmitter {
 
 	makeSmallText( str, clone=false ) {
 		if ( clone === true ) return new Text( str, this._smallStyle.clone() );
-		new Text( str, this._smallStyle );
+		return new Text( str, this._smallStyle );
 	}
 
 	makeText( str='', clone=false ) {
@@ -172,12 +190,16 @@ export default class UiSkin extends EventEmitter {
 
 	}
 
-	makePane( width=100, height=200 ) {
+	makePane( width=200, height=200 ) {
 
 		let data = this._skinData['frame'];
 		if ( !(data instanceof PIXI.Texture ) ) return null;
 
-		return new PIXI.mesh.NineSlicePlane( data );
+		let pane = new PIXI.mesh.NineSlicePlane( data );
+		pane.width = width;
+		pane.height = height;
+
+		return pane;
 
 	}
 
