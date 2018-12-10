@@ -53,7 +53,7 @@ export default class Scrollbar extends Pane {
 
 		this._viewHeight = this.height = this._viewHeight || this.height || 240;
 
-		this.width = opts.width || skin.scrollbarWidth || 24;
+		this.width = opts.width || skin.scrollbarWidth || 18;
 
 		this.makeThumb();
 		this.refresh();

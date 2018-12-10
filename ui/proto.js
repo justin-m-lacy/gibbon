@@ -9,12 +9,12 @@ export function MakeSkin( opts=null ){
 
 	let skin = new UiSkin( opts );
 
-	skin.smallStyle = {
+	skin.smallStyle = skin.smallSize || new PIXI.TextStyle({
 
 		fontFamily:skin.fontFamily||'',
 		fontSize:skin.smallSize||12,
 		fill:skin.fontColor||0
-	}
+	});
 
 	let foreColor = opts.foreColor || 0x444444;
 	let backColor = opts.backColor || 0xfefefe;

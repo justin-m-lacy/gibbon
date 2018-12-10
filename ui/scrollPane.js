@@ -34,7 +34,6 @@ export default class ScrollPane extends Pane {
 		if ( this._content ) {
 			this._content.mask.height = v;
 			this._scrollbar.height = v;
-			console.log('NEW SCROLLHEIGHT: ' + this._scrollbar.height );
 		}
 
 	}

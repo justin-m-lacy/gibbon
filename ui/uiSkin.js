@@ -35,10 +35,15 @@ export default class UiSkin extends EventEmitter {
 	/**
 	 * {string} changes font family of the default font.
 	 */
-	get fontFamily() { return this._defaultStyle.fontFamily;}
+	get fontFamily() { return this._fontFamily;}
 	set fontFamily(v) {
 
-		this._defaultStyle.fontFamily = v;
+		this._fontFamily = v;
+
+		if ( this._defaultStyle ) this._defaultStyle.fontFamily = v;
+		if ( this._largeStyle ) this._largeStyle.fontFamily = v;
+		if ( this._smallStyle ) this._smallStyle.fontFamily = v;
+
 		this.emit( 'skin-changed', 'fontFamily');
 	}
 
@@ -103,11 +108,13 @@ export default class UiSkin extends EventEmitter {
 
 		super();
 
+		this._scrollbarWidth = 18;
+
 		if ( vars ) Object.assign( this, vars );
 
-		this._largeStyle = this._largeStyle || new PIXI.TextStyle();
-		this._smallStyle = this._smallStyle || new PIXI.TextStyle();
-		this._defaultStyle = this._defaultStyle || new PIXI.TextStyle();
+		this._largeStyle = this._largeStyle || new PIXI.TextStyle( {fontFamily:this._fontFamily } );
+		this._smallStyle = this._smallStyle || new PIXI.TextStyle( {fontFamily:this._fontFamily } );
+		this._defaultStyle = this._defaultStyle || new PIXI.TextStyle( {fontFamily:this._fontFamily } );
 
 		this._skinData = {};
 

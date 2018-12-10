@@ -45,9 +45,11 @@ export default class Pane extends Container {
 		this._width = this._width || 200;
 		this._height = this._height || 200;
 
-		this._bg = skin.makePane( this._width, this._height );
+		if ( this.bg !== false ) {
+			this._bg = skin.makePane( this._width, this._height );
+			this.addChild( this._bg );
+		}
 
-		this.addChild( this._bg );
 		//this.on( 'pointerup', (e)=>e.stopPropagation() );
 		this.on( 'pointerdown', (e)=>e.stopPropagation() );
 
