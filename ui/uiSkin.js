@@ -141,6 +141,8 @@ export default class UiSkin extends EventEmitter {
 		console.assert( this._smallStyle, 'small style null');
 		let text = this.makeSmallText(str);
 
+		mesh.width = text.width;
+
 		clip.interactive = true;
 		clip.addChild( mesh, text );
 

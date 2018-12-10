@@ -1,7 +1,7 @@
 import Pane from './pane.js';
 import { Container, Graphics } from 'pixi.js';
 import Scrollbar from './scrollbar.js';
-import Anchors from './uiAnchors';
+import Anchors from './ui';
 
 /**
  * Pane with a scrollbar and scrollable content area.
@@ -47,13 +47,38 @@ export default class ScrollPane extends Pane {
 		this.height = this.height || 200;
 
 		this._content = new Container();
+		this._content.interactive = this._content.interactiveChildren = true;
 		this._content.width = this.width;
 		this._content.height = this.height;
 
-		this.addChild( this._content );
+		super.addChild( this._content );
 
 		this.makeMask();
 		this.makeSb();
+
+		// functions defined in constructor so super-classes don't access them
+		// before initialization.
+		this.addChild = function( clip ) {
+	
+			this._content.addChild( clip );
+			this.emit( 'contentchanged', this );
+			this._scrollbar.refresh();
+			return clip;
+		}
+
+		this.addChildAt = function( clip, index ) {
+			this._content.addChildAt( clip, index );
+			this.emit( 'contentchanged', this );
+			this._scrollbar.refresh();
+			return clip;
+		}
+
+		this.removeChild = function(child) {
+			this._content.removeChild( child );
+			this.emit( 'contentchanged', this );
+			this._scrollbar.refresh();
+			return child;
+		}
 
 	}
 
@@ -64,7 +89,7 @@ export default class ScrollPane extends Pane {
 		mask.drawRect( 0, 0, this.width, this.height );
 		mask.endFill();
 		mask.cacheAsBitmap = true;
-		this.addChild( mask );
+		super.addChild( mask );
 
 		this._content.mask = mask;
 
@@ -81,28 +106,22 @@ export default class ScrollPane extends Pane {
 		sb.x = this.width - sb.width - 2;
 		sb.y = 0;
 
-		console.log('sb: ' + sb.width  +',' + sb.height);
-		this.addChild( sb );
+		super.addChild( sb );
 
 	}
 
-	/**
-	 * Adds a child to the content area.
-	 * @param {DisplayObject} clip 
-	 */
-	addContent( clip ) {
-		return this._content.addChild( clip );
-	}
-
-	addContentAt( clip, index ) {
-		return this._content.addChildAt( clip, index );
+	removeContentAt( index ) {
+		let clip = this._content.removeChildAt( index);
+		this.emit('contentchanged', this);
+		this._scrollbar.refresh();
+		return clip;
 	}
 
 	destroy() {
 
 		this.content.mask.destroy( true );
-		this.content.destroy(true);
-		this._scrollbar.destroy(true);
+		this.content.destroy();
+		this._scrollbar.destroy();
 
 	}
 

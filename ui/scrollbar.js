@@ -8,17 +8,19 @@ export default class Scrollbar extends Pane {
 	set thumb(v) { this._thumb = v; }
 
 	get viewHeight() { return this._viewHeight; }
-	set viewHeight(v) { this._viewHeight = v; }
+	set viewHeight(v) {
+		this._viewHeight = this.height = v;
+		this.refresh();
+	}
 
 	/**
 	 * {Number} sets the thumb height. If no value is specified, the thumb
 	 * will change size based on the ratio of viewHeight to totalHeight.
 	 */
-	get thumbHeight() { return this._thumbHeight; }
+	get thumbHeight() { return this._thumb.height; }
 	set thumbHeight(v) {
 
 		this._thumb.height = v;
-		this._thumbHeight =v;
 
 	}
 
@@ -36,7 +38,10 @@ export default class Scrollbar extends Pane {
 	set target(v) {
 
 		this._target=v;
-		if ( v.mask ) this._viewHeight = this.height = v.mask.height;
+		if ( v.mask ) {
+			this._viewHeight = v.mask.height;
+		}
+		if ( this._autoSizeThumb === true ) this.setThumbHeight();
 
 	}
 
@@ -46,11 +51,14 @@ export default class Scrollbar extends Pane {
 
 		if ( this._autoSizeThumb !== false ) this._autoSizeThumb = true;
 
-		this._viewHeight = this._viewHeight || this.height || 240;
+		this._viewHeight = this.height = this._viewHeight || this.height || 240;
 
-		this.width = this.width || skin.scrollbarWidth || 24;
+		this.width = opts.width || skin.scrollbarWidth || 24;
 
 		this.makeThumb();
+		this.refresh();
+
+		this.interactive = this.interactiveChildren = true;
 
 		this._offsetY = 0;
 		this._dragPt = new Point();
@@ -58,9 +66,23 @@ export default class Scrollbar extends Pane {
 
 	}
 
-	setParent(clip) {
+	/**
+	 * Refresh scrollbar and thumb size.
+	 */
+	refresh() {
 
-		super.setParent(clip);
+		if ( this._autoSizeThumb === true ) this.setThumbHeight();
+
+	}
+
+	/**
+	 * Scroll content to the thumb's current location.
+	 */
+	scroll() {
+
+		if ( !this.target || this._viewHeight === this._thumb.height ) return;
+
+		this._target.y = ( this._thumb.y /( this._viewHeight - this._thumb.height) )*(this._viewHeight - this._target.height );
 
 	}
 
@@ -71,18 +93,18 @@ export default class Scrollbar extends Pane {
 
 		let thumb = this._thumb = new PIXI.mesh.NineSlicePlane( this.skin.box );
 
-		if ( this._autoSizeThumb === true ) this._thumbHeight = thumb.height = this.getThumbHeight();
-
 		thumb.width = this.width;
+		thumb.tint = 0xff0000;
 
 		thumb.x = ( this.width - thumb.width)/2;
-		thumb.interactive = true;
-
+	
 		thumb.on('pointerdown', this.startDrag, this );
 		thumb.on('pointerup', this.endDrag, this );
 		thumb.on('pointerupoutside', this.endDrag, this );
 
 		this.addChild( thumb );
+
+		thumb.interactive = true;
 
 		return thumb;
 
@@ -104,7 +126,14 @@ export default class Scrollbar extends Pane {
 
 		evt.data.getLocalPosition( this, this._dragPt );
 
-		this.dragThumb();
+		// thumb-y.
+		let y = this._dragPt.y - this._offsetY;
+		if ( y < 0 ) y = 0;
+		else if ( y > (this._viewHeight - this._thumb.height) ) y = this._viewHeight - this._thumb.height;
+
+		this._thumb.y = y;
+
+		this.scroll();
 
 	}
 
@@ -112,29 +141,12 @@ export default class Scrollbar extends Pane {
 
 		this.thumb.on( 'pointermove', this.onDrag, this );
 		this._dragging = false;
-
-		this.dragThumb();
-
 	}
 
-	getThumbHeight() {
+	setThumbHeight() {
 
-		if ( this.target && this.target.height ) return this.height*( this._viewHeight / this.target.height );
-		return this.height;
-
-	}
-
-	dragThumb() {
-
-		let maxY = this._viewHeight - this._thumbHeight;
-
-		// thumb-y.
-		let y = this._dragPt.y - this._offsetY;
-		if ( y < 0 ) y = 0;
-		else if ( y > maxY ) y = maxY;
-		
-		this._thumb.y = y;
-		if ( this._target ) this._target.y = (y/maxY)*(this._viewHeight - this._target.height );
+		if ( this.target && this.target.height ) this._thumb.height = this.height*( this._viewHeight / this.target.height );
+		else this._thumb.height = this.height;
 
 	}
 

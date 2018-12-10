@@ -22,7 +22,7 @@ export function MakeSkin( opts=null ){
 	skin.cross = addCross( skin, 'cross', 24, 12, foreColor );
 	skin.box = addRoundRect( skin, 'box', 32, backColor, foreColor );
 	skin.check = addCheck( skin, 'check', 32, 12, foreColor )
-	addFrame( skin, 64, 4, backColor, foreColor );
+	addFrame( skin, 64, 1, backColor, foreColor );
 	addBar( skin, 128, 32, foreColor );
 
 	UiSkin.SetDefaultSkin( skin );
@@ -48,7 +48,7 @@ function addBar( skin, width=128, height=32, foreColor=0 ) {
 
 }
 
-function addFrame( skin, size=64, thickness=4, backColor=0, foreColor=0xffffff ) {
+function addFrame( skin, size=64, thickness=1, backColor=0, foreColor=0xffffff ) {
 
 	let g = new Graphics();
 	g.beginFill( backColor );
@@ -100,7 +100,7 @@ function addRoundRect( skin, key, size=32, fillColor=0xffffff, lineColor=0 ) {
 
 	let g = new Graphics();
 	g.beginFill( fillColor );
-	g.lineStyle( 2, lineColor );
+	g.lineStyle( 1, lineColor );
 	g.drawRoundedRect( 0, 0, size, size, 4 );
 	g.endFill();
 

@@ -32,8 +32,7 @@ export default class Pane extends Container {
 		this.skin = skin;
 
 		// placing these variables here allows opts to override.
-		this.interactive = true;
-		this.interactiveChildren = true;
+		this.interactive = this.interactiveChildren = true;
 		this._visible = true;
 		this._padding = 12;
 
@@ -43,7 +42,10 @@ export default class Pane extends Container {
 
 		}
 
-		this._bg = skin.makePane( this._width||200, this._height||200);
+		this._width = this._width || 200;
+		this._height = this._height || 200;
+
+		this._bg = skin.makePane( this._width, this._height );
 
 		this.addChild( this._bg );
 		//this.on( 'pointerup', (e)=>e.stopPropagation() );
