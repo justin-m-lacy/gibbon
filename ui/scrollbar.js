@@ -58,6 +58,9 @@ export default class Scrollbar extends Pane {
 		this.makeThumb();
 		this.refresh();
 
+		this.bg.interactive = true;
+		this.bg.on( 'pointerdown', this.barClick, this );
+
 		this.interactive = this.interactiveChildren = true;
 
 		this._offsetY = 0;
@@ -83,6 +86,55 @@ export default class Scrollbar extends Pane {
 		if ( !this.target || this._viewHeight === this._thumb.height ) return;
 
 		this._target.y = ( this._thumb.y /( this._viewHeight - this._thumb.height) )*(this._viewHeight - this._target.height );
+
+	}
+
+	/**
+	 * Scroll up a page. This moves the target view down.
+	 */
+	pageUp() {
+
+		let y = this._target.y + this._viewHeight;
+		if ( y > 0 ) y = 0;
+		this._target.y = y;
+
+		this.positionThumb();
+
+	}
+
+	/**
+	 * Scroll down a page. This moves the target view up.
+	 */
+	pageDown() {
+
+		let y = this._target.y - this._viewHeight;
+		if ( y < (-this._target.height + this._viewHeight ) ) y = -this._target.height + this._viewHeight;
+		this._target.y = y;
+
+		this.positionThumb();
+
+	}
+
+	/**
+	 * Set thumb position to correct location based on target position.
+	 */
+	positionThumb() {
+		this.thumb.y = this._target.y * (this._viewHeight - this._thumb.height) / ( this._viewHeight - this._target.height )
+	}
+
+	/**
+	 * Bar area not on thumb was clicked.
+	 * @param {InteractionEvent} evt 
+	 */
+	barClick( evt ) {
+
+		evt.data.getLocalPosition( this, this._dragPt );
+		if ( this._dragPt.y < this._thumb.y ) {
+			this.pageUp();
+		} else if ( this._dragPt.y > this._thumb.y + this._thumb.height ) {
+			this.pageDown();
+		}
+
 
 	}
 
