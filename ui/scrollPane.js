@@ -81,6 +81,13 @@ export default class ScrollPane extends Pane {
 
 	}
 
+	/**
+	 * Refresh the scrollbar and scroll target.
+	 */
+	refresh() {
+		this._scrollbar.refresh();
+	}
+
 	makeMask() {
 
 		let mask = new Graphics();

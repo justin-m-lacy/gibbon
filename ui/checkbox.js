@@ -1,4 +1,5 @@
 import { Container, Sprite, Text, Point, Rectangle } from "pixi.js";
+import UiSkin from "./uiSkin";
 
 export default class Checkbox extends Container {
 
@@ -49,7 +50,7 @@ export default class Checkbox extends Container {
 
 		this.check.visible = this._checked = checked;
 
-		this.textClip = new Text( text );
+		this.textClip = UiSkin.Default ? UiSkin.Default.makeSmallText( text ) : new Text(text);
 
 		this.addChild( this.box );
 		this.addChild( this.check );

@@ -9,7 +9,7 @@ export function MakeSkin( opts=null ){
 
 	let skin = new UiSkin( opts );
 
-	skin.smallStyle = skin.smallSize || new PIXI.TextStyle({
+	skin.smallStyle = skin.smallStyle || new PIXI.TextStyle({
 
 		fontFamily:skin.fontFamily||'',
 		fontSize:skin.smallSize||12,
@@ -53,7 +53,7 @@ function addFrame( skin, size=64, thickness=1, backColor=0, foreColor=0xffffff )
 	let g = new Graphics();
 	g.beginFill( backColor );
 	g.lineStyle( thickness, foreColor );
-	g.drawRoundedRect( 0, 0, size, size, size/10 );
+	g.drawRect( 0, 0, size, size );
 	g.endFill();
 
 	let tex = skin.addAsTexture( 'frame', g );

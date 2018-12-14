@@ -76,6 +76,11 @@ export default class Game {
 		this._engine.factory = v;
 	}
 
+	/**
+	 * {Boolean} Whether wheel events are dispatched.
+	 */
+	get wheelEnabled() { return this._wheelEnabled; }
+
 	get groups() { return this._groups; }
 
 	/**
@@ -110,6 +115,8 @@ export default class Game {
 		this.library = this._engine.library;
 
 		GameObject.SetGame( this );
+
+		this.enableWheel();
 
 	}
 
@@ -211,6 +218,63 @@ export default class Game {
 	 */
 	createTween( target, time, config ) {
 		return TweenMax.to( target, time, config );
+	}
+
+	/**
+	 * Enable mouse wheel events.
+	 */
+	enableWheel() {
+
+		if ( this._wheelEnabled === true ) return;
+
+		let mgr = this.app.renderer.plugins.interaction;
+
+		this.app.stage.name = 'stage';
+	
+		this._wheelEnabled = true;
+		// store to remove later.
+		this._wheelFunc = (e)=>{
+
+			let evt = new PIXI.interaction.InteractionEvent();
+			let data = new PIXI.interaction.InteractionData();
+	
+			data.originalEvent = e;
+			data.deltaY = e.deltaY;
+			data.deltaX = e.deltaX;
+
+			Object.assign( data, mgr.eventData );
+
+			let target = evt.target = data.target;
+			evt.data = data;
+			evt.type = 'wheel';
+
+			while ( target ) {
+
+				if ( target.interactive === true ) {
+					evt.currentTarget = target;
+					target.emit( 'wheel', evt );
+				}
+				target = target.parent;
+
+			}
+
+		};
+
+		this.app.view.addEventListener( 'wheel', this._wheelFunc );	
+
+	}
+
+	/**
+	 * Disable wheel events.
+	 */
+	disableWheel(){
+
+		if ( this._wheelEnabled === true ) {
+			this.app.view.removeEventListener( 'wheel', this._wheelFunc );
+			this._wheelFunc = null;
+			this._wheelEnabled = false;
+		}
+
 	}
 
 }

@@ -16,6 +16,12 @@ export default class Camera extends Component {
 
 	}
 
+	get minScale() { return this._minScale || 1; }
+	set minScale(v ) { this._minScale = v; }
+
+	get maxScale() {return this._maxScale || 1; }
+	set maxScale( v ) { this._maxScale = v; }
+
 	get viewScale() {
 		return this._viewScale;
 	}
@@ -58,7 +64,15 @@ export default class Camera extends Component {
 	get top() { return this._viewRect.top; }
 	get bottom() { return this._viewRect.bottom; }
 
-	constructor() {super();}
+	constructor() {
+
+		super();
+
+		window.addEventListener( 'wheel', (evt)=>{
+		});
+
+	}
+
 	/**
 	 * Determines if an item is completely within the view.
 	 * @param {*} it 
