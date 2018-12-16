@@ -37,11 +37,22 @@ export default class Scrollbar extends Pane {
 	get target() { return this._target; }
 	set target(v) {
 
-		this._target=v;
-		if ( v.mask ) {
-			this._viewHeight = v.mask.height;
+		if ( this._target ) {
+			this._target.removeListener( 'wheel', this.wheelEvent, this );
 		}
-		if ( this._autoSizeThumb === true ) this.setThumbHeight();
+
+		this._target=v;
+
+		if ( v ) {
+
+			if ( v.mask ) {
+				this._viewHeight = v.mask.height;
+			}
+			if ( this._autoSizeThumb === true ) this.setThumbHeight();
+
+			v.on('wheel', this.wheelEvent, this );
+
+		}
 
 	}
 
@@ -58,9 +69,7 @@ export default class Scrollbar extends Pane {
 		this.makeThumb();
 		this.refresh();
 
-		this.name = "scrollbar";
 		this.bg.interactive = true;
-		this.bg.name = 'scrollarea';
 		this.bg.on( 'pointerdown', this.barClick, this );
 
 		this.interactive = this.interactiveChildren = true;

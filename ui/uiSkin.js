@@ -1,4 +1,3 @@
-import { EventEmitter } from "events";
 import { DisplayObject, Graphics, Text} from "pixi.js";
 import * as PIXI from 'pixi.js';
 import ProgressBar from "./progressBar";
@@ -8,7 +7,7 @@ import Checkbox from "./checkbox";
  * All the miscellaneous data and objects to define
  * the general look of the UI.
  */
-export default class UiSkin extends EventEmitter {
+export default class UiSkin extends PIXI.utils.EventEmitter {
 
 	static SetDefaultSkin( skin) {
 		UiSkin.Default = skin;

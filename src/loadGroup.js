@@ -9,6 +9,11 @@ export default class LoadGroup extends Group {
 	get loader() { return this._loader || this.game.loader; }
 
 	/**
+	 * {LayerManager} Wrapper for Game layer manager.
+	 */
+	get layerManager() { return this._game.layerManager; }
+
+	/**
 	 * {GameObject}
 	 */
 	get gameObject() { return this._gameObject; }

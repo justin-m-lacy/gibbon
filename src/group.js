@@ -7,6 +7,8 @@ export default class Group {
 	get clip() { return this._clip; }
 
 	get name() { return this._name; }
+	set name(v) { this._name =v;}
+
 	get objects() { return this._objects; }
 
 	get game() { return this._game;}
