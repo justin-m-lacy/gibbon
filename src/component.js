@@ -24,7 +24,17 @@ export default class Component {
 	 * {Boolean} Whether the component is enabled.
 	 */
 	get enabled(){ return this._enabled;}
-	set enabled(v) { this._enabled = v;}
+	set enabled(v) {
+
+		this._enabled = v;
+
+		if ( v=== true ) {
+			if ( this.onEnable) this.onEnable();
+		} else {
+			if ( this.onDisable) this.onDisable();
+		}
+
+	}
 
 	get x() { return this._clip.x; }
 	set x(v) { this._clip.x = v;}

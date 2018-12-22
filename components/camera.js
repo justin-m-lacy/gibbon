@@ -68,9 +68,6 @@ export default class Camera extends Component {
 
 		super();
 
-		window.addEventListener( 'wheel', (evt)=>{
-		});
-
 	}
 
 	/**
@@ -106,6 +103,13 @@ export default class Camera extends Component {
 	 */
 	rectInView( r ) {
 		return r.x < this._viewRect.right && r.right > this._viewRect.x && r.y < this._viewRect.bottom && r.bottom > this._viewRect.y;
+	}
+
+	toCameraPoint( global, dest ) {
+
+		dest = dest || new Point();
+		return this._panClip.toLocal( global, null, dest );
+
 	}
 
 	init(){

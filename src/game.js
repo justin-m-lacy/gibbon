@@ -148,6 +148,16 @@ export default class Game {
 
 	}
 
+	/**
+	 * Wrapper for default game event emitter.
+	 * @param {string} event 
+	 * @param {*} func 
+	 * @param {*} context 
+	 */
+	on( event, func, context=null ) {
+		return this._emitter.on( event, func, context );
+	}
+
 	findGroup(name) {
 		return this._groups.find( (g)=>g.name===name );
 	}

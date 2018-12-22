@@ -146,8 +146,9 @@ export default class UiSkin extends PIXI.utils.EventEmitter {
 
 		console.assert( this._smallStyle, 'small style null');
 		let text = this.makeSmallText(str);
+		text.x = 4;
 
-		mesh.width = text.width;
+		mesh.width = text.width + 8;
 
 		clip.interactive = true;
 		clip.addChild( mesh, text );
