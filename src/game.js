@@ -81,6 +81,15 @@ export default class Game {
 	 */
 	get wheelEnabled() { return this._wheelEnabled; }
 
+	/**
+	 * {number} Amount by which to scroll wheel input.
+	 */
+	get wheelScale() { return this._wheelScale; }
+	set wheelScale(v) { this._wheelScale = v; }
+
+	/**
+	 * {Group[]}
+	 */
 	get groups() { return this._groups; }
 
 	/**
@@ -92,16 +101,19 @@ export default class Game {
 
 	/**
 	 * 
-	 * @param {PIXI.Application} app 
+	 * @param {PIXI.Application|Object} app - The pixi application, or options object.
+	 * If an options object is supplied, it is used to create a new PIXI.Application. 
 	 */
 	constructor( app ) {
 
-		this._app = app;
-		this._screen = app.screen;
-		this._stage = app.stage;
+		this._app = app instanceof PIXI.Application ? app : new PIXI.Application( app );
+
+		this._screen = this._app.screen;
+		this._stage = this._app.stage;
 		this._stage.interactive = true;
 		this._stage.hitArea = this._screen;
 
+		this._wheelScale = 1;
 		this._loader = PIXI.loaders.shared;
 
 		this._groups = [];
@@ -115,8 +127,6 @@ export default class Game {
 		this.library = this._engine.library;
 
 		GameObject.SetGame( this );
-
-		this.enableWheel();
 
 	}
 
@@ -140,6 +150,9 @@ export default class Game {
 
 	}
 
+	/**
+	 * Start the game object ticker and engine ticker.
+	 */
 	start() {
 
 		this.ticker.add( this.engine.update, this.engine );
@@ -151,21 +164,33 @@ export default class Game {
 	/**
 	 * Wrapper for default game event emitter.
 	 * @param {string} event 
-	 * @param {*} func 
+	 * @param {Function} func 
 	 * @param {*} context 
 	 */
 	on( event, func, context=null ) {
 		return this._emitter.on( event, func, context );
 	}
 
+	/**
+	 * 
+	 * @param {string} name 
+	 */
 	findGroup(name) {
 		return this._groups.find( (g)=>g.name===name );
 	}
 
+	/**
+	 * 
+	 * @param {Group} g 
+	 */
 	addGroup(g) {
 		this._groups.push(g);
 	}
 
+	/**
+	 * 
+	 * @param {Group} g 
+	 */
 	removeGroup(g) {
 
 		for( let i = this._groups.length-1; i >= 0; i-- ) {
@@ -186,6 +211,11 @@ export default class Game {
 	addUpdater( sys ) { this._engine.addUpdater(sys); }
 	removeUpdater(sys) { this._engine.removeUpdater(sys);}
 
+	/**
+	 * 
+	 * @param {function} func 
+	 * @param {*} context 
+	 */
 	addUpdate( func, context ) {
 		this.ticker.add( func, context );
 	}
@@ -209,7 +239,7 @@ export default class Game {
 	 * Replaces any existing tweens on the target with a newly created one.
 	 * Convenience accesor for setting config data.
 	 * @param {*} target 
-	 * @param {Number} time 
+	 * @param {number} time 
 	 * @param {Object} config
 	 * @returns {TweenMax} - The tween created.
 	 */
@@ -223,7 +253,7 @@ export default class Game {
 	/**
 	 * 
 	 * @param {*} target - target of the Tween. 
-	 * @param {Number} time - tween time.
+	 * @param {number} time - tween time.
 	 * @param {Object} config - configuration object for TweenMax tween.
 	 */
 	createTween( target, time, config ) {
@@ -238,10 +268,9 @@ export default class Game {
 		if ( this._wheelEnabled === true ) return;
 
 		let mgr = this.app.renderer.plugins.interaction;
-
-		this.app.stage.name = 'stage';
 	
 		this._wheelEnabled = true;
+
 		// store to remove later.
 		this._wheelFunc = (e)=>{
 
@@ -249,8 +278,10 @@ export default class Game {
 			let data = new PIXI.interaction.InteractionData();
 	
 			data.originalEvent = e;
-			data.deltaY = e.deltaY;
-			data.deltaX = e.deltaX;
+			data.deltaY = e.deltaY*this.wheelScale;
+			data.deltaX = e.deltaX*this.wheelScale;
+
+			data.originalEvent = e;
 
 			Object.assign( data, mgr.eventData );
 
@@ -270,7 +301,7 @@ export default class Game {
 
 		};
 
-		this.app.view.addEventListener( 'wheel', this._wheelFunc );	
+		this.app.view.addEventListener( 'wheel', this._wheelFunc );
 
 	}
 

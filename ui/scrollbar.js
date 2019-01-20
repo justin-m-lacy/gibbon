@@ -1,12 +1,19 @@
 import { Container, Sprite, Point } from "pixi.js";
 import * as PIXI from 'pixi.js';
 import Pane from "./pane";
+import UiSkin from "./uiSkin";
 
 export default class Scrollbar extends Pane {
 
+	/**
+	 * {DisplayObject}
+	 */
 	get thumb() { return this._thumb; }
 	set thumb(v) { this._thumb = v; }
 
+	/**
+	 * {number}
+	 */
 	get viewHeight() { return this._viewHeight; }
 	set viewHeight(v) {
 		this._viewHeight = this.height = v;
@@ -14,7 +21,7 @@ export default class Scrollbar extends Pane {
 	}
 
 	/**
-	 * {Number} sets the thumb height. If no value is specified, the thumb
+	 * {number} sets the thumb height. If no value is specified, the thumb
 	 * will change size based on the ratio of viewHeight to totalHeight.
 	 */
 	get thumbHeight() { return this._thumb.height; }
@@ -56,6 +63,12 @@ export default class Scrollbar extends Pane {
 
 	}
 
+	/**
+	 * 
+	 * @param {Game} game 
+	 * @param {UiSkin} skin 
+	 * @param {Object} [opts=null] 
+	 */
 	constructor( game, skin, opts=null ){
 
 		super( game, skin, opts );
@@ -82,6 +95,10 @@ export default class Scrollbar extends Pane {
 
 	}
 
+	/**
+	 * Scroll with mouse wheel.
+	 * @param {} evt 
+	 */
 	wheelEvent( evt ) {
 
 		this.thumb.y += evt.data.deltaY;

@@ -5,9 +5,19 @@ export default class ProgressBar extends Container {
 
 	get loader() { return this._loader; }
 
+	/**
+	 * {number}
+	 */
 	get progress() { return this._loader ? this._loader.progress : 0; }
 
+	/**
+	 * {Boolean}
+	 */
 	get loading() { return this._loader && this._loading === true; }
+
+	/**
+	 * {Boolean}
+	 */
 	get complete() { return this._complete; }
 
 	constructor( back, bar ) {

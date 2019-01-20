@@ -7,11 +7,29 @@ export default class LayerManager {
 
 	//get layers() { return this._layers;}
 
+	/**
+	 * {DisplayObject}
+	 */
 	get background() { return this._background; }
+
+	/**
+	 * {DisplayObject}
+	 */
 	get foreground() { return this._foreground; }
+
+	/**
+	 * {Container}
+	 */
 	get objectLayer() { return this._objectLayer; }
+
+	/**
+	 * {Container}
+	 */
 	get uiLayer() { return this._uiLayer;}
 
+	/**
+	 * {number}
+	 */
 	get layerCount() { return this.stage.children.length; }
 
 	constructor(game){

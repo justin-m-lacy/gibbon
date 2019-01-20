@@ -11,12 +11,21 @@ export default class ObjectPool {
 
 	}
 
+	/**
+	 * 
+	 * @param {GameObject} obj 
+	 */
 	add( obj ) {
 
 		this._objs.push(obj);
 
 	}
 
+	/**
+	 * 
+	 * @param {DisplayObject} [clip=null] 
+	 * @param {PIXI.Point} [pos=null]
+	 */
 	get( clip=null, pos=null ) {
 
 		if ( this._objs.length === 0 ) return new GameObject(clip,pos);

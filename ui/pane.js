@@ -8,19 +8,31 @@ export default class Pane extends Container {
 	get tween() { return this._tween; }
 	set tween(v) { this._tween = v; }
 
+	/**
+	 * {number}
+	 */
 	get padding() { return this._padding; }
 	set padding(v) { this._padding = v;}
 
+	/**
+	 * {number}
+	 */
 	get width() { return this._width;}
 	set width(v) { this._width = v;
 		if ( this._bg ) this._bg.width = v; }
 
+	/**
+	 * {number}
+	 */
 	get height() { return this._height; }
 	set height(v) {
 		this._height = v;
 		if ( this._bg ) this._bg.height = v;
 	}
 
+	/**
+	 * {DisplayObject}
+	 */
 	get bg() { return this._bg; }
 	set bg(v) { this._bg = v; }
 
@@ -29,6 +41,13 @@ export default class Pane extends Container {
 		this._layout = v;
 		if ( v ) v.arrange( this );
 	}
+
+	/**
+	 * 
+	 * @param {Game} game 
+	 * @param {UISkin} skin 
+	 * @param {Object} [opts=null] 
+	 */
 	constructor( game, skin, opts=null ) {
 
 		super();
@@ -62,6 +81,9 @@ export default class Pane extends Container {
 	
 	}
 
+	/**
+	 * Arrange items in pane using the pane's layout object.
+	 */
 	arrange() {
 		if ( this._layout ) this._layout.arrange(this);
 	}

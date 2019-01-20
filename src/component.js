@@ -2,10 +2,13 @@ import GameObject from "./gameObject";
 
 export default class Component {
 
+	/**
+	 * {Game}
+	 */
 	get game() { return GameObject.Game; }
 
 	/**
-	 * {Number} Convenience accessor for GameObject.flags.
+	 * {number} Convenience accessor for GameObject.flags.
 	 */
 	get flags() { return this._gameObject.flags; }
 	set flags(v) { this._gameObject.flags = v; }
@@ -36,12 +39,21 @@ export default class Component {
 
 	}
 
+	/**
+	 * {number}
+	 */
 	get x() { return this._clip.x; }
 	set x(v) { this._clip.x = v;}
 
+	/**
+	 * {number}
+	*/
 	get y() { return this._clip.y; }
 	set y(v) { this._clip.y = v;}
 
+	/**
+	* {number} underlying clip rotation in radians.
+	*/
 	get rotation() { return this._clip.rotation; }
 	set rotation(v) {
 
@@ -51,6 +63,9 @@ export default class Component {
 		this._clip.rotation = v;
 	}
 
+	/**
+	 * {PIXI.Point}
+	 */
 	get position() { return this._gameObject.position; }
 	set position(v) {
 		this._gameObject.position = v;
@@ -61,6 +76,9 @@ export default class Component {
 	 */
 	get clip() { return this._clip; }
 
+	/**
+	 * {Boolean}
+	 */
 	get destroyed() { return this._destroyed; }
 
 	constructor(){}
@@ -70,6 +88,10 @@ export default class Component {
 	 */
 	init(){}
 
+	/**
+	 * 
+	 * @param {GameObject} gameObject 
+	 */
 	_init( gameObject ) {
 
 		this._gameObject = gameObject;

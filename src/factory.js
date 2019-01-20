@@ -3,6 +3,10 @@
  */
 export default class Factory {
 
+	/**
+	 * 
+	 * @param {Gibbon.Game} game 
+	 */
 	constructor( game ) {
 
 		this.game = game;
@@ -25,7 +29,8 @@ export default class Factory {
 
 	/**
 	 * Create a GameObject from the given key.
-	 * @param {string} key 
+	 * @param {string} key
+	 * @returns {GameObject} Object created.
 	 */
 	create( key, ...args ){
 		let build = this.builds[key];

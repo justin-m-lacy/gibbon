@@ -1,7 +1,7 @@
 import Pane from './pane.js';
 import { Container, Graphics } from 'pixi.js';
 import Scrollbar from './scrollbar.js';
-import Anchors from './ui';
+import Anchors, { UiSkin } from './ui';
 
 /**
  * Pane with a scrollbar and scrollable content area.
@@ -9,14 +9,26 @@ import Anchors from './ui';
  */
 export default class ScrollPane extends Pane {
 
+	/**
+	 * {DisplayObject}
+	 */
 	get content() {
 		return this._content;
 	}
 
+	/**
+	 * {DisplayObject}
+	 */
 	get mask() { return this._content.mask; }
 
+	/**
+	 * {Scrollbar}
+	 */
 	get scrollbar() { return this._scrollbar; }
 
+	/**
+	 * {number}
+	 */
 	get width() { return this._width; }
 	set width(v) {
 
@@ -27,6 +39,10 @@ export default class ScrollPane extends Pane {
 		}
 
 	}
+
+	/**
+	 * {number}
+	 */
 	get height(){return this._height;}
 	set height(v) {
 
@@ -38,6 +54,12 @@ export default class ScrollPane extends Pane {
 
 	}
 
+	/**
+	 * 
+	 * @param {Game} game 
+	 * @param {UiSkin} skin 
+	 * @param {Object} [opts=null] 
+	 */
 	constructor( game, skin, opts=null ) {
 
 		super( game, skin, opts );
@@ -88,6 +110,9 @@ export default class ScrollPane extends Pane {
 		this._scrollbar.refresh();
 	}
 
+	/**
+	 * Create the mask to reveal the scroll area.
+	 */
 	makeMask() {
 
 		let mask = new Graphics();

@@ -8,6 +8,10 @@ export default class SpriteTiler extends Component {
 		if ( v ) this.sprite.tilePosition.set( -v.position.x, -v.position.y );
 	}
 
+	/**
+	 * 
+	 * @param {PIXI.Sprite} tilingSprite 
+	 */
 	constructor( tilingSprite=null ){
 
 		super();
@@ -15,7 +19,7 @@ export default class SpriteTiler extends Component {
 
 	}
 
-	init(){
+	init() {
 
 		if ( !this.sprite ) this.sprite = this.gameObject.clip;
 

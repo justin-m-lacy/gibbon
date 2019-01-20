@@ -6,7 +6,7 @@ export default class Library {
 
 	/**
 	 * 
-	 * @param {*} name 
+	 * @param {string} name 
 	 * @param {Object|function} item - function(position) to create an object,
 	 * an Object with a clone() function, or a plain object to return.
 	 */

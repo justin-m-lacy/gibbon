@@ -1,8 +1,12 @@
 import { Container, Sprite, Text, Point, Rectangle } from "pixi.js";
 import UiSkin from "./uiSkin";
+import { centerOn } from './uiutils';
 
 export default class Checkbox extends Container {
 
+	/**
+	 * {Boolean}
+	 */
 	get checked(){return this._checked;}
 	set checked(v) {
 
@@ -35,9 +39,19 @@ export default class Checkbox extends Container {
 	get tween() { return this._tween; }
 	set tween(v) { this._tween = v;}
 
+	/**
+	 * {string}
+	 */
 	get text() { return this._text;}
 	set text(v) { this._text = v;}
 
+	/**
+	 * 
+	 * @param {Texture} boxTex 
+	 * @param {Texture} checkTex 
+	 * @param {string} [text=''] 
+	 * @param {Boolean} [checked=false]
+	 */
 	constructor( boxTex, checkTex, text='', checked=false ){
 
 		super();
@@ -68,16 +82,20 @@ export default class Checkbox extends Container {
 
 	}
 
+	/**
+	 * Toggle the checked state.
+	 */
 	toggle() {
 		this.checked = !this._checked;
 	}
 
+	/**
+	 * Center the check Sprite within the box Sprite.
+	 * @param {Sprite} box 
+	 * @param {Sprite} check 
+	 */
 	centerCheck( box, check ) {
-
-		check.position = new Point(
-			box.x + ( box.width - check.width)/2,
-			box.y + ( box.height - check.height )/2 );
-
+		centerOn( check, box );
 	}
 
 }

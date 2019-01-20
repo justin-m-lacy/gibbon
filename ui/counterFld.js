@@ -6,24 +6,42 @@ const MIN_COUNT_DIST = 2;
  */
 export default class CounterField {
 
+	/**
+	 * {string}
+	 */
 	get text() { return this._text; }
 	set text(v) { this._text =v;}
 
+	/**
+	 * {number}
+	 */
 	get value() { return this._value; }
 	set value(v) { this._value = v;}
 
 	get style(){  return this.clip.style;}
 	set style(v) { this.clip.style = v;}
 
+	/**
+	 * {DisplayObject}
+	 */
 	get clip() { return this._clip;}
 	set clip(v) { this._clip = v;}
 
+	/**
+	 * {PIXI.Point}
+	 */
 	get position(){return this._clip.position;}
 	set position(v) { this._clip.position =v;}
 
+	/**
+	 * {number}
+	 */
 	get x() { return this.clip.x;}
 	set x(v) { this.clip.x = v;}
-	
+
+	/**
+	 * {number}
+	 */
 	get y() { return this.clip.y;}
 	set y(v) { this.clip.y = v;}
 
@@ -33,7 +51,13 @@ export default class CounterField {
 	get showCount() { return this._showCount; }
 	set showCount(v) { this._showCount = v; }
 
-	constructor( text, startVal=0, styleVars ){
+	/**
+	 * 
+	 * @param {string} [text=''] 
+	 * @param {number} [startVal=0] 
+	 * @param {Object} styleVars 
+	 */
+	constructor( text='', startVal=0, styleVars ){
 
 		this._text = text;
 		this._value = startVal;
@@ -44,6 +68,10 @@ export default class CounterField {
 
 	}
 
+	/**
+	 * 
+	 * @param {number} value 
+	 */
 	update( value ) {
 
 		if ( this._showCount === true ) {

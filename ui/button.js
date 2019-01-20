@@ -3,6 +3,10 @@ export default class Button {
 	get onClick() {return this._click;}
 	set onClick(v) {this._click=v;}
 
+	/**
+	 * 
+	 * @param {DisplayObject} clip 
+	 */
 	constructor( clip ){
 
 		this.clip = clip;

@@ -16,12 +16,21 @@ export default class Camera extends Component {
 
 	}
 
+	/**
+	 * {number}
+	 */
 	get minScale() { return this._minScale || 1; }
 	set minScale(v ) { this._minScale = v; }
 
+	/**
+	 * {number}
+	 */
 	get maxScale() {return this._maxScale || 1; }
 	set maxScale( v ) { this._maxScale = v; }
 
+	/**
+	* {number}
+	*/
 	get viewScale() {
 		return this._viewScale;
 	}
@@ -32,12 +41,18 @@ export default class Camera extends Component {
 
 	}
 
+	/**
+	 * {number}
+	 */
 	get x(){return -this._panClip.x; }
 	set x(v) {
 		this._viewRect.x = v*this._viewScale;
 		this._panClip.x = -this._viewRect.x;
 	}
 
+	/**
+	 * {number}
+	 */
 	get y(){return -this._panClip.x;}
 	set y(v) {
 
@@ -54,14 +69,32 @@ export default class Camera extends Component {
 	get screen() { return this._screen; }
 	set screen(v) { this._screen = v;}
 
+	/**
+	 * {PIXI.Point}
+	 */
 	get centerX() { return this._viewRect.x + this._halfWidth; }
 	get centerY() { return this._viewRect.y + this._halfHeight; }
 
+	/**
+	 * {PIXI.Point}
+	 */
 	get center() { return new Point( this._viewRect.x + this._halfWidth, this._viewRect.y + this._halfHeight );}
 
+	/**
+	 * {number}
+	 */
 	get left() { return this._viewRect.left; }
+	/**
+	 * {number}
+	 */
 	get right() { return this._viewRect.right; }
+	/**
+	 * {number}
+	 */
 	get top() { return this._viewRect.top; }
+	/**
+	 * {number}
+	 */
 	get bottom() { return this._viewRect.bottom; }
 
 	constructor() {
@@ -90,7 +123,7 @@ export default class Camera extends Component {
 
 	/**
 	 * 
-	 * @param {Point} p 
+	 * @param {PIXI.Point} p 
 	 */
 	ptInView(p) {
 		return this._viewRect.contains(p);
@@ -105,7 +138,13 @@ export default class Camera extends Component {
 		return r.x < this._viewRect.right && r.right > this._viewRect.x && r.y < this._viewRect.bottom && r.bottom > this._viewRect.y;
 	}
 
-	toCameraPoint( global, dest ) {
+	/**
+	 * 
+	 * @param {PIXI.Point} global 
+	 * @param {PIXI.Point} [dest=null]
+	 * @returns {PIXI.Point}
+	 */
+	toCameraPoint( global, dest=null ) {
 
 		dest = dest || new Point();
 		return this._panClip.toLocal( global, null, dest );

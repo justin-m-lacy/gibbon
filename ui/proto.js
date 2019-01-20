@@ -5,6 +5,10 @@ import * as PIXI from 'pixi.js';
 import {Graphics} from 'pixi.js';
 import UiSkin from './uiSkin';
 
+/**
+ * 
+ * @param {Object} [opts=null] 
+ */
 export function MakeSkin( opts=null ){
 
 	let skin = new UiSkin( opts );

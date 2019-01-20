@@ -10,8 +10,14 @@ export default class Engine {
 	get factory() { return this._factory; }
 	set factory(v) { this._factory=v;}
 
+	/**
+	 * {GameObject[]}
+	 */
 	get objects() { return this._objects; }
 
+	/**
+	 * {Container}
+	 */
 	get objectLayer() { return this._objectLayer; }
 	set objectLayer(v) { this._objectLayer = v;}
 
@@ -27,10 +33,6 @@ export default class Engine {
 	get sharedTicker() { return this._sharedTicker; }
 	set sharedTicker(v) { this._sharedTicker=v;}*/
 
-	/**
-	 * Optional factory for creating GameObjects.
-	 * @param {Object} factory 
-	 */
 	constructor(){
 
 		this._objects = [];
@@ -59,8 +61,8 @@ export default class Engine {
 
 	/**
 	 * Instantiate a GameObject with a clip or a named clonable object from the library.
-	 * @param {*} clip 
-	 * @param {*} loc 
+	 * @param {DisplayObject} clip 
+	 * @param {PIXI.Point} loc 
 	 */
 	Instantiate( clip=null, loc=null ) {
 

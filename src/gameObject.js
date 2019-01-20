@@ -4,9 +4,7 @@ import { quickSplice } from '../utils/arrayutils';
 
 export default class GameObject {
 
-	static SetGame(v) {
-		this.Game =v;
-	}
+	static SetGame(v) { this.Game =v; }
 	static GetGame(){ return this.Game; }
 
 	static GetEngine() { return this.Engine;}
@@ -26,7 +24,7 @@ export default class GameObject {
 	set group(v) { this._group = v;}
 
 	/**
-	 * {Number} bit-flags applied to this GameObject.
+	 * {number} bit-flags applied to this GameObject.
 	 */
 	get flags() { return this._flags; }
 	set flags(v) { this._flags = v; }
@@ -54,14 +52,20 @@ export default class GameObject {
 
 	}
 
+	/**
+	 * {number}
+	 */
 	get x(){ return this._position.x; }
 	set x(v) { this._position.x = v;}
 
+	/**
+	 * {number}
+	 */
 	get y() { return this._position.y; }
 	set y(v) { this._position.y = v; }
 
 	/**
-	 * {Number} Rotation in radians.
+	 * {number} Rotation in radians.
 	 */
 	get rotation() { return this._clip.rotation; }
 	set rotation(v) {
@@ -71,13 +75,17 @@ export default class GameObject {
 	}
 
 	/**
-	 * {Boolean} Set the interactivity for the GameObject.
+	 * {boolean} Set the interactivity for the GameObject.
 	 * The setting is ignored if the GameObject has no clip.
 	 */
 	get interactive() { return this._clip ? this._clip.interactive : false; }
 	set interactive(v) { if ( this._clip ) this._clip.interactive = v; }
 
+	/**
+	 * {EventEmitter3} - the object clip's emitter, or a new emitter, if object has no clip.
+	 */
 	get emitter() { return this._clip ? this._clip : this._emitter; }
+
 	/**
 	 * {Point} returns the orientation vector of this object.
 	 */
@@ -88,6 +96,9 @@ export default class GameObject {
 
 	}
 
+	/**
+	 * {boolean}
+	 */
 	get visible() { return this._clip && this._clip.visible; }
 	set visible(v) { this._clip.visible = v;}
 
@@ -98,14 +109,22 @@ export default class GameObject {
 	/** get destroying() { return this._destroying; }
 	set destroying() { this._destroying=true;}*/
 
+	/**
+	 * {boolean}
+	 */
 	get destroyed(){ return this._destroyed }
 
 	/**
-	 * {*} clip of the gameObject. This must be set at the time
+	 * {DisplayObject} clip of the gameObject. This must be set at the time
 	 * of GameObject creation, and cannot be changed.
 	 */
 	get clip() { return this._clip; }
 
+	/**
+	 * 
+	 * @param {DisplayObject} clip 
+	 * @param {Point} [pos=null] 
+	 */
 	constructor( clip=null, pos=null ){
 
 		this._components = [];
@@ -130,7 +149,13 @@ export default class GameObject {
 
 	}
 
-	on( evt, func, context ) {
+	/**
+	 * 
+	 * @param {string} evt 
+	 * @param {function} func 
+	 * @param {*} [context=null]
+	 */
+	on( evt, func, context=null ) {
 		if ( this._clip !== null ) return this._clip.on( evt, func, context );
 		else return this._emitter.on( evt, func, context);
 	}
@@ -172,7 +197,9 @@ export default class GameObject {
 	/**
 	 * Checks if the Object's clip contains a global point.
 	 * false for objects without clips or clip.hitAreas.
-	 * @param {*} pt 
+	 * @param {Vector|Object} pt
+	 * @param {number} pt.x
+	 * @param {number} pt.y 
 	 */
 	contains( pt ) {
 
@@ -184,6 +211,11 @@ export default class GameObject {
 		return clip.hitArea.contains( pt.x, pt.y );
 	}
 
+	/**
+	 * 
+	 * @param {number} x 
+	 * @param {number} y 
+	 */
 	translate( x, y ) {
 		//this.pos.set( this.pos.x + x, this.pos.y + y );
 		this._position.x += x;
@@ -230,6 +262,10 @@ export default class GameObject {
 
 	}
 
+	/**
+	 * 
+	 * @param {number} delta 
+	 */
 	update( delta ){
 
 		let comps = this._components;

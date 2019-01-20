@@ -18,11 +18,14 @@ export default class UiSkin extends PIXI.utils.EventEmitter {
 	}
 
 	/**
-	 * {Number} width of scrollbars.
+	 * {number} width of scrollbars.
 	 */
 	get scrollbarWidth() { return this._scrollbarWidth; }
 	set scrollbarWidth(v) { this._scrollbarWidth=v;}
 
+	/**
+	 * {Number|string}
+	 */
 	get fontColor() { return this._defaultStyle.fill; }
 	set fontColor( v ) {
 
@@ -55,6 +58,9 @@ export default class UiSkin extends PIXI.utils.EventEmitter {
 		this.emit( 'skin-changed', 'defaultStyle' );
 	}
 
+	/**
+	 * {number}
+	 */
 	get largeSize() { return this._largeStyle.fontSize;}
 	set largeSize(v) {
 
@@ -69,6 +75,9 @@ export default class UiSkin extends PIXI.utils.EventEmitter {
 		this.emit( 'skin-changed', 'largeStyle' );
 	}
 
+	/**
+	 * {number}
+	 */
 	get smallSize() { return this._smallStyle.fontSize;}
 	set smallSize(v) {
 
@@ -103,6 +112,10 @@ export default class UiSkin extends PIXI.utils.EventEmitter {
 		this.emit( 'skin-changed', 'box' );
 	}
 
+	/**
+	 * 
+	 * @param {Object} [vars=null] 
+	 */
 	constructor( vars=null ){
 
 		super();
@@ -122,8 +135,8 @@ export default class UiSkin extends PIXI.utils.EventEmitter {
 	/**
 	 * Just creates a sprite with a click listener. Included for completeness.
 	 * @param {PIXI.Texture} tex 
-	 * @param {Function} onClick - function to call on click.
-	 * @param {*} context - context of the event listener.
+	 * @param {Function} [onClick=null] - function to call on click.
+	 * @param {*} [context=null] - context of the event listener.
 	 */
 	makeIconButton( tex, onClick=null, context=null ) {
 
@@ -137,6 +150,12 @@ export default class UiSkin extends PIXI.utils.EventEmitter {
 
 	}
 
+	/**
+	 * 
+	 * @param {string} str 
+	 * @param {Function} [onClick=null]
+	 * @param {*} [context=null] 
+	 */
 	makeTextButton( str, onClick=null, context=null ) {
 
 		let clip = new PIXI.Container();
@@ -164,11 +183,21 @@ export default class UiSkin extends PIXI.utils.EventEmitter {
 
 	}
 
+	/**
+	 * 
+	 * @param {string} str 
+	 * @param {Boolean} [clone=false] 
+	 */
 	makeLargeText( str, clone=false ) {
 		if ( clone === true ) return new Text( str, this._largeStyle.clone() );
 		return new Text( str, this._largeStyle );
 	}
 
+	/**
+	 * 
+	 * @param {string} str 
+	 * @param {Boolean} [clone=false] 
+	 */
 	makeSmallText( str, clone=false ) {
 		if ( clone === true ) return new Text( str, this._smallStyle.clone() );
 		return new Text( str, this._smallStyle );
@@ -179,6 +208,11 @@ export default class UiSkin extends PIXI.utils.EventEmitter {
 		return new Text( str, this._defaultStyle );
 	}
 
+	/**
+	 * 
+	 * @param {string} label 
+	 * @param {Boolean} [checked=false] 
+	 */
 	makeCheckbox( label, checked=false ) {
 		return new Checkbox( this._skinData['box'], this._skinData['check'], label, checked );
 	}
@@ -199,6 +233,11 @@ export default class UiSkin extends PIXI.utils.EventEmitter {
 
 	}
 
+	/**
+	 * 
+	 * @param {number} [width=200] 
+	 * @param {number} [height=200]
+	 */
 	makePane( width=200, height=200 ) {
 
 		let data = this._skinData['frame'];
@@ -212,6 +251,14 @@ export default class UiSkin extends PIXI.utils.EventEmitter {
 
 	}
 
+	/**
+	 * 
+	 * @param {string} key 
+	 * @param {number} left 
+	 * @param {number} top 
+	 * @param {number} right 
+	 * @param {number} bottom 
+	 */
 	makeNineSlice( key, left=12, top=8, right=12, bottom=8 ) {
 
 		let data = this._skinData[key];
