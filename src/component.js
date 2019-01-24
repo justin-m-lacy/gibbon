@@ -81,7 +81,8 @@ export default class Component {
 	 */
 	get destroyed() { return this._destroyed; }
 
-	constructor(){}
+	constructor(){
+	}
 
 	/**
 	 * Override init() in subclass.

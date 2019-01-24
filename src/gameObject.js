@@ -4,7 +4,7 @@ import { quickSplice } from '../utils/arrayutils';
 
 export default class GameObject {
 
-	static SetGame(v) { this.Game =v; }
+	static SetGame(v) {this.Game =v;}
 	static GetGame(){ return this.Game; }
 
 	static GetEngine() { return this.Engine;}
@@ -135,6 +135,11 @@ export default class GameObject {
 			if ( pos ) clip.position = pos;
 			this._position = clip.position;
 
+			this._destroyOpts = {
+				children:true,
+				texture:false,
+				baseTexture:false
+			}
 		} else {
 
 			this._clip=null;
@@ -350,7 +355,7 @@ export default class GameObject {
 	_destroy() {
 
 		if ( this._clip ) this._clip.destroy( this._destroyOpts || true );
-
+	
 		this._clip = null;
 
 		this._position = null;

@@ -52,6 +52,7 @@ export default class LoadGroup extends Group {
 
 	/**
 	 * Ensure the group has its own group GameObject.
+	 * @param {DisplayObject} clip
 	 */
 	makeGroupObject( clip ) {
 		this._gameObject = this._gameObject || this._engine.Instantiate(clip);
@@ -66,6 +67,7 @@ export default class LoadGroup extends Group {
 
 	destroy() {
 
+		console.log('destroying load group');
 		this._loader = null;
 		if ( this._gameObject ) this._gameObject.Destroy();
 

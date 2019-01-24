@@ -1,8 +1,14 @@
 export default class System {
 
+	/**
+	 * {Game}
+	 */
 	get game() { return this._game;}
 	set game(v) { this._game = v;}
 
+	/**
+	 * {boolean}
+	 */
 	get enabled() { return this._enabled; }
 	set enabled(v) { this._enabled =v;}
 

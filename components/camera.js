@@ -181,6 +181,8 @@ export default class Camera extends Component {
 			pos.y + (destY- pos.y)/4
 		);
 
+		//console.log('cam pos: ' + pos.x + ', '+ pos.y );
+
 		this._viewRect.x = -pos.x;
 		this._viewRect.y = -pos.y;
 	

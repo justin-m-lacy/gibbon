@@ -40,6 +40,11 @@ export default class Group {
 	 */
 	get subgroups() { return this._subgroups; }
 
+	/**
+	 * 
+	 * @param {Game} game 
+	 * @param {DisplayObject} [clip=null] 
+	 */
 	constructor( game, clip=null ) {
 
 		this._paused = false;
@@ -82,6 +87,9 @@ export default class Group {
 
 	}
 
+	/**
+	 * Show all the objects in the group and subgroups.
+	 */
 	show() {
 
 		if ( this._clip ) this._clip.visible = false;
@@ -108,6 +116,10 @@ export default class Group {
 
 	}
 
+	/**
+	 * 
+	 * @param {string} gname 
+	 */
 	findGroup( gname ) {
 
 		if ( !this._subgroups ) return null;
@@ -119,6 +131,10 @@ export default class Group {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param {Group} g 
+	 */
 	addGroup( g ) {
 
 		if ( !this._subgroups ) this._subgroups = [];
@@ -126,6 +142,10 @@ export default class Group {
 
 	}
 
+	/**
+	 * 
+	 * @param {Group} g 
+	 */
 	removeGroup( g ) {
 
 		if ( !this._subgroups ) return;

@@ -32,6 +32,10 @@ export default class LayerManager {
 	 */
 	get layerCount() { return this.stage.children.length; }
 
+	/**
+	 * 
+	 * @param {Game} game 
+	 */
 	constructor(game){
 
 		this.game = game;
@@ -43,6 +47,7 @@ export default class LayerManager {
 	/**
 	 * Add a layer to the stage.
 	 * @param {string} name - the name of the layer clip.
+	 * @param {number} at - index where the new clip is placed.
 	 * @returns {Container} the clip created.
 	 */
 	addLayer( name, at ) {
@@ -56,6 +61,10 @@ export default class LayerManager {
 
 	}
 
+	/**
+	 * 
+	 * @param {*} layerData 
+	 */
 	initLayers( layerData=null ) {
 
 		let stage = this.stage;
@@ -77,6 +86,10 @@ export default class LayerManager {
 	
 	}
 
+	/**
+	 * 
+	 * @param {*} layerData 
+	 */
 	initFromData( layerData ) {
 
 		let stage = this.game.stage;

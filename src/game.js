@@ -106,7 +106,7 @@ export default class Game {
 	 */
 	constructor( app ) {
 
-		this._app = app instanceof PIXI.Application ? app : new PIXI.Application( app );
+		this._app = ( app.constructor ) ? app : new PIXI.Application( app );
 
 		this._screen = this._app.screen;
 		this._stage = this._app.stage;
@@ -138,7 +138,6 @@ export default class Game {
 
 		this._engine.factory = this._factory;
 		let layerManager = new LayerManager(this);
-
 
 		layerManager.initLayers( layerData );
 		this._layerManager = layerManager;
