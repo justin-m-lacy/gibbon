@@ -4,25 +4,31 @@ import {quickSplice } from '../utils/arrayutils';
 
 export default class Engine {
 
+	/**
+	 * @property {Library}
+	 */
 	get library() { return this._lib; }
 	set library(v) { this._lib = v;}
 
+	/**
+	 * @property {Factory}
+	 */
 	get factory() { return this._factory; }
 	set factory(v) { this._factory=v;}
 
 	/**
-	 * {GameObject[]}
+	 * @property {GameObject[]}
 	 */
 	get objects() { return this._objects; }
 
 	/**
-	 * {Container}
+	 * @property {Container}
 	 */
 	get objectLayer() { return this._objectLayer; }
 	set objectLayer(v) { this._objectLayer = v;}
 
 	/**
-	 * {Object[]} Updaters are for systems or objects with update
+	 * @property {Object[]} Updaters are for systems or objects with update
 	 * functions that don't require complex GameObjects.
 	 */
 	get updaters() { return this._updaters; }
@@ -50,6 +56,7 @@ export default class Engine {
 	 * @param {string} key 
 	 * @param {Point} [loc=null]
 	 * @param {Object} [vars=null] variables to use in creating the new object.
+	 * @returns {GameObject}
 	 */
 	Create( key, loc=null, vars=null) {
 
@@ -61,8 +68,9 @@ export default class Engine {
 
 	/**
 	 * Instantiate a GameObject with a clip or a named clonable object from the library.
-	 * @param {DisplayObject} clip 
-	 * @param {PIXI.Point} loc 
+	 * @param {DisplayObject} [clip=null] 
+	 * @param {PIXI.Point} [loc=null] 
+	 * @returns {GameObject}
 	 */
 	Instantiate( clip=null, loc=null ) {
 
@@ -149,7 +157,8 @@ export default class Engine {
 
 	/**
 	 * Remove a GameObject from the Engine.
-	 * @param {GameObject} obj 
+	 * @param {GameObject} obj
+	 * @returns {boolean}
 	 */
 	remove( obj ) {
 

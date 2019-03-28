@@ -8,27 +8,27 @@ export default class LayerManager {
 	//get layers() { return this._layers;}
 
 	/**
-	 * {DisplayObject}
+	 * @property {DisplayObject}
 	 */
 	get background() { return this._background; }
 
 	/**
-	 * {DisplayObject}
+	 * @property {DisplayObject}
 	 */
 	get foreground() { return this._foreground; }
 
 	/**
-	 * {Container}
+	 * @property {Container}
 	 */
 	get objectLayer() { return this._objectLayer; }
 
 	/**
-	 * {Container}
+	 * @property {Container}
 	 */
 	get uiLayer() { return this._uiLayer;}
 
 	/**
-	 * {number}
+	 * @property {number}
 	 */
 	get layerCount() { return this.stage.children.length; }
 
@@ -47,15 +47,15 @@ export default class LayerManager {
 	/**
 	 * Add a layer to the stage.
 	 * @param {string} name - the name of the layer clip.
-	 * @param {number} at - index where the new clip is placed.
+	 * @param {number} index - index where the new clip is placed.
 	 * @returns {Container} the clip created.
 	 */
-	addLayer( name, at ) {
+	addLayer( name, index ) {
 
 		let clip = new Container();
 		clip.name = name;
-		if ( at === null || at === undefined ) this.stage.addChild( clip );
-		else this.stage.addChildAt( clip, at );
+		if ( index === null || index === undefined ) this.stage.addChild( clip );
+		else this.stage.addChildAt( clip, index );
 
 		return clip;
 
@@ -63,7 +63,7 @@ export default class LayerManager {
 
 	/**
 	 * 
-	 * @param {*} layerData 
+	 * @param {*} [layerData=null]
 	 */
 	initLayers( layerData=null ) {
 

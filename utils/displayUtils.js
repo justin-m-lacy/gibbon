@@ -1,3 +1,7 @@
+/**
+ * 
+ * @param {DisplayObject} clip 
+ */
 export const moveTop = ( clip ) => {
 
 	if ( !clip.parent ) return;

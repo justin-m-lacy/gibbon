@@ -5,38 +5,38 @@
 export default class Group {
 
 	/**
-	 * {DisplayObject}
+	 * @property {DisplayObject}
 	 */
 	get clip() { return this._clip; }
 
 	/**
-	 * {string}
+	 * @property {string}
 	 */
 	get name() { return this._name; }
 	set name(v) { this._name =v;}
 
 	/**
-	 * {GameObject[]}
+	 * @property {GameObject[]}
 	 */
 	get objects() { return this._objects; }
 
 	/**
-	 * {Game}
+	 * @property {Game}
 	 */
 	get game() { return this._game;}
 
 	/**
-	 * {Engine}
+	 * @property {Engine}
 	 */
 	get engine() { return this._engine;}
 
 	/**
-	 * {Boolean}
+	 * @property {boolean}
 	 */
 	get paused() { return this._paused; }
 
 	/**
-	 * {Group[]} [subgroups=undefined]
+	 * @property {Group[]} [subgroups=undefined]
 	 */
 	get subgroups() { return this._subgroups; }
 

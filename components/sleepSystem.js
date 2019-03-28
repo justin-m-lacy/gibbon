@@ -4,19 +4,19 @@ import { quickSplice } from "../utils/arrayutils";
 export default class SleepSystem extends Component {
 
 	/**
-	 * {number} - frames between sleep/unsleep checks.
+	 * @property {number} checkTime - frames between sleep/unsleep checks.
 	 */
 	get checkTime() { return this._checkTime; }
 	set checkTime(v) { this._checkTime = v;}
 
 	/**
-	 * {number} distance offscreen at which object is hidden.
+	 * @property {number} hideDist - distance offscreen at which object is hidden.
 	 */
 	get hideDist() { return this._hideDist; }
 	set hideDist(v) { this._hideDist =v; }
 
 	/**
-	 * {number} distance at which object is slept.
+	 * @property {number} sleepDist - distance at which object is slept.
 	 */
 	get sleepDist() { return this._sleepDist; }
 	set sleepDist(v) { this._sleepDist = v; }

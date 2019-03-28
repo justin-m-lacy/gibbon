@@ -22,9 +22,11 @@ export default class Factory {
 	 * instance.
 	 * @param {string} key 
 	 * @param {Function} func 
+	 * @returns {Factory} this.
 	 */
 	addCreator( key, func ) {
 		this.builds[key] = func;
+		return this;
 	}
 
 	/**

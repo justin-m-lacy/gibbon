@@ -25,6 +25,7 @@ export default class ObjectPool {
 	 * 
 	 * @param {DisplayObject} [clip=null] 
 	 * @param {PIXI.Point} [pos=null]
+	 * @returns {GameObject}
 	 */
 	get( clip=null, pos=null ) {
 

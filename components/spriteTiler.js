@@ -2,6 +2,9 @@ import Component from "../src/component";
 
 export default class SpriteTiler extends Component {
 
+	/**
+	 * @property {DisplayObject} DisplayObject to follow.
+	 */
 	get target() { return this._target;}
 	set target(v) {
 		this._target=v;

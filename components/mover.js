@@ -4,7 +4,7 @@ import { Point } from "pixi.js";
 export default class Mover extends Component {
 
 	/**
-	 * {number} wraps gameObject rotation in radians.
+	 * @property {number} rotation - wraps gameObject rotation in radians.
 	 */
 	get rotation() { return this._clip.rotation; }
 	set rotation(v) {
@@ -14,49 +14,49 @@ export default class Mover extends Component {
 	}
 
 	/**
-	 * {PIXI.Point}
+	 * @property {PIXI.Point} position
 	 */
 	get position() { return this._clip.position; }
 	set position(v) { this._clip.position = v;}
 
 	/**
-	 * {PIXI.Point}
+	 * @property {PIXI.Point} velocity
 	 */
 	get velocity() { return this._velocity; }
 	set velocity(v) { this._velocity.set(v.x, v.y); }
 
 	/**
-	 * {PIXI.Point}
+	 * @property {PIXI.Point} accel
 	 */
 	get accel() { return this._accel;}
 	set accel(v) { this._accel.set(v.x,v.y );}
 
 	/**
-	 * {number} Maximum absolute value of velocity.
+	 * @property {number} velocityMax - Maximum absolute value of velocity.
 	 */
 	get velocityMax() { return this._velocityMax; }
 	set velocityMax(v) { this._velocityMax = v;}
 
 	/**
-	 * {number}
+	 * @property {number} accelMax
 	 */
 	get accelMax() { return this._accelMax; }
 	set accelMax(v) { this._accelMax = v; }
 
 	/**
-	 * {number}
+	 * @property {number} omegaAcc
 	 */
 	get omegaAcc() { return this._omegaAcc; }
 	set omegaAcc(v) { this._omegaAcc = v;}
 
 	/**
-	 * {number} angular velocity in radians/frame.
+	 * @property {number} omega - angular velocity in radians/frame.
 	 */
 	get omega() { return this._omega;}
 	set omega(v) { this._omega=v;}
 
 	/**
-	 * {number}
+	 * @property {number} omegaMax
 	 */
 	get omegaMax() { return this._omegaMax;}
 	set omegaMax(v) { this._omegaMax = v;}

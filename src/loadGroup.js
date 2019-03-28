@@ -1,20 +1,24 @@
 import Group from "./group";
 import { DisplayObject, Container } from "pixi.js";
+import { GameObject } from "..";
 
 /**
  * Group with methods for defining, loading, and managing assets.
  */
 export default class LoadGroup extends Group {
 
+	/**
+	 * @property {PIXI.loader} loader
+	 */
 	get loader() { return this._loader || this.game.loader; }
 
 	/**
-	 * {LayerManager} Wrapper for Game layer manager.
+	 * @property {LayerManager} layerManager - Wrapper for Game layer manager.
 	 */
 	get layerManager() { return this._game.layerManager; }
 
 	/**
-	 * {GameObject}
+	 * @property {GameObject} gameObject
 	 */
 	get gameObject() { return this._gameObject; }
 
@@ -53,6 +57,7 @@ export default class LoadGroup extends Group {
 	/**
 	 * Ensure the group has its own group GameObject.
 	 * @param {DisplayObject} clip
+	 * @returns {GameObject}
 	 */
 	makeGroupObject( clip ) {
 		this._gameObject = this._gameObject || this._engine.Instantiate(clip);

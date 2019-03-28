@@ -1,9 +1,11 @@
 import { Point } from 'pixi.js';
 import Component from '../src/component';
-import GameObject from '../src/gameObject';
 
 export default class Camera extends Component {
 
+	/**
+	 * {DisplayObject}
+	 */
 	get target() { return this._target; }
 	set target(v) {
 
@@ -66,6 +68,9 @@ export default class Camera extends Component {
 	 */
 	get viewRect() { return this._viewRect; }
 
+	/**
+	 * {Rectangle} Size of the Canvas.
+	 */
 	get screen() { return this._screen; }
 	set screen(v) { this._screen = v;}
 

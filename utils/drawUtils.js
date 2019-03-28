@@ -6,7 +6,7 @@ import {Graphics} from 'pixi.js';
  * Object itself placed at the Shape's x,y location.
  * @param {PIXI.Rectangle|PIXI.Circle|PIXI.Polygon|PIXI.Ellipse}
  * @returns {PIXI.GraphicsData|Object} graphicsData - information on how to draw the shape.
- * @returns {Graphics|null}
+ * @returns {?Graphics}
  */
 function createShape( shape, graphicsData ) {
 

@@ -2,48 +2,51 @@ import {Point} from 'pixi.js';
 import * as PIXI from 'pixi.js';
 import { quickSplice } from '../utils/arrayutils';
 
+/**
+ * 
+ */
 export default class GameObject {
 
-	static SetGame(v) {this.Game =v;}
+	static SetGame(v) {this.Game = v;}
 	static GetGame(){ return this.Game; }
 
 	static GetEngine() { return this.Engine;}
 	static SetEngine(v) { this.Engine = v;}
 
 	/**
-	 * {Game}
+	 * @property {Game} game
 	 */
 	get game() {
 		return GameObject.Game;
 	}
 
 	/**
-	 * {Group} group the game object belongs to, if any.
+	 * @property {Group} group - owning group of the gameObject, if any.
 	 */
 	get group() { return this._group; }
 	set group(v) { this._group = v;}
 
 	/**
-	 * {number} bit-flags applied to this GameObject.
+	 * @property {number} flags - bit-flags applied to this GameObject.
 	 */
 	get flags() { return this._flags; }
 	set flags(v) { this._flags = v; }
 
 	/**
-	 * {string} Name of the GameObject.
+	 * @property {string} name - Name of the GameObject.
 	 */
 	get name() { return this._name; }
 	set name(v){this._name = v;}
 
 	/**
-	 * {boolean}
+	 * @property {boolean} active
 	 */
 	get active() { return this._active; }
 	set active(v){this._active=v;}
 
 
 	/**
-	 * {Point} Position of the object and Display clip.
+	 * @property {Point} position - Position of the object and Display clip.
 	 */
 	get position() { return this._position; }
 	set position(v) {
@@ -53,19 +56,19 @@ export default class GameObject {
 	}
 
 	/**
-	 * {number}
+	 * @property {number} x
 	 */
 	get x(){ return this._position.x; }
 	set x(v) { this._position.x = v;}
 
 	/**
-	 * {number}
+	 * @property {number} y
 	 */
 	get y() { return this._position.y; }
 	set y(v) { this._position.y = v; }
 
 	/**
-	 * {number} Rotation in radians.
+	 * @property {number} rotation - Rotation in radians.
 	 */
 	get rotation() { return this._clip.rotation; }
 	set rotation(v) {
@@ -75,19 +78,19 @@ export default class GameObject {
 	}
 
 	/**
-	 * {boolean} Set the interactivity for the GameObject.
+	 * @property {boolean} interactive - Set the interactivity for the GameObject.
 	 * The setting is ignored if the GameObject has no clip.
 	 */
 	get interactive() { return this._clip ? this._clip.interactive : false; }
 	set interactive(v) { if ( this._clip ) this._clip.interactive = v; }
 
 	/**
-	 * {EventEmitter3} - the object clip's emitter, or a new emitter, if object has no clip.
+	 * @property {EventEmitter3} emitter - the object clip's emitter, or a new emitter, if object has no clip.
 	 */
 	get emitter() { return this._clip ? this._clip : this._emitter; }
 
 	/**
-	 * {Point} returns the orientation vector of this object.
+	 * @property {Point} orient - returns the normalized orientation vector of the object.
 	 */
 	get orient() {
 
@@ -97,7 +100,7 @@ export default class GameObject {
 	}
 
 	/**
-	 * {boolean}
+	 * @property {boolean} visible
 	 */
 	get visible() { return this._clip && this._clip.visible; }
 	set visible(v) { this._clip.visible = v;}
@@ -110,19 +113,19 @@ export default class GameObject {
 	set destroying() { this._destroying=true;}*/
 
 	/**
-	 * {boolean}
+	 * @property {boolean} destroyed
 	 */
 	get destroyed(){ return this._destroyed }
 
 	/**
-	 * {DisplayObject} clip of the gameObject. This must be set at the time
+	 * @property {DisplayObject} clip - clip of the gameObject. This must be set at the time
 	 * of GameObject creation, and cannot be changed.
 	 */
 	get clip() { return this._clip; }
 
 	/**
 	 * 
-	 * @param {DisplayObject} clip 
+	 * @param {DisplayObject} [clip=null] 
 	 * @param {Point} [pos=null] 
 	 */
 	constructor( clip=null, pos=null ){
@@ -159,6 +162,7 @@ export default class GameObject {
 	 * @param {string} evt 
 	 * @param {function} func 
 	 * @param {*} [context=null]
+	 * @returns {PIXI.utils.EventEmitter}
 	 */
 	on( evt, func, context=null ) {
 		if ( this._clip !== null ) return this._clip.on( evt, func, context );
@@ -178,6 +182,7 @@ export default class GameObject {
 	/**
 	 * Add an existing component to the GameObject.
 	 * @param {Component} inst
+	 * @param {?Object} [cls=null]
 	 * @returns {Component} Returns the instance.
 	 */
 	addExisting( inst, cls=null ) {
@@ -193,7 +198,8 @@ export default class GameObject {
 
 	/**
 	 * Instantiate and add a component to the GameObject.
-	 * @param {class} cls - component class to instantiate. 
+	 * @param {class} cls - component class to instantiate.
+	 * @returns {Object}
 	*/
 	add( cls ) {
 		return this.addExisting( new cls(), cls );
@@ -204,7 +210,8 @@ export default class GameObject {
 	 * false for objects without clips or clip.hitAreas.
 	 * @param {Vector|Object} pt
 	 * @param {number} pt.x
-	 * @param {number} pt.y 
+	 * @param {number} pt.y
+	 * @returns {boolean}
 	 */
 	contains( pt ) {
 
@@ -222,12 +229,14 @@ export default class GameObject {
 	 * @param {number} y 
 	 */
 	translate( x, y ) {
-		//this.pos.set( this.pos.x + x, this.pos.y + y );
 		this._position.x += x;
 		this._position.y += y;
-		//this.clip.position = this.pos;
 	}
 
+	/**
+	 * 
+	 * @param {*} cls 
+	 */
 	get( cls ) {
 
 		let inst = this._compMap.get(cls);
@@ -240,6 +249,10 @@ export default class GameObject {
 
 	}
 
+	/**
+	 * 
+	 * @param {*} cls 
+	 */
 	require( cls ) {
 
 		let inst = this._compMap.get(cls);
@@ -293,7 +306,7 @@ export default class GameObject {
 	/**
 	 * 
 	 * @param {Component} comp - the component to remove from the game object.
-	 * @param {bool} destroy - whether the component should be destroyed.
+	 * @param {bool} [destroy=true] - whether the component should be destroyed.
 	 */
 	remove( comp, destroy=true){
 
@@ -323,6 +336,13 @@ export default class GameObject {
 		this._clip.visible = false;
 	}
 
+	/**
+	 * Set options for destroying the PIXI DisplayObject when
+	 * the GameObject is destroyed.
+	 * @param {boolean} children 
+	 * @param {boolean} texture 
+	 * @param {boolean} baseTexture 
+	 */
 	setDestroyOpts( children, texture, baseTexture ) {
 
 		if ( !this._destroyOpts ) this._destroyOpts = {};

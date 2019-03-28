@@ -12,63 +12,69 @@ import { quickSplice } from '../utils/arrayutils';
 export default class Game {
 
 	/**
-	 * {PIXI.Application}
+	 * @property {PIXI.Application} app
 	 */
 	get app() {return this._app;}
 
 	/**
-	 * {PIXI.Container}
+	 * @property {PIXI.Container} stage
 	 */
 	get stage() { return this._stage;}
 
+	/**
+	 * @property {PIXI.loader} loader
+	 */
 	get loader() { return this._loader;}
 	set loader(v) { this._loader = v;}
 
 	/**
-	 * {PIXI.Rectangle} - Screen/View Rectangle.
+	 * @property {PIXI.Rectangle} screen - Screen/View Rectangle.
 	 */
 	get screen() { return this._screen;}
 
 	/**
-	 * {Camera} Camera component.
+	 * @property {Camera} camera - Camera component.
 	 */
 	get camera() { return this._camera; }
 
 	/**
-	 * {GameObject} GameObject containing the main Camera component
+	 * @property {GameObject} rootObject - GameObject containing the main Camera component
 	 * and base objectLayer.
 	 */
 	get rootObject() { return this._rootObject; }
 
 
 	/**
-	 * {PIXI.Container}
+	 * @property {PIXI.Container} objectLayer
 	 */
 	get objectLayer() { return this._objectLayer; }
 
 	/**
-	 * {PIXI.Container} Container for ui objects.
+	 * @property {PIXI.Container} uiLayer - Container for ui objects.
 	 */
 	get uiLayer() { return this._uiLayer; }
 
+	/**
+	 * @property {PIXI.Container} backgroundLayer
+	 */
 	get backgroundLayer() { return this._layerManager.background; }
 
 	/**
-	 * {PIXI.ticker.Ticker} - Game Ticker.
+	 * @property {PIXI.ticker.Ticker} ticker - Game Ticker.
 	 */
 	get ticker() { return this._ticker; }
 	/**
-	 * {PIXI.ticker.Ticker} - Shared non-game ticker. (UI Elements, nonpausing effects.)
+	 * @property {PIXI.ticker.Ticker} sharedTicker - Shared non-game ticker. (UI Elements, nonpausing effects.)
 	*/
 	get sharedTicker() { return this._sharedTicker; }
 
 	/**
-	 * {PIXI.utils.EventEmitter} Game-level Emitter. By default, the PIXI shared EventEmitter.
+	 * @property {PIXI.utils.EventEmitter} emitter - Game-level Emitter. By default, the PIXI shared EventEmitter.
 	 */
 	get emitter() { return this._emitter;}
 
 	/**
-	 * {Factory} Factory used for Object creation.
+	 * @property {Factory} factory - Factory used for Object creation.
 	 */
 	get factory() { return this._factory; }
 	set factory(v) {
@@ -77,26 +83,29 @@ export default class Game {
 	}
 
 	/**
-	 * {Boolean} Whether wheel events are dispatched.
+	 * @property {boolean} wheelEnabled - Whether wheel events are dispatched.
 	 */
 	get wheelEnabled() { return this._wheelEnabled; }
 
 	/**
-	 * {number} Amount by which to scroll wheel input.
+	 * @property {number} wheelScale - Amount by which to scroll wheel input.
 	 */
 	get wheelScale() { return this._wheelScale; }
 	set wheelScale(v) { this._wheelScale = v; }
 
 	/**
-	 * {Group[]}
+	 * @property {Group[]} groups
 	 */
 	get groups() { return this._groups; }
 
 	/**
-	 * {Engine}
+	 * @property {Engine} engine
 	 */
 	get engine() { return this._engine; }
 
+	/**
+	 * @property {LayerManager} layerManager
+	 */
 	get layerManager() { return this._layerManager; }
 
 	/**
@@ -161,10 +170,30 @@ export default class Game {
 	}
 
 	/**
+	 * Size the game to the full browser window.
+	 * @returns {function} The resize event listener, so it can be removed later.
+	 */
+	fullscreen() {
+	
+		this.app.renderer.resize( document.body.clientWidth, document.body.clientHeight );
+
+		let resizer = ()=>{
+			this.app.renderer.resize(
+				document.body.clientWidth,
+				document.body.clientHeight );
+		};
+		window.addEventListener( 'resize', resizer );
+
+		return resizer;
+
+	}
+
+	/**
 	 * Wrapper for default game event emitter.
 	 * @param {string} event 
 	 * @param {Function} func 
-	 * @param {*} context 
+	 * @param {*} [context=null]
+	 * @returns {PIXI.utils.EventEmitter}
 	 */
 	on( event, func, context=null ) {
 		return this._emitter.on( event, func, context );
@@ -172,7 +201,8 @@ export default class Game {
 
 	/**
 	 * 
-	 * @param {string} name 
+	 * @param {string} name
+	 * @returns {?Group}
 	 */
 	findGroup(name) {
 		return this._groups.find( (g)=>g.name===name );
@@ -188,16 +218,18 @@ export default class Game {
 
 	/**
 	 * 
-	 * @param {Group} g 
+	 * @param {Group} g
+	 * @returns {boolean} True if g was found and removed.
 	 */
 	removeGroup(g) {
 
 		for( let i = this._groups.length-1; i >= 0; i-- ) {
 			if ( this._groups[i] === g) {
 				quickSplice( this._groups, i );
-				return;
+				return true;
 			}
 		}
+		return false;
 
 	}
 
@@ -207,20 +239,36 @@ export default class Game {
 	 */
 	addObject(gameObject){ this._engine.add( gameObject); }
 
+	/**
+	 * 
+	 * @param {*} sys 
+	 */
 	addUpdater( sys ) { this._engine.addUpdater(sys); }
+
+	/**
+	 * 
+	 * @param {*} sys 
+	 */
 	removeUpdater(sys) { this._engine.removeUpdater(sys);}
 
 	/**
 	 * 
 	 * @param {function} func 
-	 * @param {*} context 
+	 * @param {*} context
+	 * @returns {PIXI.ticker.Ticker}
 	 */
 	addUpdate( func, context ) {
 		this.ticker.add( func, context );
 	}
 
+	/**
+	 * 
+	 * @param {function} func 
+	 * @param {*} context
+	 * @returns {PIXI.ticker.Ticker} 
+	 */
 	removeUpdate( func, context ){
-		this.ticker.remove(func, context);
+		return this.ticker.remove(func, context);
 	}
 
 	pause() { this._ticker.stop(); }
@@ -228,7 +276,8 @@ export default class Game {
 
 	/**
 	 * Creates an empty game object with a Container clip.
-	 * @param {Point|Object} loc 
+	 * @param {Point|Object} [loc=null]
+	 * @return {GameObject}
 	 */
 	makeEmpty( loc=null ) {
 		return this.engine.Instantiate( new PIXI.Container(), loc );
@@ -254,6 +303,7 @@ export default class Game {
 	 * @param {*} target - target of the Tween. 
 	 * @param {number} time - tween time.
 	 * @param {Object} config - configuration object for TweenMax tween.
+	 * @returns {TweenMax}
 	 */
 	createTween( target, time, config ) {
 		return TweenMax.to( target, time, config );

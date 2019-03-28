@@ -5,73 +5,95 @@ import { Sprite, Graphics } from "pixi.js";
  */
 export default class SkinData {
 
+	/**
+	 * @property {} graphicsData
+	 */
 	get graphicsData() { return this._graphics || null; }
 	set graphicsData(v) { this._graphics=v;}
 
+	/**
+	 * @property {number} lineWidth
+	 */
 	get lineWidth() { return this._lineWidth; }
 	set lineWidth(v) { this._lineWidth =v;}
 
+	/**
+	 * @property {number} lineColor
+	 */
 	get lineColor() { return this._lineColor; }
 	set lineColor(v) { this._lineColor=v;}
 
+	/**
+	 * @property {number} lineAlpha
+	 */
 	get lineAlpha() { return this._lineAlpha; }
 	set lineAlpha(v) { this._lineAlpha = v;}
 
 	/**
-	 * {boolean}
+	 * @property {boolean} fill
 	 */
 	get fill() { return this._fill; }
 	set fill(v) { this._fill=v;}
 
+	/**
+	 * @property {number} fillColor
+	 */
 	get fillColor() { return this._fillColor; }
 	set fillColor(v) { this._fillColor=v;}
 
+	/**
+	 * @property {number} fillAlpha
+	 */
 	get fillAlpha(){return this._fillAlpha;}
 	set fillAlpha(v) { this._fillAlpha=v;}
 
 	/**
-	 * {PIXI.Circle|PIXI.Rectangle|PIXI.Ellipse|PIXI.Polygon|PIXI.RoundedRect} Optional Shape information.
+	 * @property {PIXI.Circle|PIXI.Rectangle|PIXI.Ellipse|PIXI.Polygon|PIXI.RoundedRect} shape - Optional Shape information.
 	 * Not that unlike in PIXI.GraphicsData, this is actually a shape object.
 	 */
 	get shape(){  return this._shape;}
 	set shape(v) { this._shape =v;}
 
 	/**
-	 * {number}
+	 * @property {number}
 	 */
 	get radius() { return this._radius; }
 	set radius(v) { this._raidus = v; }
 
 	/**
-	 * {number}
+	 * @property {number} width
 	 */
 	get width() { return this._width; }
 	set width(v) {this._width=v;}
 
 	/**
-	 * {number}
+	 * @property {number} height
 	 */
 	get height() { return this._height; }
 	set height(v) { this._height=v; }
 
 	/**
-	 * {PIXI.Point[]}
+	 * @property {PIXI.Point[]} points
 	 */
 	get points() { return this._points; }
 	set points(v) { this._points=v; }
 
 	/**
-	 * {number} A type from PIXI.Shapes
+	 * @property {number} type - A type from PIXI.Shapes
 	 */
 	get type() { return this._shape ? this._shape.type : this._type; }
 	set type(v) { this._type = v;}
 
 	/**
-	 * {PIXI.Texture}
+	 * @property {PIXI.Texture} texture
 	 */
 	get texture() { return this._texture;}
 	set texture(v) { this._texture=v;}
 
+	/**
+	 * 
+	 * @param {Object} [opts=null] 
+	 */
 	constructor( opts=null ) {
 
 		if ( opts ) Object.apply( this, opts );

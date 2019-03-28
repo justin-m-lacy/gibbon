@@ -3,28 +3,28 @@ import GameObject from "./gameObject";
 export default class Component {
 
 	/**
-	 * {Game}
+	 * @property {Game} game
 	 */
 	get game() { return GameObject.Game; }
 
 	/**
-	 * {number} Convenience accessor for GameObject.flags.
+	 * @property {number} flags - Convenience accessor for GameObject.flags.
 	 */
 	get flags() { return this._gameObject.flags; }
 	set flags(v) { this._gameObject.flags = v; }
 
 	/**
-	 * {GameObject} - Game object containing this component.
+	 * @property {GameObject} - Game object containing this component.
 	 */
 	get gameObject() { return this._gameObject; }
 
 	/**
-	 * {Group} Group controlled the component's GameObject, if any.
+	 * @property {Group} group - Group controlling the component's GameObject, if any.
 	 */
 	get group() { return this._gameObject._group; }
 
 	/**
-	 * {Boolean} Whether the component is enabled.
+	 * @property {boolean} enabled - Whether the component is enabled.
 	 */
 	get enabled(){ return this._enabled;}
 	set enabled(v) {
@@ -40,19 +40,19 @@ export default class Component {
 	}
 
 	/**
-	 * {number}
+	 * @property {number} x
 	 */
 	get x() { return this._clip.x; }
 	set x(v) { this._clip.x = v;}
 
 	/**
-	 * {number}
+	 * @property {number} y
 	*/
 	get y() { return this._clip.y; }
 	set y(v) { this._clip.y = v;}
 
 	/**
-	* {number} underlying clip rotation in radians.
+	* @property {number} rotation - underlying clip rotation in radians.
 	*/
 	get rotation() { return this._clip.rotation; }
 	set rotation(v) {
@@ -64,7 +64,7 @@ export default class Component {
 	}
 
 	/**
-	 * {PIXI.Point}
+	 * @property {PIXI.Point} position
 	 */
 	get position() { return this._gameObject.position; }
 	set position(v) {
@@ -72,17 +72,16 @@ export default class Component {
 	}
 
 	/**
-	 * {DisplayObject} Convenience accessor for GameObject clip.
+	 * @property {DisplayObject} clip - Convenience accessor for GameObject clip.
 	 */
 	get clip() { return this._clip; }
 
 	/**
-	 * {Boolean}
+	 * @property {Boolean} destroyed
 	 */
 	get destroyed() { return this._destroyed; }
 
-	constructor(){
-	}
+	constructor(){}
 
 	/**
 	 * Override init() in subclass.
@@ -107,6 +106,7 @@ export default class Component {
 	/**
 	 * 
 	 * @param {class} cls - class to add to the component's game object.
+	 * @returns {Component}
 	 */
 	add( cls ) {
 		return this._gameObject.add( cls );
@@ -123,13 +123,15 @@ export default class Component {
 
 	/**
 	 * 
-	 * @param {class} cls - wrapper for gameObject get() 
+	 * @param {class} cls - wrapper for gameObject get()
+	 * @returns {Component|null}
 	 */
 	get(cls) { return this._gameObject.get(cls);}
 
 	/**
 	 * Wraps GameObject require().
 	 * @param {*} cls 
+	 * @returns {Component}
 	 */
 	require(cls) { return this._gameObject.require(cls); }
 
@@ -137,9 +139,7 @@ export default class Component {
 	 * Use to destroy a Component.
 	 * Do not call _destroy() or destroy() directly.
 	 */
-	Destroy() {
-		this._destroy();
-	}
+	Destroy() { this._destroy(); }
 
 	/**
 	 * calls destroy() and cleans up any variables.

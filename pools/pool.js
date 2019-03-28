@@ -31,6 +31,10 @@ export default class Pool {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param {*} key 
+	 */
 	getList( key ) {
 
 		let list = this._byType.get(key);
