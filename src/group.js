@@ -5,33 +5,34 @@
 export default class Group {
 
 	/**
-	 * @property {DisplayObject}
+	 * @property {DisplayObject} clip - clip associated with group, if any.
+	 * Objects added to the group are added to clip's child clips.
 	 */
 	get clip() { return this._clip; }
 
 	/**
-	 * @property {string}
+	 * @property {string} name
 	 */
 	get name() { return this._name; }
 	set name(v) { this._name =v;}
 
 	/**
-	 * @property {GameObject[]}
+	 * @property {GameObject[]} objects
 	 */
 	get objects() { return this._objects; }
 
 	/**
-	 * @property {Game}
+	 * @property {Game} game
 	 */
 	get game() { return this._game;}
 
 	/**
-	 * @property {Engine}
+	 * @property {Engine} engine
 	 */
 	get engine() { return this._engine;}
 
 	/**
-	 * @property {boolean}
+	 * @property {boolean} paused
 	 */
 	get paused() { return this._paused; }
 

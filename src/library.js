@@ -16,9 +16,9 @@ export default class Library {
 
 	/**
 	 * 
-	 * @param {*} name 
-	 * @param {Point|Object} [p=null] - point to place instance.
-	 * @returns {*} Object created, or null.
+	 * @param {string} name 
+	 * @param {Point|?Object} [p=null] - point to place instance.
+	 * @returns {?Object} Object created, or null.
 	 */
 	instance( name, p=null) {
 

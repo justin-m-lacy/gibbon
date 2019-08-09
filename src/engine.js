@@ -5,30 +5,30 @@ import {quickSplice } from '../utils/arrayutils';
 export default class Engine {
 
 	/**
-	 * @property {Library}
+	 * @property {Library} library
 	 */
 	get library() { return this._lib; }
 	set library(v) { this._lib = v;}
 
 	/**
-	 * @property {Factory}
+	 * @property {Factory} factory
 	 */
 	get factory() { return this._factory; }
 	set factory(v) { this._factory=v;}
 
 	/**
-	 * @property {GameObject[]}
+	 * @property {GameObject[]} objects
 	 */
 	get objects() { return this._objects; }
 
 	/**
-	 * @property {Container}
+	 * @property {Container} objectLayer
 	 */
 	get objectLayer() { return this._objectLayer; }
 	set objectLayer(v) { this._objectLayer = v;}
 
 	/**
-	 * @property {Object[]} Updaters are for systems or objects with update
+	 * @property {Object[]} updaters - Updaters are for systems or objects with update
 	 * functions that don't require complex GameObjects.
 	 */
 	get updaters() { return this._updaters; }
@@ -85,7 +85,6 @@ export default class Engine {
 	}
 
 	start() {
-
 	}
 
 	stop(){
