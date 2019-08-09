@@ -1,14 +1,14 @@
 {
   "name": "gibbon.js",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "GameObject/Component system for use with pixi.js.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-	  "type": "git",
-	  "url": "https://github.com/lerpinglemur/gibbon.git"
+    "type": "git",
+    "url": "https://github.com/lerpinglemur/gibbon.git"
   },
   "keywords": [
     "Component",
