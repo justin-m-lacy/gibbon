@@ -4,8 +4,8 @@
 export default class Factory {
 
 	/**
-	 * 
-	 * @param {Gibbon.Game} game 
+	 *
+	 * @param {Gibbon.Game} game
 	 */
 	constructor( game ) {
 
@@ -13,19 +13,23 @@ export default class Factory {
 		this.engine = game.engine;
 		this.viewRect = game.screen;
 
-		this.builds = {};
+		this.builds = new Map();
 
 	}
 
 	/**
 	 * Associates a key with the given creator function, binding it to this factory
 	 * instance.
-	 * @param {string} key 
-	 * @param {Function} func 
+	 * @param {string} key
+	 * @param {Function} func
+	 * @param {?object} data - data to pass as first argument to create function.
 	 * @returns {Factory} this.
 	 */
-	addCreator( key, func ) {
-		this.builds[key] = func;
+	addCreator( key, func, data ) {
+
+		if ( data ) func = func.bind( this, data );
+
+		this.builds.set( key, func );
 		return this;
 	}
 
@@ -35,7 +39,8 @@ export default class Factory {
 	 * @returns {GameObject} Object created.
 	 */
 	create( key, ...args ){
-		let build = this.builds[key];
+
+		let build = this.builds.get( key );
 		if ( !build ) return null;
 
 		return build.apply( this, args );

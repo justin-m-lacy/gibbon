@@ -22,7 +22,7 @@ export default class Game {
 	get stage() { return this._stage;}
 
 	/**
-	 * @property {PIXI.loader} loader
+	 * @property {PIXI.Loader} loader
 	 */
 	get loader() { return this._loader;}
 	set loader(v) { this._loader = v;}
@@ -60,11 +60,11 @@ export default class Game {
 	get backgroundLayer() { return this._layerManager.background; }
 
 	/**
-	 * @property {PIXI.ticker.Ticker} ticker - Game Ticker.
+	 * @property {PIXI.Ticker} ticker - Game Ticker.
 	 */
 	get ticker() { return this._ticker; }
 	/**
-	 * @property {PIXI.ticker.Ticker} sharedTicker - Shared non-game ticker. (UI Elements, nonpausing effects.)
+	 * @property {PIXI.Ticker} sharedTicker - Shared non-game ticker. (UI Elements, nonpausing effects.)
 	*/
 	get sharedTicker() { return this._sharedTicker; }
 
@@ -109,9 +109,9 @@ export default class Game {
 	get layerManager() { return this._layerManager; }
 
 	/**
-	 * 
+	 *
 	 * @param {PIXI.Application|Object} app - The pixi application, or options object.
-	 * If an options object is supplied, it is used to create a new PIXI.Application. 
+	 * If an options object is supplied, it is used to create a new PIXI.Application.
 	 */
 	constructor( app ) {
 
@@ -123,12 +123,12 @@ export default class Game {
 		this._stage.hitArea = this._screen;
 
 		this._wheelScale = 1;
-		this._loader = PIXI.loaders.shared;
+		this._loader = PIXI.Loader.shared;
 
 		this._groups = [];
 
-		this._ticker = new PIXI.ticker.Ticker();
-		this._sharedTicker = PIXI.ticker.shared;
+		this._ticker = new PIXI.Ticker();
+		this._sharedTicker = PIXI.Ticker.shared;
 
 		this._emitter = new PIXI.utils.EventEmitter();
 
@@ -141,7 +141,7 @@ export default class Game {
 
 	/**
 	 * After init(), game layers will be available for use.
-	 * @param {*} layerData 
+	 * @param {*} layerData
 	 */
 	init( layerData=null ) {
 
@@ -174,7 +174,7 @@ export default class Game {
 	 * @returns {function} The resize event listener, so it can be removed later.
 	 */
 	fullscreen() {
-	
+
 		this.app.renderer.resize( document.body.clientWidth, document.body.clientHeight );
 
 		let resizer = ()=>{
@@ -190,8 +190,8 @@ export default class Game {
 
 	/**
 	 * Wrapper for default game event emitter.
-	 * @param {string} event 
-	 * @param {Function} func 
+	 * @param {string} event
+	 * @param {Function} func
 	 * @param {*} [context=null]
 	 * @returns {PIXI.utils.EventEmitter}
 	 */
@@ -200,7 +200,7 @@ export default class Game {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param {string} name
 	 * @returns {?Group}
 	 */
@@ -209,15 +209,15 @@ export default class Game {
 	}
 
 	/**
-	 * 
-	 * @param {Group} g 
+	 *
+	 * @param {Group} g
 	 */
 	addGroup(g) {
 		this._groups.push(g);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param {Group} g
 	 * @returns {boolean} True if g was found and removed.
 	 */
@@ -235,37 +235,37 @@ export default class Game {
 
 	/**
 	 * Wrapper for Engine.add(gameObject)
-	 * @param {GameObject} gameObject 
+	 * @param {GameObject} gameObject
 	 */
 	addObject(gameObject){ this._engine.add( gameObject); }
 
 	/**
-	 * 
-	 * @param {*} sys 
+	 *
+	 * @param {*} sys
 	 */
 	addUpdater( sys ) { this._engine.addUpdater(sys); }
 
 	/**
-	 * 
-	 * @param {*} sys 
+	 *
+	 * @param {*} sys
 	 */
 	removeUpdater(sys) { this._engine.removeUpdater(sys);}
 
 	/**
-	 * 
-	 * @param {function} func 
+	 *
+	 * @param {function} func
 	 * @param {*} context
-	 * @returns {PIXI.ticker.Ticker}
+	 * @returns {PIXI.Ticker}
 	 */
 	addUpdate( func, context ) {
 		this.ticker.add( func, context );
 	}
 
 	/**
-	 * 
-	 * @param {function} func 
+	 *
+	 * @param {function} func
 	 * @param {*} context
-	 * @returns {PIXI.ticker.Ticker} 
+	 * @returns {PIXI.Ticker}
 	 */
 	removeUpdate( func, context ){
 		return this.ticker.remove(func, context);
@@ -286,8 +286,8 @@ export default class Game {
 	/**
 	 * Replaces any existing tweens on the target with a newly created one.
 	 * Convenience accesor for setting config data.
-	 * @param {*} target 
-	 * @param {number} time 
+	 * @param {*} target
+	 * @param {number} time
 	 * @param {Object} config
 	 * @returns {TweenMax} - The tween created.
 	 */
@@ -299,8 +299,8 @@ export default class Game {
 	}
 
 	/**
-	 * 
-	 * @param {*} target - target of the Tween. 
+	 *
+	 * @param {*} target - target of the Tween.
 	 * @param {number} time - tween time.
 	 * @param {Object} config - configuration object for TweenMax tween.
 	 * @returns {TweenMax}
@@ -317,7 +317,7 @@ export default class Game {
 		if ( this._wheelEnabled === true ) return;
 
 		let mgr = this.app.renderer.plugins.interaction;
-	
+
 		this._wheelEnabled = true;
 
 		// store to remove later.
@@ -325,7 +325,7 @@ export default class Game {
 
 			let evt = new PIXI.interaction.InteractionEvent();
 			let data = new PIXI.interaction.InteractionData();
-	
+
 			data.originalEvent = e;
 			data.deltaY = e.deltaY*this.wheelScale;
 			data.deltaX = e.deltaX*this.wheelScale;

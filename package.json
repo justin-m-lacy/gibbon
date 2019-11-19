@@ -23,7 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "gsap": "^2.0.2",
-    "pixi.js": "^4.8.5"
+    "pixi.js": "^5.2.0"
   },
   "devDependencies": {
     "webpack": "^4.28.4",

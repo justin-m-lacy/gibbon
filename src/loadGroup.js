@@ -8,7 +8,7 @@ import { GameObject } from "..";
 export default class LoadGroup extends Group {
 
 	/**
-	 * @property {PIXI.loader} loader
+	 * @property {PIXI.Loader} loader
 	 */
 	get loader() { return this._loader || this.game.loader; }
 
@@ -23,7 +23,7 @@ export default class LoadGroup extends Group {
 	get gameObject() { return this._gameObject; }
 
 	/**
-	 * @param {Game} game 
+	 * @param {Game} game
 	 * @param {DisplayObject} [clip=null]
 	 * @param {Loader} [loader=null] - Loader to use for loading resources. If null,
 	 * the game's shared loader is used.
@@ -33,7 +33,7 @@ export default class LoadGroup extends Group {
 	constructor(game, clip=null, loader=null, createObject=false ) {
 
 		super(game, clip);
-	
+
 		if ( loader ) this._loader = loader;
 		if ( createObject) this.makeGroupObject( new Container() );
 
