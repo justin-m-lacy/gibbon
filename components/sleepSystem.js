@@ -1,5 +1,5 @@
 import Component from "../src/component";
-import { quickSplice } from "../utils/arrayutils";
+import { quickSplice } from "../utils/arrayUtils";
 
 export default class SleepSystem extends Component {
 
@@ -22,8 +22,8 @@ export default class SleepSystem extends Component {
 	set sleepDist(v) { this._sleepDist = v; }
 
 	/**
-	 * 
-	 * @param {number} hideDist - distance offscreen at which object should hide. 
+	 *
+	 * @param {number} hideDist - distance offscreen at which object should hide.
 	 * @param {number} sleepDist - distance offscreen at which object should sleep.
 	 * @param {number} checkTime - number of frames between sleep checks.
 	 */

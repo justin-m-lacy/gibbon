@@ -8,11 +8,13 @@ import Library from './src/library';
 import Game from './src/game'
 import Group from './src/group';
 import LoadGroup from './src/loadGroup';
+import Geom from './utils/geom';
 
-export {Engine, Game, Component, Factory, GameObject, Mover, Camera, Library, Group, LoadGroup };
+export {Engine, Game, Component, Factory, GameObject, Mover, Camera, Library, Group, LoadGroup, Geom };
 
 const Gibbon = {
 
+	Geom,
 	Engine,
 	Game,
 	Group,

@@ -4,16 +4,41 @@
 export default class Factory {
 
 	/**
+	 * @property {PIXI.renderer} renderer - game renderer to pre-render objects to textures.
+	 */
+	get renderer(){return this._game.renderer;}
+
+	/**
+	 * @property {Gibbon.Game} game
+	 */
+	get game(){return this._game; }
+
+	/**
+	 * @property {Gibbon.Engine} engine
+	 */
+	get engine(){ return this.game.engine;}
+
+	/**
+	 * @property {PIXI.Rectangle} viewRect
+	 */
+	get viewRect(){ return this._viewRect;}
+
+	/**
+	 * @property {Map.<string,function>} builds
+	 */
+	get builds(){ return this._builds;}
+
+	/**
 	 *
 	 * @param {Gibbon.Game} game
 	 */
 	constructor( game ) {
 
-		this.game = game;
-		this.engine = game.engine;
-		this.viewRect = game.screen;
+		this._game = game;
+		this._engine = game.engine;
+		this._viewRect = game.screen;
 
-		this.builds = new Map();
+		this._builds = new Map();
 
 	}
 

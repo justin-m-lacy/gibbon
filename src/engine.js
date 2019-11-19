@@ -1,6 +1,6 @@
 import GameObject from './gameObject';
 import Library from './library';
-import {quickSplice } from '../utils/arrayutils';
+import {quickSplice } from '../utils/arrayUtils';
 
 export default class Engine {
 
@@ -52,8 +52,8 @@ export default class Engine {
 	}
 
 	/**
-	 * 
-	 * @param {string} key 
+	 *
+	 * @param {string} key
 	 * @param {Point} [loc=null]
 	 * @param {Object} [vars=null] variables to use in creating the new object.
 	 * @returns {GameObject}
@@ -68,8 +68,8 @@ export default class Engine {
 
 	/**
 	 * Instantiate a GameObject with a clip or a named clonable object from the library.
-	 * @param {DisplayObject} [clip=null] 
-	 * @param {PIXI.Point} [loc=null] 
+	 * @param {DisplayObject} [clip=null]
+	 * @param {PIXI.Point} [loc=null]
 	 * @returns {GameObject}
 	 */
 	Instantiate( clip=null, loc=null ) {
@@ -92,7 +92,7 @@ export default class Engine {
 
 	/**
 	 * Add a GameObject to the engine.
-	 * @param {GameObject} obj 
+	 * @param {GameObject} obj
 	*/
 	add(obj) {
 
@@ -110,16 +110,16 @@ export default class Engine {
 	}
 
 	/**
-	 * 
-	 * @param {System|Object} sys 
+	 *
+	 * @param {System|Object} sys
 	 */
 	addUpdater( sys ) {
 		this._updaters.push( sys );
 	}
 
 	/**
-	 * 
-	 * @param {System|Object} sys 
+	 *
+	 * @param {System|Object} sys
 	 */
 	removeUpdater( sys ) {
 
@@ -165,7 +165,7 @@ export default class Engine {
 		if ( ind < 0 ) return false;
 
 		this._objects.splice( ind, 0 );
-	
+
 		//this._objects[ind] = this._objects[ this._objects.length-1];
 		//this._objects.pop();
 
@@ -175,7 +175,7 @@ export default class Engine {
 
 	/**
 	 * Destroy a game object.
-	 * @param {GameObject} obj 
+	 * @param {GameObject} obj
 	 */
 	destroy(obj) {
 

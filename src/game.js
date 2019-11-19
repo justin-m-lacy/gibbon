@@ -4,7 +4,7 @@ import Engine from './engine';
 import * as PIXI from 'pixi.js';
 import GameObject from './gameObject';
 import Camera from '../components/camera';
-import { quickSplice } from '../utils/arrayutils';
+import { quickSplice } from '../utils/arrayUtils';
 
 /**
  * Extendable Game class.
@@ -15,6 +15,12 @@ export default class Game {
 	 * @property {PIXI.Application} app
 	 */
 	get app() {return this._app;}
+
+	/**
+	 * @property {PIXI.Renderer} renderer - renderer for application.
+	 * Convenience accessor. Cache for quick access.
+	 */
+	get renderer() {return this._app.renderer; }
 
 	/**
 	 * @property {PIXI.Container} stage
@@ -140,7 +146,7 @@ export default class Game {
 	}
 
 	/**
-	 * After init(), game layers will be available for use.
+	 * After init(), layerManager and game layers are available for use.
 	 * @param {*} layerData
 	 */
 	init( layerData=null ) {

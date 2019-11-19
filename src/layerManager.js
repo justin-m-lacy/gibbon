@@ -1,7 +1,10 @@
 import { Container } from "pixi.js";
 
 /**
- * Handles basic layers.
+ * Use to keep track of basic game layers.
+ * Each layer is a separate PIXI.Container objects on the stage.
+ * Possibly change these layers to GameObjects in the future, but at the moment
+ * they're easier to deal with as raw PIXI Containers.
  */
 export default class LayerManager {
 
@@ -33,8 +36,8 @@ export default class LayerManager {
 	get layerCount() { return this.stage.children.length; }
 
 	/**
-	 * 
-	 * @param {Game} game 
+	 *
+	 * @param {Game} game
 	 */
 	constructor(game){
 
@@ -62,7 +65,7 @@ export default class LayerManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param {*} [layerData=null]
 	 */
 	initLayers( layerData=null ) {
@@ -78,17 +81,17 @@ export default class LayerManager {
 		clip.name = "objects";
 		stage.addChild( clip );
 		this._objectLayer = clip;
-	
+
 		clip = new Container();
 		clip.name = 'uiLayer';
 		stage.addChild( clip );
 		this._uiLayer = clip;
-	
+
 	}
 
 	/**
-	 * 
-	 * @param {*} layerData 
+	 *
+	 * @param {*} layerData
 	 */
 	initFromData( layerData ) {
 

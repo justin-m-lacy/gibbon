@@ -1,9 +1,9 @@
 import {Point} from 'pixi.js';
 import * as PIXI from 'pixi.js';
-import { quickSplice } from '../utils/arrayutils';
+import { quickSplice } from '../utils/arrayUtils';
 
 /**
- * 
+ *
  */
 export default class GameObject {
 
@@ -124,9 +124,9 @@ export default class GameObject {
 	get clip() { return this._clip; }
 
 	/**
-	 * 
-	 * @param {DisplayObject} [clip=null] 
-	 * @param {Point} [pos=null] 
+	 *
+	 * @param {DisplayObject} [clip=null]
+	 * @param {Point} [pos=null]
 	 */
 	constructor( clip=null, pos=null ){
 
@@ -158,9 +158,9 @@ export default class GameObject {
 	}
 
 	/**
-	 * 
-	 * @param {string} evt 
-	 * @param {function} func 
+	 *
+	 * @param {string} evt
+	 * @param {function} func
 	 * @param {*} [context=null]
 	 * @returns {PIXI.utils.EventEmitter}
 	 */
@@ -224,9 +224,9 @@ export default class GameObject {
 	}
 
 	/**
-	 * 
-	 * @param {number} x 
-	 * @param {number} y 
+	 *
+	 * @param {number} x
+	 * @param {number} y
 	 */
 	translate( x, y ) {
 		this._position.x += x;
@@ -234,8 +234,8 @@ export default class GameObject {
 	}
 
 	/**
-	 * 
-	 * @param {*} cls 
+	 *
+	 * @param {*} cls
 	 */
 	get( cls ) {
 
@@ -250,8 +250,8 @@ export default class GameObject {
 	}
 
 	/**
-	 * 
-	 * @param {*} cls 
+	 *
+	 * @param {*} cls
 	 */
 	require( cls ) {
 
@@ -268,7 +268,7 @@ export default class GameObject {
 	/**
 	 * Creates a copy of the given component and adds it
 	 * to this GameObject.
-	 * @param {Component} comp 
+	 * @param {Component} comp
 	 */
 	addCopy( comp ) {
 
@@ -281,8 +281,8 @@ export default class GameObject {
 	}
 
 	/**
-	 * 
-	 * @param {number} delta 
+	 *
+	 * @param {number} delta
 	 */
 	update( delta ){
 
@@ -304,7 +304,7 @@ export default class GameObject {
 
 
 	/**
-	 * 
+	 *
 	 * @param {Component} comp - the component to remove from the game object.
 	 * @param {bool} [destroy=true] - whether the component should be destroyed.
 	 */
@@ -339,9 +339,9 @@ export default class GameObject {
 	/**
 	 * Set options for destroying the PIXI DisplayObject when
 	 * the GameObject is destroyed.
-	 * @param {boolean} children 
-	 * @param {boolean} texture 
-	 * @param {boolean} baseTexture 
+	 * @param {boolean} children
+	 * @param {boolean} texture
+	 * @param {boolean} baseTexture
 	 */
 	setDestroyOpts( children, texture, baseTexture ) {
 
@@ -358,7 +358,7 @@ export default class GameObject {
 	 * Do not call _destroy() directly.
 	 */
 	Destroy() {
-		
+
 		this._destroyed = true;
 
 		let comps = this._components;
@@ -375,7 +375,7 @@ export default class GameObject {
 	_destroy() {
 
 		if ( this._clip ) this._clip.destroy( this._destroyOpts || true );
-	
+
 		this._clip = null;
 
 		this._position = null;
