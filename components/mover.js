@@ -81,13 +81,22 @@ export default class Mover extends Component {
 
 	}
 
+	/**
+	 * Set mover velocity.
+	 * @param {number} vx
+	 * @param {number} vy
+	 */
+	set(vx,vy) {
+		this.velocity.set(vx,vy);
+	}
+
 	update(delta) {
 
 		//this.clip.position = pos;
 		if ( this._omegaAcc !== 0 ) this._omega += this._omegaAcc*delta;
 		if ( this._omega > this._omegaMax ) this._omega = this._omegaMax;
 		else if ( this._omega < -this._omegaMax ) this._omega = -this._omegaMax;
-		
+
 		this.rotation += this._omega*delta;
 		console.assert( Math.abs(this.clip.rotation) <= 2*Math.PI, 'ERR: Large Mover Rotation: ' + this.clip.rotation );
 

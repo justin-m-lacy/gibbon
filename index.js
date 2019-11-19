@@ -9,8 +9,9 @@ import Game from './src/game'
 import Group from './src/group';
 import LoadGroup from './src/loadGroup';
 import Geom from './utils/geom';
+import Rand from './utils/rand';
 
-export {Engine, Game, Component, Factory, GameObject, Mover, Camera, Library, Group, LoadGroup, Geom };
+export {Engine, Game, Component, Factory, GameObject, Mover, Camera, Library, Group, LoadGroup, Geom, Rand };
 
 const Gibbon = {
 
@@ -24,7 +25,8 @@ const Gibbon = {
 	Factory,
 	Library,
 	Camera,
-	Mover
+	Mover,
+	Rand
 
 }
 export default Gibbon;

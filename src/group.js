@@ -42,9 +42,9 @@ export default class Group {
 	get subgroups() { return this._subgroups; }
 
 	/**
-	 * 
-	 * @param {Game} game 
-	 * @param {DisplayObject} [clip=null] 
+	 *
+	 * @param {Game} game
+	 * @param {DisplayObject} [clip=null]
 	 */
 	constructor( game, clip=null ) {
 
@@ -94,7 +94,7 @@ export default class Group {
 	show() {
 
 		if ( this._clip ) this._clip.visible = false;
-		
+
 		if ( this.subgroups ) {
 			for( let i = this.subgroups.length-1; i>=0; i-- ) {
 				this.subgroups[i].show();
@@ -118,8 +118,8 @@ export default class Group {
 	}
 
 	/**
-	 * 
-	 * @param {string} gname 
+	 *
+	 * @param {string} gname
 	 */
 	findGroup( gname ) {
 
@@ -133,8 +133,8 @@ export default class Group {
 	}
 
 	/**
-	 * 
-	 * @param {Group} g 
+	 *
+	 * @param {Group} g
 	 */
 	addGroup( g ) {
 
@@ -144,8 +144,8 @@ export default class Group {
 	}
 
 	/**
-	 * 
-	 * @param {Group} g 
+	 *
+	 * @param {Group} g
 	 */
 	removeGroup( g ) {
 
@@ -160,8 +160,16 @@ export default class Group {
 	}
 
 	/**
-	 * 
-	 * @param {GameObject} obj 
+	 * Add a PIXI DisplayObject as a child of the group's clip..
+	 * @param {DisplayObject} clip
+	 */
+	addChild( clip ) {
+		if ( this._clip ) this._clip.addChild( clip );
+	}
+
+	/**
+	 *
+	 * @param {GameObject} obj
 	 */
 	add( obj ) {
 
