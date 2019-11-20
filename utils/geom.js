@@ -113,6 +113,24 @@ export default {
 	},
 
 	/**
+	 * @returns {PIXI.Matrix} - reflection matrix across the normal a,b.
+	 */
+	reflection:(a,b)=>{
+		return new PIXI.Matrix( 1-2*b*b, 2*a*b, 2*a*b, 1-2*a*a );
+	},
+
+	/**
+	 * @returns {PIXI.Point} point normal to p.
+	 */
+	norm:(p)=>{ return new Point(p.y, -p.x)},
+
+	/**
+	 * @returns {number} - magnitude of the cross product p1xp2
+	 * left hand rule; normals point screen upwards.
+	 */
+	cross:(p1, p2)=>{ return p1.x*p2.y - p1.y*p2.x; },
+
+	/**
 	 * move() is separate from translate() because of how PIXI
 	 * handles Polygon point storage.
 	 * @property {PIXI.Polygon} poly - polygon to translate.
