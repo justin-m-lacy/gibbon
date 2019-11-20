@@ -133,7 +133,7 @@ export default class Engine {
 	update( delta ) {
 
 		let objs = this._updaters;
-		for( let i = objs-length-1; i>=0; i-- ) {
+		for( let i = objs.length-1; i>=0; i-- ) {
 			objs[i].update( delta );
 		}
 
