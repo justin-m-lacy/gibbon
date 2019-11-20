@@ -134,15 +134,14 @@ export default class Engine {
 
 		let objs = this._updaters;
 		for( let i = objs-length-1; i>=0; i-- ) {
-			objs[i].update(detlta);
+			objs[i].update( delta );
 		}
 
 		objs = this._objects;
-		let obj;
 
 		for( let i = objs.length-1; i>=0; i-- ) {
 
-			obj = objs[i];
+			var obj = objs[i];
 			if ( obj.destroyed === true ) {
 
 				obj._destroy();

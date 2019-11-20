@@ -1,6 +1,7 @@
 import System from "../src/system";
 import { Rectangle, DisplayObject } from "pixi.js";
 import Game from "../src/game";
+import { quickSplice } from "../utils/arrayUtils";
 
 /**
  *
@@ -50,7 +51,10 @@ export default class BoundsDestroy extends System {
 			if ( this.bounds.contains( pos.x, pos.y ) === false ) {
 
 				if ( this.onExit ) this.onExit( o );
-				else o.Destroy();
+				else {
+					quickSplice( this.objects, i);
+					o.Destroy();
+				}
 
 			}
 
