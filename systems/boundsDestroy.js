@@ -28,10 +28,10 @@ export default class BoundsDestroy extends System {
 	/**
 	 *
 	 * @param {Game} game
-	 * @param {Rectangle} rect
 	 * @param {DisplayObject} clip
+	 * @param {Rectangle} rect
 	 */
-	constructor( game, rect, clip=null ){
+	constructor( game, clip=null, rect=null ){
 
 		super( game, clip )
 
@@ -40,6 +40,8 @@ export default class BoundsDestroy extends System {
 	}
 
 	update( delta ) {
+
+		if (!this.bounds) return;
 
 		for( let i = this.objects.length-1; i >= 0; i-- ) {
 

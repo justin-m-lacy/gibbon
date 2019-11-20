@@ -11,7 +11,7 @@ import Camera from './components/camera';
 import Library from './src/library';
 import Game from './src/game'
 import Group from './src/group';
-import System from './systems/system';
+import System from './src/system';
 import LoadGroup from './src/loadGroup';
 import Geom from './utils/geom';
 import Rand from './utils/rand';
