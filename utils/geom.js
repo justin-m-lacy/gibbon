@@ -113,6 +113,15 @@ export default {
 	},
 
 	/**
+	 * sets the values of mat to a reflection across normal axis a,b
+	 * without altering tx,ty.
+	 * @returns {Matrix}
+	 */
+	setReflect:(mat,a,b)=>{
+		mat.set(  1-2*b*b, 2*a*b, 2*a*b, 1-2*a*a, mat.tx, mat.ty);
+	},
+
+	/**
 	 * @returns {PIXI.Matrix} - reflection matrix across the normal a,b.
 	 */
 	reflection:(a,b)=>{
