@@ -1,4 +1,4 @@
-import {TweenMax} from 'gsap';
+import {gsap} from 'gsap';
 import LayerManager from './layerManager';
 import Engine from './engine';
 import * as PIXI from 'pixi.js';
@@ -293,26 +293,30 @@ export default class Game {
 	 * Replace existing tweens on the target with a newly created one.
 	 * Convenience accesor for setting config data.
 	 * @param {*} target
-	 * @param {number} time
 	 * @param {object} config
-	 * @returns {TweenMax} - The tween created.
+	 * @param {?number} time
+	 * @returns {Tween} - The tween created.
 	 */
-	replaceTween( target, time, config ) {
+	replaceTween( target, config, time ) {
 
+		if ( time ) config.duration = time;
 		config.overwrite = 'all';
-		return TweenMax.to( target, time, config );
+		return gsap.to( target, config );
 
 	}
 
 	/**
 	 * Convenience function for creating new tween.
 	 * @param {*} target - target of the Tween.
-	 * @param {number} time - tween time.
-	 * @param {Object} config - configuration object for TweenMax tween.
-	 * @returns {TweenMax}
+	 * @param {Object} config - configuration object for gsap tween.
+	 * @param {?number} time - tween time.
+	 * @returns {Tween}
 	 */
-	createTween( target, time, config ) {
-		return TweenMax.to( target, time, config );
+	createTween( target, config, time ) {
+
+		if ( time ) config.duration = time;
+		return gsap.to( target, config );
+
 	}
 
 	/**

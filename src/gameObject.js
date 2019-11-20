@@ -77,6 +77,9 @@ export default class GameObject {
 		this._clip.rotation = v;
 	}
 
+	get width() { return this.clip ? this.clip.width : 0; }
+	get hieght() { return this.clip ? this.clip.height : 0; }
+
 	/**
 	 * @property {boolean} interactive - Set the interactivity for the GameObject.
 	 * The setting is ignored if the GameObject has no clip.
