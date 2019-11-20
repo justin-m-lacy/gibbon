@@ -47,12 +47,17 @@ export default class BoundsDestroy extends System {
 		for( let i = this.objects.length-1; i >= 0; i-- ) {
 
 			var o = this.objects[i];
+			if ( o.destroyed ) {
+				quickSplice( this.objects, i);
+				continue;
+			}
+
 			var pos = o.position;
 			if ( this.bounds.contains( pos.x, pos.y ) === false ) {
 
 				if ( this.onExit ) this.onExit( o );
 				else {
-					quickSplice( this.objects, i);
+
 					o.Destroy();
 				}
 
