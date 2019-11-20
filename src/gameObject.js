@@ -287,16 +287,16 @@ export default class GameObject {
 	update( delta ){
 
 		let comps = this._components;
-		let comp;
+
 		for( let i = comps.length-1; i>=0; i-- ) {
 
-			comp = comps[i];
+			var comp = comps[i];
 			if ( comp._destroyed === true ) {
 
 				quickSplice( comps, i );
 				continue;
 			}
-			if ( comp.sleep !== true && comp.enabled === true && comp.update ) comp.update(delta );
+			if ( comp.update && comp.sleep !== true && comp.enabled === true ) comp.update(delta );
 
 		}
 

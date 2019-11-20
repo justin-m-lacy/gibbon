@@ -1,10 +1,6 @@
-export default class System {
+import Group from "./group";
 
-	/**
-	 * @property {Game} game
-	 */
-	get game() { return this._game;}
-	set game(v) { this._game = v;}
+export default class System extends Group {
 
 	/**
 	 * @property {boolean} enabled
@@ -13,21 +9,47 @@ export default class System {
 	set enabled(v) { this._enabled =v;}
 
 	/**
-	 * 
-	 * @param {Game} game 
+	 *
+	 * @param {Game} game
 	 */
-	constructor(game){
+	constructor( game, clip=null ){
 
-		this.game = game;
+		super( game, clip );
 
+	}
+
+	pause(){
+
+		if ( this.enabled){
+			this.game.removeUpdater(this);
+		}
+		super.pause();
+
+	}
+
+	unpause(){
+
+		if ( this.enabled ) {
+			this.start();
+		}
+		super.unpause();
 
 	}
 
 	start(){
 		this._enabled = true;
+
+		if ( !this.paused ) {
+			this.game.addUpdater(this);
+		}
+
 	}
+
 	stop(){
+
 		this._enabled = false;
+		this.game.removeUpdater(this);
+
 	}
 
 	update(delta ) {

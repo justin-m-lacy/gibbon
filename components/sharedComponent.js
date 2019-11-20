@@ -1,5 +1,9 @@
 import Component from '../src/component';
 
+/**
+ * Not fully developed.
+ * Referencing gameObject on SharedComponent is not currently safe.
+ */
 export default class SharedComponent extends Component {
 
 	constructor() {

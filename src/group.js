@@ -160,7 +160,9 @@ export default class Group {
 	}
 
 	/**
-	 * Add a PIXI DisplayObject as a child of the group's clip..
+	 * Add a PIXI DisplayObject as a child of the group's clip.
+	 * Not recommended for production use, but for quick prototyping
+	 * without using full GameObjects.
 	 * @param {DisplayObject} clip
 	 */
 	addChild( clip ) {

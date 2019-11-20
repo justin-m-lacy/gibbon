@@ -77,6 +77,8 @@ export default class Component {
 	get clip() { return this._clip; }
 
 	/**
+	 * Indicates the component has been marked for disposal and should no longer
+	 * be referenced.
 	 * @property {Boolean} destroyed
 	 */
 	get destroyed() { return this._destroyed; }
@@ -89,8 +91,8 @@ export default class Component {
 	init(){}
 
 	/**
-	 * 
-	 * @param {GameObject} gameObject 
+	 * Private initializer calls subclass init()
+	 * @param {GameObject} gameObject
 	 */
 	_init( gameObject ) {
 
@@ -104,7 +106,7 @@ export default class Component {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param {class} cls - class to add to the component's game object.
 	 * @returns {Component}
 	 */
@@ -122,7 +124,7 @@ export default class Component {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param {class} cls - wrapper for gameObject get()
 	 * @returns {Component|null}
 	 */
@@ -130,7 +132,7 @@ export default class Component {
 
 	/**
 	 * Wraps GameObject require().
-	 * @param {*} cls 
+	 * @param {*} cls
 	 * @returns {Component}
 	 */
 	require(cls) { return this._gameObject.require(cls); }
