@@ -1,5 +1,6 @@
 import Engine from './src/engine';
 import Component from './src/component';
+import Components from './components/components';
 import Factory from './src/factory';
 import GameObject  from './src/gameObject';
 import Mover from './components/mover';
@@ -11,10 +12,11 @@ import LoadGroup from './src/loadGroup';
 import Geom from './utils/geom';
 import Rand from './utils/rand';
 
-export {Engine, Game, Component, Factory, GameObject, Mover, Camera, Library, Group, LoadGroup, Geom, Rand };
+export {Engine, Game, Component, Factory, GameObject, Mover, Camera, Library, Group, LoadGroup, Geom, Rand, Components };
 
 const Gibbon = {
 
+	Components,
 	Geom,
 	Engine,
 	Game,

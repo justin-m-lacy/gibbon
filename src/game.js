@@ -290,11 +290,11 @@ export default class Game {
 	}
 
 	/**
-	 * Replaces any existing tweens on the target with a newly created one.
+	 * Replace existing tweens on the target with a newly created one.
 	 * Convenience accesor for setting config data.
 	 * @param {*} target
 	 * @param {number} time
-	 * @param {Object} config
+	 * @param {object} config
 	 * @returns {TweenMax} - The tween created.
 	 */
 	replaceTween( target, time, config ) {
@@ -305,7 +305,7 @@ export default class Game {
 	}
 
 	/**
-	 *
+	 * Convenience function for creating new tween.
 	 * @param {*} target - target of the Tween.
 	 * @param {number} time - tween time.
 	 * @param {Object} config - configuration object for TweenMax tween.
