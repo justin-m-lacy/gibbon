@@ -1,6 +1,7 @@
 import GameObject from './gameObject';
 import Library from './library';
 import {quickSplice } from '../utils/arrayUtils';
+import * as PIXI from 'pixi.js';
 
 export default class Engine {
 
@@ -46,7 +47,8 @@ export default class Engine {
 
 		this._lib = new Library();
 
-		//this._sharedTicker = PIXI.ticker.shared;
+
+		//this.ticker = PIXI.Ticker.shared;
 
 		GameObject.SetEngine(this);
 	}

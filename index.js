@@ -14,7 +14,7 @@ import Game from './src/game'
 import Group from './src/group';
 import System from './src/system';
 import LoadGroup from './src/loadGroup';
-import Geom from './utils/geom';
+import * as Geom from './utils/geom';
 import Rand from './utils/rand';
 import CanvasDraw from './utils/canvasDraw';
 

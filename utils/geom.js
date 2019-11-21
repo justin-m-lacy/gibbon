@@ -1,10 +1,8 @@
 import * as PIXI from 'pixi.js';
 
-export default {
-
-	getLength:(p)=> {
+export const getLength=(p)=> {
 		return Math.sqrt(p.x*p.x +p.y*p.y);
-	},
+}
 
 	/**
 	 * Returns the distance between two points.
@@ -12,10 +10,10 @@ export default {
 	 * @param {*} p2
 	 * @returns {number}
 	 */
-	dist:( p1, p2) => {
+	export const dist=( p1, p2) => {
 		let dx = p2.x - p1.x, dy = p2.y - p1.y;
 		return Math.sqrt(dx*dx + dy*dy);
-	},
+	}
 
 	/**
 	 * Get the point located by travelling along a sequence of points
@@ -24,7 +22,7 @@ export default {
 	 * @param {number} dist
 	 * @returns {Point}
 	 */
-	getTravelPt:( points, dist ) => {
+	export const getTravelPt=( points, dist ) => {
 
 		let count = points.length;
 		let curPt, prevPt = points[0];
@@ -58,7 +56,17 @@ export default {
 
 		// point not found.
 		return points[count-1];
-	},
+	}
+
+	/**
+	 * Return an interpolated point.
+	 * @param {Point} p0
+	 * @param {Point} p1
+	 * @param {number} t
+	 */
+	export const interPt=(p0, p1, t)=>{
+		return new Point( (1-t)*p0.x + t*p1.x, (1-t)*p0.y+p1.y );
+	}
 
 	/**
 	 * Return a point falling a given distance between two points.
@@ -66,7 +74,7 @@ export default {
 	 * @param {Point} p2
 	 * @param {number} len - length between p2 and p1.
 	 */
-	getMidPt:( p1, p2, len ) => {
+	export const getMidPt=( p1, p2, len ) => {
 
 		let dx = p2.x - p1.x;
 		let dy = p2.y - p1.y;
@@ -81,14 +89,14 @@ export default {
 			p1.y + dy*d
 		)
 
-	},
+	}
 
 	/**
 	 *
 	 * @param {Point[]} points
 	 * @returns {Point} Center point of all points.
 	 */
-	getCenter:(points) => {
+	export const getCenter=(points) => {
 
 		if ( points.type === PIXI.SHAPES.POLY ) points = points.points;
 
@@ -110,41 +118,41 @@ export default {
 
 		return new Point(x,y);
 
-	},
+	}
 
 	/**
 	 * sets the values of mat to a reflection across normal axis a,b
 	 * without altering tx,ty.
 	 * @returns {Matrix}
 	 */
-	setReflect:(mat,a,b)=>{
+	export const setReflect=(mat,a,b)=>{
 		mat.set(  1-2*b*b, 2*a*b, 2*a*b, 1-2*a*a, mat.tx, mat.ty);
-	},
+	}
 
 	/**
 	 * @returns {PIXI.Matrix} - reflection matrix across the normal a,b.
 	 */
-	reflection:(a,b)=>{
+	export const reflection=(a,b)=>{
 		return new PIXI.Matrix( 1-2*b*b, 2*a*b, 2*a*b, 1-2*a*a );
-	},
+	}
 
 	/**
 	 * @returns {PIXI.Point} point normal to p.
 	 */
-	norm:(p)=>{ return new Point(p.y, -p.x)},
+	export const norm=(p)=>{ return new Point(p.y, -p.x)}
 
 	/**
 	 * @returns {number} - magnitude of the cross product p1xp2
 	 * left hand rule; normals point screen upwards.
 	 */
-	cross:(p1, p2)=>{ return p1.x*p2.y - p1.y*p2.x; },
+	export const cross=(p1, p2)=>{ return p1.x*p2.y - p1.y*p2.x; }
 
 	/**
 	 * move() is separate from translate() because of how PIXI
 	 * handles Polygon point storage.
 	 * @property {PIXI.Polygon} poly - polygon to translate.
 	 */
-	move:(poly,tx,ty)=>{
+	export const move=(poly,tx,ty)=>{
 
 		let points = poly.points;
 
@@ -155,12 +163,12 @@ export default {
 
 		}
 
-	},
+	}
 
 	/**
 	 * @property {Point[]} points
 	 */
-	translate:(points, tx, ty )=>{
+	export const translate=(points, tx, ty )=>{
 
 		for( let i = points.length-1; i>=0; i-- ) {
 
@@ -169,12 +177,12 @@ export default {
 
 		}
 
-	},
+	}
 
 	/**
 	 * @property {Point[]} points
 	 */
-	rotate:(points, theta )=>{
+	export const rotate=(points, theta )=>{
 
 		let cos = Math.cos(theta);
 		let sin = Math.sin(theta);
@@ -195,5 +203,3 @@ export default {
 		}
 
 	}
-
-}
