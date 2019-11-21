@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import {Point} from 'pixi.js';
 
 export const getLength=(p)=> {
 		return Math.sqrt(p.x*p.x +p.y*p.y);
@@ -139,7 +140,7 @@ export const getLength=(p)=> {
 	/**
 	 * @returns {PIXI.Point} point normal to p.
 	 */
-	export const norm=(p)=>{ return new Point(p.y, -p.x)}
+	export const norm=(p)=>{ return new PIXI.Point(p.y, -p.x)}
 
 	/**
 	 * @returns {number} - magnitude of the cross product p1xp2
