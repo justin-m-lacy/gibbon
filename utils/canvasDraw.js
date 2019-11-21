@@ -1,4 +1,4 @@
-import { htmlStr} from './colorUtils';
+import Colors from './colorUtils';
 
 export default class CanvasDraw {
 
@@ -20,11 +20,19 @@ export default class CanvasDraw {
 
 	}
 
+	getTexture(){
+		return PIXI.BaseTexture.from( this.draw.canvas );
+	}
+
+	/**
+	 *
+	 * @param {number} color
+	 */
 	fill( color ) {
 
 		var ctx = this._canvas.getContext('2d');
 
-		ctx.fillStyle( htmlStr(color) );
+		ctx.fillStyle = Colors.htmlStr(color);
 		ctx.fillRect( 0, 0, this.width, this.height );
 
 	}

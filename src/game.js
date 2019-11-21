@@ -287,7 +287,7 @@ export default class Game {
 	 * @param {PIXI.Point} [loc=null]
 	 * @returns {GameObject}
 	 */
-	Instantiate( clip=null, loc=null ) {
+	instantiate( clip=null, loc=null ) {
 		return this.engine.Instantiate(clip,loc);
 	}
 
