@@ -1,4 +1,6 @@
-export default class Gradient {
+import { htmlStr } from "../utils/colorUtils";
+
+export class Gradient {
 
 	/**
 	 * @property {number[]} colors
@@ -7,37 +9,46 @@ export default class Gradient {
 	set colors(v) { this._colors =v;}
 
 	/**
-	 * @property {number[]} percents - percent of fill
-	 * occupied by each color.
+	 * @property {number[]} stops - percent stops of each color.
+	 * first step should start at 0, last should be 1.
 	 */
-	get percents(){return this._percents;}
-	set percents(v){this._percents=v;}
+	get stops(){return this._stops;}
+	set stops(v){this._stops=v;}
 
-	constructor( colors, percents ){
+	constructor( colors, stops ){
 
 		this.colors = colors;
-		this.percents = percents;
+		this.stops = stops;
 
-		if ( this.colors.length !== this.percents.length ) console.warn('invalid gradient');
+		if ( this.colors.length !== this.stops.length ) console.warn('invalid gradient');
 	}
 
 	/**
-	 * Ensure percents add to 1.
+	 * Add the Gradient color steps to the CanvasGradient.
+	 * @param {CanvasGradient} grad
+	 */
+	addStops( grad ) {
+
+		for( let i = 0; i < this._stops.length; i++ ){
+
+			grad.addColorStop( this._stops[i], htmlStr(this._colors[i]) );
+
+		}
+
+	}
+
+	/**
+	 * Ensure steps range from 0 to 1.
 	 */
 	normalize(){
 
-		let a = this.percents;
+		let a = this.steps;
 		let tot = 0;
 		for( let i = a.length-1; i >=0; i--){
 			tot += a[i];
 		}
 
 		if ( tot === 1 ) return;
-
-		for( let i = a.length-1; i >=0; i--){
-			a[i] /= tot;
-		}
-
 	}
 
 }
