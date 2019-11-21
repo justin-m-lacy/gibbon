@@ -4,7 +4,7 @@ import Component from '../src/component';
 export default class Camera extends Component {
 
 	/**
-	 * {DisplayObject}
+	 * @property {DisplayObject}
 	 */
 	get target() { return this._target; }
 	set target(v) {
@@ -19,19 +19,19 @@ export default class Camera extends Component {
 	}
 
 	/**
-	 * {number}
+	 * @property {number}
 	 */
 	get minScale() { return this._minScale || 1; }
 	set minScale(v ) { this._minScale = v; }
 
 	/**
-	 * {number}
+	 * @property {number}
 	 */
 	get maxScale() {return this._maxScale || 1; }
 	set maxScale( v ) { this._maxScale = v; }
 
 	/**
-	* {number}
+	* @property {number}
 	*/
 	get viewScale() {
 		return this._viewScale;
@@ -44,7 +44,7 @@ export default class Camera extends Component {
 	}
 
 	/**
-	 * {number}
+	 * @property {number}
 	 */
 	get x(){return -this._panClip.x; }
 	set x(v) {
@@ -53,7 +53,7 @@ export default class Camera extends Component {
 	}
 
 	/**
-	 * {number}
+	 * @property {number}
 	 */
 	get y(){return -this._panClip.x;}
 	set y(v) {
@@ -64,41 +64,41 @@ export default class Camera extends Component {
 	}
 
 	/**
-	 * {Rectangle} Visible rectangle in the Camera's coordinate system.
+	 * @property {Rectangle} Visible rectangle in the Camera's coordinate system.
 	 */
 	get viewRect() { return this._viewRect; }
 
 	/**
-	 * {Rectangle} Size of the Canvas.
+	 * @property {Rectangle} Size of the Canvas.
 	 */
 	get screen() { return this._screen; }
 	set screen(v) { this._screen = v;}
 
 	/**
-	 * {PIXI.Point}
+	 * @property {PIXI.Point}
 	 */
 	get centerX() { return this._viewRect.x + this._halfWidth; }
 	get centerY() { return this._viewRect.y + this._halfHeight; }
 
 	/**
-	 * {PIXI.Point}
+	 * @property {PIXI.Point}
 	 */
 	get center() { return new Point( this._viewRect.x + this._halfWidth, this._viewRect.y + this._halfHeight );}
 
 	/**
-	 * {number}
+	 * @property {number}
 	 */
 	get left() { return this._viewRect.left; }
 	/**
-	 * {number}
+	 * @property {number}
 	 */
 	get right() { return this._viewRect.right; }
 	/**
-	 * {number}
+	 * @property {number}
 	 */
 	get top() { return this._viewRect.top; }
 	/**
-	 * {number}
+	 * @property {number}
 	 */
 	get bottom() { return this._viewRect.bottom; }
 
@@ -110,7 +110,7 @@ export default class Camera extends Component {
 
 	/**
 	 * Determines if an item is completely within the view.
-	 * @param {*} it 
+	 * @param {*} it
 	 * @returns true if item is completely onscreen, false otherwise.
 	 */
 	containsItem(it) {
@@ -118,8 +118,8 @@ export default class Camera extends Component {
 	}
 
 	/**
-	 * 
-	 * @param {*} it 
+	 *
+	 * @param {*} it
 	 * @returns true if item is within the camera view, false otherwise.
 	 */
 	itemInView( it ) {
@@ -127,25 +127,25 @@ export default class Camera extends Component {
 	}
 
 	/**
-	 * 
-	 * @param {PIXI.Point} p 
+	 *
+	 * @param {PIXI.Point} p
 	 */
 	ptInView(p) {
 		return this._viewRect.contains(p);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param {Rectangle} r
-	 * @returns true if a rectangle falls within the camera view, false otherwise. 
+	 * @returns true if a rectangle falls within the camera view, false otherwise.
 	 */
 	rectInView( r ) {
 		return r.x < this._viewRect.right && r.right > this._viewRect.x && r.y < this._viewRect.bottom && r.bottom > this._viewRect.y;
 	}
 
 	/**
-	 * 
-	 * @param {PIXI.Point} global 
+	 *
+	 * @param {PIXI.Point} global
 	 * @param {PIXI.Point} [dest=null]
 	 * @returns {PIXI.Point}
 	 */
@@ -190,7 +190,7 @@ export default class Camera extends Component {
 
 		this._viewRect.x = -pos.x;
 		this._viewRect.y = -pos.y;
-	
+
 	}
 
 }

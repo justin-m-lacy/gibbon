@@ -83,10 +83,15 @@ export default class Component {
 	 */
 	get destroyed() { return this._destroyed; }
 
+	/**
+	 * @note component properties such as gameObject, clip, and game,
+	 * are not available in component constructor.
+	 */
 	constructor(){}
 
 	/**
-	 * Override init() in subclass.
+	 * Override in subclass to initialize component.
+	 * Basic component properties now available.
 	 */
 	init(){}
 

@@ -123,6 +123,8 @@ export default class Game {
 
 		this._app = ( app.constructor ) ? app : new PIXI.Application( app );
 
+		GameObject.SetGame( this );
+
 		this._screen = this._app.screen;
 		this._stage = this._app.stage;
 		this._stage.interactive = true;
@@ -140,8 +142,6 @@ export default class Game {
 
 		this._engine = new Engine();
 		this.library = this._engine.library;
-
-		GameObject.SetGame( this );
 
 	}
 
@@ -279,6 +279,17 @@ export default class Game {
 
 	pause() { this._ticker.stop(); }
 	unpause() { this._ticker.start(); }
+
+	/**
+	 * Wraps engine.Instantiate()
+	 * Instantiate a GameObject with a clip or a named clonable object from the library.
+	 * @param {DisplayObject} [clip=null]
+	 * @param {PIXI.Point} [loc=null]
+	 * @returns {GameObject}
+	 */
+	Instantiate( clip=null, loc=null ) {
+		return this.engine.Instantiate(clip,loc);
+	}
 
 	/**
 	 * Creates an empty game object with a Container clip.

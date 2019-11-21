@@ -7,7 +7,7 @@ import { quickSplice } from '../utils/arrayUtils';
  */
 export default class GameObject {
 
-	static SetGame(v) {this.Game = v;}
+	static SetGame(v) { this.Game = v;}
 	static GetGame(){ return this.Game; }
 
 	static GetEngine() { return this.Engine;}
