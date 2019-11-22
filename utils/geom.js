@@ -60,13 +60,24 @@ export const getLength=(p)=> {
 	}
 
 	/**
-	 * Return an interpolated point.
+	 * Return interpolated point.
 	 * @param {Point} p0
 	 * @param {Point} p1
 	 * @param {number} t
 	 */
-	export const interPt=(p0, p1, t)=>{
+	export const lerpPt=(p0, p1, t)=>{
 		return new Point( (1-t)*p0.x + t*p1.x, (1-t)*p0.y+p1.y );
+	}
+
+	/**
+	 * Set p0 to the linear interpolation of p0 and p1.
+	 * @param {Point} p0
+	 * @param {Point} p1
+	 * @param {number} t
+	 * @returns {Point} returns p0.
+	 */
+	export const setLerp = ( p0, p1, t )=>{
+		p0.set( (1-t)*p0.x + t*p1.x, (1-t)*p0.y+p1.y );
 	}
 
 	/**

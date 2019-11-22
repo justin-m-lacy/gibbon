@@ -20,7 +20,6 @@ export class Gradient {
 		this.colors = colors;
 		this.stops = stops;
 
-		if ( this.colors.length !== this.stops.length ) console.warn('invalid gradient');
 	}
 
 	/**
