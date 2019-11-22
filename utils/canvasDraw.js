@@ -15,7 +15,7 @@ export default class CanvasDraw {
 
 
 		this._canvas = document.createElement('canvas' );
-		this.ctx = this._canvas.getContext('2d');
+		//this.ctx = this._canvas.getContext('2d');
 
 		this._width = width;
 		this._height = height;
@@ -32,11 +32,12 @@ export default class CanvasDraw {
 	 */
 	gradFill( p0, p1, gradient ){
 
-		var grad = this.ctx.createLinearGradient( p0.x, p0.y, p1.x, p1.y);
+		var ctx = this._canvas.getContext('2d');
+		var grad = ctx.createLinearGradient( p0.x, p0.y, p1.x, p1.y);
 		gradient.addStops(grad);
 
-		this.ctx.fillStyle = grad;
-		this.ctx.fillRect( 0, 0, this._width, this._height );
+		ctx.fillStyle = grad;
+		ctx.fillRect( 0, 0, this._width, this._height );
 
 	}
 
