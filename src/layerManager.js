@@ -65,8 +65,8 @@ export default class LayerManager {
 	}
 
 	/**
-	 *
-	 * @param {*} [layerData=null]
+	 * @todo extend this functionality.
+	 * @param {object} [layerData=null]
 	 */
 	initLayers( layerData=null ) {
 
