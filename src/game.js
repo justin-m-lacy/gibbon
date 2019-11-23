@@ -80,6 +80,11 @@ export default class Game {
 	get emitter() { return this._emitter;}
 
 	/**
+	 * @property {InteractionData} mouseInfo - convenience accessor for global mouse information.
+	 */
+	get mouseInfo(){ return this.renderer.plugins.interaction.mouse; }
+
+	/**
 	 * @property {Factory} factory - Factory used for Object creation.
 	 */
 	get factory() { return this._factory; }

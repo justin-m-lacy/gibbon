@@ -15,7 +15,7 @@ import Group from './src/group';
 import System from './src/system';
 import LoadGroup from './src/loadGroup';
 import * as Geom from './utils/geom';
-import Rand from './utils/rand';
+import * as Rand from './utils/rand';
 import CanvasDraw from './utils/canvasDraw';
 
 export { Engine, Game, Component, System, Factory, GameObject, Mover, Camera, Library, Group,

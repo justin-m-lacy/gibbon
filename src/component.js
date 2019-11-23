@@ -144,6 +144,7 @@ export default class Component {
 
 	/**
 	 * Use to destroy a Component.
+	 * override destroy() to clean up your components.
 	 * Do not call _destroy() or destroy() directly.
 	 */
 	Destroy() { this._destroy(); }
