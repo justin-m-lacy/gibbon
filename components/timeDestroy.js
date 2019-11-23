@@ -7,8 +7,8 @@ export default class TimeDestroy extends Component {
 	 * @property {number} timer - time remaining in sec. before destroy/effect.
 	 * @note internal timer is in ms for loop convenience.
 	 */
-	get timer() { return 1000*this._timer; }
-	set timer(v) { this._timer = v/1000;}
+	get timer() { return this._timer/1000; }
+	set timer(v) { this._timer = v*1000;}
 
 	/**
 	 * @property {Signal} onComplete - fires when time complete.
