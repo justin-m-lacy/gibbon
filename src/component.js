@@ -84,6 +84,9 @@ export default class Component {
 	get destroyed() { return this._destroyed; }
 
 	/**
+	 * Constructor intentionally empty so components can be
+	 * instantiated by user and added to GameObjects without
+	 * knowledge of the underlying game system.
 	 * @note component properties such as gameObject, clip, and game,
 	 * are not available in component constructor.
 	 */

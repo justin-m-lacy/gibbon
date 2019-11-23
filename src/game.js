@@ -44,11 +44,11 @@ export default class Game {
 	get camera() { return this._camera; }
 
 	/**
-	 * @property {GameObject} rootObject - GameObject containing the main Camera component
+	 * @property {GameObject} root - GameObject containing the main Camera component
 	 * and base objectLayer.
+	 * Basic game systems can also be added to root as Components.
 	 */
-	get rootObject() { return this._rootObject; }
-
+	get root() { return this._root; }
 
 	/**
 	 * @property {PIXI.Container} objectLayer
@@ -164,8 +164,8 @@ export default class Game {
 		this._objectLayer = this._engine.objectLayer = layerManager.objectLayer;
 		this._uiLayer = layerManager.uiLayer;
 
-		this._rootObject = this.engine.Instantiate( this._objectLayer );
-		this._camera = this.rootObject.add( Camera );
+		this._root = this.engine.Instantiate( this._objectLayer );
+		this._camera = this.root.add( Camera );
 
 	}
 
