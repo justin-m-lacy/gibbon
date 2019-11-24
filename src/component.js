@@ -8,6 +8,11 @@ export default class Component {
 	get game() { return GameObject.Game; }
 
 	/**
+	 * @property {Engine} engine
+	 */
+	get engine() { return GameObject.Engine; }
+
+	/**
 	 * @property {number} flags - Convenience accessor for GameObject.flags.
 	 */
 	get flags() { return this._gameObject.flags; }

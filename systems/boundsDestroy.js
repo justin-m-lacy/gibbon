@@ -40,7 +40,7 @@ export default class BoundsDestroy extends System {
 
 	}
 
-	update( delta ) {
+	update() {
 
 		if (!this.bounds) return;
 
