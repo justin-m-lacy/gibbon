@@ -116,6 +116,11 @@ export default class GameObject {
 	set destroying() { this._destroying=true;}*/
 
 	/**
+	 * @property {boolean} isAdded - true after GameObject is added to Engine.
+	 */
+	get isAdded() { return this._isAdded; }
+
+	/**
 	 * @property {boolean} destroyed
 	 */
 	get destroyed(){ return this._destroyed }
@@ -135,6 +140,8 @@ export default class GameObject {
 
 		this._components = [];
 		this._compMap = new Map();
+
+		this._isAdded = false;
 
 		if ( clip !== null ) {
 
@@ -159,6 +166,28 @@ export default class GameObject {
 		this._clip = clip;
 
 	}
+
+	/**
+	 * Called when GameObject is added to engine.
+	 * Calls init() on all components and self.added()
+	 */
+	_added(){
+
+		this._isAdded = true;
+
+		let len = this._components.length;
+		for( let i = 0; i < len; i++ ) {
+			this._components[i]._init(this);
+		}
+
+		this.added();
+
+	}
+
+	/**
+	 * Override in subclass.
+	 */
+	added(){}
 
 	/**
 	 *
@@ -193,7 +222,7 @@ export default class GameObject {
 		this._components.push( inst );
 		this._compMap.set( cls || inst._constructor || inst, inst );
 
-		inst._init( this );
+		if ( this._isAdded ) inst._init( this );
 
 		return inst;
 
