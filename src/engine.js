@@ -93,7 +93,7 @@ export default class Engine {
 	}
 
 	/**
-	 * Add a GameObject to the engine.
+	 * Add GameObject to the engine.
 	 * @param {GameObject} obj
 	*/
 	add(obj) {

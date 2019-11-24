@@ -28,12 +28,14 @@ export default class TimeDestroy extends Component {
 	}
 
 
-	init(){
-
-		this.ticker = this.game.ticker;
+	constructor(){
+		super();
 		this._timer = -1;
 		this._sigDone = new Signal();
+	}
 
+	init(){
+		this.ticker = this.game.ticker;
 	}
 
 	update(){
