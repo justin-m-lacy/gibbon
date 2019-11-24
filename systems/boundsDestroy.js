@@ -18,8 +18,8 @@ export default class BoundsDestroy extends System {
 
 	/**
 	 * @property {(GameObject)=>void} onExit - function to call when object
-	 * leaves bounds. If a function is specified, the object will not be
-	 * destroyed automatically.
+	 * leaves bounds. If a function is specified, the object is not destroyed
+	 * automatically, but is removed from group.
 	 */
 	get onExit(){ return this._onExit;}
 	set onExit(v){

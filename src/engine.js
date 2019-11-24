@@ -103,11 +103,12 @@ export default class Engine {
 			return;
 		}
 
-		obj._added();
-
 		if ( obj.clip !== null && obj.clip.parent === null ) {
 			this._objectLayer.addChild( obj.clip );
 		}
+
+		obj._added();
+
 		this._objects.push(obj);
 
 	}
