@@ -162,26 +162,6 @@ export default class Group {
 	}
 
 	/**
-	 * Add a PIXI DisplayObject as a child of the group's clip.
-	 * Not recommended for production use, but for quick prototyping
-	 * without using full GameObjects.
-	 * @param {DisplayObject} clip
-	 */
-	addChild( clip ) {
-		if ( this._clip ) this._clip.addChild( clip );
-	}
-
-	/**
-	 * Destroy GameObject in group..
-	 * @param {GameObject} obj
-	 */
-	destroyObj( obj) {
-
-		this.remove(obj);
-		obj.Destroy();
-	}
-
-	/**
 	 * Remove GameObject from group, but not Engine.
 	 * @param {GameObject} obj
 	 */
@@ -192,6 +172,9 @@ export default class Group {
 
 		if ( this._clip && obj.clip ) this._clip.removeChild( obj.clip );
 		obj.group = null;
+
+		obj.emitter.removeListener('destroy', this.remove, this );
+
 		this._objects.splice( ind, 1 );
 
 	}
@@ -206,6 +189,8 @@ export default class Group {
 		if ( this._clip && obj.clip ) this._clip.addChild( obj.clip );
 
 		obj.group = this;
+		obj.on('destroy', this.remove, this );
+
 		this._objects.push( obj );
 		this._engine.add( obj )
 
