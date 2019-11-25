@@ -1,3 +1,5 @@
+import { GameObject } from "..";
+
 /**
  * If a clip is supplied to the Group, it will act as the parent
  * of all GameObject clips added to the group.
@@ -170,8 +172,34 @@ export default class Group {
 	}
 
 	/**
+	 * Destroy GameObject in group..
+	 * @param {GameObject} obj
+	 */
+	destroyObj( obj) {
+
+		this.remove(obj);
+		obj.Destroy();
+	}
+
+	/**
+	 * Remove GameObject from group, but not Engine.
+	 * @param {GameObject} obj
+	 */
+	remove(obj) {
+
+		let ind = this._objects.indexOf(obj);
+		if ( ind < 0 ) return;
+
+		if ( this._clip && obj.clip ) this._clip.removeChild( obj.clip );
+		obj.group = null;
+		this._objects.splice( ind, 1 );
+
+	}
+
+	/**
 	 *
 	 * @param {GameObject} obj
+	 * @returns {GameObject} the object.
 	 */
 	add( obj ) {
 
@@ -180,6 +208,8 @@ export default class Group {
 		obj.group = this;
 		this._objects.push( obj );
 		this._engine.add( obj )
+
+		return obj;
 
 	}
 

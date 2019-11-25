@@ -88,9 +88,9 @@ export default class GameObject {
 	set interactive(v) { if ( this._clip ) this._clip.interactive = v; }
 
 	/**
-	 * @property {EventEmitter3} emitter - the object clip's emitter, or a new emitter, if object has no clip.
+	 * @property {EventEmitter3} emitter - the object clip emitter, or a new emitter, if object has no clip.
 	 */
-	get emitter() { return this._clip ? this._clip : this._emitter; }
+	get emitter() { return this._emitter; }
 
 	/**
 	 * @property {Point} orient - returns the normalized orientation vector of the object.
@@ -143,7 +143,7 @@ export default class GameObject {
 
 		this._isAdded = false;
 
-		if ( clip !== null ) {
+		if ( clip != null ) {
 
 			if ( pos ) clip.position = pos;
 			this._position = clip.position;
@@ -157,11 +157,10 @@ export default class GameObject {
 
 			this._clip=null;
 			this._position = pos || new Point(0,0);
-			this._emitter = new PIXI.utils.EventEmitter();
 
 		}
 
-		console.assert( clip !== undefined, 'GameObject: Clip undefined.');
+		this._emitter = clip || new PIXI.utils.EventEmitter();
 
 		this._clip = clip;
 
@@ -406,6 +405,8 @@ export default class GameObject {
 	 */
 	_destroy() {
 
+		this._emitter.emit('destroy', this );
+		this._emitter.removeAllListeners();
 		if ( this._clip ) this._clip.destroy( this._destroyOpts || true );
 
 		this._clip = null;
