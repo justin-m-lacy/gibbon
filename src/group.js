@@ -165,17 +165,18 @@ export default class Group {
 	 * Remove GameObject from group, but not Engine.
 	 * @param {GameObject} obj
 	 */
-	remove(obj) {
+	remove(obj, removeClip=true) {
 
 		let ind = this._objects.indexOf(obj);
 		if ( ind < 0 ) return;
 
-		if ( this._clip && obj.clip ) this._clip.removeChild( obj.clip );
+		this._objects.splice( ind, 1 );
+
+		if ( this._clip && obj.clip && removeClip ) this._clip.removeChild( obj.clip );
 		obj.group = null;
 
-		obj.emitter.removeListener('destroy', this.remove, this );
+		//obj.emitter.removeListener('destroy', this.remove, this );
 
-		this._objects.splice( ind, 1 );
 
 	}
 

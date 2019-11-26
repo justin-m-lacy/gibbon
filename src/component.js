@@ -128,12 +128,12 @@ export default class Component {
 	}
 
 	/**
-	 * Add a component already instantiated.
+	 * Add a component already instantiated. Wraps gameObject.addExisting()
 	 * @param {Component} comp
 	 * @returns {Component} The added component instance.
 	 */
-	addExisting( comp ) {
-		return this._gameObject.addExisting(comp);
+	addExisting( comp, cls ) {
+		return this._gameObject.addExisting(comp, cls );
 	}
 
 	/**

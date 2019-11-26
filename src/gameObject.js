@@ -27,7 +27,7 @@ export default class GameObject {
 	set group(v) { this._group = v;}
 
 	/**
-	 * @property {number} flags - bit-flags applied to this GameObject.
+	 * @property {number} flags - User-defined bit-flags applied to this GameObject.
 	 */
 	get flags() { return this._flags; }
 	set flags(v) { this._flags = v; }
@@ -160,8 +160,8 @@ export default class GameObject {
 
 		}
 
+		this._flags = 0;
 		this._emitter = clip || new PIXI.utils.EventEmitter();
-
 		this._clip = clip;
 
 	}
@@ -262,6 +262,15 @@ export default class GameObject {
 	translate( x, y ) {
 		this._position.x += x;
 		this._position.y += y;
+	}
+
+	/**
+	 * Determine if GameObject contains a Component entry
+	 * under class or key cls.
+	 * @param {*} cls - class or key of component.
+	 */
+	has(cls) {
+		return this._compMap.has(cls);
 	}
 
 	/**

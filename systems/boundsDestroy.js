@@ -48,7 +48,6 @@ export default class BoundsDestroy extends System {
 
 			var o = this.objects[i];
 			if ( o.destroyed ) {
-				quickSplice( this.objects, i);
 				continue;
 			}
 
@@ -58,7 +57,6 @@ export default class BoundsDestroy extends System {
 				if ( this.onExit ) this.onExit( o );
 				else {
 					o.Destroy();
-					quickSplice( this.objects, i);
 				}
 
 			}
