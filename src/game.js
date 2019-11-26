@@ -210,6 +210,10 @@ export default class Game {
 		return this._emitter.on( event, func, context );
 	}
 
+	removeListener( evt, fn, context ) {
+		return this._emitter.removeListener(evt,fn,context);
+	}
+
 	/**
 	 *
 	 * @param {string} name

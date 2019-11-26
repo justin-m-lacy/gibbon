@@ -162,6 +162,7 @@ export default class Group {
 
 		this._objects.splice( ind, 1 );
 
+		obj.removeListener( 'destroy', this.remove, this );
 		if ( this._clip && obj.clip && removeClip ) this._clip.removeChild( obj.clip );
 		obj.group = null;
 

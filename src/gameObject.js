@@ -213,8 +213,8 @@ export default class GameObject {
 	 * Wrap emitter removeListener()
 	 * @param  {...any} args
 	 */
-	removeListener( ... args ) {
-		this._emitter.removeListener.apply( this._emitter, args );
+	removeListener( e, fn, context ) {
+		this._emitter.removeListener( e, fn, context );
 	}
 
 	/**
