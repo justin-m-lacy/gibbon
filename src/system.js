@@ -27,6 +27,7 @@ export default class System extends Group {
 		if ( !this._enabled ) {
 			this.game.addUpdater(this);
 		}
+		super.unpause();
 		this._enabled = true;
 
 	}
@@ -36,22 +37,17 @@ export default class System extends Group {
 		if ( this._enabled === true ) {
 			this.game.removeUpdater(this);
 		}
+		super.pause();
 		this._enabled = false;
 
 	}
 
 	pause(){
-
-		if ( this.enabled){ this.stop(); }
-		super.pause();
-
+		this.stop();
 	}
 
 	unpause(){
-
-		if ( this.enabled ) { this.start(); }
-		super.unpause();
-
+		this.start();
 	}
 
 	destroy(){
