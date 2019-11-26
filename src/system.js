@@ -16,7 +16,7 @@ export default class System extends Group {
 	 */
 	constructor( game, clip=null, enabled=false ){
 
-		super( game, clip );
+		super( game, clip, !enabled );
 
 		if ( enabled === true ) this.start();
 

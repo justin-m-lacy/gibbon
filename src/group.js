@@ -47,10 +47,11 @@ export default class Group {
 	 *
 	 * @param {Game} game
 	 * @param {DisplayObject} [clip=null]
+	 * @param {boolean} [paused=false]
 	 */
-	constructor( game, clip=null ) {
+	constructor( game, clip=null, paused=false ) {
 
-		this._paused = false;
+		this._paused = paused;
 
 		this._clip = clip;
 
@@ -58,6 +59,7 @@ export default class Group {
 		this._engine = game.engine;
 
 		this._objects = [];
+		this._subgroups = [];
 
 	}
 
@@ -69,6 +71,7 @@ export default class Group {
 		for( let obj of this._objects ) {
 			if ( obj.pause ) obj.pause();
 		}
+
 		for( let g of this._subgroups ) {
 			g.pause();
 		}
@@ -97,11 +100,8 @@ export default class Group {
 
 		if ( this._clip ) this._clip.visible = false;
 
-		if ( this.subgroups ) {
-			for( let i = this.subgroups.length-1; i>=0; i-- ) {
-				this.subgroups[i].show();
-			}
-
+		for( let i = this.subgroups.length-1; i>=0; i-- ) {
+			this.subgroups[i].show();
 		}
 
 	}
@@ -110,11 +110,8 @@ export default class Group {
 
 		if ( this._clip ) this._clip.visible = true;
 
-		if ( this.subgroups ) {
-			for( let i = this.subgroups.length-1; i>=0; i-- ) {
-				this.subgroups[i].hide();
-			}
-
+		for( let i = this.subgroups.length-1; i>=0; i-- ) {
+			this.subgroups[i].hide();
 		}
 
 	}
@@ -124,8 +121,6 @@ export default class Group {
 	 * @param {string} gname
 	 */
 	findGroup( gname ) {
-
-		if ( !this._subgroups ) return null;
 
 		for( let i = subgroups.length-1; i >= 0; i-- ) {
 			if ( this.subgroups[i].name == gname ) return subgroups[i];
@@ -139,10 +134,7 @@ export default class Group {
 	 * @param {Group} g
 	 */
 	addGroup( g ) {
-
-		if ( !this._subgroups ) this._subgroups = [];
 		this._subgroups.push(g);
-
 	}
 
 	/**
@@ -150,8 +142,6 @@ export default class Group {
 	 * @param {Group} g
 	 */
 	removeGroup( g ) {
-
-		if ( !this._subgroups ) return;
 
 		for( var i = this._subgroups.length-1; i>= 0; i-- ) {
 			if ( this._subgroups[i] == g ){
@@ -202,15 +192,17 @@ export default class Group {
 	destroy() {
 
 		this._paused = true;
-		for( let i = this._objects.length-1; i>= 0; i-- ) {
-			this._objects[i].Destroy();
-		}
 
 		if ( this._subgroups ) {
 
 			for( let i = this._subgroups.length-1; i>= 0; i-- ) {
 				this._subgroups[i].destroy();
 			}
+		}
+
+		for( let i = this._objects.length-1; i>= 0; i-- ) {
+			this._objects[i].removeListener( 'destroy', this.remove, this );
+			this._objects[i].Destroy();
 		}
 
 		this._engine = null;

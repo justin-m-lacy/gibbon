@@ -234,12 +234,12 @@ export default class Game {
 	 */
 	removeGroup(g) {
 
-		for( let i = this._groups.length-1; i >= 0; i-- ) {
-			if ( this._groups[i] === g) {
-				quickSplice( this._groups, i );
-				return true;
-			}
+		let ind = this._groups.indexOf(g);
+		if ( ind >= 0 ) {
+			this._groups.splice( ind, 1 );
+			return true;
 		}
+
 		return false;
 
 	}

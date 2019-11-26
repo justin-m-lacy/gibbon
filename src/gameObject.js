@@ -206,8 +206,15 @@ export default class GameObject {
 	 * @param {*} args - First argument should be the {string} event name.
 	 */
 	emit( ... args ) {
-		if ( this._clip !== null ) this._clip.emit.apply( this._clip, args );
-		else this._emitter.emit.apply( this._emitter, args );
+		this._emitter.emit.apply( this._emitter, args );
+	}
+
+	/**
+	 * Wrap emitter removeListener()
+	 * @param  {...any} args
+	 */
+	removeListener( ... args ) {
+		this._emitter.removeListener.apply( this._emitter, args );
 	}
 
 	/**
