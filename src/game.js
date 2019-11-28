@@ -210,6 +210,15 @@ export default class Game {
 		return this._emitter.on( event, func, context );
 	}
 
+	/**
+	 * Emit event with game emitter.
+	 * @param  {...any} args
+	 */
+	emit( ... args ) {
+		this._emitter.emit.apply( this._emitter, args );
+	}
+
+
 	removeListener( evt, fn, context ) {
 		return this._emitter.removeListener(evt,fn,context);
 	}
