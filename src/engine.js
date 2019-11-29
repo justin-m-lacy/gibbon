@@ -151,7 +151,7 @@ export default class Engine {
 				obj._destroy();
 				quickSplice( objs, i );
 
-			} else obj.update( delta );
+			} else if ( obj.active ) obj.update( delta );
 
 		}
 

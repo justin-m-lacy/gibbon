@@ -70,6 +70,7 @@ export default class Group {
 
 		for( let obj of this._objects ) {
 			if ( obj.pause ) obj.pause();
+			obj.active = false;
 		}
 
 		for( let g of this._subgroups ) {
@@ -84,6 +85,7 @@ export default class Group {
 
 		for( let obj of this._objects ) {
 			if ( obj.unpause ) obj.unpause();
+			object.active = true;
 		}
 		for( let g of this._subgroups ) {
 			g.unpause();

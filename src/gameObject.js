@@ -160,6 +160,8 @@ export default class GameObject {
 
 		}
 
+		this._active = true;
+
 		this._flags = 0;
 		this._emitter = clip || new PIXI.utils.EventEmitter();
 		this._clip = clip;
