@@ -85,7 +85,7 @@ export default class Group {
 
 		for( let obj of this._objects ) {
 			if ( obj.unpause ) obj.unpause();
-			object.active = true;
+			obj.active = true;
 		}
 		for( let g of this._subgroups ) {
 			g.unpause();
