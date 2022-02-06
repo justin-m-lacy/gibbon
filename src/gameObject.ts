@@ -5,6 +5,17 @@ import Group from './group';
 import Game from './game';
 import Engine from './engine';
 import Component from './component';
+import { Constructor } from 'utils/types';
+
+/**
+ * Options for destroying a GameObject
+ */
+export type DestroyOptions = {
+
+	children: boolean,
+	texture: boolean,
+	baseTexture: boolean
+} | boolean;
 
 /**
  *
@@ -146,6 +157,8 @@ export default class GameObject {
 
 	readonly emitter: PIXI.utils.EventEmitter;
 
+	_destroyOpts?: DestroyOptions;
+
 	_active: boolean = false;
 
 	_position: Point;
@@ -191,6 +204,10 @@ export default class GameObject {
 
 	}
 
+	pause() { }
+	unpause() {
+	}
+
 	/**
 	 * Called when GameObject is added to engine.
 	 * Calls init() on all components and self.added()
@@ -220,9 +237,9 @@ export default class GameObject {
 	 * @param {*} [context=null]
 	 * @returns {PIXI.utils.EventEmitter}
 	 */
-	on(evt: string, func, context = null) {
-		if (this._clip !== null) return this._clip.on(evt, func, context);
-		else return this._emitter.on(evt, func, context);
+	on(evt: string, func: Function, context?: any) {
+		if (this.clip != null) return this.clip.on(evt, func, context);
+		else return this.emitter.on(evt, func, context);
 	}
 
 	/**
@@ -230,16 +247,16 @@ export default class GameObject {
 	 * does not contain a clip, the event is emitted through a custom emitter.
 	 * @param {*} args - First argument should be the {string} event name.
 	 */
-	emit(...args) {
-		this._emitter.emit.apply(this._emitter, args);
+	emit(event: string, ...args: any[]) {
+		this.emitter.emit.call(this.emitter, event, ...args);
 	}
 
 	/**
 	 * Wrap emitter removeListener()
 	 * @param  {...any} args
 	 */
-	removeListener(e: string, fn, context) {
-		this._emitter.removeListener(e, fn, context);
+	removeListener(e: string, fn?: Function, context?: any) {
+		this.emitter.removeListener(e, fn, context);
 	}
 
 	/**
@@ -248,10 +265,10 @@ export default class GameObject {
 	 * @param {?Object} [cls=null]
 	 * @returns {Component} Returns the instance.
 	 */
-	addExisting(inst, cls = null) {
+	addExisting<T extends Component>(inst: T, cls?: Constructor<T>): T {
 
 		this._components.push(inst);
-		this._compMap.set(cls || inst._constructor || inst, inst);
+		this._compMap.set(cls || inst.constructor || inst, inst);
 
 		if (this._isAdded) inst._init(this);
 
@@ -264,7 +281,7 @@ export default class GameObject {
 	 * @param {class} cls - component class to instantiate.
 	 * @returns {Object}
 	*/
-	add(cls) {
+	add<T extends Component>(cls: Constructor<T>): T {
 		return this.addExisting(new cls(), cls);
 	}
 
@@ -344,7 +361,7 @@ export default class GameObject {
 	 * to this GameObject.
 	 * @param {Component} comp
 	 */
-	addCopy(comp) {
+	addCopy(comp: Component) {
 
 		let copy = Object.assign(
 			Object.create(Object.getPrototypeOf(comp)),
@@ -358,7 +375,7 @@ export default class GameObject {
 	 *
 	 * @param {number} delta
 	 */
-	update(delta) {
+	update(delta: number) {
 
 		let comps = this._components;
 
@@ -382,7 +399,7 @@ export default class GameObject {
 	 * @param {Component} comp - the component to remove from the game object.
 	 * @param {bool} [destroy=true] - whether the component should be destroyed.
 	 */
-	remove(comp, destroy = true) {
+	remove(comp: Component, destroy: boolean = true) {
 
 		if (destroy === true) comp._destroy();
 
@@ -419,13 +436,22 @@ export default class GameObject {
 	 * @param {boolean} texture
 	 * @param {boolean} baseTexture
 	 */
-	setDestroyOpts(children: boolean, texture: boolean, baseTexture) {
+	setDestroyOpts(children: boolean, texture: boolean, baseTexture: boolean) {
 
-		if (!this._destroyOpts) this._destroyOpts = {};
+		if (this._destroyOpts == null || typeof this._destroyOpts === 'boolean') {
+			this._destroyOpts = {
+				children: children,
+				texture: texture,
+				baseTexture: baseTexture
 
-		this._destroyOpts.children = children;
-		this._destroyOpts.texture = texture;
-		this._destroyOpts.baseTexture = baseTexture;
+			};
+		} else {
+			this._destroyOpts.children = children;
+			this._destroyOpts.texture = texture;
+			this._destroyOpts.baseTexture = baseTexture;
+		}
+
+
 
 	}
 
@@ -448,18 +474,18 @@ export default class GameObject {
 	/**
 	 * destroys all components and then the GameObject itself.
 	 */
-	private _destroy() {
+	_destroy() {
 
-		this._emitter.emit('destroy', this);
-		this._emitter.removeAllListeners();
-		if (this._clip) this._clip.destroy(this._destroyOpts || true);
+		this.emitter.emit('destroy', this);
+		this.emitter.removeAllListeners();
+		if (this.clip) {
+			this.clip.destroy(this._destroyOpts || true);
+		}
 
-		this._clip = null;
-
-		this._position = null;
+		/*this._position = null;
 		this._emitter = null;
 		this._compMap = null;
-		this._components = null;
+		this._components = null;*/
 
 	}
 

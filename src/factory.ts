@@ -1,3 +1,10 @@
+import Game from './game';
+import Engine from './engine';
+import GameObject from './gameObject';
+
+export type CreateFunction = (...params: any[]) => GameObject;
+
+
 /**
  * A Factory creates full GameObject instances from keys.
  */
@@ -6,39 +13,36 @@ export default class Factory {
 	/**
 	 * @property {PIXI.renderer} renderer - game renderer to pre-render objects to textures.
 	 */
-	get renderer(){return this._game.renderer;}
+	get renderer() { return this._game.renderer; }
 
 	/**
 	 * @property {Gibbon.Game} game
 	 */
-	get game(){return this._game; }
+	get game() { return this._game; }
 
 	/**
 	 * @property {Gibbon.Engine} engine
 	 */
-	get engine(){ return this.game.engine;}
+	get engine() { return this.game.engine; }
 
 	/**
 	 * @property {PIXI.Rectangle} viewRect
 	 */
-	get viewRect(){ return this._viewRect;}
+	get viewRect() { return this._game.screen; }
 
-	/**
-	 * @property {Map.<string,function>} builds
-	 */
-	get builds(){ return this._builds;}
+	readonly builds: Map<string, CreateFunction>;
+
+
+	readonly _game: Game;
 
 	/**
 	 *
 	 * @param {Gibbon.Game} game
 	 */
-	constructor( game ) {
+	constructor(game: Game) {
 
 		this._game = game;
-		this._engine = game.engine;
-		this._viewRect = game.screen;
-
-		this._builds = new Map();
+		this.builds = new Map();
 
 	}
 
@@ -50,11 +54,13 @@ export default class Factory {
 	 * @param {?object} data - data to pass as first argument to create function.
 	 * @returns {Factory} this.
 	 */
-	addCreator( key, func, data ) {
+	addCreator(key: string, creator: CreateFunction, data?: any) {
 
-		if ( data ) func = func.bind( this, data );
+		if (data) {
+			creator = creator.bind(this, data);
+		}
 
-		this.builds.set( key, func );
+		this.builds.set(key, creator);
 		return this;
 	}
 
@@ -63,12 +69,13 @@ export default class Factory {
 	 * @param {string} key
 	 * @returns {GameObject} Object created.
 	 */
-	create( key, ...args ){
+	create(key: string, ...args: any[]): GameObject | null {
 
-		let build = this.builds.get( key );
-		if ( !build ) return null;
-
-		return build.apply( this, args );
+		let build = this.builds.get(key);
+		if (build) {
+			return build.apply(this, args);
+		}
+		return null;
 
 	}
 

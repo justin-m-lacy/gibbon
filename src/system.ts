@@ -1,8 +1,10 @@
 import Group from "./group";
 import Game from './game';
 import GameObject from './gameObject';
+import { IUpdater } from "./engine";
+import { Container } from 'pixi.js';
 
-export default class System extends Group {
+export default class System extends Group implements IUpdater {
 
 	/**
 	 * @property {boolean} enabled
@@ -18,7 +20,7 @@ export default class System extends Group {
 	 * @param {GameObject} clip - system container clip.
 	 * @param {boolean} [enabled=false] - whether to start System immediately.
 	 */
-	constructor(game: Game, clip?: GameObject | null, enabled: boolean = false) {
+	constructor(game: Game, clip?: Container, enabled: boolean = false) {
 
 		super(game, clip, !enabled);
 
@@ -60,8 +62,8 @@ export default class System extends Group {
 	}
 
 	/**
-	 * Override in subclass.
+	 * Override in subclasses.
 	 */
-	update() { }
+	update(delta: number) { }
 
 }

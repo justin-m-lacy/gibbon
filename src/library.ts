@@ -11,7 +11,7 @@ export default class Library {
 	 * @param {Object|function} item - function(position) to create an object,
 	 * an Object with a clone() function, or a plain object to return.
 	 */
-	addItem(name, item) {
+	addItem(name: string, item: ((...args: any[]) => Object) | Object) {
 		this._lib[name] = item;
 	}
 

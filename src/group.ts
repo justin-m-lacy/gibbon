@@ -1,6 +1,6 @@
 import { GameObject } from "..";
 import Game from './game';
-import { DisplayObject } from 'pixi.js';
+import { Container } from 'pixi.js';
 import Engine from './engine';
 
 /**
@@ -9,17 +9,17 @@ import Engine from './engine';
  */
 export default class Group {
 
+
 	/**
-	 * @property {DisplayObject} clip - clip associated with group, if any.
-	 * Objects added to the group are added to clip's child clips.
-	 */
-	get clip() { return this._clip; }
+	  * @property clip - clip associated with group, if any.
+	  * Objects added to the group are added to clip's child clips.
+	  */
+	readonly clip?: Container;
 
 	/**
 	 * @property {string} name
 	 */
-	get name() { return this._name; }
-	set name(v) { this._name = v; }
+	name?: string;
 
 	/**
 	 * @property {Game} game
@@ -45,7 +45,7 @@ export default class Group {
 	readonly _engine: Engine;
 
 	_paused: boolean = false;
-	_clip?: DisplayObject | null;
+
 
 	/**
 	 *
@@ -53,11 +53,11 @@ export default class Group {
 	 * @param {DisplayObject} [clip=null]
 	 * @param {boolean} [paused=false]
 	 */
-	constructor(game: Game, clip: DisplayObject | null = null, paused: boolean = false) {
+	constructor(game: Game, clip: Container | undefined = undefined, paused: boolean = false) {
 
 		this._paused = paused;
 
-		this._clip = clip;
+		this.clip = clip;
 
 		this._game = game;
 		this._engine = game.engine;
@@ -89,11 +89,11 @@ export default class Group {
 
 		if (this._paused === false) return;
 
-		for (let obj of this._objects) {
+		for (let obj of this.objects) {
 			if (obj.unpause) obj.unpause();
 			obj.active = true;
 		}
-		for (let g of this._subgroups) {
+		for (let g of this.subgroups) {
 			g.unpause();
 		}
 
@@ -106,7 +106,9 @@ export default class Group {
 	 */
 	show() {
 
-		if (this._clip) this._clip.visible = false;
+		if (this.clip) {
+			this.clip.visible = false;
+		}
 
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {
 			this.subgroups[i].show();
@@ -116,7 +118,9 @@ export default class Group {
 
 	hide() {
 
-		if (this._clip) this._clip.visible = true;
+		if (this.clip) {
+			this.clip.visible = true;
+		}
 
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {
 			this.subgroups[i].hide();
@@ -124,36 +128,32 @@ export default class Group {
 
 	}
 
-	/**
-	 *
-	 * @param {string} gname
-	 */
-	findGroup(gname) {
+	findGroup(gname: string): Group | undefined {
 
-		for (let i = subgroups.length - 1; i >= 0; i--) {
-			if (this.subgroups[i].name == gname) return subgroups[i];
+		for (let i = this.subgroups.length - 1; i >= 0; i--) {
+			if (this.subgroups[i].name == gname) return this.subgroups[i];
 		}
 
-		return null;
+		return undefined;
 	}
 
 	/**
 	 *
 	 * @param {Group} g
 	 */
-	addGroup(g) {
-		this._subgroups.push(g);
+	addGroup(g: Group) {
+		this.subgroups.push(g);
 	}
 
 	/**
 	 *
 	 * @param {Group} g
 	 */
-	removeGroup(g) {
+	removeGroup(g: Group) {
 
-		for (var i = this._subgroups.length - 1; i >= 0; i--) {
-			if (this._subgroups[i] == g) {
-				this._subgroups.splice(i, 1);
+		for (var i = this.subgroups.length - 1; i >= 0; i--) {
+			if (this.subgroups[i] == g) {
+				this.subgroups.splice(i, 1);
 				return;
 			}
 		}
@@ -163,15 +163,17 @@ export default class Group {
 	 * Remove GameObject from group, but not Engine.
 	 * @param {GameObject} obj
 	 */
-	remove(obj, removeClip = true) {
+	remove(obj: GameObject, removeClip: boolean = true) {
 
-		let ind = this._objects.indexOf(obj);
+		let ind = this.objects.indexOf(obj);
 		if (ind < 0) return;
 
-		this._objects.splice(ind, 1);
+		this.objects.splice(ind, 1);
 
 		obj.removeListener('destroy', this.remove, this);
-		if (this._clip && obj.clip && removeClip) this._clip.removeChild(obj.clip);
+		if (this.clip && obj.clip && removeClip) {
+			this.clip.removeChild(obj.clip);
+		}
 		obj.group = null;
 
 		//obj.emitter.removeListener('destroy', this.remove, this );
@@ -184,14 +186,16 @@ export default class Group {
 	 * @param {GameObject} obj
 	 * @returns {GameObject} the object.
 	 */
-	add(obj) {
+	add(obj: GameObject): GameObject {
 
-		if (this._clip && obj.clip) this._clip.addChild(obj.clip);
+		if (this.clip && obj.clip) {
+			this.clip.addChild(obj.clip);
+		}
 
 		obj.group = this;
 		obj.on('destroy', this.remove, this);
 
-		this._objects.push(obj);
+		this.objects.push(obj);
 		this._engine.add(obj)
 
 		return obj;
@@ -202,23 +206,13 @@ export default class Group {
 
 		this._paused = true;
 
-		if (this._subgroups) {
-
-			for (let i = this._subgroups.length - 1; i >= 0; i--) {
-				this._subgroups[i].destroy();
-			}
+		for (let i = this.subgroups.length - 1; i >= 0; i--) {
+			this.subgroups[i].destroy();
 		}
-
-		for (let i = this._objects.length - 1; i >= 0; i--) {
-			this._objects[i].removeListener('destroy', this.remove, this);
-			this._objects[i].Destroy();
+		for (let i = this.objects.length - 1; i >= 0; i--) {
+			this.objects[i].removeListener('destroy', this.remove, this);
+			this.objects[i].Destroy();
 		}
-
-		this._engine = null;
-		this._clip = null;
-		this._game = null;
-		this._subgroups = null;
-		this._objects = null;
 
 	}
 

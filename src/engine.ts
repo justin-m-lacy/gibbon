@@ -2,8 +2,13 @@ import GameObject from './gameObject';
 import Library from './library';
 import { quickSplice } from '../utils/arrayUtils';
 import Factory from './factory';
-import { Point, DisplayObject } from 'pixi.js';
+import { Point, DisplayObject, Container } from 'pixi.js';
+import System from './system';
 
+export interface IUpdater {
+
+	update(delta: number): void;
+}
 
 export default class Engine {
 
@@ -19,22 +24,23 @@ export default class Engine {
 	get factory(): Factory | undefined { return this._factory; }
 	set factory(v: Factory | undefined) { this._factory = v; }
 
-	/**
-	 * @property {GameObject[]} objects
-	 */
-	get objects(): GameObject[] { return this._objects; }
+
 
 	/**
 	 * @property {Container} objectLayer
 	 */
-	get objectLayer() { return this._objectLayer; }
-	set objectLayer(v) { this._objectLayer = v; }
+	readonly objectLayer?: Container;
 
 	/**
-	 * @property {Object[]} updaters - Updaters are for systems or objects with update
+	 * @property {GameObject[]} objects
+	 */
+	readonly objects: GameObject[];
+
+	/**
+	 * @property {IUpdater[]} updaters - Updaters are for systems or objects with update
 	 * functions that don't require complex GameObjects.
 	 */
-	get updaters() { return this._updaters; }
+	readonly updaters: IUpdater[];
 
 	/*get ticker() {return this._ticker; }
 	set ticker(v) { this._ticker =v; }
@@ -47,8 +53,8 @@ export default class Engine {
 
 	constructor() {
 
-		this._objects = [];
-		this._updaters = [];
+		this.objects = [];
+		this.updaters = [];
 
 		this._lib = new Library();
 
@@ -65,9 +71,9 @@ export default class Engine {
 	 * @param {Object} [vars=null] variables to use in creating the new object.
 	 * @returns {GameObject}
 	 */
-	Create(key, loc = null, vars = null) {
+	Create(key: string, loc: Point | null = null, vars: Object | null = null) {
 
-		let go = this._factory.create(key, loc, vars);
+		let go = this._factory!.create(key, loc, vars);
 		this.add(go);
 
 		return go;
@@ -101,20 +107,20 @@ export default class Engine {
 	 * Add GameObject to the engine.
 	 * @param {GameObject} obj
 	*/
-	add(obj) {
+	add(obj: GameObject) {
 
 		if (obj === null || obj === undefined) {
 			console.log('ERROR: engine.add() object is null');
 			return;
 		}
 
-		if (obj.clip !== null && obj.clip.parent === null) {
-			this._objectLayer.addChild(obj.clip);
+		if (obj.clip != null && obj.clip.parent == null) {
+			this.objectLayer!.addChild(obj.clip);
 		}
 
 		obj._added();
 
-		this._objects.push(obj);
+		this.objects.push(obj);
 
 	}
 
@@ -122,31 +128,31 @@ export default class Engine {
 	 *
 	 * @param {System|Object} sys
 	 */
-	addUpdater(sys) {
-		this._updaters.push(sys);
+	addUpdater(sys: System | IUpdater) {
+		this.updaters.push(sys);
 	}
 
 	/**
 	 *
-	 * @param {System|Object} sys
+	 * @param {System|IUpdater} sys
 	 */
-	removeUpdater(sys) {
+	removeUpdater(sys: IUpdater) {
 
-		let ind = this._updaters.indexOf(sys);
+		let ind = this.updaters.indexOf(sys);
 		if (ind >= 0) {
-			this._updaters.splice(ind, 1);
+			this.updaters.splice(ind, 1);
 		}
 
 	}
 
-	update(delta) {
+	update(delta: number) {
 
-		let objs = this._updaters;
-		for (let i = objs.length - 1; i >= 0; i--) {
-			objs[i].update(delta);
+		const updaters = this.updaters;
+		for (let i = updaters.length - 1; i >= 0; i--) {
+			updaters[i].update(delta);
 		}
 
-		objs = this._objects;
+		const objs = this.objects;
 
 		for (let i = objs.length - 1; i >= 0; i--) {
 
@@ -167,12 +173,12 @@ export default class Engine {
 	 * @param {GameObject} obj
 	 * @returns {boolean}
 	 */
-	remove(obj) {
+	remove(obj: GameObject) {
 
-		let ind = this._objects.indexOf(obj);
+		let ind = this.objects.indexOf(obj);
 		if (ind < 0) return false;
 
-		this._objects.splice(ind, 0);
+		this.objects.splice(ind, 0);
 
 		//this._objects[ind] = this._objects[ this._objects.length-1];
 		//this._objects.pop();
@@ -185,12 +191,10 @@ export default class Engine {
 	 * Destroy a game object.
 	 * @param {GameObject} obj
 	 */
-	destroy(obj) {
+	destroy(obj: GameObject) {
 
 		if (obj.destroyed !== true) {
-
 			obj.destroy();
-
 		}
 
 	}

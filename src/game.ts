@@ -55,7 +55,7 @@ export default class Game {
 
 	get objectLayer(): Container { return this._objectLayer; }
 
-	get uiLayer(): Container { return this._uiLayer; }
+	get uiLayer(): Container { return this.layerManager._uiLayer; }
 
 	/**
 	 * @property {PIXI.Container} backgroundLayer
@@ -161,6 +161,8 @@ export default class Game {
 	library: Library;
 	wheelEnabled: boolean = true;
 
+	_camera: Camera;
+
 	/**
 	 * After init(), layerManager and game layers are available for use.
 	 * @param {*} layerData
@@ -173,7 +175,6 @@ export default class Game {
 		layerManager.initLayers(layerData);
 		this._layerManager = layerManager;
 		this._objectLayer = this._engine.objectLayer = layerManager.objectLayer;
-		this._uiLayer = layerManager.uiLayer;
 
 		this._root = this.engine.Instantiate(this._objectLayer);
 		this._camera = this.root.add(Camera);
