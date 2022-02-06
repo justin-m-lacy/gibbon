@@ -1,5 +1,5 @@
 import Component from "../src/component";
-import Signal from 'signals';
+import { Signal } from 'signals';
 
 export default class TimeDestroy extends Component {
 
@@ -7,56 +7,49 @@ export default class TimeDestroy extends Component {
 	 * @property {number} timer - time remaining in sec. before destroy/effect.
 	 * @note internal timer is in ms for loop convenience.
 	 */
-	get timer() { return this._timer/1000; }
-	set timer(v) { this._timer = v*1000;}
+	get remainingSec() { return this._timer / 1000; }
+	set remainingSec(v) { this._timer = v * 1000; }
 
 	/**
 	 * @property {Signal} onComplete - fires when time complete.
 	 */
-	get onComplete(){return this._sigDone; }
+	get onComplete() { return this._sigDone; }
 
 	/**
-	 * @property {number} time - time in seconds before destroy/effect.
+	 * @property {number} time - time in milliseconds before destroy/effect.
 	 * Setting to new value resets the timer.
 	 */
-	get time(){
-		return this._time;
+	get timeMs(): number {
+		return this._timer;
 	}
-	set time(v) {
-		this._time = v;
-		this.timer = v;
+	set timeMs(v: number) {
+		this._timer = v;
 	}
 
+	_timer: number;
+	_sigDone: Signal;
 
-	constructor(){
+	constructor() {
 		super();
 		this._timer = -1;
 		this._sigDone = new Signal();
 	}
 
-	init(){
-		this.ticker = this.game.ticker;
-	}
+	update(delta: number) {
 
-	update(){
+		if (this._timer > 0) {
 
-		if ( this._timer < 0 ) return;
+			this._timer -= delta;
+			if (this._timer <= 0) {
 
-		this._timer -= this.ticker.deltaMS;
-		if ( this._timer <= 0 ) {
+				this._sigDone.dispatch(this);
+				this.gameObject?.Destroy();
 
-			this._sigDone.dispatch( this );
-			this.gameObject.Destroy();
-
+			}
 		}
 
 	}
 
-	destroy(){
-
-		this._sigDone.removeAll();
-		this._sigDone = null;
-
-	}
+	destroy() { this._sigDone.dispose(); }
 
 }

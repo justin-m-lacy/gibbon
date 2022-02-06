@@ -88,7 +88,7 @@ export default class Camera extends Component {
 	_x: number = 0;
 	_y: number = 0;
 	_viewRect: Rectangle = new Rectangle();
-	_panClip: DisplayObject | null = null;
+	_panClip?: DisplayObject | null;
 
 	_halfWidth: number = 0;
 	_halfHeight: number = 0;
@@ -154,7 +154,7 @@ export default class Camera extends Component {
 	init() {
 
 		this._target = null;
-		this._panClip = this.gameObject.clip;
+		this._panClip = this.gameObject?.clip;
 
 		this._viewScale = 1;
 

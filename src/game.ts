@@ -110,7 +110,30 @@ export default class Game {
 	/**
 	 * @property {LayerManager} layerManager
 	 */
-	get layerManager() { return this._layerManager; }
+	get layerManager(): LayerManager { return this._layerManager!; }
+
+	_app: PIXI.Application;
+	_screen: Rectangle;
+	_stage: Container;
+
+	_wheelScale: number = 1;
+	_loader: PIXI.Loader;
+
+	_groups: Group[];
+
+	_ticker: PIXI.Ticker;
+	_sharedTicker: PIXI.Ticker;
+
+	_emitter: PIXI.utils.EventEmitter;
+
+	_factory: Factory | null = null;
+	_engine: Engine;
+	library: Library;
+	wheelEnabled: boolean = true;
+
+	_layerManager?: LayerManager;
+
+	_camera: Camera;
 
 	/**
 	 *
@@ -142,27 +165,6 @@ export default class Game {
 
 	}
 
-	_app: PIXI.Application;
-	_screen: Rectangle;
-	_stage: Container;
-
-	_wheelScale: number = 1;
-	_loader: PIXI.Loader;
-
-	_groups: Group[];
-
-	_ticker: PIXI.Ticker;
-	_sharedTicker: PIXI.Ticker;
-
-	_emitter: PIXI.utils.EventEmitter;
-
-	_factory: Factory | null = null;
-	_engine: Engine;
-	library: Library;
-	wheelEnabled: boolean = true;
-
-	_camera: Camera;
-
 	/**
 	 * After init(), layerManager and game layers are available for use.
 	 * @param {*} layerData
@@ -170,9 +172,10 @@ export default class Game {
 	init(layerData = null) {
 
 		this._engine.factory = this._factory;
-		let layerManager = new LayerManager(this);
 
+		let layerManager = new LayerManager(this);
 		layerManager.initLayers(layerData);
+
 		this._layerManager = layerManager;
 		this._objectLayer = this._engine.objectLayer = layerManager.objectLayer;
 

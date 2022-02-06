@@ -1,4 +1,4 @@
-import { Circle, Graphics, Rectangle, Polygon, Ellipse, GraphicsData, FillStyle, RoundedRectangle, SHAPES, Point } from 'pixi.js';
+import { Circle, Graphics, Rectangle, Polygon, Ellipse, GraphicsData, RoundedRectangle, Point } from 'pixi.js';
 
 /**
  * Create a DisplayObject for a Shape.

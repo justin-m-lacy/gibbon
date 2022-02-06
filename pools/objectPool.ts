@@ -1,40 +1,36 @@
 import GameObject from "../src/gameObject";
+import { DisplayObject, Point } from 'pixi.js';
 
 /**
  * Pool optimized for GameObjects.
  */
-export default class ObjectPool {
+export default class GameObjectPool {
+
+	_objs: GameObject[];
 
 	constructor() {
-
 		this._objs = [];
-
 	}
 
 	/**
 	 * 
 	 * @param {GameObject} obj 
 	 */
-	add( obj ) {
-
+	add(obj: GameObject) {
 		this._objs.push(obj);
-
 	}
 
-	/**
-	 * 
-	 * @param {DisplayObject} [clip=null] 
-	 * @param {PIXI.Point} [pos=null]
-	 * @returns {GameObject}
-	 */
-	get( clip=null, pos=null ) {
+	get(clip?: DisplayObject, pos?: Point) {
 
-		if ( this._objs.length === 0 ) return new GameObject(clip,pos);
+		if (this._objs.length === 0) {
+			return new GameObject(clip, pos);
+		} else {
 
-		let obj = this._objs.pop();
-		obj._reset( clip, pos );
+			let obj = this._objs.pop();
+			obj._reset(clip, pos);
 
-		return obj;
+			return obj;
+		}
 
 	}
 

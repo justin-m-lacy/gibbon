@@ -71,10 +71,12 @@ export default class Engine {
 	 * @param {Object} [vars=null] variables to use in creating the new object.
 	 * @returns {GameObject}
 	 */
-	Create(key: string, loc: Point | null = null, vars: Object | null = null) {
+	Create(key: string, loc: Point | null = null, vars: Object | null = null): GameObject | null {
 
 		let go = this._factory!.create(key, loc, vars);
-		this.add(go);
+		if (go) {
+			this.add(go);
+		}
 
 		return go;
 	}

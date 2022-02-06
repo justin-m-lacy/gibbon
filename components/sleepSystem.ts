@@ -1,92 +1,98 @@
 import Component from "../src/component";
 import { quickSplice } from "../utils/arrayUtils";
+import GameObject from '../src/gameObject';
 
 export default class SleepSystem extends Component {
 
 	/**
 	 * @property {number} checkTime - frames between sleep/unsleep checks.
 	 */
-	get checkTime() { return this._checkTime; }
-	set checkTime(v) { this._checkTime = v;}
+	_checkTimeFrames: number;
+	/**
+	 * @property {number} sleepDist - distance at which object is slept.
+	 */
+	_sleepDist: number;
 
 	/**
 	 * @property {number} hideDist - distance offscreen at which object is hidden.
 	 */
-	get hideDist() { return this._hideDist; }
-	set hideDist(v) { this._hideDist =v; }
+	_hideDist: number;
 
-	/**
-	 * @property {number} sleepDist - distance at which object is slept.
-	 */
-	get sleepDist() { return this._sleepDist; }
-	set sleepDist(v) { this._sleepDist = v; }
+	_sleepers: GameObject[];
+
+	_countdown: number;
 
 	/**
 	 *
 	 * @param {number} hideDist - distance offscreen at which object should hide.
 	 * @param {number} sleepDist - distance offscreen at which object should sleep.
-	 * @param {number} checkTime - number of frames between sleep checks.
+	 * @param {number} checkTimeFrames - number of frames between sleep checks.
 	 */
-	constructor( hideDist=128, sleepDist=256, checkTime=12 ){
+	constructor(hideDist: number = 128, sleepDist: number = 256, checkTimeFrames: number = 12) {
+
+		super();
 
 		this._hideDist = hideDist;
 		this._sleepDist = sleepDist;
-		this._checkTime = checkTime;
+		this._checkTimeFrames = checkTimeFrames;
 
 		this._sleepers = [];
-		this._time = this._checkTime;
+		this._countdown = this._checkTimeFrames;
 
 	}
 
 	init() {
 
 		this._engine = this.game.engine;
-		this._view = this.game.camera.viewRect;
 
 	}
 
-	update( delta ) {
+	update(delta: number) {
 
 		var obj, pos, del, objects = this._sleepers;
-		let rect = this._view;
+		const rect = this.game.camera?.viewRect;
 
-		for( let i = objects.length-1; i >= 0; i-- ) {
+		if (rect == null) {
+			return;
+		}
+
+		for (let i = objects.length - 1; i >= 0; i--) {
 
 			obj = objects[i];
 			pos = obj.pos;
 
-			del = Math.max( rect.x - pos.x, pos.x - rect.right, pos.y - rect.bottom, rect.top - pos.y );
-			if ( del < this._sleepDist ) {
+			del = Math.max(rect.x - pos.x, pos.x - rect.right, pos.y - rect.bottom, rect.top - pos.y);
+			if (del < this._sleepDist) {
 
 				obj.sleep = false;
 
-				if ( del < this._hideDist ) {
+				if (del < this._hideDist) {
 					obj.visible = true;
-					quickSplice( objects, i );
+					quickSplice(objects, i);
 				}
 
 			}
 
 		}
 
-		this._time -= delta;
-		if ( this._time <= 0 ) {
+		this._countdown -= delta;
+		if (this._countdown <= 0) {
 
 			objects = this._engine.objects;
-			this._time = this._checkTime;
+			this._countdown = this._checkTime;
 
-			for( let i = objects.length-1; i >= 0; i--) {
+			for (let i = objects.length - 1; i >= 0; i--) {
 
 				obj = objects[i];
 				// already handled by other loop, plus hidden objects shouldnt be hidden.
-				if ( obj.sleep === true || obj.visible === false ) continue;
+				if (obj.sleep === true || obj.visible === false) continue;
 				pos = obj.pos;
 
-				del = Math.max( rect.x - pos.x, pos.x - rect.right, pos.y - rect.bottom, rect.top - pos.y );
-				if ( del > this._hideDist) {
+				del = Math.max(rect.x - pos.x, pos.x - rect.right, pos.y - rect.bottom, rect.top - pos.y);
+				if (del > this._hideDist) {
 
 					obj.visible = false;
-					if ( del > this._sleepDist) {
+					if (del > this._sleepDist) {
 
 						this._sleepers.push(obj);
 						obj.sleep = true;

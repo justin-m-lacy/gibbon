@@ -25,5 +25,8 @@
     "gsap": "^3.9.1",
     "pixi.js": "^5.3.11",
     "signals": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/signals": "^1.0.1"
   }
 }

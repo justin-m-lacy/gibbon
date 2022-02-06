@@ -14,22 +14,12 @@ export default class Group {
 	  * @property clip - clip associated with group, if any.
 	  * Objects added to the group are added to clip's child clips.
 	  */
-	readonly clip?: Container;
+	readonly clip?: Container | null;
 
 	/**
 	 * @property {string} name
 	 */
 	name?: string;
-
-	/**
-	 * @property {Game} game
-	 */
-	get game() { return this._game; }
-
-	/**
-	 * @property {Engine} engine
-	 */
-	get engine() { return this._engine; }
 
 	/**
 	 * @property {boolean} paused
@@ -41,8 +31,8 @@ export default class Group {
 
 	readonly objects: GameObject[];
 
-	readonly _game: Game;
-	readonly _engine: Engine;
+	readonly game: Game;
+	readonly engine: Engine;
 
 	_paused: boolean = false;
 
@@ -53,14 +43,14 @@ export default class Group {
 	 * @param {DisplayObject} [clip=null]
 	 * @param {boolean} [paused=false]
 	 */
-	constructor(game: Game, clip: Container | undefined = undefined, paused: boolean = false) {
+	constructor(game: Game, clip: Container | undefined | null = undefined, paused: boolean = false) {
 
 		this._paused = paused;
 
 		this.clip = clip;
 
-		this._game = game;
-		this._engine = game.engine;
+		this.game = game;
+		this.engine = game.engine;
 
 		this.objects = [];
 		this.subgroups = [];

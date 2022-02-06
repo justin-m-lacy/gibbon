@@ -5,7 +5,7 @@ import { Point, Polygon, Rectangle } from "pixi.js";
  * @param {Rectangle} r
  * @returns {Point}
  */
-export const inRect = (r: Rectangle) => {
+export const randInRect = (r: Rectangle) => {
 	return new Point(r.x + Math.random() * r.width, r.y + Math.random() * r.height)
 }
 

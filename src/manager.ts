@@ -1,23 +1,18 @@
+import Game from './game';
+import Engine from './engine';
 export default class Manager {
 
-	/**
-	 * @property {Game} game
-	 */
-	get game() { return this._game; }
-
-	/**
-	 * @property {Engine} engine
-	 */
-	get engine() { return this._engine; }
+	readonly game: Game;
+	readonly engine: Engine;
 
 	/**
 	 * 
 	 * @param {Game} game 
 	 */
-	constructor( game ){
+	constructor(game: Game) {
 
-		this._game = game;
-		this._engine = game.engine;
+		this.game = game;
+		this.engine = game.engine;
 
 	}
 

@@ -14,22 +14,22 @@ export default class LayerManager {
 	/**
 	 * @property {DisplayObject}
 	 */
-	get background(): DisplayObject { return this._background; }
+	get background(): DisplayObject | undefined { return this._background; }
 
 	/**
 	 * @property {DisplayObject}
 	 */
-	get foreground(): DisplayObject { return this._foreground; }
+	get foreground(): DisplayObject | undefined { return this._foreground; }
 
 	/**
 	 * @property {Container}
 	 */
-	get objectLayer(): Container { return this._objectLayer; }
+	get objectLayer(): Container | undefined { return this._objectLayer; }
 
 	/**
 	 * @property {Container}
 	 */
-	get uiLayer(): Container { return this._uiLayer; }
+	get uiLayer(): Container | undefined { return this._uiLayer; }
 
 	/**
 	 * @property {number}
@@ -37,6 +37,11 @@ export default class LayerManager {
 	get layerCount() { return this.game.stage.children.length; }
 
 	game: Game;
+
+	_foreground?: DisplayObject;
+	_background?: DisplayObject;
+	_objectLayer?: Container;
+	_uiLayer?: Container;
 
 
 	/**
@@ -56,11 +61,13 @@ export default class LayerManager {
 	 * @param {number} index - index where the new clip is placed.
 	 * @returns {Container} the clip created.
 	 */
-	addLayer(name: string, index: number): Container {
+	addLayer(name: string, index?: number | null): Container {
 
 		let clip = new Container();
 		clip.name = name;
-		if (index === null || index === undefined) this.game.stage.addChild(clip);
+		if (index === null || index === undefined) {
+			this.game.stage.addChild(clip);
+		}
 		else this.game.stage.addChildAt(clip, index);
 
 		return clip;
@@ -73,22 +80,9 @@ export default class LayerManager {
 	 */
 	initLayers(layerData = null) {
 
-		let stage = this.stage;
-
-		let clip = new Container();
-		clip.name = 'background';
-		stage.addChild(clip);
-		this._background = clip;
-
-		clip = new Container();
-		clip.name = "objects";
-		stage.addChild(clip);
-		this._objectLayer = clip;
-
-		clip = new Container();
-		clip.name = 'uiLayer';
-		stage.addChild(clip);
-		this._uiLayer = clip;
+		this._background = this.addLayer('background');
+		this._objectLayer = this.addLayer('object');
+		this._uiLayer = this.addLayer('uiLayer');
 
 	}
 
@@ -98,7 +92,7 @@ export default class LayerManager {
 	 */
 	initFromData(layerData: any) {
 
-		let stage = this.game.stage;
+		const stage = this.game.stage;
 		for (let data of layerData) {
 
 			var clip = new Container();

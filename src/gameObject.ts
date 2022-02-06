@@ -1,4 +1,4 @@
-import { Point, DisplayObject } from 'pixi.js';
+import { Point, DisplayObject, Container } from 'pixi.js';
 import * as PIXI from 'pixi.js';
 import { quickSplice } from '../utils/arrayUtils';
 import Group from './group';
@@ -12,10 +12,10 @@ import { Constructor } from 'utils/types';
  */
 export type DestroyOptions = {
 
-	children: boolean,
-	texture: boolean,
-	baseTexture: boolean
-} | boolean;
+	children?: boolean | undefined,
+	texture?: boolean | undefined,
+	baseTexture?: boolean | undefined
+};
 
 /**
  *
@@ -97,7 +97,7 @@ export default class GameObject {
 	}
 
 	get width() { return this.clip?.getBounds().width ?? 0; }
-	get hieght() { return this.clip?.getBounds().height ?? 0; }
+	get height() { return this.clip?.getBounds().height ?? 0; }
 
 	/**
 	 * @property {boolean} interactive - Set the interactivity for the GameObject.
@@ -157,6 +157,8 @@ export default class GameObject {
 
 	readonly emitter: PIXI.utils.EventEmitter;
 
+	_name: string;
+
 	_destroyOpts?: DestroyOptions;
 
 	_active: boolean = false;
@@ -166,6 +168,8 @@ export default class GameObject {
 	_group: Group | null = null;
 
 	_flags: number = 0;
+
+	readonly _compMap: Map<Constructor<Component>, Component>;
 
 	/**
 	 *
@@ -178,6 +182,8 @@ export default class GameObject {
 		this._compMap = new Map();
 
 		this._isAdded = false;
+
+		this._name = '';
 
 		if (clip != null) {
 
@@ -320,7 +326,7 @@ export default class GameObject {
 	 * under class or key cls.
 	 * @param {*} cls - class or key of component.
 	 */
-	has(cls) {
+	has(cls: Constructor<Component>) {
 		return this._compMap.has(cls);
 	}
 
@@ -328,7 +334,7 @@ export default class GameObject {
 	 *
 	 * @param {*} cls
 	 */
-	get(cls) {
+	get(cls: Constructor<Component>) {
 
 		let inst = this._compMap.get(cls);
 		if (inst !== undefined) return inst;
@@ -344,7 +350,7 @@ export default class GameObject {
 	 *
 	 * @param {*} cls
 	 */
-	require(cls) {
+	require<T extends Component>(cls: Constructor<T>) {
 
 		let inst = this._compMap.get(cls);
 		if (inst !== undefined) return inst;
@@ -387,7 +393,9 @@ export default class GameObject {
 				quickSplice(comps, i);
 				continue;
 			}
-			if (comp.update && comp.sleep !== true && comp.enabled === true) comp.update(delta);
+			if (comp.update && comp.sleep !== true && comp.enabled === true) {
+				comp.update(delta);
+			}
 
 		}
 
@@ -459,7 +467,7 @@ export default class GameObject {
 	 * Call to destroy the game Object.
 	 * Do not call _destroy() directly.
 	 */
-	Destroy() {
+	destroy() {
 
 		this._destroyed = true;
 
@@ -479,7 +487,11 @@ export default class GameObject {
 		this.emitter.emit('destroy', this);
 		this.emitter.removeAllListeners();
 		if (this.clip) {
-			this.clip.destroy(this._destroyOpts || true);
+			if (this.clip instanceof Container && this._destroyOpts) {
+				this.clip.destroy(this._destroyOpts);
+			} else {
+				this.clip.destroy();
+			}
 		}
 
 		/*this._position = null;

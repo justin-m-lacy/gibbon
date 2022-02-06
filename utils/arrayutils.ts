@@ -6,11 +6,14 @@
  * @param {number[]} a
  * @param {number} i
 */
-export const quickSplice = (a: number[], i: number) => {
+export const quickSplice = <T>(a: T[], i: number) => {
 	a[i] = a[a.length - 1];
 	a.pop();
 }
 
-export const randElm = (a: number[]): number => {
-	return a[Math.floor(Math.random() * a.length)];
+export const randElm = <T>(a: T[]): T | undefined => {
+
+	if (a.length > 0) {
+		return a[Math.floor(Math.random() * a.length)];
+	}
 }

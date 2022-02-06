@@ -1,6 +1,7 @@
 import Group from "./group";
-import { DisplayObject, Container } from "pixi.js";
+import { DisplayObject, Container, Loader } from "pixi.js";
 import { GameObject } from "..";
+import Game from './game';
 
 /**
  * Group with methods for defining, loading, and managing assets.
@@ -20,7 +21,7 @@ export default class LoadGroup extends Group {
 	/**
 	 * @property {GameObject} gameObject
 	 */
-	get gameObject() { return this._gameObject; }
+	get gameObject(): GameObject { return this._gameObject; }
 
 	/**
 	 * @param {Game} game
@@ -30,12 +31,19 @@ export default class LoadGroup extends Group {
 	 * @param {Boolean} [createObject=false] - Whether to create a GameObject for the group.
 	 * If true, a new container is created for the group clip.
 	 */
-	constructor(game, clip=null, loader=null, createObject=false ) {
+	constructor(game: Game,
+		clip: Container | null | undefined = null,
+		loader: Loader | null = null,
+		createObject: boolean = false) {
 
 		super(game, clip);
 
-		if ( loader ) this._loader = loader;
-		if ( createObject) this.makeGroupObject( new Container() );
+		if (loader) {
+			this._loader = loader;
+		}
+		if (createObject) {
+			this.makeGroupObject(new Container());
+		}
 
 	}
 
@@ -43,7 +51,9 @@ export default class LoadGroup extends Group {
 
 		let loader = this.loader;
 
-		if ( this.addAssets ) this.addAssets( loader );
+		if (this.addAssets) {
+			this.addAssets(loader);
+		}
 
 		loader.load();
 
@@ -59,7 +69,7 @@ export default class LoadGroup extends Group {
 	 * @param {DisplayObject} clip
 	 * @returns {GameObject}
 	 */
-	makeGroupObject( clip ) {
+	makeGroupObject(clip: DisplayObject): GameObject {
 		this._gameObject = this._gameObject || this._engine.Instantiate(clip);
 		return this._gameObject;
 	}
@@ -74,7 +84,9 @@ export default class LoadGroup extends Group {
 
 		console.log('destroying load group');
 		this._loader = null;
-		if ( this._gameObject ) this._gameObject.Destroy();
+		if (this.gameObject) {
+			this.gameObject.Destroy();
+		}
 
 		super.destroy();
 
