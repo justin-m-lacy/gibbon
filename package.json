@@ -22,7 +22,7 @@
   "author": "Justin Lacy",
   "license": "ISC",
   "dependencies": {
-    "gsap": "^3.9.1",
+    "gsap": "^3.6.0",
     "pixi.js": "^5.3.11",
     "signals": "^1.0.0"
   }
