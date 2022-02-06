@@ -5,7 +5,7 @@ export default class Component {
 	/**
 	 * @property {Game} game
 	 */
-	get game() { return GameObject.Game; }
+	get game() { return GameObject.Game!; }
 
 	/**
 	 * @property {Engine} engine
@@ -31,15 +31,15 @@ export default class Component {
 	/**
 	 * @property {boolean} enabled - Whether the component is enabled.
 	 */
-	get enabled(){ return this._enabled;}
+	get enabled() { return this._enabled; }
 	set enabled(v) {
 
 		this._enabled = v;
 
-		if ( v=== true ) {
-			if ( this.onEnable) this.onEnable();
+		if (v === true) {
+			if (this.onEnable) this.onEnable();
 		} else {
-			if ( this.onDisable) this.onDisable();
+			if (this.onDisable) this.onDisable();
 		}
 
 	}
@@ -48,13 +48,13 @@ export default class Component {
 	 * @property {number} x
 	 */
 	get x() { return this._clip.x; }
-	set x(v) { this._clip.x = v;}
+	set x(v) { this._clip.x = v; }
 
 	/**
 	 * @property {number} y
 	*/
 	get y() { return this._clip.y; }
-	set y(v) { this._clip.y = v;}
+	set y(v) { this._clip.y = v; }
 
 	/**
 	* @property {number} rotation - underlying clip rotation in radians.
@@ -62,8 +62,8 @@ export default class Component {
 	get rotation() { return this._clip.rotation; }
 	set rotation(v) {
 
-		if ( v > Math.PI ) v-= 2*Math.PI;
-		else if ( v < -Math.PI) v += 2*Math.PI;
+		if (v > Math.PI) v -= 2 * Math.PI;
+		else if (v < -Math.PI) v += 2 * Math.PI;
 
 		this._clip.rotation = v;
 	}
@@ -95,19 +95,19 @@ export default class Component {
 	 * @note component properties such as gameObject, clip, and game,
 	 * are not available in component constructor.
 	 */
-	constructor(){}
+	constructor() { }
 
 	/**
 	 * Override in subclass to initialize component.
 	 * Basic component properties now available.
 	 */
-	init(){}
+	init() { }
 
 	/**
 	 * Private initializer calls subclass init()
 	 * @param {GameObject} gameObject
 	 */
-	_init( gameObject ) {
+	_init(gameObject) {
 
 		this._gameObject = gameObject;
 		this._clip = this._gameObject.clip;
@@ -123,8 +123,8 @@ export default class Component {
 	 * @param {class} cls - class to add to the component's game object.
 	 * @returns {Component}
 	 */
-	add( cls ) {
-		return this._gameObject.add( cls );
+	add(cls) {
+		return this._gameObject.add(cls);
 	}
 
 	/**
@@ -132,8 +132,8 @@ export default class Component {
 	 * @param {Component} comp
 	 * @returns {Component} The added component instance.
 	 */
-	addExisting( comp, cls ) {
-		return this._gameObject.addExisting(comp, cls );
+	addExisting(comp, cls) {
+		return this._gameObject.addExisting(comp, cls);
 	}
 
 	/**
@@ -141,7 +141,7 @@ export default class Component {
 	 * @param {class} cls - wrapper for gameObject get()
 	 * @returns {Component|null}
 	 */
-	get(cls) { return this._gameObject.get(cls);}
+	get(cls) { return this._gameObject.get(cls); }
 
 	/**
 	 * Wraps GameObject require().
@@ -160,9 +160,9 @@ export default class Component {
 	/**
 	 * calls destroy() and cleans up any variables.
 	 */
-	_destroy(){
+	_destroy() {
 
-		if ( this.destroy ) this.destroy();
+		if (this.destroy) this.destroy();
 		this._enabled = false;
 		this._destroyed = true;
 		this._clip = null;

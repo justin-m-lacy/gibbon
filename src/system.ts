@@ -1,4 +1,6 @@
 import Group from "./group";
+import Game from './game';
+import GameObject from './gameObject';
 
 export default class System extends Group {
 
@@ -6,7 +8,9 @@ export default class System extends Group {
 	 * @property {boolean} enabled
 	 */
 	get enabled() { return this._enabled; }
-	set enabled(v) { this._enabled =v;}
+	set enabled(v) { this._enabled = v; }
+
+	_enabled: boolean = false;;
 
 	/**
 	 *
@@ -14,17 +18,17 @@ export default class System extends Group {
 	 * @param {GameObject} clip - system container clip.
 	 * @param {boolean} [enabled=false] - whether to start System immediately.
 	 */
-	constructor( game, clip=null, enabled=false ){
+	constructor(game: Game, clip?: GameObject | null, enabled: boolean = false) {
 
-		super( game, clip, !enabled );
+		super(game, clip, !enabled);
 
-		if ( enabled === true ) this.start();
+		if (enabled === true) this.start();
 
 	}
 
-	start(){
+	start() {
 
-		if ( !this._enabled ) {
+		if (!this._enabled) {
 			this.game.addUpdater(this);
 		}
 		super.unpause();
@@ -32,9 +36,9 @@ export default class System extends Group {
 
 	}
 
-	stop(){
+	stop() {
 
-		if ( this._enabled === true ) {
+		if (this._enabled === true) {
 			this.game.removeUpdater(this);
 		}
 		super.pause();
@@ -42,15 +46,15 @@ export default class System extends Group {
 
 	}
 
-	pause(){
+	pause() {
 		this.stop();
 	}
 
-	unpause(){
+	unpause() {
 		this.start();
 	}
 
-	destroy(){
+	destroy() {
 		this.stop();
 		super.destroy();
 	}
@@ -58,6 +62,6 @@ export default class System extends Group {
 	/**
 	 * Override in subclass.
 	 */
-	update() {}
+	update() { }
 
 }

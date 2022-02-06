@@ -2,6 +2,7 @@ import GameObject from './gameObject';
 import Library from './library';
 import { quickSplice } from '../utils/arrayUtils';
 import Factory from './factory';
+import { Point, DisplayObject } from 'pixi.js';
 
 
 export default class Engine {
@@ -21,7 +22,7 @@ export default class Engine {
 	/**
 	 * @property {GameObject[]} objects
 	 */
-	get objects() { return this._objects; }
+	get objects(): GameObject[] { return this._objects; }
 
 	/**
 	 * @property {Container} objectLayer
@@ -78,7 +79,7 @@ export default class Engine {
 	 * @param {PIXI.Point} [loc=null]
 	 * @returns {GameObject}
 	 */
-	Instantiate(clip = null, loc = null) {
+	Instantiate(clip: DisplayObject | null = null, loc?: Point | null) {
 
 		if (typeof clip === 'string') {
 			clip = this._lib.instance(clip, loc);

@@ -1,10 +1,15 @@
-import {gsap} from 'gsap';
+import { gsap } from 'gsap';
 import LayerManager from './layerManager';
 import Engine from './engine';
 import * as PIXI from 'pixi.js';
 import GameObject from './gameObject';
 import Camera from '../components/camera';
 import { quickSplice } from '../utils/arrayUtils';
+import { Rectangle, Container } from 'pixi.js';
+import Group from './group';
+import Library from './library';
+import Factory from './factory';
+import System from './system';
 
 /**
  * Extendable Game class.
@@ -14,56 +19,48 @@ export default class Game {
 	/**
 	 * @property {PIXI.Application} app
 	 */
-	get app() {return this._app;}
+	get app(): PIXI.Application { return this._app; }
 
 	/**
 	 * @property {PIXI.Renderer} renderer - renderer for application.
 	 * Convenience accessor. Cache for quick access.
 	 */
-	get renderer() {return this._app.renderer; }
+	get renderer() { return this._app.renderer; }
 
 	/**
 	 * @property {PIXI.Container} stage
 	 */
-	get stage() { return this._stage;}
+	get stage() { return this._stage; }
 
 	/**
 	 * @property {PIXI.Loader} loader
 	 */
-	get loader() { return this._loader;}
-	set loader(v) { this._loader = v;}
+	get loader() { return this._loader; }
+	set loader(v) { this._loader = v; }
 
 	/**
 	 * @property {PIXI.Rectangle} screen - Screen/View Rectangle.
 	 */
-	get screen() { return this._screen;}
+	get screen(): Rectangle { return this._screen; }
 
-	/**
-	 * @property {Camera} camera - Camera component.
-	 */
-	get camera() { return this._camera; }
+	get camera(): Camera { return this._camera; }
 
 	/**
 	 * @property {GameObject} root - GameObject containing the main Camera component
 	 * and base objectLayer.
 	 * Basic game systems can also be added to root as Components.
 	 */
-	get root() { return this._root; }
+	get root(): GameObject { return this._root; }
 
-	/**
-	 * @property {PIXI.Container} objectLayer
-	 */
-	get objectLayer() { return this._objectLayer; }
 
-	/**
-	 * @property {PIXI.Container} uiLayer - Container for ui objects.
-	 */
-	get uiLayer() { return this._uiLayer; }
+	get objectLayer(): Container { return this._objectLayer; }
+
+	get uiLayer(): Container { return this._uiLayer; }
 
 	/**
 	 * @property {PIXI.Container} backgroundLayer
 	 */
-	get backgroundLayer() { return this._layerManager.background; }
+	get backgroundLayer(): Container { return this._layerManager.background; }
 
 	/**
 	 * @property {PIXI.Ticker} ticker - Game Ticker.
@@ -77,26 +74,22 @@ export default class Game {
 	/**
 	 * @property {PIXI.utils.EventEmitter} emitter - Game-level Emitter. By default, the PIXI shared EventEmitter.
 	 */
-	get emitter() { return this._emitter;}
+	get emitter() { return this._emitter; }
 
 	/**
 	 * @property {InteractionData} mouseInfo - convenience accessor for global mouse information.
 	 */
-	get mouseInfo(){ return this.renderer.plugins.interaction.mouse; }
+	get mouseInfo() { return this.renderer.plugins.interaction.mouse; }
 
 	/**
 	 * @property {Factory} factory - Factory used for Object creation.
 	 */
-	get factory() { return this._factory; }
-	set factory(v) {
+	get factory(): Factory { return this._factory; }
+	set factory(v: Factory) {
 		this._factory = v;
 		this._engine.factory = v;
 	}
 
-	/**
-	 * @property {boolean} wheelEnabled - Whether wheel events are dispatched.
-	 */
-	get wheelEnabled() { return this._wheelEnabled; }
 
 	/**
 	 * @property {number} wheelScale - Amount by which to scroll wheel input.
@@ -124,12 +117,11 @@ export default class Game {
 	 * @param {PIXI.Application|Object} app - The pixi application, or options object.
 	 * If an options object is supplied, it is used to create a new PIXI.Application.
 	 */
-	constructor( app ) {
+	constructor(app: PIXI.Application) {
 
-		this._app = ( app.constructor ) ? app : new PIXI.Application( app );
+		GameObject.SetGame(this);
 
-		GameObject.SetGame( this );
-
+		this._app = app;
 		this._screen = this._app.screen;
 		this._stage = this._app.stage;
 		this._stage.interactive = true;
@@ -150,22 +142,41 @@ export default class Game {
 
 	}
 
+	_app: PIXI.Application;
+	_screen: Rectangle;
+	_stage: Container;
+
+	_wheelScale: number = 1;
+	_loader: PIXI.Loader;
+
+	_groups: Group[];
+
+	_ticker: PIXI.Ticker;
+	_sharedTicker: PIXI.Ticker;
+
+	_emitter: PIXI.utils.EventEmitter;
+
+	_factory: Factory | null = null;
+	_engine: Engine;
+	library: Library;
+	wheelEnabled: boolean = true;
+
 	/**
 	 * After init(), layerManager and game layers are available for use.
 	 * @param {*} layerData
 	 */
-	init( layerData=null ) {
+	init(layerData = null) {
 
 		this._engine.factory = this._factory;
 		let layerManager = new LayerManager(this);
 
-		layerManager.initLayers( layerData );
+		layerManager.initLayers(layerData);
 		this._layerManager = layerManager;
 		this._objectLayer = this._engine.objectLayer = layerManager.objectLayer;
 		this._uiLayer = layerManager.uiLayer;
 
-		this._root = this.engine.Instantiate( this._objectLayer );
-		this._camera = this.root.add( Camera );
+		this._root = this.engine.Instantiate(this._objectLayer);
+		this._camera = this.root.add(Camera);
 
 	}
 
@@ -174,7 +185,7 @@ export default class Game {
 	 */
 	start() {
 
-		this.ticker.add( this.engine.update, this.engine );
+		this.ticker.add(this.engine.update, this.engine);
 		this.ticker.start();
 		this.engine.start();
 
@@ -186,14 +197,14 @@ export default class Game {
 	 */
 	fullscreen() {
 
-		this.app.renderer.resize( document.body.clientWidth, document.body.clientHeight );
+		this.app.renderer.resize(document.body.clientWidth, document.body.clientHeight);
 
-		let resizer = ()=>{
+		let resizer = () => {
 			this.app.renderer.resize(
 				document.body.clientWidth,
-				document.body.clientHeight );
+				document.body.clientHeight);
 		};
-		window.addEventListener( 'resize', resizer );
+		window.addEventListener('resize', resizer);
 
 		return resizer;
 
@@ -206,50 +217,39 @@ export default class Game {
 	 * @param {*} [context=null]
 	 * @returns {PIXI.utils.EventEmitter}
 	 */
-	on( event, func, context=null ) {
-		return this._emitter.on( event, func, context );
+	on(event: string, func: Function, context = null) {
+		return this._emitter.on(event, func, context);
 	}
 
 	/**
 	 * Emit event with game emitter.
 	 * @param  {...any} args
 	 */
-	emit( ... args ) {
-		this._emitter.emit.apply( this._emitter, args );
+	emit(...args: any) {
+		this._emitter.emit.apply(this._emitter, args);
 	}
 
 
-	removeListener( evt, fn, context ) {
-		return this._emitter.removeListener(evt,fn,context);
+	removeListener(evt: string, fn?: Function, context?: any) {
+		return this._emitter.removeListener(evt, fn, context);
 	}
 
-	/**
-	 *
-	 * @param {string} name
-	 * @returns {?Group}
-	 */
-	findGroup(name) {
-		return this._groups.find( (g)=>g.name===name );
+	findGroup(name: string): Group | undefined {
+		return this._groups.find((g) => g.name === name);
 	}
 
-	/**
-	 *
-	 * @param {Group} g
-	 */
-	addGroup(g) {
-		this._groups.push(g);
-	}
+	addGroup(g: Group) { this._groups.push(g); }
 
 	/**
 	 *
 	 * @param {Group} g
 	 * @returns {boolean} True if g was found and removed.
 	 */
-	removeGroup(g) {
+	removeGroup(g: Group): boolean {
 
 		let ind = this._groups.indexOf(g);
-		if ( ind >= 0 ) {
-			this._groups.splice( ind, 1 );
+		if (ind >= 0) {
+			this._groups.splice(ind, 1);
 			return true;
 		}
 
@@ -261,19 +261,19 @@ export default class Game {
 	 * Wrapper for Engine.add(gameObject)
 	 * @param {GameObject} gameObject
 	 */
-	addObject(gameObject){ this._engine.add( gameObject); }
+	addObject(gameObject: GameObject) { this._engine.add(gameObject); }
 
 	/**
 	 *
 	 * @param {*} sys
 	 */
-	addUpdater( sys ) { this._engine.addUpdater(sys); }
+	addUpdater(sys: any) { this._engine.addUpdater(sys); }
 
 	/**
 	 *
 	 * @param {*} sys
 	 */
-	removeUpdater(sys) { this._engine.removeUpdater(sys);}
+	removeUpdater(sys: any) { this._engine.removeUpdater(sys); }
 
 	/**
 	 *
@@ -281,8 +281,8 @@ export default class Game {
 	 * @param {*} context
 	 * @returns {PIXI.Ticker}
 	 */
-	addUpdate( func, context ) {
-		this.ticker.add( func, context );
+	addUpdate(func: (...params: any[]) => any, context?: any) {
+		this.ticker.add(func, context);
 	}
 
 	/**
@@ -291,7 +291,7 @@ export default class Game {
 	 * @param {*} context
 	 * @returns {PIXI.Ticker}
 	 */
-	removeUpdate( func, context ){
+	removeUpdate(func: (...params: any[]) => any, context?: any) {
 		return this.ticker.remove(func, context);
 	}
 
@@ -305,8 +305,8 @@ export default class Game {
 	 * @param {PIXI.Point} [loc=null]
 	 * @returns {GameObject}
 	 */
-	instantiate( clip=null, loc=null ) {
-		return this.engine.Instantiate(clip,loc);
+	instantiate(clip = null, loc = null) {
+		return this.engine.Instantiate(clip, loc);
 	}
 
 	/**
@@ -314,8 +314,8 @@ export default class Game {
 	 * @param {Point|Object} [loc=null]
 	 * @return {GameObject}
 	 */
-	makeEmpty( loc=null ) {
-		return this.engine.Instantiate( new PIXI.Container(), loc );
+	makeEmpty(loc = null) {
+		return this.engine.Instantiate(new PIXI.Container(), loc);
 	}
 
 	/**
@@ -326,11 +326,13 @@ export default class Game {
 	 * @param {?number} time
 	 * @returns {Tween} - The tween created.
 	 */
-	replaceTween( target, config, time ) {
+	replaceTween(target: gsap.TweenTarget, config: gsap.TweenVars, time?: number) {
 
-		if ( time ) config.duration = time;
-		config.overwrite = 'all';
-		return gsap.to( target, config );
+		if (time) {
+			config.duration = time;
+		}
+		config.overwrite = true;
+		return gsap.to(target, config);
 
 	}
 
@@ -341,10 +343,10 @@ export default class Game {
 	 * @param {?number} time - tween time.
 	 * @returns {Tween}
 	 */
-	createTween( target, config, time ) {
+	createTween(target, config, time) {
 
-		if ( time ) config.duration = time;
-		return gsap.to( target, config );
+		if (time) config.duration = time;
+		return gsap.to(target, config);
 
 	}
 
@@ -353,35 +355,35 @@ export default class Game {
 	 */
 	enableWheel() {
 
-		if ( this._wheelEnabled === true ) return;
+		if (this._wheelEnabled === true) return;
 
 		let mgr = this.app.renderer.plugins.interaction;
 
 		this._wheelEnabled = true;
 
 		// store to remove later.
-		this._wheelFunc = (e)=>{
+		this._wheelFunc = (e) => {
 
 			let evt = new PIXI.interaction.InteractionEvent();
 			let data = new PIXI.interaction.InteractionData();
 
 			data.originalEvent = e;
-			data.deltaY = e.deltaY*this.wheelScale;
-			data.deltaX = e.deltaX*this.wheelScale;
+			data.deltaY = e.deltaY * this.wheelScale;
+			data.deltaX = e.deltaX * this.wheelScale;
 
 			data.originalEvent = e;
 
-			Object.assign( data, mgr.eventData );
+			Object.assign(data, mgr.eventData);
 
 			let target = evt.target = data.target;
 			evt.data = data;
 			evt.type = 'wheel';
 
-			while ( target ) {
+			while (target) {
 
-				if ( target.interactive === true ) {
+				if (target.interactive === true) {
 					evt.currentTarget = target;
-					target.emit( 'wheel', evt );
+					target.emit('wheel', evt);
 				}
 				target = target.parent;
 
@@ -389,17 +391,17 @@ export default class Game {
 
 		};
 
-		this.app.view.addEventListener( 'wheel', this._wheelFunc );
+		this.app.view.addEventListener('wheel', this._wheelFunc);
 
 	}
 
 	/**
 	 * Disable wheel events.
 	 */
-	disableWheel(){
+	disableWheel() {
 
-		if ( this._wheelEnabled === true ) {
-			this.app.view.removeEventListener( 'wheel', this._wheelFunc );
+		if (this._wheelEnabled === true) {
+			this.app.view.removeEventListener('wheel', this._wheelFunc);
 			this._wheelFunc = null;
 			this._wheelEnabled = false;
 		}

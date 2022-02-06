@@ -1,4 +1,5 @@
-import { Container } from "pixi.js";
+import { Container, DisplayObject } from 'pixi.js';
+import Game from './game';
 
 /**
  * Use to keep track of basic game layers.
@@ -13,36 +14,38 @@ export default class LayerManager {
 	/**
 	 * @property {DisplayObject}
 	 */
-	get background() { return this._background; }
+	get background(): DisplayObject { return this._background; }
 
 	/**
 	 * @property {DisplayObject}
 	 */
-	get foreground() { return this._foreground; }
+	get foreground(): DisplayObject { return this._foreground; }
 
 	/**
 	 * @property {Container}
 	 */
-	get objectLayer() { return this._objectLayer; }
+	get objectLayer(): Container { return this._objectLayer; }
 
 	/**
 	 * @property {Container}
 	 */
-	get uiLayer() { return this._uiLayer;}
+	get uiLayer(): Container { return this._uiLayer; }
 
 	/**
 	 * @property {number}
 	 */
-	get layerCount() { return this.stage.children.length; }
+	get layerCount() { return this.game.stage.children.length; }
+
+	game: Game;
+
 
 	/**
 	 *
 	 * @param {Game} game
 	 */
-	constructor(game){
+	constructor(game: Game) {
 
 		this.game = game;
-		this.stage = game.stage;
 		//this._layers = [];
 
 	}
@@ -53,12 +56,12 @@ export default class LayerManager {
 	 * @param {number} index - index where the new clip is placed.
 	 * @returns {Container} the clip created.
 	 */
-	addLayer( name, index ) {
+	addLayer(name: string, index: number): Container {
 
 		let clip = new Container();
 		clip.name = name;
-		if ( index === null || index === undefined ) this.stage.addChild( clip );
-		else this.stage.addChildAt( clip, index );
+		if (index === null || index === undefined) this.game.stage.addChild(clip);
+		else this.game.stage.addChildAt(clip, index);
 
 		return clip;
 
@@ -68,23 +71,23 @@ export default class LayerManager {
 	 * @todo extend this functionality.
 	 * @param {object} [layerData=null]
 	 */
-	initLayers( layerData=null ) {
+	initLayers(layerData = null) {
 
 		let stage = this.stage;
 
 		let clip = new Container();
 		clip.name = 'background';
-		stage.addChild( clip );
+		stage.addChild(clip);
 		this._background = clip;
 
 		clip = new Container();
 		clip.name = "objects";
-		stage.addChild( clip );
+		stage.addChild(clip);
 		this._objectLayer = clip;
 
 		clip = new Container();
 		clip.name = 'uiLayer';
-		stage.addChild( clip );
+		stage.addChild(clip);
 		this._uiLayer = clip;
 
 	}
@@ -93,15 +96,15 @@ export default class LayerManager {
 	 *
 	 * @param {*} layerData
 	 */
-	initFromData( layerData ) {
+	initFromData(layerData: any) {
 
 		let stage = this.game.stage;
-		for( let data of layerData ) {
+		for (let data of layerData) {
 
 			var clip = new Container();
 			clip.name = data.name || '';
 
-			if ( data.depth ) this.stage.addChildAt( clip, data.depth );
+			if (data.depth) this.game.stage.addChildAt(clip, data.depth);
 			else stage.addChild(clip);
 
 
