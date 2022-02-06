@@ -1,21 +1,22 @@
 import GameObject from './gameObject';
 import Library from './library';
-import {quickSplice } from '../utils/arrayUtils';
-import * as PIXI from 'pixi.js';
+import { quickSplice } from '../utils/arrayUtils';
+import Factory from './factory';
+
 
 export default class Engine {
 
 	/**
 	 * @property {Library} library
 	 */
-	get library() { return this._lib; }
-	set library(v) { this._lib = v;}
+	get library(): Library { return this._lib; }
+	set library(v) { this._lib = v; }
 
 	/**
 	 * @property {Factory} factory
 	 */
-	get factory() { return this._factory; }
-	set factory(v) { this._factory=v;}
+	get factory(): Factory | undefined { return this._factory; }
+	set factory(v: Factory | undefined) { this._factory = v; }
 
 	/**
 	 * @property {GameObject[]} objects
@@ -26,7 +27,7 @@ export default class Engine {
 	 * @property {Container} objectLayer
 	 */
 	get objectLayer() { return this._objectLayer; }
-	set objectLayer(v) { this._objectLayer = v;}
+	set objectLayer(v) { this._objectLayer = v; }
 
 	/**
 	 * @property {Object[]} updaters - Updaters are for systems or objects with update
@@ -40,7 +41,10 @@ export default class Engine {
 	get sharedTicker() { return this._sharedTicker; }
 	set sharedTicker(v) { this._sharedTicker=v;}*/
 
-	constructor(){
+	_lib: Library;
+	_factory?: Factory;
+
+	constructor() {
 
 		this._objects = [];
 		this._updaters = [];
@@ -60,9 +64,9 @@ export default class Engine {
 	 * @param {Object} [vars=null] variables to use in creating the new object.
 	 * @returns {GameObject}
 	 */
-	Create( key, loc=null, vars=null) {
+	Create(key, loc = null, vars = null) {
 
-		let go = this._factory.create( key, loc, vars );
+		let go = this._factory.create(key, loc, vars);
 		this.add(go);
 
 		return go;
@@ -74,14 +78,14 @@ export default class Engine {
 	 * @param {PIXI.Point} [loc=null]
 	 * @returns {GameObject}
 	 */
-	Instantiate( clip=null, loc=null ) {
+	Instantiate(clip = null, loc = null) {
 
-		if ( typeof clip === 'string' ) {
-			 clip = this._lib.instance(clip, loc);
+		if (typeof clip === 'string') {
+			clip = this._lib.instance(clip, loc);
 		}
-		let go = new GameObject( clip, loc );
+		let go = new GameObject(clip, loc);
 
-		this.add( go );
+		this.add(go);
 		return go;
 
 	}
@@ -89,7 +93,7 @@ export default class Engine {
 	start() {
 	}
 
-	stop(){
+	stop() {
 	}
 
 	/**
@@ -98,13 +102,13 @@ export default class Engine {
 	*/
 	add(obj) {
 
-		if ( obj === null || obj === undefined ) {
+		if (obj === null || obj === undefined) {
 			console.log('ERROR: engine.add() object is null');
 			return;
 		}
 
-		if ( obj.clip !== null && obj.clip.parent === null ) {
-			this._objectLayer.addChild( obj.clip );
+		if (obj.clip !== null && obj.clip.parent === null) {
+			this._objectLayer.addChild(obj.clip);
 		}
 
 		obj._added();
@@ -117,41 +121,41 @@ export default class Engine {
 	 *
 	 * @param {System|Object} sys
 	 */
-	addUpdater( sys ) {
-		this._updaters.push( sys );
+	addUpdater(sys) {
+		this._updaters.push(sys);
 	}
 
 	/**
 	 *
 	 * @param {System|Object} sys
 	 */
-	removeUpdater( sys ) {
+	removeUpdater(sys) {
 
 		let ind = this._updaters.indexOf(sys);
-		if ( ind >= 0 ) {
-			this._updaters.splice(ind,1);
+		if (ind >= 0) {
+			this._updaters.splice(ind, 1);
 		}
 
 	}
 
-	update( delta ) {
+	update(delta) {
 
 		let objs = this._updaters;
-		for( let i = objs.length-1; i>=0; i-- ) {
-			objs[i].update( delta );
+		for (let i = objs.length - 1; i >= 0; i--) {
+			objs[i].update(delta);
 		}
 
 		objs = this._objects;
 
-		for( let i = objs.length-1; i>=0; i-- ) {
+		for (let i = objs.length - 1; i >= 0; i--) {
 
 			var obj = objs[i];
-			if ( obj.destroyed === true ) {
+			if (obj.destroyed === true) {
 
 				obj._destroy();
-				quickSplice( objs, i );
+				quickSplice(objs, i);
 
-			} else if ( obj.active ) obj.update( delta );
+			} else if (obj.active) obj.update(delta);
 
 		}
 
@@ -162,12 +166,12 @@ export default class Engine {
 	 * @param {GameObject} obj
 	 * @returns {boolean}
 	 */
-	remove( obj ) {
+	remove(obj) {
 
 		let ind = this._objects.indexOf(obj);
-		if ( ind < 0 ) return false;
+		if (ind < 0) return false;
 
-		this._objects.splice( ind, 0 );
+		this._objects.splice(ind, 0);
 
 		//this._objects[ind] = this._objects[ this._objects.length-1];
 		//this._objects.pop();
@@ -182,7 +186,7 @@ export default class Engine {
 	 */
 	destroy(obj) {
 
-		if ( obj.destroyed !== true ) {
+		if (obj.destroyed !== true) {
 
 			obj.destroy();
 
