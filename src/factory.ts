@@ -1,7 +1,7 @@
 import Game from './game';
-import Engine from './engine';
 import GameObject from './gameObject';
 
+/// Function to create instances of game objects.
 export type CreateFunction = (...params: any[]) => GameObject;
 
 

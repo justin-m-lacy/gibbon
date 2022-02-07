@@ -1,6 +1,11 @@
 import { Container, DisplayObject } from 'pixi.js';
 import Game from './game';
 
+export type LayerData = {
+	depth?: number,
+	name?: string
+}
+
 /**
  * Use to keep track of basic game layers.
  * Each layer is a separate PIXI.Container objects on the stage.
@@ -24,7 +29,7 @@ export default class LayerManager {
 	/**
 	 * @property {Container}
 	 */
-	get objectLayer(): Container | undefined { return this._objectLayer; }
+	get objectLayer(): Container { return this._objectLayer; }
 
 	/**
 	 * @property {Container}
@@ -40,7 +45,7 @@ export default class LayerManager {
 
 	_foreground?: DisplayObject;
 	_background?: DisplayObject;
-	_objectLayer?: Container;
+	_objectLayer: Container;
 	_uiLayer?: Container;
 
 
@@ -51,7 +56,7 @@ export default class LayerManager {
 	constructor(game: Game) {
 
 		this.game = game;
-		//this._layers = [];
+		this.initDefaultLayers();
 
 	}
 
@@ -78,7 +83,7 @@ export default class LayerManager {
 	 * @todo extend this functionality.
 	 * @param {object} [layerData=null]
 	 */
-	initLayers(layerData = null) {
+	initDefaultLayers() {
 
 		this._background = this.addLayer('background');
 		this._objectLayer = this.addLayer('object');
@@ -86,11 +91,7 @@ export default class LayerManager {
 
 	}
 
-	/**
-	 *
-	 * @param {*} layerData
-	 */
-	initFromData(layerData: any) {
+	initFromData(layerData: LayerData[]) {
 
 		const stage = this.game.stage;
 		for (let data of layerData) {
@@ -98,7 +99,9 @@ export default class LayerManager {
 			var clip = new Container();
 			clip.name = data.name || '';
 
-			if (data.depth) this.game.stage.addChildAt(clip, data.depth);
+			if (data.depth) {
+				this.game.stage.addChildAt(clip, data.depth);
+			}
 			else stage.addChild(clip);
 
 

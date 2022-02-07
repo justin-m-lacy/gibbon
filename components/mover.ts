@@ -6,18 +6,18 @@ export default class Mover extends Component {
 	/**
 	 * @property {number} rotation - wraps gameObject rotation in radians.
 	 */
-	get rotation() { return this.clip.rotation; }
+	get rotation() { return this.clip!.rotation; }
 	set rotation(v) {
 		if (v > Math.PI) v -= 2 * Math.PI;
 		else if (v < -Math.PI) v += 2 * Math.PI;
-		this.clip.rotation = v;
+		this.clip!.rotation = v;
 	}
 
 	/**
 	 * @property {PIXI.Point} position
 	 */
-	get position() { return this.clip.position; }
-	set position(v) { this.clip.position = v; }
+	get position() { return this.clip!.position; }
+	set position(v) { this.clip!.position = v; }
 
 	/**
 	 * @property {PIXI.Point} velocity
@@ -61,33 +61,20 @@ export default class Mover extends Component {
 	get omegaMax() { return this._omegaMax; }
 	set omegaMax(v) { this._omegaMax = v; }
 
-	readonly _velocity: Point;
-	readonly _accel: Point;
+	readonly _velocity: Point = new Point();
+	readonly _accel: Point = new Point();
 
-	_speedMax: number = Number.MAX_SAFE_INTEGER;
-	_accelMax: number = Number.MAX_SAFE_INTEGER;
+	_speedMax: number = 4;
+	_accelMax: number = 1;
 	_omegaAcc: number = 0;
 	_omega: number = 0;
-	_omegaMax: number = 0;
+	_omegaMax: number = Math.PI / 40;
+
+	constructor() {
+		super();
+	}
 
 	init() {
-
-		this._velocity = new Point();
-		this._accel = new Point();
-
-		/**
-		 * {number} Angular velocity in radians per frame, and angular acceleration.
-		 */
-		this._omega = this._omegaAcc = 0;
-
-		/**
-		 * Maximum angular velocity in radians.
-		 */
-		this.omegaMax = Math.PI / 40;
-
-		this._accelMax = 1;
-		this._velocityMax = 4;
-
 	}
 
 	/**
@@ -101,16 +88,14 @@ export default class Mover extends Component {
 
 	update(delta: number) {
 
-		//this.clip.position = pos;
 		if (this._omegaAcc !== 0) this._omega += this._omegaAcc * delta;
 		if (this._omega > this._omegaMax) this._omega = this._omegaMax;
 		else if (this._omega < -this._omegaMax) this._omega = -this._omegaMax;
 
 		this.rotation += this._omega * delta;
-		console.assert(Math.abs(this.clip.rotation) <= 2 * Math.PI, 'ERR: Large Mover Rotation: ' + this.clip.rotation);
 
 
-		let vel = this._velocity;
+		const vel = this._velocity;
 		vel.x += this._accel.x * delta;
 		vel.y += this._accel.y * delta;
 
@@ -120,7 +105,7 @@ export default class Mover extends Component {
 			vel.set(vabs * vel.x, vabs * vel.y);
 		}
 
-		let pos = this.position;
+		const pos = this.position;
 		pos.set(pos.x + vel.x * delta, pos.y + vel.y * delta);
 
 	}

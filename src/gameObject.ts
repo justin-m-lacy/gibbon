@@ -1,11 +1,11 @@
 import { Point, DisplayObject, Container } from 'pixi.js';
 import * as PIXI from 'pixi.js';
-import { quickSplice } from '../utils/arrayUtils';
+import { quickSplice } from '../utils/array-utils';
 import Group from './group';
 import Game from './game';
 import Engine from './engine';
 import Component from './component';
-import { Constructor } from 'utils/types';
+import { Constructor } from '../utils/types';
 
 /**
  * Options for destroying a GameObject
@@ -142,7 +142,7 @@ export default class GameObject {
 	/**
 	 * @property {boolean} destroyed
 	 */
-	get destroyed() { return this._destroyed }
+	get isDestroyed() { return this._destroyed }
 
 	/**
 	 * @property {DisplayObject} clip - clip of the gameObject.d.
@@ -446,7 +446,7 @@ export default class GameObject {
 	 */
 	setDestroyOpts(children: boolean, texture: boolean, baseTexture: boolean) {
 
-		if (this._destroyOpts == null || typeof this._destroyOpts === 'boolean') {
+		if (this._destroyOpts == null) {
 			this._destroyOpts = {
 				children: children,
 				texture: texture,

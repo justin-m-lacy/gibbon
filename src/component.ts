@@ -1,5 +1,6 @@
 import GameObject from "./gameObject";
-import { Constructor } from 'utils/types';
+import { Constructor } from '../utils/types';
+import { DisplayObject } from 'pixi.js';
 
 export default class Component {
 
@@ -7,11 +8,6 @@ export default class Component {
 	 * @property {Game} game
 	 */
 	get game() { return GameObject.Game!; }
-
-	/**
-	 * @property {DisplayObject} clip - Convenience accessor for GameObject clip.
-	 */
-	get clip() { return this._clip; }
 
 	/**
 	 * @property {Engine} engine
@@ -48,51 +44,52 @@ export default class Component {
 	/**
 	 * @property {number} x
 	 */
-	get x() { return this.clip.x; }
-	set x(v) { this.clip.x = v; }
+	get x() { return this.clip?.x ?? 0; }
+	set x(v) {
+		if (this.clip != null) {
+			this.clip.x = v;
+		}
+	}
 
 	/**
 	 * @property {number} y
 	*/
-	get y() { return this.clip.y; }
-	set y(v) { this.clip.y = v; }
+	get y(): number { return this.clip?.y ?? 0; }
+	set y(v) { if (this.clip != null) this.clip.y = v; }
 
 	/**
 	* @property {number} rotation - underlying clip rotation in radians.
 	*/
-	get rotation() { return this.clip.rotation; }
-	set rotation(v) {
+	get rotation(): number { return this.clip?.rotation ?? 0; }
+	set rotation(v: number) {
 
+		/// TODO: modulus.
 		if (v > Math.PI) v -= 2 * Math.PI;
 		else if (v < -Math.PI) v += 2 * Math.PI;
 
-		this.clip.rotation = v;
+		if (this.clip) this.clip.rotation = v;
 	}
 
 	/**
-	 * @property {PIXI.Point} position
+	 * @property {PIXI.Point} position - only usable after init()
 	 */
-	get position() { return this.gameObject.position; }
-	set position(v) { this.gameObject.position = v; }
+	get position() { return this.gameObject!.position; }
+	set position(v) { this.gameObject!.position = v; }
 
 	/**
 	 * Indicates the component has been marked for disposal and should no longer
 	 * be referenced.
-	 * @property {Boolean} destroyed
+	 * @property {Boolean} isDestroyed
 	 */
-	get destroyed() { return this._destroyed; }
+	get isDestroyed() { return this._destroyed; }
 
-	get sleep() {
-		return this._sleep;
-	}
-	set sleep(v: boolean) {
-		this._sleep = v;
-	}
+	get sleep() { return this._sleep; }
+	set sleep(v: boolean) { this._sleep = v; }
 
 	/**
 	 * @property {GameObject} - Game object containing this component.
 	 */
-	readonly gameObject?: GameObject;
+	gameObject?: GameObject;
 
 	_enabled: boolean = false;
 	_destroyed: boolean = false;
@@ -102,9 +99,15 @@ export default class Component {
 	 */
 	_sleep: boolean = false;
 
+
+	/**
+	 * @property {DisplayObject} clip - Convenience copy of GameObject clip.
+	 */
+	clip?: DisplayObject | null;
+
 	/**
 	 * Constructor intentionally empty so components can be
-	 * instantiated by user and added to GameObjects without
+	 * instantiated and added to GameObjects without
 	 * knowledge of the underlying game system.
 	 * @note component properties such as gameObject, clip, and game,
 	 * are not available in component constructor.
@@ -113,18 +116,18 @@ export default class Component {
 
 	/**
 	 * Override in subclass to initialize component.
-	 * Basic component properties now available.
+	 * Basic component properties are now available.
 	 */
 	init() { }
 
 	/**
-	 * Private initializer calls subclass init()
+	 * Private initializer calls subclassed init()
 	 * @param {GameObject} gameObject
 	 */
 	_init(gameObject: GameObject) {
 
 		this.gameObject = gameObject;
-		this._clip = this.gameObject.clip;
+		this.clip = this.gameObject.clip;
 
 		this._enabled = true;
 
@@ -183,8 +186,8 @@ export default class Component {
 		if (this.destroy) this.destroy();
 		this._enabled = false;
 		this._destroyed = true;
-		this._clip = null;
-		this.gameObject = null;
+		this.clip = null;
+		this.gameObject = undefined;
 
 	}
 

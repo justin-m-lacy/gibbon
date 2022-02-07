@@ -6,12 +6,15 @@ export default class SpriteTiler extends Component {
 	/**
 	 * @property {DisplayObject} DisplayObject to follow.
 	 */
-	get target(): DisplayObject { return this._target; }
-	set target(v) {
+	get target(): DisplayObject | undefined { return this._target; }
+	set target(v: DisplayObject | undefined) {
 		this._target = v;
-		if (v) this.sprite.tilePosition.set(-v.position.x, -v.position.y);
+		if (v) {
+			this.sprite.tilePosition.set(-v.position.x, -v.position.y);
+		}
 	}
 
+	_target?: DisplayObject;
 	sprite?: Sprite;
 
 	/**

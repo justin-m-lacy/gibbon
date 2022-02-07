@@ -45,7 +45,7 @@ export default class BoundsDestroy extends System {
 		for (let i = this.objects.length - 1; i >= 0; i--) {
 
 			var o = this.objects[i];
-			if (o.destroyed) {
+			if (o.isDestroyed) {
 				continue;
 			}
 

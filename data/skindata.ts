@@ -1,4 +1,6 @@
-import { Sprite, Graphics, Texture, Circle, Rectangle, Ellipse, Polygon, RoundedRectangle, DisplayObject, Point, GraphicsData } from 'pixi.js';
+import { Sprite, Graphics, Texture, Circle, Rectangle, Ellipse, Polygon, RoundedRectangle, DisplayObject, Point, GraphicsData, SHAPES } from 'pixi.js';
+
+type Shape = Circle | Rectangle | Ellipse | Polygon | RoundedRectangle;
 
 /**
  * Graphical information for rendering a PIXI DisplayObject.
@@ -44,7 +46,7 @@ export default class SkinData {
 	 * @property {PIXI.Circle|PIXI.Rectangle|PIXI.Ellipse|PIXI.Polygon|PIXI.RoundedRect} shape - Optional Shape information.
 	 * Not that unlike in PIXI.GraphicsData, this is actually a shape object.
 	 */
-	shape?: Circle | Rectangle | Ellipse | Polygon | RoundedRectangle;
+	shape?: Shape;
 
 	/**
 	 * @property {number}
@@ -83,9 +85,16 @@ export default class SkinData {
 	 * 
 	 * @param {Object} [opts=null] 
 	 */
-	constructor(opts = null) {
+	constructor(opts?: Partial<SkinData>) {
 
-		if (opts) Object.apply(this, opts);
+		if (opts) {
+			this.graphicsData = opts.graphicsData;
+			this.lineAlpha = opts.lineAlpha ?? 1;
+			this.lineColor = opts.lineColor ?? 0;
+			this.lineWidth = opts.lineWidth ?? 1;
+			this.fill = opts.fill ?? false;
+
+		}
 
 	}
 

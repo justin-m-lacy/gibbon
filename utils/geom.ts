@@ -1,17 +1,14 @@
 import * as PIXI from 'pixi.js';
 import { Point, Polygon } from 'pixi.js';
 
-export const getLength = (p: Point) => {
+export const getLength = (p: Point): number => {
 	return Math.sqrt(p.x * p.x + p.y * p.y);
 }
 
 /**
  * Returns the distance between two points.
- * @param {*} p1
- * @param {*} p2
- * @returns {number}
  */
-export const dist = (p1: Point, p2: Point) => {
+export const dist = (p1: Point, p2: Point): number => {
 	let dx = p2.x - p1.x, dy = p2.y - p1.y;
 	return Math.sqrt(dx * dx + dy * dy);
 }

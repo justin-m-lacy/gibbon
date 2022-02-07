@@ -1,6 +1,6 @@
 import GameObject from './gameObject';
 import Library from './library';
-import { quickSplice } from '../utils/arrayUtils';
+import { quickSplice } from '../utils/array-utils';
 import Factory from './factory';
 import { Point, DisplayObject, Container } from 'pixi.js';
 import System from './system';
@@ -11,20 +11,6 @@ export interface IUpdater {
 }
 
 export default class Engine {
-
-	/**
-	 * @property {Library} library
-	 */
-	get library(): Library { return this._lib; }
-	set library(v) { this._lib = v; }
-
-	/**
-	 * @property {Factory} factory
-	 */
-	get factory(): Factory | undefined { return this._factory; }
-	set factory(v: Factory | undefined) { this._factory = v; }
-
-
 
 	/**
 	 * @property {Container} objectLayer
@@ -48,16 +34,17 @@ export default class Engine {
 	get sharedTicker() { return this._sharedTicker; }
 	set sharedTicker(v) { this._sharedTicker=v;}*/
 
-	_lib: Library;
-	_factory?: Factory;
+	readonly library: Library;
+	factory: Factory | null = null;
 
 	constructor() {
 
 		this.objects = [];
 		this.updaters = [];
 
-		this._lib = new Library();
+		this.library = new Library();
 
+		this.factory = null;
 
 		//this.ticker = PIXI.Ticker.shared;
 
@@ -73,7 +60,7 @@ export default class Engine {
 	 */
 	Create(key: string, loc: Point | null = null, vars: Object | null = null): GameObject | null {
 
-		let go = this._factory!.create(key, loc, vars);
+		let go = this.factory!.create(key, loc, vars);
 		if (go) {
 			this.add(go);
 		}
@@ -87,12 +74,10 @@ export default class Engine {
 	 * @param {PIXI.Point} [loc=null]
 	 * @returns {GameObject}
 	 */
-	Instantiate(clip: DisplayObject | null = null, loc?: Point | null) {
+	Instantiate(clip: DisplayObject | null | string = null, loc?: Point | null) {
 
-		if (typeof clip === 'string') {
-			clip = this._lib.instance(clip, loc);
-		}
-		let go = new GameObject(clip, loc);
+		var src = (typeof clip === 'string') ? this.library.instance(clip, loc) : clip;
+		let go = new GameObject(src, loc);
 
 		this.add(go);
 		return go;
@@ -159,7 +144,7 @@ export default class Engine {
 		for (let i = objs.length - 1; i >= 0; i--) {
 
 			var obj = objs[i];
-			if (obj.destroyed === true) {
+			if (obj.isDestroyed === true) {
 
 				obj._destroy();
 				quickSplice(objs, i);
@@ -173,9 +158,9 @@ export default class Engine {
 	/**
 	 * Remove a GameObject from the Engine.
 	 * @param {GameObject} obj
-	 * @returns {boolean}
+	 * @returns {boolean} true if object was removed.
 	 */
-	remove(obj: GameObject) {
+	remove(obj: GameObject): boolean {
 
 		let ind = this.objects.indexOf(obj);
 		if (ind < 0) return false;
@@ -195,7 +180,7 @@ export default class Engine {
 	 */
 	destroy(obj: GameObject) {
 
-		if (obj.destroyed !== true) {
+		if (obj.isDestroyed !== true) {
 			obj.destroy();
 		}
 
