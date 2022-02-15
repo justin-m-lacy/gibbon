@@ -17,7 +17,8 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "types": [
-      "dom",
+      "pixi.js",
+      "dom"
     ],
     "paths": {
       "*": [

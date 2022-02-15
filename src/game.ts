@@ -1,10 +1,12 @@
 import { gsap } from 'gsap';
 import LayerManager from './layerManager';
 import Engine from './engine';
-import * as PIXI from 'pixi.js';
+import PIXI from 'pixi.js';
+import { Rectangle, DisplayObject } from 'pixi.js';
+import { Container } from 'pixi.js';
+
 import GameObject from './gameObject';
 import Camera from '../components/camera';
-import { Rectangle, Container, DisplayObject } from 'pixi.js';
 import Group from './group';
 import Library from './library';
 import Factory from './factory';

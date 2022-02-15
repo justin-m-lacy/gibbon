@@ -1,6 +1,6 @@
 {
   "name": "gibbon.js",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "GameObject/Component system for use with pixi.js.",
   "main": "index.js",
   "scripts": {
@@ -23,10 +23,11 @@
   "license": "ISC",
   "dependencies": {
     "gsap": "^3.9.1",
-    "pixi.js": "^6.2.2",
+    "pixi.js": "5.3.11",
     "signals": "^1.0.0"
   },
   "devDependencies": {
-    "@types/signals": "^1.0.1"
+    "@types/signals": "^1.0.1",
+    "typescript": "^4.5.5"
   }
 }
