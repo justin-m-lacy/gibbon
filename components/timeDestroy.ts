@@ -43,7 +43,7 @@ export default class TimeDestroy extends Component {
 			if (this._timer <= 0) {
 
 				this._sigDone.dispatch(this);
-				this.gameObject?.Destroy();
+				this.gameObject?.destroy();
 
 			}
 		}

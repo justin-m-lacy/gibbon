@@ -1,11 +1,12 @@
 import Component from "../src/component";
 import { quickSplice } from "../utils/array-utils";
 import GameObject from '../src/gameObject';
+import Engine from '../src/engine';
 
 export default class SleepSystem extends Component {
 
 	/**
-	 * @property {number} checkTime - frames between sleep/unsleep checks.
+	 * @property {number} _checkTimeFrames - frames between sleep/unsleep checks.
 	 */
 	_checkTimeFrames: number;
 	/**
@@ -21,6 +22,8 @@ export default class SleepSystem extends Component {
 	_sleepers: GameObject[];
 
 	_countdown: number;
+
+	_engine?: Engine;
 
 	/**
 	 *
@@ -59,7 +62,7 @@ export default class SleepSystem extends Component {
 		for (let i = objects.length - 1; i >= 0; i--) {
 
 			obj = objects[i];
-			pos = obj.pos;
+			pos = obj.position;
 
 			del = Math.max(rect.x - pos.x, pos.x - rect.right, pos.y - rect.bottom, rect.top - pos.y);
 			if (del < this._sleepDist) {
@@ -78,15 +81,15 @@ export default class SleepSystem extends Component {
 		this._countdown -= delta;
 		if (this._countdown <= 0) {
 
-			objects = this._engine.objects;
-			this._countdown = this._checkTime;
+			objects = this._engine!.objects;
+			this._countdown = this._checkTimeFrames;
 
 			for (let i = objects.length - 1; i >= 0; i--) {
 
 				obj = objects[i];
 				// already handled by other loop, plus hidden objects shouldnt be hidden.
 				if (obj.sleep === true || obj.visible === false) continue;
-				pos = obj.pos;
+				pos = obj.position;
 
 				del = Math.max(rect.x - pos.x, pos.x - rect.right, pos.y - rect.bottom, rect.top - pos.y);
 				if (del > this._hideDist) {

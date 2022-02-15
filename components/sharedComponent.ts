@@ -1,4 +1,5 @@
 import Component from '../src/component';
+import GameObject from '../src/gameObject';
 
 /**
  * Not fully developed.
@@ -6,15 +7,13 @@ import Component from '../src/component';
  */
 export default class SharedComponent extends Component {
 
+	_attachCount: number = 0;
+
 	constructor() {
-
 		super();
-
-		this._attachCount = 0;
-
 	}
 
-	_init( gameObject ) {
+	_init(gameObject: GameObject) {
 
 		super._init(gameObject);
 
@@ -22,10 +21,10 @@ export default class SharedComponent extends Component {
 
 	}
 
-	_destroy(){
+	_destroy() {
 
 		this._attachCount--;
-		if ( this._attachCount <= 0 ) super._destroy();
+		if (this._attachCount <= 0) super._destroy();
 
 	}
 

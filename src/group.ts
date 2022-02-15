@@ -1,6 +1,6 @@
 import { GameObject } from "..";
 import Game from './game';
-import { Container } from 'pixi.js';
+import { Container, DisplayObject } from 'pixi.js';
 import Engine from './engine';
 
 /**
@@ -9,6 +9,10 @@ import Engine from './engine';
  */
 export default class Group {
 
+
+	get gameObject(): GameObject | undefined {
+		return this._gameObject;
+	}
 
 	/**
 	  * @property clip - clip associated with group, if any.
@@ -34,6 +38,11 @@ export default class Group {
 	readonly game: Game;
 	readonly engine: Engine;
 
+	/**
+	 * GameObject to hold group components.
+	 */
+	_gameObject?: GameObject;
+
 	_paused: boolean = false;
 
 
@@ -55,6 +64,16 @@ export default class Group {
 		this.objects = [];
 		this.subgroups = [];
 
+	}
+
+	/**
+ * Ensure the group has its own group GameObject.
+ * @param {DisplayObject} clip
+ * @returns {GameObject}
+ */
+	makeGroupObject(clip: DisplayObject): GameObject {
+		this._gameObject = this._gameObject || this.engine.Instantiate(clip);
+		return this._gameObject;
 	}
 
 	pause() {
@@ -186,7 +205,7 @@ export default class Group {
 		obj.on('destroy', this.remove, this);
 
 		this.objects.push(obj);
-		this._engine.add(obj)
+		this.engine.add(obj)
 
 		return obj;
 
@@ -201,7 +220,7 @@ export default class Group {
 		}
 		for (let i = this.objects.length - 1; i >= 0; i--) {
 			this.objects[i].removeListener('destroy', this.remove, this);
-			this.objects[i].Destroy();
+			this.objects[i].destroy();
 		}
 
 	}

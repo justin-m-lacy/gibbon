@@ -56,7 +56,11 @@ export default class LayerManager {
 	constructor(game: Game) {
 
 		this.game = game;
-		this.initDefaultLayers();
+
+
+		this._background = this.addLayer('background');
+		this._objectLayer = this.addLayer('object');
+		this._uiLayer = this.addLayer('uiLayer');
 
 	}
 
@@ -76,18 +80,6 @@ export default class LayerManager {
 		else this.game.stage.addChildAt(clip, index);
 
 		return clip;
-
-	}
-
-	/**
-	 * @todo extend this functionality.
-	 * @param {object} [layerData=null]
-	 */
-	initDefaultLayers() {
-
-		this._background = this.addLayer('background');
-		this._objectLayer = this.addLayer('object');
-		this._uiLayer = this.addLayer('uiLayer');
 
 	}
 

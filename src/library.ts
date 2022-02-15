@@ -1,9 +1,13 @@
 import { Point } from 'pixi.js';
+import { Constructor, isConstructor, Clonable, isClonable } from '../utils/types';
+
+
+
 export default class Library {
 
-	constructor() {
-		this._lib = {};
-	}
+	_lib: Map<string, Constructor<any> | Clonable | Object> = new Map();
+
+	constructor() { }
 
 	/**
 	 * 
@@ -11,8 +15,8 @@ export default class Library {
 	 * @param {Object|function} item - function(position) to create an object,
 	 * an Object with a clone() function, or a plain object to return.
 	 */
-	addItem(name: string, item: ((...args: any[]) => Object) | Object) {
-		this._lib[name] = item;
+	addItem(name: string, item: Constructor<any> | Clonable | Object) {
+		this._lib.set(name, item);
 	}
 
 	/**
@@ -23,16 +27,12 @@ export default class Library {
 	 */
 	instance(name: string, p?: Point | null) {
 
-		let item = this._lib[name];
+		let item = this._lib.get(name);
 		if (!item) return null;
 
-		let type = typeof (item);
-		if (type === 'function') {
-			// creation function.
-			item = type(p);
-			return item;
-
-		} else if (item.clone) return item.clone();
+		if (isConstructor(item)) {
+			let type = new item();
+		} else if (isClonable(item)) return item.clone();
 		else return item;
 
 

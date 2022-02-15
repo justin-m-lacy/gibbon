@@ -1,6 +1,5 @@
 import Group from "./group";
 import Game from './game';
-import GameObject from './gameObject';
 import { IUpdater } from "./engine";
 import { Container } from 'pixi.js';
 

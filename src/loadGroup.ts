@@ -16,12 +16,9 @@ export default class LoadGroup extends Group {
 	/**
 	 * @property {LayerManager} layerManager - Wrapper for Game layer manager.
 	 */
-	get layerManager() { return this._game.layerManager; }
+	get layerManager() { return this.game.layerManager; }
 
-	/**
-	 * @property {GameObject} gameObject
-	 */
-	get gameObject(): GameObject { return this._gameObject; }
+	_loader: Loader | null = null;
 
 	/**
 	 * @param {Game} game
@@ -59,20 +56,12 @@ export default class LoadGroup extends Group {
 
 	}
 
+	addAssets?(loader: Loader): void;
+
 	/**
 	 * Define in subclasses to add loading assets before load() is called.
 	 */
 	//addAssets( loader ) {}
-
-	/**
-	 * Ensure the group has its own group GameObject.
-	 * @param {DisplayObject} clip
-	 * @returns {GameObject}
-	 */
-	makeGroupObject(clip: DisplayObject): GameObject {
-		this._gameObject = this._gameObject || this._engine.Instantiate(clip);
-		return this._gameObject;
-	}
 
 	/**
 	 * Called after all assets have been loaded.
@@ -85,7 +74,7 @@ export default class LoadGroup extends Group {
 		console.log('destroying load group');
 		this._loader = null;
 		if (this.gameObject) {
-			this.gameObject.Destroy();
+			this.gameObject.destroy();
 		}
 
 		super.destroy();

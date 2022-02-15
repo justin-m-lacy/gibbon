@@ -15,7 +15,7 @@ export default class Engine {
 	/**
 	 * @property {Container} objectLayer
 	 */
-	readonly objectLayer?: Container;
+	objectLayer?: Container;
 
 	/**
 	 * @property {GameObject[]} objects

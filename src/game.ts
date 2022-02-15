@@ -185,7 +185,7 @@ export default class Game {
 		this._layerManager = layerManager;
 		this._engine.objectLayer = layerManager.objectLayer;
 
-		this._root = this.engine.Instantiate(this._objectLayer!);
+		this._root = this.engine.Instantiate(layerManager.objectLayer);
 		this._camera = this.root.add(Camera);
 
 	}
@@ -413,7 +413,9 @@ export default class Game {
 	disableWheel() {
 
 		if (this.wheelEnabled === true) {
-			this.app.view.removeEventListener('wheel', this.wheelFunc);
+			if (this.wheelFunc) {
+				this.app.view.removeEventListener('wheel', this.wheelFunc);
+			}
 			this.wheelFunc = undefined;
 			this.wheelEnabled = false;
 		}

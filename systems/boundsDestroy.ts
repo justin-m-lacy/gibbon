@@ -1,5 +1,5 @@
 import System from "../src/system";
-import { Rectangle, DisplayObject, Container } from "pixi.js";
+import { Rectangle, Container } from "pixi.js";
 import Game from "../src/game";
 import GameObject from '../src/gameObject';
 
@@ -54,7 +54,7 @@ export default class BoundsDestroy extends System {
 
 				if (this.onExit) this.onExit(o);
 				else {
-					o.Destroy();
+					o.destroy();
 				}
 
 			}

@@ -1,6 +1,8 @@
 export default class Pool {
 
-	constructor(){
+	private _byType: Map<any, any>;
+
+	constructor() {
 
 		this._byType = new Map();
 
@@ -12,10 +14,10 @@ export default class Pool {
 	 * @param {function} object creation function.
 	 * @returns {*} Object from pool, or created object.
 	 */
-	get( key, creator ) {
+	get(key, creator) {
 
 		let list = this.getList(key);
-		if ( list.length > 0 ) return list.pop();
+		if (list.length > 0) return list.pop();
 		return creator();
 
 	}
@@ -26,7 +28,7 @@ export default class Pool {
 	 * @param {*} obj
 	 * @returns {Pool} this 
 	 */
-	add( key, obj ) {
+	add(key, obj) {
 		this.getList(key).push(obj);
 		return this;
 	}
@@ -35,13 +37,13 @@ export default class Pool {
 	 * 
 	 * @param {*} key 
 	 */
-	getList( key ) {
+	getList(key) {
 
 		let list = this._byType.get(key);
-		if ( list ) return list;
+		if (list) return list;
 
 		list = [];
-		this._byType.set( key, list );
+		this._byType.set(key, list);
 		return list;
 
 	}

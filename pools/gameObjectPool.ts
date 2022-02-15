@@ -2,7 +2,8 @@ import GameObject from "../src/gameObject";
 import { DisplayObject, Point } from 'pixi.js';
 
 /**
- * Pool optimized for GameObjects.
+ * Pool for GameObjects.
+ * Not fully developed.
  */
 export default class GameObjectPool {
 
@@ -27,7 +28,7 @@ export default class GameObjectPool {
 		} else {
 
 			let obj = this._objs.pop();
-			obj._reset(clip, pos);
+			//obj._reset(clip, pos);
 
 			return obj;
 		}

@@ -43,12 +43,6 @@ export default class GameObject {
 	set group(v: Group | null) { this._group = v; }
 
 	/**
-	 * @property {number} flags - User-defined bit-flags applied to this GameObject.
-	 */
-	get flags(): number { return this._flags; }
-	set flags(v: number) { this._flags = v; }
-
-	/**
 	 * @property {string} name - Name of the GameObject.
 	 */
 	get name() { return this._name; }
@@ -65,11 +59,7 @@ export default class GameObject {
 	 * @property {Point} position - Position of the object and Display clip.
 	 */
 	get position() { return this._position; }
-	set position(v) {
-
-		this._position.set(v.x, v.y);
-
-	}
+	set position(v) { this._position.set(v.x, v.y); }
 
 	/**
 	 * @property {number} x
@@ -167,9 +157,9 @@ export default class GameObject {
 
 	_group: Group | null = null;
 
-	_flags: number = 0;
+	flags: number = 0;
 
-	readonly _compMap: Map<Constructor<Component>, Component>;
+	readonly _compMap: Map<Constructor<Component> | Function, Component>;
 
 	/**
 	 *
@@ -204,7 +194,7 @@ export default class GameObject {
 
 		this._active = true;
 
-		this._flags = 0;
+		this.flags = 0;
 		this.emitter = clip || new PIXI.utils.EventEmitter();
 		this.clip = clip;
 
@@ -273,8 +263,10 @@ export default class GameObject {
 	 */
 	addExisting<T extends Component>(inst: T, cls?: Constructor<T>): T {
 
+		const key = cls ?? (<any>inst).constructor ?? Object.getPrototypeOf(inst).constructor ?? inst;
+
 		this._components.push(inst);
-		this._compMap.set(cls || inst.constructor || inst, inst);
+		this._compMap.set(key, inst);
 
 		if (this._isAdded) inst._init(this);
 
@@ -287,8 +279,12 @@ export default class GameObject {
 	 * @param {class} cls - component class to instantiate.
 	 * @returns {Object}
 	*/
-	add<T extends Component>(cls: Constructor<T>): T {
-		return this.addExisting(new cls(), cls);
+	add<T extends Component>(cls: T | Constructor<T>): T {
+		if (cls instanceof Component) {
+			return this.addExisting(cls);
+		} else {
+			return this.addExisting(new cls(), cls);
+		}
 	}
 
 	/**

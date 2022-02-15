@@ -154,6 +154,7 @@ export default class Component {
 	 * @returns {Component} The added component instance.
 	 */
 	addExisting(comp: Component, cls?: Constructor<Component>) {
+
 		return this.gameObject!.addExisting(comp, cls);
 	}
 
@@ -162,21 +163,23 @@ export default class Component {
 	 * @param {class} cls - wrapper for gameObject get()
 	 * @returns {Component|null}
 	 */
-	get(cls): Component | null { return this.gameObject!.get(cls); }
+	get(cls: Constructor<Component>): Component | null {
+		return this.gameObject!.get(cls);
+	}
 
 	/**
 	 * Wraps GameObject require().
 	 * @param {*} cls
 	 * @returns {Component}
 	 */
-	require(cls): Component { return this.gameObject!.require(cls); }
+	require(cls: Constructor<Component>): Component { return this.gameObject!.require(cls); }
 
 	/**
 	 * Use to destroy a Component.
 	 * override destroy() to clean up your components.
 	 * Do not call _destroy() or destroy() directly.
 	 */
-	Destroy() { this._destroy(); }
+	destroy() { this._destroy(); }
 
 	/**
 	 * calls destroy() and cleans up any variables.
