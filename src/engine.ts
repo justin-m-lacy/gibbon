@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js';
 import GameObject from './gameObject';
 import Library from './library';
 import { quickSplice } from '../utils/array-utils';

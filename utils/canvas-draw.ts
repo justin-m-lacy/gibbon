@@ -34,7 +34,7 @@ export default class CanvasDraw {
 	 * @param {Point} p1
 	 * @param {Gradient} gradient
 	 */
-	gradFill(p0: Point, p1: Point, gradient: Gradient) {
+	gradFill(p0: Point, p1: PIXI.Point, gradient: Gradient) {
 
 		var ctx = this.canvas.getContext('2d');
 

@@ -1,3 +1,5 @@
+import * as PIXI from 'pixi.js';
+
 import Engine from './src/engine';
 import Component from './src/component';
 
