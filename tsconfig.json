@@ -6,7 +6,6 @@
     "module": "esnext",
     "noEmit": true,
     "declaration": true,
-    "isolatedModules": true,
     "importsNotUsedAsValues": "remove",
     "moduleResolution": "node",
     "jsx": "preserve",
