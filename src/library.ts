@@ -1,5 +1,5 @@
 import { Point } from 'pixi.js';
-import { Constructor, isConstructor, Clonable, isClonable } from '../utils/types';
+import { Constructor, isConstructor, Clonable, isClonable } from './utils/types';
 
 
 

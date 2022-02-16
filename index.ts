@@ -3,26 +3,29 @@ import * as PIXI from 'pixi.js';
 import Engine from './src/engine';
 import Component from './src/component';
 
-import Components from './components/components';
-import Systems from './systems/systems';
-import Utils from './utils/utils';
+import Components from './src/components/components';
+import Systems from './src/systems/systems';
+import Utils from './src/utils/utils';
 
 import Factory from './src/factory';
 import GameObject from './src/gameObject';
-import Mover from './components/mover';
-import Camera from './components/camera';
+import Mover from './src/components/mover';
+import Camera from './src/components/camera';
 import Library from './src/library';
 import Game from './src/game'
 import Group from './src/group';
 import System from './src/system';
 import LoadGroup from './src/loadGroup';
-import * as Geom from './utils/geom';
-import * as Rand from './utils/rand';
-import CanvasDraw from './utils/canvas-draw';
+import * as Geom from './src/utils/geom';
+import * as Rand from './src/utils/rand';
+import CanvasDraw from './src/utils/canvas-draw';
+
+export * from 'src/components/components';
+export * from './src/utils/utils';
 
 export {
-	Engine, Game, Component, System, Factory, GameObject, Mover, Camera, Library, Group,
-	LoadGroup, Geom, Rand, Components, Systems, Utils
+	Engine, Game, Component, System, Factory, GameObject, Library, Group,
+	LoadGroup, Geom, Rand, Systems
 };
 
 const Gibbon = {

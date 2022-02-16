@@ -1,6 +1,6 @@
 {
   "name": "gibbon.js",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "GameObject/Component system for use with pixi.js.",
   "main": "index.js",
   "scripts": {
@@ -20,8 +20,9 @@
     "Game"
   ],
   "author": "Justin Lacy",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
+    "@tweenjs/tween.js": "^18.6.4",
     "gsap": "^3.9.1",
     "pixi.js": "6.2.2",
     "signals": "^1.0.0"

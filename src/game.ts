@@ -2,15 +2,12 @@ import { gsap } from 'gsap';
 import LayerManager from './layerManager';
 import Engine from './engine';
 import PIXI from 'pixi.js';
-import { Rectangle, DisplayObject } from 'pixi.js';
-import { Container } from 'pixi.js';
-
+import { Rectangle, DisplayObject, Container, InteractionEvent } from 'pixi.js';
 import GameObject from './gameObject';
-import Camera from '../components/camera';
+import Camera from './components/camera';
 import Group from './group';
 import Library from './library';
 import Factory from './factory';
-import System from './system';
 import { LayerData } from './layerManager';
 
 /**
@@ -229,7 +226,7 @@ export default class Game {
 	 * @param {*} [context=null]
 	 * @returns {PIXI.utils.EventEmitter}
 	 */
-	on(event: string, func: Function, context = null) {
+	on(event: string, func: PIXI.utils.EventEmitter.ListenerFn, context = null) {
 		return this._emitter.on(event, func, context);
 	}
 
@@ -242,7 +239,7 @@ export default class Game {
 	}
 
 
-	removeListener(evt: string, fn?: Function, context?: any) {
+	removeListener(evt: string, fn?: (evt: InteractionEvent) => void, context?: any) {
 		return this._emitter.removeListener(evt, fn, context);
 	}
 
@@ -389,7 +386,7 @@ export default class Game {
 
 			Object.assign(data, mgr.eventData);
 
-			let target: Container | undefined = evt.target = data.target;
+			let target: DisplayObject | undefined = evt.target = data.target;
 			evt.data = data;
 			evt.type = 'wheel';
 

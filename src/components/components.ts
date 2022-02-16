@@ -1,6 +1,7 @@
-import Component from '../src/component';
+import Component from '../component';
 import Camera from './camera';
 import Mover from './mover';
+import { HtmlWrapper } from './html-wrapper';
 import SpriteTiler from './spriteTiler';
 import TimeDestroy from './timeDestroy';
 
@@ -13,5 +14,6 @@ export default {
 	Camera,
 	Mover,
 	SpriteTiler,
-	TimeDestroy
+	TimeDestroy,
+	HtmlWrapper
 }

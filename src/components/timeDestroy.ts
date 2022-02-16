@@ -1,4 +1,4 @@
-import Component from "../src/component";
+import Component from "../component";
 import { Signal } from 'signals';
 
 export default class TimeDestroy extends Component {
@@ -50,6 +50,6 @@ export default class TimeDestroy extends Component {
 
 	}
 
-	destroy() { this._sigDone.dispose(); }
+	onDestroy(): void { this._sigDone.dispose(); }
 
 }

@@ -1,4 +1,4 @@
-import Component from "../src/component";
+import Component from "../component";
 import { DisplayObject, TilingSprite } from 'pixi.js';
 
 export default class SpriteTiler extends Component {

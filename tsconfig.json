@@ -4,15 +4,17 @@
     "outDir": "dist",
     "target": "esnext",
     "module": "esnext",
-    "useDefineForClassFields": true,
     "noEmit": true,
+    "declaration": true,
+    "isolatedModules": true,
+    "importsNotUsedAsValues": "remove",
     "moduleResolution": "node",
-    "strict": true,
     "jsx": "preserve",
     "skipLibCheck": true,
     "allowJs": true,
     "checkJs": true,
     "sourceMap": true,
+    "strict": true,
     "incremental": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -22,14 +24,6 @@
       "node",
       "pixi.js"
     ],
-    "paths": {
-      "*": [
-        "node_modules/*",
-      ],
-      "pixi.js": [
-        "node_modules/pixi.js/index.d.ts"
-      ],
-    },
     "lib": [
       "esnext",
       "dom"
@@ -37,9 +31,12 @@
   },
   "include": [
     "./*.ts",
-    "utils/*.ts",
+    "src/utils/*.ts",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

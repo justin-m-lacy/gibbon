@@ -1,5 +1,5 @@
 import GameObject from "./gameObject";
-import { Constructor } from '../utils/types';
+import { Constructor } from './utils/types';
 import { DisplayObject } from 'pixi.js';
 
 export default class Component {
@@ -174,9 +174,11 @@ export default class Component {
 	 */
 	require(cls: Constructor<Component>): Component { return this.gameObject!.require(cls); }
 
+	onDestroy?(): void;
+
 	/**
 	 * Use to destroy a Component.
-	 * override destroy() to clean up your components.
+	 * override onDestroy() to clean up your components.
 	 * Do not call _destroy() or destroy() directly.
 	 */
 	destroy() { this._destroy(); }
@@ -186,7 +188,9 @@ export default class Component {
 	 */
 	_destroy() {
 
-		if (this.destroy) this.destroy();
+		if (this.onDestroy) {
+			this.onDestroy();
+		}
 		this._enabled = false;
 		this._destroyed = true;
 		this.clip = null;

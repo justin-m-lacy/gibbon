@@ -1,11 +1,11 @@
-import { Point, DisplayObject, Container } from 'pixi.js';
+import { Point, DisplayObject, Container, InteractionEvent } from 'pixi.js';
 import * as PIXI from 'pixi.js';
-import { quickSplice } from '../utils/array-utils';
+import { quickSplice } from './utils/array-utils';
 import Group from './group';
 import Game from './game';
 import Engine from './engine';
 import Component from './component';
-import { Constructor } from '../utils/types';
+import { Constructor } from './utils/types';
 
 /**
  * Options for destroying a GameObject
@@ -100,6 +100,13 @@ export default class GameObject {
 		}
 	}
 
+	get sleeping(): boolean {
+		return this._sleep;
+	}
+	set sleep(v: boolean) {
+		this._sleep = v;
+	}
+
 	/**
 	 * @property {Point} orient - returns the normalized orientation vector of the object.
 	 */
@@ -147,6 +154,8 @@ export default class GameObject {
 
 	readonly emitter: PIXI.utils.EventEmitter;
 
+	_sleep: boolean = false;
+
 	_name: string;
 
 	_destroyOpts?: DestroyOptions;
@@ -177,7 +186,9 @@ export default class GameObject {
 
 		if (clip != null) {
 
-			if (pos) clip.position = pos;
+			if (pos) {
+				clip.position.set(pos.x, pos.y);
+			}
 			this._position = clip.position;
 
 			this._destroyOpts = {
@@ -233,9 +244,13 @@ export default class GameObject {
 	 * @param {*} [context=null]
 	 * @returns {PIXI.utils.EventEmitter}
 	 */
-	on(evt: string, func: Function, context?: any) {
-		if (this.clip != null) return this.clip.on(evt, func, context);
-		else return this.emitter.on(evt, func, context);
+	on(evt: string, func: (evt: InteractionEvent) => void, context?: any) {
+		if (this.clip != null) {
+			return this.clip.on(evt, func, context);
+		}
+		else {
+			return this.emitter.on(evt, func, context);
+		}
 	}
 
 	/**
@@ -251,7 +266,7 @@ export default class GameObject {
 	 * Wrap emitter removeListener()
 	 * @param  {...any} args
 	 */
-	removeListener(e: string, fn?: Function, context?: any) {
+	removeListener(e: string, fn?: (evt: InteractionEvent) => void, context?: any) {
 		this.emitter.removeListener(e, fn, context);
 	}
 
