@@ -1,4 +1,5 @@
 import { Circle, Graphics, Rectangle, Polygon, Ellipse, GraphicsData, RoundedRectangle, Point } from 'pixi.js';
+import * as PIXI from 'pixi.js';
 
 /**
  * Create a DisplayObject for a Shape.

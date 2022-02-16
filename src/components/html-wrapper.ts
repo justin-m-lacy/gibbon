@@ -19,7 +19,7 @@ export type HtmlWrapperOpts = {
  * Displays raw HtmlElement.
  * Should not be used for intensive animation, effects.
  */
-export class HtmlWrapper extends Component {
+export default class HtmlWrapper extends Component {
 
     get element() { return this._elm; }
     set element(v: HTMLElement | undefined) {
