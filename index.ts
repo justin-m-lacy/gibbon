@@ -7,19 +7,17 @@ import Components from './src/components/components';
 import Systems from './src/systems/systems';
 import Utils from './src/utils/utils';
 
-export * from './src/components/camera';
-export * from './src/components/html-wrapper';
-export * from './src/components/mover';
-export * from './src/components/sleepSystem';
-export * from './src/components/spriteTiler';
-export * from './src/components/timeDestroy';
+import HtmlWrapper from './src/components/html-wrapper';
+import SleepSystem from './src/components/sleepSystem';
+import SpriteTiler from './src/components/spriteTiler';
+import TimeDestroy from './src/components/timeDestroy';
 
-export * from 'src/utils/canvas-draw';
-export * from 'src/utils/types';
-export * as DisplayUtils from 'src/utils/displayUtils';
-export * as ColorUtils from 'src/utils/colorUtils';
-export * as DrawUtils from 'src/utils/drawUtils';
-export * as RandUtils from 'src/utils/rand';
+export { isClonable, isConstructor, } from 'src/utils/types';
+export type { Clonable, Constructor } from 'src/utils/types';
+import * as DisplayUtils from 'src/utils/displayUtils';
+import * as ColorUtils from 'src/utils/colorUtils';
+import * as DrawUtils from 'src/utils/drawUtils';
+import * as RandUtils from 'src/utils/rand';
 
 import Factory from './src/factory';
 import GameObject from './src/gameObject';
@@ -36,7 +34,16 @@ import CanvasDraw from './src/utils/canvas-draw';
 
 export {
 	Engine, Game, Component, System, Factory, GameObject, Library, Group,
-	LoadGroup, Geom, Rand, Systems
+	LoadGroup, Geom, Rand, Systems,
+	HtmlWrapper,
+	SleepSystem,
+	SpriteTiler,
+	TimeDestroy,
+	DisplayUtils,
+	RandUtils,
+	ColorUtils,
+	CanvasDraw,
+	DrawUtils
 };
 
 const Gibbon = {
