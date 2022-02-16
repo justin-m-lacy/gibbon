@@ -1,6 +1,6 @@
 {
   "name": "gibbon.js",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "GameObject/Component system for use with pixi.js.",
   "main": "index.js",
   "scripts": {
