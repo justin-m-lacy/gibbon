@@ -22,10 +22,28 @@ export type HtmlWrapperOpts = {
 export default class HtmlWrapper extends Component {
 
     get element() { return this._elm; }
-    set element(v: HTMLElement | undefined) {
+    set element(v: HTMLElement | undefined | null) {
         this._elm = v;
         if (v) {
             this._display = v.style.display;
+        }
+    }
+
+    get width(): number {
+        return this._elm?.clientWidth ?? 0;
+    }
+    set width(v: number) {
+        if (this._elm) {
+            this._elm.style.minWidth = this._elm.style.maxWidth = this._elm.style.width = `${v} px`;
+        }
+    }
+
+    get height(): number {
+        return this._elm?.clientHeight ?? 0;
+    }
+    set height(v: number) {
+        if (this._elm) {
+            this._elm.style.minHeight = this._elm.style.maxHeight = this._elm.style.height = `${v} px`;
         }
     }
 
@@ -51,7 +69,7 @@ export default class HtmlWrapper extends Component {
         super.position = p;
     }
 
-    _elm?: HTMLElement;
+    _elm?: HTMLElement | null;
 
     /// display to restore after hiding.
     _display?: string;
@@ -61,11 +79,17 @@ export default class HtmlWrapper extends Component {
 
     autoRemove: boolean;
 
-    constructor(elm?: HTMLElement, opts?: HtmlWrapperOpts) {
+    /**
+     * 
+     * @param elm - html element or unique id of element in document.
+     * @param opts 
+     */
+    constructor(elm?: HTMLElement | string, opts?: HtmlWrapperOpts) {
+
         super();
 
-        this._elm = elm;
-        this._display = elm?.style.display;
+        this._elm = typeof elm == 'string' ? document.getElementById(elm) : elm;
+        this._display = this._elm?.style.display;
 
         this.autoRemove = opts?.autoRemove ?? true;
         if (this._elm) {
@@ -93,6 +117,7 @@ export default class HtmlWrapper extends Component {
         if (this.autoRemove) {
             this._elm?.remove();
         }
+        this._elm = null;
 
     }
 

@@ -12,12 +12,12 @@ import SleepSystem from './src/components/sleepSystem';
 import SpriteTiler from './src/components/spriteTiler';
 import TimeDestroy from './src/components/timeDestroy';
 
-export { isClonable, isConstructor, } from 'src/utils/types';
-export type { Clonable, Constructor } from 'src/utils/types';
-import * as DisplayUtils from 'src/utils/displayUtils';
-import * as ColorUtils from 'src/utils/colorUtils';
-import * as DrawUtils from 'src/utils/drawUtils';
-import * as RandUtils from 'src/utils/rand';
+export { isClonable, isConstructor, } from './src/utils/types';
+export type { Clonable, Constructor } from './src/utils/types';
+import * as DisplayUtils from './src/utils/displayUtils';
+import * as ColorUtils from './src/utils/colorUtils';
+import * as DrawUtils from './src/utils/drawUtils';
+import * as RandUtils from './src/utils/rand';
 
 import Factory from './src/factory';
 import GameObject from './src/gameObject';
@@ -33,8 +33,14 @@ import * as Rand from './src/utils/rand';
 import CanvasDraw from './src/utils/canvas-draw';
 
 export {
-	Engine, Game, Component, System, Factory, GameObject, Library, Group,
-	LoadGroup, Geom, Rand, Systems,
+	Engine, Game, Component, System, Factory,
+	GameObject,
+	Library,
+	Group,
+	LoadGroup,
+	Geom,
+	Rand,
+	Systems,
 	HtmlWrapper,
 	SleepSystem,
 	SpriteTiler,

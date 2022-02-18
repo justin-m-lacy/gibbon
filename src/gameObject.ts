@@ -175,7 +175,7 @@ export default class GameObject {
 	 * @param {DisplayObject} [clip=null]
 	 * @param {Point} [pos=null]
 	 */
-	constructor(clip: DisplayObject | null | undefined, pos?: Point | null) {
+	constructor(clip?: DisplayObject | null | undefined, pos?: Point | null) {
 
 		this._components = [];
 		this._compMap = new Map();
@@ -244,7 +244,7 @@ export default class GameObject {
 	 * @param {*} [context=null]
 	 * @returns {PIXI.utils.EventEmitter}
 	 */
-	on(evt: string, func: (evt: InteractionEvent) => void, context?: any) {
+	on(evt: string, func: PIXI.utils.EventEmitter.ListenerFn, context?: any) {
 		if (this.clip != null) {
 			return this.clip.on(evt, func, context);
 		}
@@ -263,11 +263,11 @@ export default class GameObject {
 	}
 
 	/**
-	 * Wrap emitter removeListener()
+	 * Wrap emitter off()
 	 * @param  {...any} args
 	 */
-	removeListener(e: string, fn?: (evt: InteractionEvent) => void, context?: any) {
-		this.emitter.removeListener(e, fn, context);
+	off(e: string, fn?: PIXI.utils.EventEmitter.ListenerFn, context?: any) {
+		this.emitter.off(e, fn, context);
 	}
 
 	/**

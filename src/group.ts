@@ -179,14 +179,11 @@ export default class Group {
 
 		this.objects.splice(ind, 1);
 
-		obj.removeListener('destroy', this.remove, this);
+		obj.off('destroy', this.remove, this);
 		if (this.clip && obj.clip && removeClip) {
 			this.clip.removeChild(obj.clip);
 		}
 		obj.group = null;
-
-		//obj.emitter.removeListener('destroy', this.remove, this );
-
 
 	}
 
@@ -219,7 +216,7 @@ export default class Group {
 			this.subgroups[i].destroy();
 		}
 		for (let i = this.objects.length - 1; i >= 0; i--) {
-			this.objects[i].removeListener('destroy', this.remove, this);
+			this.objects[i].off('destroy', this.remove, this);
 			this.objects[i].destroy();
 		}
 
