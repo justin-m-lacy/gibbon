@@ -8,6 +8,14 @@ import Component from './component';
 import { Constructor } from './utils/types';
 
 /**
+ * Point without reference to pixi.
+ */
+export type TPoint = {
+	x: number,
+	y: number
+}
+
+/**
  * Options for destroying a GameObject
  */
 export type DestroyOptions = {

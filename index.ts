@@ -19,8 +19,10 @@ import * as ColorUtils from './src/utils/colorUtils';
 import * as DrawUtils from './src/utils/drawUtils';
 import * as RandUtils from './src/utils/rand';
 
+export { TPoint } from './src/game-object';
+
 import Factory from './src/factory';
-import GameObject from './src/gameObject';
+import GameObject from './src/game-object';
 import Mover from './src/components/mover';
 import Camera from './src/components/camera';
 import Library from './src/library';

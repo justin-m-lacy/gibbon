@@ -1,4 +1,4 @@
-import GameObject from "./gameObject";
+import GameObject from "./game-object";
 import { Constructor } from './utils/types';
 import { DisplayObject } from 'pixi.js';
 

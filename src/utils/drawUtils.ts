@@ -9,23 +9,24 @@ import * as PIXI from 'pixi.js';
  * @returns {PIXI.GraphicsData|Object} graphicsData - information on how to draw the shape.
  * @returns {?Graphics}
  */
-function createShape(
-	shape: Rectangle | Circle | Polygon | Ellipse | RoundedRectangle,
-	graphicsData: GraphicsData) {
+function createShape(data: GraphicsData) {
 
 	let g = new Graphics();
 
 	g.beginFill(
-		graphicsData.fillStyle.color,
-		graphicsData.fillStyle.alpha);
+		data.fillStyle.color,
+		data.fillStyle.alpha);
 
 
 	g.lineStyle(
-		graphicsData.lineStyle.width,
-		graphicsData.lineStyle.color,
-		graphicsData.lineStyle.alignment);
+		data.lineStyle.width,
+		data.lineStyle.color,
+		data.lineStyle.alignment);
 
-	switch (shape.type) {
+	const shape = data.shape;
+	//g.drawShape(data.shape);
+
+	switch (data.type) {
 
 		case PIXI.SHAPES.RECT:
 			const rect = shape as Rectangle;

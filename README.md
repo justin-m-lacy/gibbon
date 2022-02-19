@@ -7,8 +7,3 @@ I found phasar and a lot of the other frameworks had a lot of overhead for doing
 A sample game I made in with the framework can be found at https://github.com/lerpinglemur/snowflakes
 
 I might prototype a few more games in the future, and clean up the framework as I go along.
-
-
-NOTE:
-gsap tween library is not covered by license.
-Need to switch to open source tween library.

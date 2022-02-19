@@ -1,5 +1,5 @@
 import Component from '../component';
-import GameObject from '../gameObject';
+import GameObject from '../game-object';
 
 /**
  * Not fully developed.

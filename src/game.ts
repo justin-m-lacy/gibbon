@@ -1,14 +1,16 @@
-import { gsap } from 'gsap';
-import LayerManager from './layerManager';
-import Engine from './engine';
 import * as PIXI from 'pixi.js';
 import { Rectangle, DisplayObject, Container, InteractionEvent } from 'pixi.js';
-import GameObject from './gameObject';
+import LayerManager from './layerManager';
+import Engine from './engine';
+import GameObject from './game-object';
 import Camera from './components/camera';
 import Group from './group';
 import Library from './library';
 import Factory from './factory';
 import { LayerData } from './layerManager';
+import * as TWEEN from "@tweenjs/tween.js";
+import { Tween } from '@tweenjs/tween.js';
+import { tweenOf } from './utils/tweens';
 
 /**
  * Extendable Game class.
@@ -335,13 +337,10 @@ export default class Game {
 	 * @param {?number} time
 	 * @returns {Tween} - The tween created.
 	 */
-	replaceTween(target: gsap.TweenTarget, config: gsap.TweenVars, time?: number) {
+	replaceTween<T>(target: T, props: any, time?: number): Tween<T> {
 
-		if (time) {
-			config.duration = time;
-		}
-		config.overwrite = true;
-		return gsap.to(target, config);
+		const tween = tweenOf(target);
+		return tween.to(props, time);
 
 	}
 
@@ -352,10 +351,10 @@ export default class Game {
 	 * @param {?number} time - tween time.
 	 * @returns {Tween}
 	 */
-	createTween(target: gsap.TweenTarget, config: gsap.TweenVars, time?: number) {
+	createTween<T>(target: T, props: any, time?: number) {
 
-		if (time) config.duration = time;
-		return gsap.to(target, config);
+		const tween = new Tween(target);
+		return tween.to(props, time);
 
 	}
 

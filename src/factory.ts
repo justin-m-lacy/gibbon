@@ -1,5 +1,6 @@
 import Game from './game';
-import GameObject from './gameObject';
+import GameObject from './game-object';
+import * as PIXI from 'pixi.js';
 
 /// Function to create instances of game objects.
 export type CreateFunction = (...params: any[]) => GameObject;
@@ -13,7 +14,7 @@ export default class Factory {
 	/**
 	 * @property {PIXI.renderer} renderer - game renderer to pre-render objects to textures.
 	 */
-	get renderer() { return this._game.renderer; }
+	get renderer(): PIXI.Renderer | PIXI.AbstractRenderer { return this._game.renderer; }
 
 	/**
 	 * @property {Gibbon.Game} game
