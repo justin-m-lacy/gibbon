@@ -26,3 +26,7 @@ export const tweenOf = <T>(targ: T): Tween<T> => {
         return cur;
     }
 }
+
+export const removeTween = <T>(targ: T) => {
+    tweens.delete(targ);
+}

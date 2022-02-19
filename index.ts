@@ -18,8 +18,8 @@ import * as DisplayUtils from './src/utils/displayUtils';
 import * as ColorUtils from './src/utils/colorUtils';
 import * as DrawUtils from './src/utils/drawUtils';
 import * as RandUtils from './src/utils/rand';
-
-export { TPoint } from './src/game-object';
+import { tweenOf, getTween, removeTween } from 'src/utils/tweens';
+export { IPoint } from './src/game-object';
 
 import Factory from './src/factory';
 import GameObject from './src/game-object';
@@ -51,7 +51,10 @@ export {
 	RandUtils,
 	ColorUtils,
 	CanvasDraw,
-	DrawUtils
+	DrawUtils,
+	getTween,
+	tweenOf,
+	removeTween
 };
 
 const Gibbon = {

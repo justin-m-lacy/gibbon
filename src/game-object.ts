@@ -10,7 +10,7 @@ import { Constructor } from './utils/types';
 /**
  * Point without reference to pixi.
  */
-export type TPoint = {
+export interface IPoint {
 	x: number,
 	y: number
 }

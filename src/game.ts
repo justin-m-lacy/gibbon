@@ -8,7 +8,6 @@ import Group from './group';
 import Library from './library';
 import Factory from './factory';
 import { LayerData } from './layerManager';
-import * as TWEEN from "@tweenjs/tween.js";
 import { Tween } from '@tweenjs/tween.js';
 import { tweenOf } from './utils/tweens';
 
