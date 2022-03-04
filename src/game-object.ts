@@ -60,7 +60,21 @@ export default class GameObject {
 	 * @property {boolean} active
 	 */
 	get active() { return this._active; }
-	set active(v) { this._active = v; }
+	set active(v: boolean) {
+
+		if (this._active != v) {
+			this._active = v;
+
+			if (v) {
+				for (let comp of this._components) {
+					comp.onActivate?.();
+				}
+			} else {
+				this._components.every(v => v.onDeactivate?.());
+			}
+
+		}
+	}
 
 
 	/**
@@ -353,13 +367,13 @@ export default class GameObject {
 	 *
 	 * @param {*} cls
 	 */
-	get(cls: Constructor<Component>) {
+	get<T extends Component>(cls: Constructor<T>): T | null {
 
-		let inst = this._compMap.get(cls);
+		let inst = this._compMap.get(cls) as T;
 		if (inst !== undefined) return inst;
 
 		for (let i = this._components.length - 1; i >= 0; i--) {
-			if (this._components[i] instanceof cls) return this._components[i];
+			if (this._components[i] instanceof cls) return this._components[i] as T;
 		}
 		return null;
 

@@ -1,5 +1,6 @@
 import Component from "../component";
 import { Point } from "pixi.js";
+import { IPoint } from '../game-object';
 
 export default class Mover extends Component {
 
@@ -28,8 +29,18 @@ export default class Mover extends Component {
 	/**
 	 * @property {PIXI.Point} accel
 	 */
-	get accel() { return this._accel; }
-	set accel(v) { this._accel.set(v.x, v.y); }
+	get accel(): IPoint { return this._accel; }
+	set accel(v: IPoint) {
+
+		if (this._accelMax > 0) {
+
+			const d = this._accelMax / Math.sqrt(v.x * v.x + v.y * v.y);
+			this._accel.set(d * v.x, d * v.y);
+
+		} else {
+			this._accel.set(v.x, v.y);
+		}
+	}
 
 	/**
 	 * @property {number} velocityMax - Maximum absolute value of velocity.

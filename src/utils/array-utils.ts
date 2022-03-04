@@ -17,3 +17,13 @@ export const randElm = <T>(a: T[]): T | undefined => {
 		return a[Math.floor(Math.random() * a.length)];
 	}
 }
+
+/**
+ * Removes element from array, if it exists.
+ */
+export const remove = <T>(a: T[], e: T) => {
+	const i = a.indexOf(e);
+	if (i >= 0) {
+		a.splice(i, 1);
+	}
+}

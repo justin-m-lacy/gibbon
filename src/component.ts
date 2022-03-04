@@ -135,6 +135,16 @@ export default class Component {
 
 	}
 
+	/**
+	 * Called when gameObject.active is set to true.
+	 */
+	onActivate?(): void;
+
+	/**
+	 * Called when gameObject.active is set to false.
+	 */
+	onDeactivate?(): void;
+
 	onEnable?(): void;
 	onDisable?(): void;
 	update?(delta: number): void;
@@ -163,7 +173,7 @@ export default class Component {
 	 * @param {class} cls - wrapper for gameObject get()
 	 * @returns {Component|null}
 	 */
-	get(cls: Constructor<Component>): Component | null {
+	get<T extends Component>(cls: Constructor<T>): T | null {
 		return this.gameObject!.get(cls);
 	}
 
