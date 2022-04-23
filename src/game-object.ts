@@ -176,17 +176,17 @@ export default class GameObject {
 
 	readonly emitter: PIXI.utils.EventEmitter;
 
-	_sleep: boolean = false;
+	protected _sleep: boolean = false;
 
-	_name: string;
+	protected _name: string;
 
-	_destroyOpts?: DestroyOptions;
+	protected _destroyOpts?: DestroyOptions;
 
-	_active: boolean = false;
+	protected _active: boolean = false;
 
-	_position: Point;
+	protected _position: Point;
 
-	_group: Group | null = null;
+	protected _group: Group | null = null;
 
 	flags: number = 0;
 
@@ -367,7 +367,7 @@ export default class GameObject {
 	 *
 	 * @param {*} cls
 	 */
-	get<T extends Component>(cls: Constructor<T>): T | null {
+	get<T extends Component>(cls: Constructor<T>): T | undefined {
 
 		let inst = this._compMap.get(cls) as T;
 		if (inst !== undefined) return inst;
@@ -375,7 +375,7 @@ export default class GameObject {
 		for (let i = this._components.length - 1; i >= 0; i--) {
 			if (this._components[i] instanceof cls) return this._components[i] as T;
 		}
-		return null;
+		return undefined;
 
 	}
 
@@ -383,13 +383,13 @@ export default class GameObject {
 	 *
 	 * @param {*} cls
 	 */
-	require<T extends Component>(cls: Constructor<T>) {
+	require<T extends Component>(cls: Constructor<T>): T {
 
 		let inst = this._compMap.get(cls);
-		if (inst !== undefined) return inst;
+		if (inst !== undefined && inst instanceof cls) return inst as T;
 
 		for (let i = this._components.length - 1; i >= 0; i--) {
-			if (this._components[i] instanceof cls) return this._components[i];
+			if (this._components[i] instanceof cls) return this._components[i] as T;
 		}
 		return this.add(cls);
 

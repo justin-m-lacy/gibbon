@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "dist",
+    "outDir": "lib",
     "target": "esnext",
     "module": "esnext",
     "noEmit": true,
@@ -20,7 +20,6 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "types": [
-      "node",
       "pixi.js"
     ],
     "lib": [

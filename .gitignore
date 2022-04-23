@@ -1,6 +1,15 @@
+# local environment variables.
 *.env
+
+# vs-code
 *.code-workspace
 
+# npm node
 node_modules
 
+# javascript compilation.
 dist
+lib
+
+# js mapping files
+lib/*.map

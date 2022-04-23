@@ -2,9 +2,12 @@
   "name": "gibbon.js",
   "version": "2.0.8",
   "description": "GameObject/Component system for use with pixi.js.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "prepare": "tsc",
+    "lint": "eslint -p tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -28,6 +31,7 @@
   },
   "devDependencies": {
     "@types/signals": "^1.0.1",
+    "eslint": "^8.14.0",
     "typescript": "^4.5.5"
   }
 }

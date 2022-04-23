@@ -1,14 +1,15 @@
 import Component from '../component';
 import { Point } from 'pixi.js';
 import Mover from './mover';
+import { IPoint } from 'src/game-object';
 
 /**
  * Uses mover component to accelerate towards a destination point
  * and deccelerate upon arrival.
  */
-export class DestAccel extends Component {
+export default class DestAccel extends Component {
 
-    dest: Point = new Point();
+    readonly dest: Point = new Point();
 
     /**
      * Radius at which to begin arrival slowdown.
@@ -17,6 +18,10 @@ export class DestAccel extends Component {
     arriveRadius: number = 10;
 
     mover?: Mover | null;
+
+    setDest(pt: IPoint) {
+        this.dest.set(pt.x, pt.y);
+    }
 
     init() {
 

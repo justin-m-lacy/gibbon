@@ -21,9 +21,9 @@ export default class Component {
 	set flags(v) { this.gameObject!.flags = v; }
 
 	/**
-	 * @property {Group} group - Group controlling the component's GameObject, if any.
+	 * Group controlling the component's GameObject, if any.
 	 */
-	get group() { return this.gameObject!._group; }
+	get group() { return this.gameObject?.group; }
 
 	/**
 	 * @property {boolean} enabled - Whether the component is enabled.
@@ -117,6 +117,7 @@ export default class Component {
 	/**
 	 * Override in subclass to initialize component.
 	 * Basic component properties are now available.
+	 * This component is also now in the gameObjects own component map.
 	 */
 	init() { }
 
@@ -173,7 +174,7 @@ export default class Component {
 	 * @param {class} cls - wrapper for gameObject get()
 	 * @returns {Component|null}
 	 */
-	get<T extends Component>(cls: Constructor<T>): T | null {
+	get<T extends Component>(cls: Constructor<T>): T | undefined {
 		return this.gameObject!.get(cls);
 	}
 
@@ -182,7 +183,7 @@ export default class Component {
 	 * @param {*} cls
 	 * @returns {Component}
 	 */
-	require(cls: Constructor<Component>): Component { return this.gameObject!.require(cls); }
+	require<T extends Component>(cls: Constructor<T>): T { return this.gameObject!.require(cls); }
 
 	onDestroy?(): void;
 

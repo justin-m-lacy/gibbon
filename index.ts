@@ -23,6 +23,7 @@ export { IPoint } from './src/game-object';
 
 import Factory from './src/factory';
 import GameObject from './src/game-object';
+import DestAccel from 'src/components/dest-accel';
 import Mover from './src/components/mover';
 import Camera from './src/components/camera';
 import Library from './src/library';
@@ -51,7 +52,9 @@ export {
 	RandUtils,
 	ColorUtils,
 	CanvasDraw,
+	Mover,
 	DrawUtils,
+	DestAccel,
 	getTween,
 	tweenOf,
 	removeTween
