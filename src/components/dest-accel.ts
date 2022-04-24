@@ -1,7 +1,7 @@
 import Component from '../component';
 import { Point } from 'pixi.js';
 import Mover from './mover';
-import { IPoint } from 'src/game-object';
+import { IPoint } from '../game-object';
 
 /**
  * Uses mover component to accelerate towards a destination point

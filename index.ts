@@ -18,12 +18,12 @@ import * as DisplayUtils from './src/utils/displayUtils';
 import * as ColorUtils from './src/utils/colorUtils';
 import * as DrawUtils from './src/utils/drawUtils';
 import * as RandUtils from './src/utils/rand';
-import { tweenOf, getTween, removeTween } from 'src/utils/tweens';
+import { tweenOf, getTween, removeTween } from './src/utils/tweens';
 export { IPoint } from './src/game-object';
 
 import Factory from './src/factory';
 import GameObject from './src/game-object';
-import DestAccel from 'src/components/dest-accel';
+import DestAccel from './src/components/dest-accel';
 import Mover from './src/components/mover';
 import Camera from './src/components/camera';
 import Library from './src/library';

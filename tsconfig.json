@@ -4,7 +4,7 @@
     "outDir": "lib",
     "target": "esnext",
     "module": "esnext",
-    "noEmit": true,
+    "noEmit": false,
     "declaration": true,
     "importsNotUsedAsValues": "remove",
     "moduleResolution": "node",
@@ -22,6 +22,11 @@
     "types": [
       "pixi.js"
     ],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
     "lib": [
       "esnext",
       "dom"
