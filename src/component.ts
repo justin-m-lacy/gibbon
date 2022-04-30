@@ -39,6 +39,7 @@ export default class Component {
 			this.onDisable?.();
 		}
 
+
 	}
 
 	/**
@@ -164,9 +165,20 @@ export default class Component {
 	 * @param {Component} comp
 	 * @returns {Component} The added component instance.
 	 */
+	addInstance(comp: Component, cls?: Constructor<Component>) {
+
+		return this.gameObject!.addInstance(comp, cls);
+	}
+
+	/**
+	 * Add a component already instantiated. Wraps gameObject.addExisting()
+	 * @deprecated Use addInstance()
+	 * @param {Component} comp
+	 * @returns {Component} The added component instance.
+	 */
 	addExisting(comp: Component, cls?: Constructor<Component>) {
 
-		return this.gameObject!.addExisting(comp, cls);
+		return this.gameObject!.addInstance(comp, cls);
 	}
 
 	/**

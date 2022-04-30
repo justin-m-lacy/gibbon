@@ -172,6 +172,9 @@ export default class GameObject {
 
 	private _destroyed: boolean = false;
 
+	/**
+	 * Game object was added to engine.
+	 */
 	private _isAdded: boolean = false;
 
 	readonly emitter: PIXI.utils.EventEmitter;
@@ -249,6 +252,12 @@ export default class GameObject {
 		for (let i = 0; i < len; i++) {
 			this._components[i]._init(this);
 		}
+		if (this._active) {
+			console.log(`activating components...`);
+			for (let i = 0; i < len; i++) {
+				this._components[i].onActivate?.();
+			}
+		}
 
 		this.added();
 
@@ -293,19 +302,33 @@ export default class GameObject {
 	}
 
 	/**
+	 * @deprecated Use addInstance<> instead.
+	 * @param inst 
+	 * @param cls 
+	 */
+	addExisting<T extends Component>(inst: T, cls?: Constructor<T>): T {
+		return this.addInstance(inst, cls);
+	}
+
+	/**
 	 * Add an existing component to the GameObject.
 	 * @param {Component} inst
 	 * @param {?Object} [cls=null]
 	 * @returns {Component} Returns the instance.
 	 */
-	addExisting<T extends Component>(inst: T, cls?: Constructor<T>): T {
+	addInstance<T extends Component>(inst: T, cls?: Constructor<T>): T {
 
 		const key = cls ?? (<any>inst).constructor ?? Object.getPrototypeOf(inst).constructor ?? inst;
 
 		this._components.push(inst);
 		this._compMap.set(key, inst);
 
-		if (this._isAdded) inst._init(this);
+		if (this._isAdded) {
+			inst._init(this);
+			if (this._active) {
+				inst.onActivate?.();
+			}
+		}
 
 		return inst;
 
@@ -318,9 +341,9 @@ export default class GameObject {
 	*/
 	add<T extends Component>(cls: T | Constructor<T>): T {
 		if (cls instanceof Component) {
-			return this.addExisting(cls);
+			return this.addInstance(cls);
 		} else {
-			return this.addExisting(new cls(), cls);
+			return this.addInstance(new cls(), cls);
 		}
 	}
 
@@ -406,7 +429,7 @@ export default class GameObject {
 			Object.create(Object.getPrototypeOf(comp)),
 			comp);
 
-		return this.addExisting(copy);
+		return this.addInstance(copy);
 
 	}
 
