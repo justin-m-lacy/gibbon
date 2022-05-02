@@ -38,10 +38,10 @@ export default class Group {
      */
     constructor(game: Game, clip?: Container | undefined | null, paused?: boolean);
     /**
- * Ensure the group has its own group GameObject.
- * @param {DisplayObject} clip
- * @returns {GameObject}
- */
+      * Ensure the group has its own group GameObject.
+      * @param {DisplayObject} clip
+      * @returns {GameObject}
+      */
     makeGroupObject(clip: DisplayObject): GameObject;
     pause(): void;
     unpause(): void;

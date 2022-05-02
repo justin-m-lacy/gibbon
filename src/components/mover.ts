@@ -105,15 +105,20 @@ export default class Mover extends Component {
 
 		this.rotation += this._omega * delta;
 
+		let abs = this._accel.x * this.accel.x + this._accel.y * this._accel.y;
+		if (abs > this._accelMax) {
+			abs = this._accelMax / Math.sqrt(abs);
+			this._accel.set(abs * this._accel.x, abs * this._accel.y);
+		}
 
 		const vel = this._velocity;
 		vel.x += this._accel.x * delta;
 		vel.y += this._accel.y * delta;
 
-		let vabs = vel.x * vel.x + vel.y * vel.y;
-		if (vabs > this._speedMax * this._speedMax) {
-			vabs = this._speedMax / Math.sqrt(vabs);
-			vel.set(vabs * vel.x, vabs * vel.y);
+		abs = vel.x * vel.x + vel.y * vel.y;
+		if (abs > this._speedMax * this._speedMax) {
+			abs = this._speedMax / Math.sqrt(abs);
+			vel.set(abs * vel.x, abs * vel.y);
 		}
 
 		const pos = this.position;

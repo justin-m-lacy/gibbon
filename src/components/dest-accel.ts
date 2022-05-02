@@ -17,6 +17,11 @@ export default class DestAccel extends Component {
      */
     arriveRadius: number = 10;
 
+    /**
+     * Radius at which actor should slow down.
+     */
+    slowRadius: number = 20;
+
     mover?: Mover | null;
 
     setDest(pt: IPoint) {
@@ -38,16 +43,30 @@ export default class DestAccel extends Component {
             const dx = this.dest.x - pt.x;
             const dy = this.dest.y - pt.y;
 
-            if ((dx * dx + dy * dy) < (this.arriveRadius * this.arriveRadius)) {
+            let d = dx * dx + dy * dy;
+
+            if (d < (this.arriveRadius * this.arriveRadius)) {
 
                 const v = this.mover.velocity;
                 /// arrive.
                 this.mover.accel = { x: -v.x, y: -v.y };
 
 
+            } else if (d < this.slowRadius * this.slowRadius) {
+
+                const vx = this.mover.velocity.x;
+                const vy = this.mover.velocity.y;
+
+                // targetV - currentV
+                const deltaV = (Math.sqrt(d) / this.slowRadius) * this.mover.speedMax
+                    - Math.sqrt(vx * vx + vy * vy);
+
+                this.mover.accel = { x: deltaV * dx, y: deltaV * dy };
+
             } else {
 
-                this.mover.accel = { x: dx, y: dy };
+                // acceleration cap is handled in mover.
+                this.mover.accel = { x: d * dx, y: d * dy };
 
             }
 

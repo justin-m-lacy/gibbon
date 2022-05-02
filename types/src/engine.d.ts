@@ -6,7 +6,7 @@ import System from './system';
 export interface IUpdater {
     update(delta: number): void;
 }
-export default class Engine {
+export default class Engine implements IUpdater {
     /**
      * @property {Container} objectLayer
      */

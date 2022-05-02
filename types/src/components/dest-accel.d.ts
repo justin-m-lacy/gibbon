@@ -13,6 +13,10 @@ export default class DestAccel extends Component {
      * todo: compute from current move velocity and acceleration?
      */
     arriveRadius: number;
+    /**
+     * Radius at which actor should slow down.
+     */
+    slowRadius: number;
     mover?: Mover | null;
     setDest(pt: IPoint): void;
     init(): void;

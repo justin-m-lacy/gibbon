@@ -67,13 +67,13 @@ export default class Group {
 	}
 
 	/**
- * Ensure the group has its own group GameObject.
- * @param {DisplayObject} clip
- * @returns {GameObject}
- */
+	  * Ensure the group has its own group GameObject.
+	  * @param {DisplayObject} clip
+	  * @returns {GameObject}
+	  */
 	makeGroupObject(clip: DisplayObject): GameObject {
-		this._gameObject = this._gameObject || this.engine.Instantiate(clip);
-		return this._gameObject;
+		this._gameObject = (this._gameObject ?? this.engine.Instantiate(clip))!;
+		return this._gameObject!;
 	}
 
 	pause() {
