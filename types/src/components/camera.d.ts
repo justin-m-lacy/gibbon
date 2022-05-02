@@ -57,7 +57,7 @@ export default class Camera extends Component {
      *
      * @param {PIXI.Point} p
      */
-    ptInView(p: Point): boolean;
+    ptInView(p: Point): Boolean;
     /**
      *
      * @param {Rectangle} r

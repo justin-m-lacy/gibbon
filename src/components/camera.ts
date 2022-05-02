@@ -42,13 +42,13 @@ export default class Camera extends Component {
 		}
 	}
 
-	get y(): number { return -(this._panClip?.x ?? 0); }
+	get y(): number { return -(this._panClip?.y ?? 0); }
 	set y(v: number) {
 
 		if (this._viewRect != null) {
 			this._viewRect.y = v * this._viewScale;
 			if (this._panClip != null) {
-				this._panClip.y = -this._viewRect.x;
+				this._panClip.y = -this._viewRect.y;
 			}
 		}
 
@@ -103,7 +103,7 @@ export default class Camera extends Component {
 	 * @param {*} it
 	 * @returns true if item is completely onscreen, false otherwise.
 	 */
-	containsItem(it: any) {
+	containsItem(it: any): boolean {
 		return false;
 	}
 
@@ -112,7 +112,7 @@ export default class Camera extends Component {
 	 * @param {*} it
 	 * @returns true if item is within the camera view, false otherwise.
 	 */
-	itemInView(it: any) {
+	itemInView(it: any): boolean {
 		return false;
 	}
 
@@ -120,7 +120,7 @@ export default class Camera extends Component {
 	 *
 	 * @param {PIXI.Point} p
 	 */
-	ptInView(p: Point) {
+	ptInView(p: Point): Boolean {
 		return this._viewRect?.contains(p.x, p.y) ?? false;
 	}
 
