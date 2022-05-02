@@ -2,6 +2,7 @@ import { GameObject } from "..";
 import Game from './game';
 import { Container, DisplayObject } from 'pixi.js';
 import Engine from './engine';
+import { contains } from './utils/array-utils';
 
 /**
  * If a clip is supplied to the Group, it will act as the parent
@@ -151,7 +152,9 @@ export default class Group {
 	 * @param {Group} g
 	 */
 	addGroup(g: Group) {
-		this.subgroups.push(g);
+		if (!contains(this.subgroups, g)) {
+			this.subgroups.push(g);
+		}
 	}
 
 	/**

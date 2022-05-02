@@ -29,12 +29,6 @@ export default class Engine implements IUpdater {
 	 */
 	readonly updaters: IUpdater[];
 
-	/*get ticker() {return this._ticker; }
-	set ticker(v) { this._ticker =v; }
-
-	get sharedTicker() { return this._sharedTicker; }
-	set sharedTicker(v) { this._sharedTicker=v;}*/
-
 	readonly library: Library;
 	factory: Factory | null = null;
 
@@ -46,8 +40,6 @@ export default class Engine implements IUpdater {
 		this.library = new Library();
 
 		this.factory = null;
-
-		//this.ticker = PIXI.Ticker.shared;
 
 		GameObject.SetEngine(this);
 	}

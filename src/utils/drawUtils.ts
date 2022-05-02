@@ -1,5 +1,18 @@
-import { Circle, Graphics, Rectangle, Polygon, Ellipse, GraphicsData, RoundedRectangle, Point } from 'pixi.js';
+import { Circle, Graphics, Rectangle, Polygon, Ellipse, GraphicsData, RoundedRectangle, Point, DisplayObject, RenderTexture, AbstractRenderer } from 'pixi.js';
 import * as PIXI from 'pixi.js';
+
+export const drawToTexture = (d: DisplayObject, renderer?: AbstractRenderer) => {
+
+	const bounds = d.getBounds();
+	const renderTex: RenderTexture =
+		RenderTexture.create({ width: bounds.width, height: bounds.height });
+
+	const useRenderer = renderer ?? PIXI.autoDetectRenderer();
+	useRenderer.render(d, { renderTexture: renderTex });
+
+	return renderTex;
+
+}
 
 /**
  * Create a DisplayObject for a Shape.

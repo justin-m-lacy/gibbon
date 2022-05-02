@@ -49,11 +49,11 @@ export default class Mover extends Component {
     set omegaMax(v: number);
     readonly _velocity: Point;
     readonly _accel: Point;
-    _speedMax: number;
-    _accelMax: number;
-    _omegaAcc: number;
-    _omega: number;
-    _omegaMax: number;
+    private _speedMax;
+    private _accelMax;
+    private _omegaAcc;
+    private _omega;
+    private _omegaMax;
     constructor();
     init(): void;
     /**

@@ -17,7 +17,7 @@ export default class DestAccel extends Component {
      * Radius at which actor should slow down.
      */
     slowRadius: number;
-    mover?: Mover | null;
+    mover: Mover;
     setDest(pt: IPoint): void;
     init(): void;
     update(delta: number): void;

@@ -118,6 +118,7 @@ export default class Game {
      * Start the game object ticker and engine ticker.
      */
     start(): void;
+    tick(): void;
     /**
      * Size the game to the full browser window.
      * @returns {function} The resize event listener, so it can be removed later.
@@ -130,7 +131,7 @@ export default class Game {
      * @param {*} [context=null]
      * @returns {PIXI.utils.EventEmitter}
      */
-    on(event: string, func: PIXI.utils.EventEmitter.ListenerFn, context?: null): PIXI.utils.EventEmitter<string | symbol>;
+    on(event: string, func: PIXI.utils.EventEmitter.ListenerFn, context?: any): PIXI.utils.EventEmitter<string | symbol>;
     /**
      * Emit event with game emitter.
      * @param  {...any} args

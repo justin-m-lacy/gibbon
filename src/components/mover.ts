@@ -32,7 +32,9 @@ export default class Mover extends Component {
 	get accel(): IPoint { return this._accel; }
 	set accel(v: IPoint) {
 
-		if (this._accelMax > 0) {
+		if (v.x === 0 && v.y === 0) {
+			this._accel.set(0, 0);
+		} else if (this._accelMax > 0) {
 
 			const d = this._accelMax / Math.sqrt(v.x * v.x + v.y * v.y);
 			this._accel.set(d * v.x, d * v.y);
@@ -75,11 +77,11 @@ export default class Mover extends Component {
 	readonly _velocity: Point = new Point();
 	readonly _accel: Point = new Point();
 
-	_speedMax: number = 4;
-	_accelMax: number = 1;
-	_omegaAcc: number = 0;
-	_omega: number = 0;
-	_omegaMax: number = Math.PI / 40;
+	private _speedMax: number = 4;
+	private _accelMax: number = 1;
+	private _omegaAcc: number = 0;
+	private _omega: number = 0;
+	private _omegaMax: number = Math.PI / 40;
 
 	constructor() {
 		super();
@@ -105,17 +107,17 @@ export default class Mover extends Component {
 
 		this.rotation += this._omega * delta;
 
-		let abs = this._accel.x * this.accel.x + this._accel.y * this._accel.y;
+		/*let abs = this._accel.x * this.accel.x + this._accel.y * this._accel.y;
 		if (abs > this._accelMax) {
 			abs = this._accelMax / Math.sqrt(abs);
 			this._accel.set(abs * this._accel.x, abs * this._accel.y);
-		}
+		}*/
 
 		const vel = this._velocity;
 		vel.x += this._accel.x * delta;
 		vel.y += this._accel.y * delta;
 
-		abs = vel.x * vel.x + vel.y * vel.y;
+		let abs = vel.x * vel.x + vel.y * vel.y;
 		if (abs > this._speedMax * this._speedMax) {
 			abs = this._speedMax / Math.sqrt(abs);
 			vel.set(abs * vel.x, abs * vel.y);

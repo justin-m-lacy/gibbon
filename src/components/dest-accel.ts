@@ -22,7 +22,7 @@ export default class DestAccel extends Component {
      */
     slowRadius: number = 20;
 
-    mover?: Mover | null;
+    mover!: Mover;
 
     setDest(pt: IPoint) {
         this.dest.set(pt.x, pt.y);
@@ -30,50 +30,47 @@ export default class DestAccel extends Component {
 
     init() {
 
-        this.mover = this.get<Mover>(Mover);
+        this.mover = this.require<Mover>(Mover);
+        console.log(`this position: ${this.position}  ${this.position.x}`);
         this.dest.copyFrom(this.position);
+        console.log(`dest-accel dest: ${this.dest.x},${this.dest.y}`);
     }
 
     update(delta: number): void {
 
-        if (this.mover) {
+        const pt = this.position;
 
-            const pt = this.position;
+        const dx = this.dest.x - pt.x;
+        const dy = this.dest.y - pt.y;
 
-            const dx = this.dest.x - pt.x;
-            const dy = this.dest.y - pt.y;
+        let d = dx * dx + dy * dy;
 
-            let d = dx * dx + dy * dy;
+        if (d < (this.arriveRadius * this.arriveRadius)) {
 
-            if (d < (this.arriveRadius * this.arriveRadius)) {
-
-                const v = this.mover.velocity;
-                /// arrive.
-                this.mover.accel = { x: -v.x, y: -v.y };
+            const v = this.mover.velocity;
+            /// arrive.
+            this.mover.accel = { x: -v.x, y: -v.y };
 
 
-            } else if (d < this.slowRadius * this.slowRadius) {
+        } else if (d < this.slowRadius * this.slowRadius) {
 
-                const vx = this.mover.velocity.x;
-                const vy = this.mover.velocity.y;
+            const vx = this.mover.velocity.x;
+            const vy = this.mover.velocity.y;
 
-                // targetV - currentV
-                const deltaV = (Math.sqrt(d) / this.slowRadius) * this.mover.speedMax
-                    - Math.sqrt(vx * vx + vy * vy);
+            // targetV - currentV
+            const deltaV = (Math.sqrt(d) / this.slowRadius) * this.mover.speedMax
+                - Math.sqrt(vx * vx + vy * vy);
 
-                this.mover.accel = { x: deltaV * dx, y: deltaV * dy };
+            this.mover.accel = { x: deltaV * dx, y: deltaV * dy };
 
-            } else {
+        } else {
 
-                // acceleration cap is handled in mover.
-                this.mover.accel = { x: d * dx, y: d * dy };
-
-            }
-
-
-
+            // acceleration cap is handled in mover.
+            this.mover.accel = { x: this.mover.accelMax * dx, y: this.mover.accelMax * dy };
 
         }
+
+
 
     }
 

@@ -10,6 +10,7 @@ import Factory from './factory';
 import { LayerData } from './layerManager';
 import { Tween } from '@tweenjs/tween.js';
 import { tweenOf } from './utils/tweens';
+import { contains } from './utils/array-utils';
 
 /**
  * Extendable Game class.
@@ -195,10 +196,14 @@ export default class Game {
 	 */
 	start() {
 
-		this.ticker.add(this.engine.update, this.engine);
+		this.ticker.add(this.tick, this);
 		this.ticker.start();
 		this.engine.start();
 
+	}
+
+	tick() {
+		this.engine.update(this._ticker.deltaMS / 1000);
 	}
 
 	/**
@@ -227,7 +232,7 @@ export default class Game {
 	 * @param {*} [context=null]
 	 * @returns {PIXI.utils.EventEmitter}
 	 */
-	on(event: string, func: PIXI.utils.EventEmitter.ListenerFn, context = null) {
+	on(event: string, func: PIXI.utils.EventEmitter.ListenerFn, context?: any) {
 		return this._emitter.on(event, func, context);
 	}
 
@@ -248,7 +253,11 @@ export default class Game {
 		return this._groups.find((g) => g.name === name);
 	}
 
-	addGroup(g: Group) { this._groups.push(g); }
+	addGroup(g: Group) {
+		if (!contains(this._groups, g)) {
+			this._groups.push(g);
+		}
+	}
 
 	/**
 	 *

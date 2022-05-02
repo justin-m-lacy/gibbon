@@ -27,3 +27,12 @@ export const remove = <T>(a: T[], e: T) => {
 		a.splice(i, 1);
 	}
 }
+
+export const contains = <T>(a: T[], e: T) => {
+	for (let i = a.length - 1; i >= 0; i--) {
+		if (a[i] === e) {
+			return true;
+		}
+	}
+	return false;
+}
