@@ -2,7 +2,6 @@ import * as PIXI from 'pixi.js';
 import GameObject from './game-object';
 import Library from './library';
 import { quickSplice } from './utils/array-utils';
-import Factory from './factory';
 import { Point, DisplayObject, Container } from 'pixi.js';
 import System from './system';
 
@@ -30,35 +29,20 @@ export default class Engine implements IUpdater {
 	readonly updaters: IUpdater[];
 
 	readonly library: Library;
-	factory: Factory | null = null;
 
-	constructor() {
+	readonly ticker: PIXI.Ticker;
+
+	constructor(ticker?: PIXI.Ticker) {
 
 		this.objects = [];
 		this.updaters = [];
 
 		this.library = new Library();
 
-		this.factory = null;
+		this.ticker = ticker ?? new PIXI.Ticker();
+		this.ticker.add(this.update, this);
 
 		GameObject.SetEngine(this);
-	}
-
-	/**
-	 *
-	 * @param {string} key
-	 * @param {Point} [loc=null]
-	 * @param {Object} [vars=null] variables to use in creating the new object.
-	 * @returns {GameObject}
-	 */
-	Create(key: string, loc: Point | null = null, vars: Object | null = null): GameObject | null {
-
-		let go = this.factory!.create(key, loc, vars);
-		if (go) {
-			this.add(go);
-		}
-
-		return go;
 	}
 
 	/**
@@ -69,7 +53,7 @@ export default class Engine implements IUpdater {
 	 */
 	Instantiate(clip: DisplayObject | null | string = null, loc?: Point | null) {
 
-		var src = (typeof clip === 'string') ? this.library.instance(clip, loc) : clip;
+		var src = (typeof clip === 'string') ? this.library.instance<DisplayObject>(clip, loc) : clip;
 		let go = new GameObject(src, loc);
 
 		this.add(go);
@@ -77,10 +61,36 @@ export default class Engine implements IUpdater {
 
 	}
 
+	update() {
+
+		const ms = this.ticker.deltaMS;
+		const updaters = this.updaters;
+		for (let i = updaters.length - 1; i >= 0; i--) {
+			updaters[i].update(ms);
+		}
+
+		const objs = this.objects;
+
+		for (let i = objs.length - 1; i >= 0; i--) {
+
+			var obj = objs[i];
+			if (obj.isDestroyed === true) {
+
+				obj._destroy();
+				quickSplice(objs, i);
+
+			} else if (obj.active) obj.update(ms);
+
+		}
+
+	}
+
 	start() {
+		this.ticker.start();
 	}
 
 	stop() {
+		this.ticker.stop();
 	}
 
 	/**
@@ -121,29 +131,6 @@ export default class Engine implements IUpdater {
 		let ind = this.updaters.indexOf(sys);
 		if (ind >= 0) {
 			this.updaters.splice(ind, 1);
-		}
-
-	}
-
-	update(delta: number) {
-
-		const updaters = this.updaters;
-		for (let i = updaters.length - 1; i >= 0; i--) {
-			updaters[i].update(delta);
-		}
-
-		const objs = this.objects;
-
-		for (let i = objs.length - 1; i >= 0; i--) {
-
-			var obj = objs[i];
-			if (obj.isDestroyed === true) {
-
-				obj._destroy();
-				quickSplice(objs, i);
-
-			} else if (obj.active) obj.update(delta);
-
 		}
 
 	}

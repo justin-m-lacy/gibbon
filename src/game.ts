@@ -6,7 +6,6 @@ import GameObject from './game-object';
 import Camera from './components/camera';
 import Group from './group';
 import Library from './library';
-import Factory from './factory';
 import { LayerData } from './layerManager';
 import { Tween } from '@tweenjs/tween.js';
 import { tweenOf } from './utils/tweens';
@@ -66,11 +65,12 @@ export default class Game {
 	/**
 	 * @property {PIXI.Ticker} ticker - Game Ticker.
 	 */
-	get ticker() { return this._ticker; }
+	get ticker() { return this.engine.ticker; }
+
 	/**
 	 * @property {PIXI.Ticker} sharedTicker - Shared non-game ticker. (UI Elements, nonpausing effects.)
 	*/
-	get sharedTicker() { return this._sharedTicker; }
+	get sharedTicker() { return PIXI.Ticker.shared; }
 
 	/**
 	 * @property {PIXI.utils.EventEmitter} emitter - Game-level Emitter. By default, the PIXI shared EventEmitter.
@@ -81,16 +81,6 @@ export default class Game {
 	 * @property {InteractionData} mouseInfo - convenience accessor for global mouse information.
 	 */
 	get mouseInfo() { return this.renderer.plugins.interaction.mouse; }
-
-	/**
-	 * @property {Factory} factory - Factory used for Object creation.
-	 */
-	get factory(): Factory | null { return this._factory ?? null; }
-	set factory(v: Factory | null) {
-		this._factory = v;
-		this._engine.factory = v;
-	}
-
 
 	/**
 	 * @property {number} wheelScale - Amount by which to scroll wheel input.
@@ -119,28 +109,24 @@ export default class Game {
 	 */
 	get layerManager(): LayerManager { return this._layerManager!; }
 
-	_app: PIXI.Application;
-	_screen: Rectangle;
-	_stage: Container;
+	private _app: PIXI.Application;
+	private _screen: Rectangle;
+	private _stage: Container;
 
-	_wheelScale: number = 1;
-	_loader: PIXI.Loader;
+	private _wheelScale: number = 1;
+	private _loader: PIXI.Loader;
 
-	_groups: Group[];
+	private _groups: Group[];
 
-	_ticker: PIXI.Ticker;
-	_sharedTicker: PIXI.Ticker;
+	private _emitter: PIXI.utils.EventEmitter;
 
-	_emitter: PIXI.utils.EventEmitter;
-
-	_factory: Factory | null = null;
-	_engine: Engine;
+	private _engine: Engine;
 	library: Library;
 
-	_layerManager?: LayerManager;
+	private _layerManager?: LayerManager;
 
-	_camera?: Camera;
-	_root?: GameObject;
+	private _camera?: Camera;
+	private _root?: GameObject;
 
 	/**
 	 *
@@ -161,12 +147,9 @@ export default class Game {
 
 		this._groups = [];
 
-		this._ticker = new PIXI.Ticker();
-		this._sharedTicker = PIXI.Ticker.shared;
-
 		this._emitter = new PIXI.utils.EventEmitter();
 
-		this._engine = new Engine();
+		this._engine = new Engine(new PIXI.Ticker());
 		this.library = this._engine.library;
 
 	}
@@ -175,8 +158,6 @@ export default class Game {
 	 * After init(), layerManager and game layers are available for use.
 	 */
 	init(layerData?: LayerData[]) {
-
-		this._engine.factory = this._factory;
 
 		let layerManager = new LayerManager(this);
 		if (layerData != null) {
@@ -195,16 +176,11 @@ export default class Game {
 	 * Start the game object ticker and engine ticker.
 	 */
 	start() {
-
-		this.ticker.add(this.tick, this);
-		this.ticker.start();
 		this.engine.start();
-
 	}
 
-	tick() {
-		this.engine.update(this._ticker.deltaMS / 1000);
-	}
+	pause() { this._engine.stop(); }
+	unpause() { this._engine.start(); }
 
 	/**
 	 * Size the game to the full browser window.
@@ -314,17 +290,11 @@ export default class Game {
 		return this.ticker.remove(func, context);
 	}
 
-	pause() { this._ticker.stop(); }
-	unpause() { this._ticker.start(); }
-
 	/**
 	 * Wraps engine.Instantiate()
 	 * Instantiate a GameObject with a clip or a named clonable object from the library.
-	 * @param {DisplayObject} [clip=null]
-	 * @param {PIXI.Point} [loc=null]
-	 * @returns {GameObject}
 	 */
-	instantiate(clip = null, loc = null) {
+	instantiate(clip?: DisplayObject, loc?: PIXI.Point) {
 		return this.engine.Instantiate(clip, loc);
 	}
 
@@ -333,7 +303,7 @@ export default class Game {
 	 * @param {Point|Object} [loc=null]
 	 * @return {GameObject}
 	 */
-	makeEmpty(loc = null) {
+	makeEmpty(loc?: PIXI.Point) {
 		return this.engine.Instantiate(new PIXI.Container(), loc);
 	}
 

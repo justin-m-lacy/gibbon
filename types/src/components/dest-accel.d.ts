@@ -12,7 +12,7 @@ export default class DestAccel extends Component {
      * Radius at which to begin arrival slowdown.
      * todo: compute from current move velocity and acceleration?
      */
-    arriveRadius: number;
+    stopRadius: number;
     /**
      * Radius at which actor should slow down.
      */

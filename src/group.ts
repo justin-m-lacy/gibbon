@@ -197,7 +197,7 @@ export default class Group {
 	 */
 	add(obj: GameObject): GameObject {
 
-		if (this.clip && obj.clip) {
+		if (this.clip && obj.clip && (obj.clip != this.clip)) {
 			this.clip.addChild(obj.clip);
 		}
 

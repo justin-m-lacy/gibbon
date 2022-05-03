@@ -1,11 +1,13 @@
 import { Point } from 'pixi.js';
 import { Constructor, isConstructor, Clonable, isClonable } from './utils/types';
+import GameObject from '../types/src/game-object';
 
-
+/// Function to create instances of game objects.
+export type CreateFunction = (...params: any[]) => GameObject;
 
 export default class Library {
 
-	_lib: Map<string, Constructor<any> | Clonable | Object> = new Map();
+	_lib: Map<string, Constructor<any> | Clonable<any> | Object> = new Map();
 
 	constructor() { }
 
@@ -15,7 +17,7 @@ export default class Library {
 	 * @param {Object|function} item - function(position) to create an object,
 	 * an Object with a clone() function, or a plain object to return.
 	 */
-	addItem(name: string, item: Constructor<any> | Clonable | Object) {
+	addItem<T>(name: string, item: Constructor<T> | Clonable<T> | T) {
 		this._lib.set(name, item);
 	}
 
@@ -25,15 +27,15 @@ export default class Library {
 	 * @param {Point|?Object} [p=null] - point to place instance.
 	 * @returns {?Object} Object created, or null.
 	 */
-	instance(name: string, p?: Point | null) {
+	instance<T>(name: string, p?: Point | null) {
 
 		let item = this._lib.get(name);
 		if (!item) return null;
 
-		if (isConstructor(item)) {
+		if (isConstructor<T>(item)) {
 			let type = new item();
-		} else if (isClonable(item)) return item.clone();
-		else return item;
+		} else if (isClonable<T>(item)) return item.clone();
+		else return item as T;
 
 
 	}
