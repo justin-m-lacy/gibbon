@@ -10,6 +10,7 @@ import { LayerData } from './layerManager';
 import { Tween } from '@tweenjs/tween.js';
 import { tweenOf } from './utils/tweens';
 import { contains } from './utils/array-utils';
+import { IUpdater } from './engine';
 
 /**
  * Extendable Game class.
@@ -262,33 +263,13 @@ export default class Game {
 	 *
 	 * @param {*} sys
 	 */
-	addUpdater(sys: any) { this._engine.addUpdater(sys); }
+	addUpdater(sys: IUpdater) { this._engine.addUpdater(sys); }
 
 	/**
 	 *
 	 * @param {*} sys
 	 */
-	removeUpdater(sys: any) { this._engine.removeUpdater(sys); }
-
-	/**
-	 *
-	 * @param {function} func
-	 * @param {*} context
-	 * @returns {PIXI.Ticker}
-	 */
-	addUpdate(func: (...params: any[]) => any, context?: any) {
-		this.ticker.add(func, context);
-	}
-
-	/**
-	 *
-	 * @param {function} func
-	 * @param {*} context
-	 * @returns {PIXI.Ticker}
-	 */
-	removeUpdate(func: (...params: any[]) => any, context?: any) {
-		return this.ticker.remove(func, context);
-	}
+	removeUpdater(sys: IUpdater) { this._engine.removeUpdater(sys); }
 
 	/**
 	 * Wraps engine.Instantiate()

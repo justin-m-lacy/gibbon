@@ -116,15 +116,15 @@ export default class Engine implements IUpdater {
 
 	/**
 	 *
-	 * @param {System|Object} sys
+	 * @param {IUpdater} sys
 	 */
-	addUpdater(sys: System | IUpdater) {
+	addUpdater(sys: IUpdater) {
 		this.updaters.push(sys);
 	}
 
 	/**
 	 *
-	 * @param {System|IUpdater} sys
+	 * @param {IUpdater} sys
 	 */
 	removeUpdater(sys: IUpdater) {
 
