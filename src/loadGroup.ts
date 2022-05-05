@@ -39,7 +39,7 @@ export default class LoadGroup extends Group {
 			this._loader = loader;
 		}
 		if (createObject) {
-			this.makeGroupObject(new Container());
+			this.makeGroupObject();
 		}
 
 	}

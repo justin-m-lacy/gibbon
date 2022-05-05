@@ -29,17 +29,15 @@ export default class Camera extends Component {
     get right(): number;
     get top(): number;
     get bottom(): number;
-    _screen: Rectangle | null;
-    _target: DisplayObject | null;
-    _minScale: number;
-    _maxScale: number;
-    _viewScale: number;
-    _x: number;
-    _y: number;
-    _viewRect: Rectangle;
-    _panClip?: DisplayObject | null;
-    _halfWidth: number;
-    _halfHeight: number;
+    private _screen;
+    private _target;
+    private _minScale;
+    private _maxScale;
+    private _viewScale;
+    private _viewRect;
+    private _panClip?;
+    private _halfWidth;
+    private _halfHeight;
     constructor();
     /**
      * Determines if an item is completely within the view.

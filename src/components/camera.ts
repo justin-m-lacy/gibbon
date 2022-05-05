@@ -80,18 +80,16 @@ export default class Camera extends Component {
 	get top(): number { return this._viewRect.top; }
 	get bottom(): number { return this._viewRect.bottom; }
 
-	_screen: Rectangle | null = null;
-	_target: DisplayObject | null = null;
-	_minScale: number = 0;
-	_maxScale: number = 0;
-	_viewScale: number = 0;
-	_x: number = 0;
-	_y: number = 0;
-	_viewRect: Rectangle = new Rectangle();
-	_panClip?: DisplayObject | null;
+	private _screen: Rectangle | null = null;
+	private _target: DisplayObject | null = null;
+	private _minScale: number = 0;
+	private _maxScale: number = 0;
+	private _viewScale: number = 0;
+	private _viewRect: Rectangle = new Rectangle();
+	private _panClip?: DisplayObject | null;
 
-	_halfWidth: number = 0;
-	_halfHeight: number = 0;
+	private _halfWidth: number = 0;
+	private _halfHeight: number = 0;
 
 
 	constructor() {

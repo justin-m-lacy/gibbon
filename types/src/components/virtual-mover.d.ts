@@ -1,32 +1,31 @@
 import Component from "../component";
 import { Point } from "pixi.js";
 import { IPoint } from '../game-object';
-export default class Mover extends Component {
+/**
+ * VirtualMover tracks velocity, acceleration, and rotation
+ * while leaving the actual position placement to another component.
+ */
+export default class VirtualMover extends Component {
     /**
      * @property {number} rotation - wraps gameObject rotation in radians.
      */
     get rotation(): number;
     set rotation(v: number);
     /**
-     * @property {PIXI.Point} position
-     */
-    get position(): import("pixi.js").ObservablePoint<any>;
-    set position(v: import("pixi.js").ObservablePoint<any>);
-    /**
      * @property {PIXI.Point} velocity
      */
-    get velocity(): Point;
-    set velocity(v: Point);
-    /**
-      * @property {number} velocityMax - Maximum absolute value of velocity.
-      */
-    get velocityMax(): number;
-    set velocityMax(v: number);
+    get velocity(): IPoint;
+    set velocity(v: IPoint);
     /**
      * @property {PIXI.Point} accel
      */
     get accel(): IPoint;
     set accel(v: IPoint);
+    /**
+     * @property {number} velocityMax - Maximum absolute value of velocity.
+     */
+    get velocityMax(): number;
+    set velocityMax(v: number);
     /**
      * @property {number} accelMax
      */
@@ -54,7 +53,8 @@ export default class Mover extends Component {
     private _omegaAcc;
     private _omega;
     private _omegaMax;
-    constructor();
+    private _rotation;
+    private readonly _position;
     init(): void;
     /**
      * Set mover velocity.

@@ -9,7 +9,7 @@ import { IPoint } from '../game-object';
 export default class DestAccel extends Component {
     readonly dest: Point;
     /**
-     * Radius at which to begin arrival slowdown.
+     * Radius at which to attempt to stop.
      * todo: compute from current move velocity and acceleration?
      */
     stopRadius: number;

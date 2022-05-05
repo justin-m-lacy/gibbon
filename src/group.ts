@@ -37,7 +37,7 @@ export default class Group {
 	readonly objects: GameObject[];
 
 	readonly game: Game;
-	readonly engine: Engine;
+	get engine(): Engine { return this.game.engine; }
 
 	/**
 	 * GameObject to hold group components.
@@ -53,27 +53,27 @@ export default class Group {
 	 * @param {DisplayObject} [clip=null]
 	 * @param {boolean} [paused=false]
 	 */
-	constructor(game: Game, clip: Container | undefined | null = undefined, paused: boolean = false) {
+	constructor(game: Game, clip: Container | undefined | null = undefined, paused: boolean = false, createGroupObject: boolean = false) {
 
 		this._paused = paused;
 
 		this.clip = clip;
 
 		this.game = game;
-		this.engine = game.engine;
 
 		this.objects = [];
 		this.subgroups = [];
 
+		if (createGroupObject) {
+			this.makeGroupObject();
+		}
 	}
 
 	/**
 	  * Ensure the group has its own group GameObject.
-	  * @param {DisplayObject} clip
-	  * @returns {GameObject}
 	  */
-	makeGroupObject(clip: DisplayObject): GameObject {
-		this._gameObject = (this._gameObject ?? this.engine.Instantiate(clip))!;
+	makeGroupObject(): GameObject {
+		this._gameObject = this.engine.Instantiate(this.clip);
 		return this._gameObject!;
 	}
 

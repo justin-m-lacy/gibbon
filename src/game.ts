@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { Rectangle, DisplayObject, Container, InteractionEvent } from 'pixi.js';
+import { Rectangle, DisplayObject, Container } from 'pixi.js';
 import LayerManager from './layerManager';
 import Engine from './engine';
 import GameObject from './game-object';
@@ -16,6 +16,8 @@ import { IUpdater } from './engine';
  * Extendable Game class.
  */
 export default class Game {
+
+	static current: Game;
 
 	/**
 	 * @property {PIXI.Application} app
@@ -51,8 +53,9 @@ export default class Game {
 	 * and base objectLayer.
 	 * Basic game systems can also be added to root as Components.
 	 */
-	get root(): GameObject { return this._root!; }
+	get root(): GameObject { return this._defaultGroup._gameObject!; }
 
+	get defaultGroup(): Group { return this._defaultGroup; }
 
 	get objectLayer(): Container { return this.layerManager.objectLayer!; }
 
@@ -95,9 +98,6 @@ export default class Game {
 	 */
 	wheelFunc?: (e: WheelEvent) => void;
 
-	/**
-	 * @property {Group[]} groups
-	 */
 	get groups() { return this._groups; }
 
 	/**
@@ -119,6 +119,11 @@ export default class Game {
 
 	private _groups: Group[];
 
+	/**
+	 * Default group for added objects.
+	 */
+	private _defaultGroup!: Group;
+
 	private _emitter: PIXI.utils.EventEmitter;
 
 	private _engine: Engine;
@@ -127,7 +132,6 @@ export default class Game {
 	private _layerManager?: LayerManager;
 
 	private _camera?: Camera;
-	private _root?: GameObject;
 
 	/**
 	 *
@@ -135,13 +139,13 @@ export default class Game {
 	 */
 	constructor(app: PIXI.Application) {
 
-		GameObject.SetGame(this);
-
 		this._app = app;
 		this._screen = this._app.screen;
 		this._stage = this._app.stage;
 		this._stage.interactive = true;
 		this._stage.hitArea = this._screen;
+
+		Game.current = this;
 
 		this._wheelScale = 1;
 		this._loader = PIXI.Loader.shared;
@@ -168,7 +172,7 @@ export default class Game {
 		this._layerManager = layerManager;
 		this._engine.objectLayer = layerManager.objectLayer;
 
-		this._root = this.engine.Instantiate(layerManager.objectLayer);
+		this._defaultGroup = new Group(this, layerManager.objectLayer, false, true);
 		this._camera = this.root.add(Camera);
 
 	}
@@ -222,7 +226,7 @@ export default class Game {
 	}
 
 
-	off(evt: string, fn?: (evt: InteractionEvent) => void, context?: any) {
+	off(evt: string, fn?: PIXI.utils.EventEmitter.ListenerFn, context?: any) {
 		return this._emitter.off(evt, fn, context);
 	}
 
@@ -257,7 +261,9 @@ export default class Game {
 	 * Wrapper for Engine.add(gameObject)
 	 * @param {GameObject} gameObject
 	 */
-	addObject(gameObject: GameObject) { this._engine.add(gameObject); }
+	addObject(gameObject: GameObject) {
+		this._engine.add(gameObject);
+	}
 
 	/**
 	 *

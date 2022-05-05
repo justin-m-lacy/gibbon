@@ -1,18 +1,19 @@
 import GameObject from "./game-object";
 import { Constructor } from './utils/types';
 import { DisplayObject } from 'pixi.js';
+import Game from './game';
 
 export default class Component {
 
 	/**
 	 * @property {Game} game
 	 */
-	get game() { return GameObject.Game!; }
+	get game() { return this.gameObject!.game; }
 
 	/**
 	 * @property {Engine} engine
 	 */
-	get engine() { return GameObject.Engine; }
+	get engine() { return this.game.engine; }
 
 	/**
 	 * @property {number} flags - Convenience accessor for GameObject.flags.

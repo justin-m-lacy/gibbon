@@ -42,7 +42,6 @@ export default class Engine implements IUpdater {
 		this.ticker = ticker ?? new PIXI.Ticker();
 		this.ticker.add(this.update, this);
 
-		GameObject.SetEngine(this);
 	}
 
 	/**
@@ -53,8 +52,8 @@ export default class Engine implements IUpdater {
 	 */
 	Instantiate(clip: DisplayObject | null | string = null, loc?: Point | null) {
 
-		var src = (typeof clip === 'string') ? this.library.instance<DisplayObject>(clip, loc) : clip;
-		let go = new GameObject(src, loc);
+		var view = (typeof clip === 'string') ? this.library.instance<DisplayObject>(clip, loc) : clip;
+		let go = new GameObject(view, loc);
 
 		this.add(go);
 		return go;
@@ -63,10 +62,10 @@ export default class Engine implements IUpdater {
 
 	update() {
 
-		const ms = this.ticker.deltaMS;
+		const sec = this.ticker.deltaMS / 1000;
 		const updaters = this.updaters;
 		for (let i = updaters.length - 1; i >= 0; i--) {
-			updaters[i].update(ms);
+			updaters[i].update(sec);
 		}
 
 		const objs = this.objects;
@@ -79,7 +78,7 @@ export default class Engine implements IUpdater {
 				obj._destroy();
 				quickSplice(objs, i);
 
-			} else if (obj.active) obj.update(ms);
+			} else if (obj.active) obj.update(sec);
 
 		}
 

@@ -1,18 +1,19 @@
 import * as PIXI from 'pixi.js';
-import { Rectangle, DisplayObject, Container, InteractionEvent } from 'pixi.js';
+import { Rectangle, DisplayObject, Container } from 'pixi.js';
 import LayerManager from './layerManager';
 import Engine from './engine';
 import GameObject from './game-object';
 import Camera from './components/camera';
 import Group from './group';
 import Library from './library';
-import Factory from './factory';
 import { LayerData } from './layerManager';
 import { Tween } from '@tweenjs/tween.js';
+import { IUpdater } from './engine';
 /**
  * Extendable Game class.
  */
 export default class Game {
+    static current: Game;
     /**
      * @property {PIXI.Application} app
      */
@@ -42,6 +43,7 @@ export default class Game {
      * Basic game systems can also be added to root as Components.
      */
     get root(): GameObject;
+    get defaultGroup(): Group;
     get objectLayer(): Container;
     get uiLayer(): Container;
     /**
@@ -65,11 +67,6 @@ export default class Game {
      */
     get mouseInfo(): any;
     /**
-     * @property {Factory} factory - Factory used for Object creation.
-     */
-    get factory(): Factory | null;
-    set factory(v: Factory | null);
-    /**
      * @property {number} wheelScale - Amount by which to scroll wheel input.
      */
     wheelScale: number;
@@ -78,9 +75,6 @@ export default class Game {
      * Stored value of wheel scrolling function when wheel is enabled.
      */
     wheelFunc?: (e: WheelEvent) => void;
-    /**
-     * @property {Group[]} groups
-     */
     get groups(): Group[];
     /**
      * @property {Engine} engine
@@ -90,21 +84,21 @@ export default class Game {
      * @property {LayerManager} layerManager
      */
     get layerManager(): LayerManager;
-    _app: PIXI.Application;
-    _screen: Rectangle;
-    _stage: Container;
-    _wheelScale: number;
-    _loader: PIXI.Loader;
-    _groups: Group[];
-    _ticker: PIXI.Ticker;
-    _sharedTicker: PIXI.Ticker;
-    _emitter: PIXI.utils.EventEmitter;
-    _factory: Factory | null;
-    _engine: Engine;
+    private _app;
+    private _screen;
+    private _stage;
+    private _wheelScale;
+    private _loader;
+    private _groups;
+    /**
+     * Default group for added objects.
+     */
+    private _defaultGroup;
+    private _emitter;
+    private _engine;
     library: Library;
-    _layerManager?: LayerManager;
-    _camera?: Camera;
-    _root?: GameObject;
+    private _layerManager?;
+    private _camera?;
     /**
      *
      * @param {PIXI.Application} app - The pixi application, or options object.
@@ -118,7 +112,8 @@ export default class Game {
      * Start the game object ticker and engine ticker.
      */
     start(): void;
-    tick(): void;
+    pause(): void;
+    unpause(): void;
     /**
      * Size the game to the full browser window.
      * @returns {function} The resize event listener, so it can be removed later.
@@ -137,7 +132,7 @@ export default class Game {
      * @param  {...any} args
      */
     emit(...args: any): void;
-    off(evt: string, fn?: (evt: InteractionEvent) => void, context?: any): PIXI.utils.EventEmitter<string | symbol>;
+    off(evt: string, fn?: PIXI.utils.EventEmitter.ListenerFn, context?: any): PIXI.utils.EventEmitter<string | symbol>;
     findGroup(name: string): Group | undefined;
     addGroup(g: Group): void;
     /**
@@ -155,42 +150,23 @@ export default class Game {
      *
      * @param {*} sys
      */
-    addUpdater(sys: any): void;
+    addUpdater(sys: IUpdater): void;
     /**
      *
      * @param {*} sys
      */
-    removeUpdater(sys: any): void;
-    /**
-     *
-     * @param {function} func
-     * @param {*} context
-     * @returns {PIXI.Ticker}
-     */
-    addUpdate(func: (...params: any[]) => any, context?: any): void;
-    /**
-     *
-     * @param {function} func
-     * @param {*} context
-     * @returns {PIXI.Ticker}
-     */
-    removeUpdate(func: (...params: any[]) => any, context?: any): PIXI.Ticker;
-    pause(): void;
-    unpause(): void;
+    removeUpdater(sys: IUpdater): void;
     /**
      * Wraps engine.Instantiate()
      * Instantiate a GameObject with a clip or a named clonable object from the library.
-     * @param {DisplayObject} [clip=null]
-     * @param {PIXI.Point} [loc=null]
-     * @returns {GameObject}
      */
-    instantiate(clip?: null, loc?: null): GameObject;
+    instantiate(clip?: DisplayObject, loc?: PIXI.Point): GameObject;
     /**
      * Creates an empty game object with a Container clip.
      * @param {Point|Object} [loc=null]
      * @return {GameObject}
      */
-    makeEmpty(loc?: null): GameObject;
+    makeEmpty(loc?: PIXI.Point): GameObject;
     /**
      * Replace existing tweens on the target with a newly created one.
      * Convenience accesor for setting config data.

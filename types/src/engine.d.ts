@@ -1,8 +1,7 @@
+import * as PIXI from 'pixi.js';
 import GameObject from './game-object';
 import Library from './library';
-import Factory from './factory';
 import { Point, DisplayObject, Container } from 'pixi.js';
-import System from './system';
 export interface IUpdater {
     update(delta: number): void;
 }
@@ -21,16 +20,8 @@ export default class Engine implements IUpdater {
      */
     readonly updaters: IUpdater[];
     readonly library: Library;
-    factory: Factory | null;
-    constructor();
-    /**
-     *
-     * @param {string} key
-     * @param {Point} [loc=null]
-     * @param {Object} [vars=null] variables to use in creating the new object.
-     * @returns {GameObject}
-     */
-    Create(key: string, loc?: Point | null, vars?: Object | null): GameObject | null;
+    readonly ticker: PIXI.Ticker;
+    constructor(ticker?: PIXI.Ticker);
     /**
      * Instantiate a GameObject with a clip or a named clonable object from the library.
      * @param {DisplayObject} [clip=null]
@@ -38,6 +29,7 @@ export default class Engine implements IUpdater {
      * @returns {GameObject}
      */
     Instantiate(clip?: DisplayObject | null | string, loc?: Point | null): GameObject;
+    update(): void;
     start(): void;
     stop(): void;
     /**
@@ -47,15 +39,14 @@ export default class Engine implements IUpdater {
     add(obj: GameObject): void;
     /**
      *
-     * @param {System|Object} sys
+     * @param {IUpdater} sys
      */
-    addUpdater(sys: System | IUpdater): void;
+    addUpdater(sys: IUpdater): void;
     /**
      *
-     * @param {System|IUpdater} sys
+     * @param {IUpdater} sys
      */
     removeUpdater(sys: IUpdater): void;
-    update(delta: number): void;
     /**
      * Remove a GameObject from the Engine.
      * @param {GameObject} obj

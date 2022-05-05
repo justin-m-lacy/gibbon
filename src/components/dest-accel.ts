@@ -3,6 +3,7 @@ import { Point } from 'pixi.js';
 import Mover from './mover';
 import { IPoint } from '../game-object';
 
+
 /**
  * Uses mover component to accelerate towards a destination point
  * and deccelerate upon arrival.
@@ -15,12 +16,12 @@ export default class DestAccel extends Component {
      * Radius at which to attempt to stop.
      * todo: compute from current move velocity and acceleration?
      */
-    stopRadius: number = 10;
+    stopRadius: number = 40;
 
     /**
      * Radius at which actor should slow down.
      */
-    slowRadius: number = 40;
+    slowRadius: number = 150;
 
     mover!: Mover;
 
@@ -32,7 +33,6 @@ export default class DestAccel extends Component {
 
         this.mover = this.require<Mover>(Mover);
         this.dest.copyFrom(this.position);
-        console.log(`dest-accel dest: ${this.dest.x},${this.dest.y}`);
     }
 
     update(delta: number): void {
@@ -57,7 +57,7 @@ export default class DestAccel extends Component {
             const vy = this.mover.velocity.y;
 
             // targetV - currentV
-            const deltaV = (Math.sqrt(d) / this.slowRadius) * this.mover.speedMax
+            const deltaV = (Math.sqrt(d) / this.slowRadius) * this.mover.velocityMax
                 - Math.sqrt(vx * vx + vy * vy);
 
             this.mover.accel = { x: deltaV * dx, y: deltaV * dy };

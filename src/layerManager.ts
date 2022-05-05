@@ -57,7 +57,6 @@ export default class LayerManager {
 
 		this.game = game;
 
-
 		this._background = this.addLayer('background');
 		this._objectLayer = this.addLayer('object');
 		this._uiLayer = this.addLayer('uiLayer');

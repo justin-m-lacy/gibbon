@@ -30,19 +30,10 @@ export type DestroyOptions = {
  */
 export default class GameObject {
 
-	static Game: Game;
-	static Engine: Engine;
-
-	static SetGame(v: Game) { this.Game = v; }
-	static GetGame() { return this.Game; }
-
-	static GetEngine() { return this.Engine; }
-	static SetEngine(v: Engine) { this.Engine = v; }
-
 	/**
 	 * @property {Game} game
 	 */
-	get game() { return GameObject.Game; }
+	get game() { return Game.current; }
 
 	/**
 	 * @property {Group} group - owning group of the gameObject, if any.
@@ -122,12 +113,8 @@ export default class GameObject {
 		}
 	}
 
-	get sleeping(): boolean {
-		return this._sleep;
-	}
-	set sleep(v: boolean) {
-		this._sleep = v;
-	}
+	get sleeping(): boolean { return this._sleep; }
+	set sleep(v: boolean) { this._sleep = v; }
 
 	/**
 	 * @property {Point} orient - returns the normalized orientation vector of the object.
@@ -190,6 +177,8 @@ export default class GameObject {
 	protected _position: Point;
 
 	protected _group: Group | null = null;
+
+	private _game!: Game;
 
 	flags: number = 0;
 

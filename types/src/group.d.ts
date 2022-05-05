@@ -1,6 +1,6 @@
 import { GameObject } from "..";
 import Game from './game';
-import { Container, DisplayObject } from 'pixi.js';
+import { Container } from 'pixi.js';
 import Engine from './engine';
 /**
  * If a clip is supplied to the Group, it will act as the parent
@@ -24,7 +24,7 @@ export default class Group {
     readonly subgroups: Group[];
     readonly objects: GameObject[];
     readonly game: Game;
-    readonly engine: Engine;
+    get engine(): Engine;
     /**
      * GameObject to hold group components.
      */
@@ -36,13 +36,11 @@ export default class Group {
      * @param {DisplayObject} [clip=null]
      * @param {boolean} [paused=false]
      */
-    constructor(game: Game, clip?: Container | undefined | null, paused?: boolean);
+    constructor(game: Game, clip?: Container | undefined | null, paused?: boolean, createGroupObject?: boolean);
     /**
       * Ensure the group has its own group GameObject.
-      * @param {DisplayObject} clip
-      * @returns {GameObject}
       */
-    makeGroupObject(clip: DisplayObject): GameObject;
+    makeGroupObject(): GameObject;
     pause(): void;
     unpause(): void;
     /**

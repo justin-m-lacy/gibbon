@@ -27,6 +27,12 @@ export default class Mover extends Component {
 	set velocity(v) { this._velocity.set(v.x, v.y); }
 
 	/**
+	  * @property {number} velocityMax - Maximum absolute value of velocity.
+	  */
+	get velocityMax(): number { return this._speedMax; }
+	set velocityMax(v: number) { this._speedMax = v; }
+
+	/**
 	 * @property {PIXI.Point} accel
 	 */
 	get accel(): IPoint { return this._accel; }
@@ -44,11 +50,7 @@ export default class Mover extends Component {
 		}
 	}
 
-	/**
-	 * @property {number} velocityMax - Maximum absolute value of velocity.
-	 */
-	get speedMax(): number { return this._speedMax; }
-	set speedMax(v: number) { this._speedMax = v; }
+
 
 	/**
 	 * @property {number} accelMax

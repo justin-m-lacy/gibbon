@@ -29,7 +29,6 @@
     "pixi.js": "6.2.2"
   },
   "devDependencies": {
-    "@types/signals": "^1.0.1",
     "eslint": "^8.14.0",
     "typescript": "^4.5.5"
   }

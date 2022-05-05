@@ -1,11 +1,12 @@
 import GameObject from "./game-object";
 import { Constructor } from './utils/types';
 import { DisplayObject } from 'pixi.js';
+import Game from './game';
 export default class Component {
     /**
      * @property {Game} game
      */
-    get game(): import("./game").default;
+    get game(): Game;
     /**
      * @property {Engine} engine
      */

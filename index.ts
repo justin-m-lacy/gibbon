@@ -1,5 +1,3 @@
-import * as PIXI from 'pixi.js';
-
 import Engine from './src/engine';
 import Component from './src/component';
 
@@ -21,7 +19,6 @@ import * as RandUtils from './src/utils/rand';
 import { tweenOf, getTween, removeTween } from './src/utils/tweens';
 export { IPoint } from './src/game-object';
 
-import Factory from './src/factory';
 import GameObject from './src/game-object';
 import DestAccel from './src/components/dest-accel';
 import Mover from './src/components/mover';
@@ -36,7 +33,7 @@ import * as Rand from './src/utils/rand';
 import CanvasDraw from './src/utils/canvas-draw';
 
 export {
-	Engine, Game, Component, System, Factory,
+	Engine, Game, Component, System,
 	GameObject,
 	Library,
 	Group,
@@ -74,7 +71,6 @@ const Gibbon = {
 	LoadGroup,
 	Component,
 	GameObject,
-	Factory,
 	Library,
 	Camera,
 	Mover,

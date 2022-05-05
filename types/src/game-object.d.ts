@@ -2,7 +2,6 @@ import { Point, DisplayObject } from 'pixi.js';
 import * as PIXI from 'pixi.js';
 import Group from './group';
 import Game from './game';
-import Engine from './engine';
 import Component from './component';
 import { Constructor } from './utils/types';
 /**
@@ -24,12 +23,6 @@ export declare type DestroyOptions = {
  *
  */
 export default class GameObject {
-    static Game: Game;
-    static Engine: Engine;
-    static SetGame(v: Game): void;
-    static GetGame(): Game;
-    static GetEngine(): Engine;
-    static SetEngine(v: Engine): void;
     /**
      * @property {Game} game
      */
@@ -116,6 +109,7 @@ export default class GameObject {
     protected _active: boolean;
     protected _position: Point;
     protected _group: Group | null;
+    private _game;
     flags: number;
     readonly _compMap: Map<Constructor<Component> | Function, Component>;
     /**
