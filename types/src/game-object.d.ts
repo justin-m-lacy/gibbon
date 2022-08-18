@@ -206,7 +206,7 @@ export default class GameObject {
     addCopy(comp: Component): any;
     /**
      *
-     * @param {number} delta
+     * @param {number} delta - Tick time in seconds.
      */
     update(delta: number): void;
     /**

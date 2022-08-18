@@ -424,7 +424,7 @@ export default class GameObject {
 
 	/**
 	 *
-	 * @param {number} delta
+	 * @param {number} delta - Tick time in seconds.
 	 */
 	update(delta: number) {
 

@@ -10,6 +10,7 @@ node_modules
 # javascript compilation.
 dist
 lib
+types
 
 # js mapping files
 lib/*.map

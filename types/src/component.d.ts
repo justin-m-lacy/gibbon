@@ -76,12 +76,6 @@ export default class Component {
      */
     constructor();
     /**
-     * Override in subclass to initialize component.
-     * Basic component properties are now available.
-     * This component is also now in the gameObjects own component map.
-     */
-    init(): void;
-    /**
      * Private initializer calls subclassed init()
      * @param {GameObject} gameObject
      */
@@ -94,8 +88,18 @@ export default class Component {
      * Called when gameObject.active is set to false.
      */
     onDeactivate?(): void;
+    /**
+     * Override in subclass to initialize component.
+     * Basic component properties are now available.
+     * This component is also now in the gameObjects own component map.
+     */
+    init?(): void;
     onEnable?(): void;
     onDisable?(): void;
+    /**
+     *
+     * @param delta - Tick time in seconds.
+     */
     update?(delta: number): void;
     /**
      *
