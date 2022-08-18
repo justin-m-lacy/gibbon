@@ -1,11 +1,10 @@
 import { Point, DisplayObject, Container, InteractionEvent } from 'pixi.js';
 import * as PIXI from 'pixi.js';
-import { quickSplice } from './utils/array-utils';
+import { quickSplice } from '../utils/array-utils';
 import Group from './group';
-import Game from './game';
-import Engine from './engine';
+import Game from '../game';
 import Component from './component';
-import { Constructor } from './utils/types';
+import { Constructor } from '../utils/types';
 
 /**
  * Point without reference to pixi.
@@ -89,11 +88,10 @@ export default class GameObject {
 	/**
 	 * @property {number} rotation - Rotation in radians.
 	 */
-	get rotation(): number { return this.clip?.rotation ?? 0; }
+	get rotation(): number { return this._rotation; }
 	set rotation(v) {
-		/// TODO: modulus these numbers.
-		if (v > Math.PI) v -= 2 * Math.PI;
-		else if (v < -Math.PI) v += 2 * Math.PI;
+		if (v > 2 * Math.PI || v < -2 * Math.PI) v %= 2 * Math.PI;
+		this._rotation = v;
 		if (this.clip != null) {
 			this.clip.rotation = v;
 		}
@@ -134,13 +132,6 @@ export default class GameObject {
 	}
 
 	/**
-	 * {Boolean} destroy was requested on the GameObject, and will be destroyed
-	 * on the next frame. It should be treated as destroyed.
-	 */
-	/** get destroying() { return this._destroying; }
-	set destroying() { this._destroying=true;}*/
-
-	/**
 	 * @property {boolean} isAdded - true after GameObject has been added to Engine.
 	 */
 	get isAdded() { return this._isAdded; }
@@ -157,6 +148,9 @@ export default class GameObject {
 
 	readonly _components: Component[];
 
+	/**
+	 * Object was destroyed and should not be used any more.
+	 */
 	private _destroyed: boolean = false;
 
 	/**
@@ -173,6 +167,8 @@ export default class GameObject {
 	protected _destroyOpts?: DestroyOptions;
 
 	protected _active: boolean = false;
+
+	private _rotation: number = 0;
 
 	protected _position: Point;
 
@@ -457,14 +453,6 @@ export default class GameObject {
 		if (destroy === true) comp._destroy();
 
 		this._compMap.delete(comp.constructor || comp);
-
-
-		//let ind = this._components.indexOf( comp);
-		//if ( ind < 0) return false;
-
-		//this._components.splice(ind, 1);
-		//this.components[ind] = this.components[ this.components.length-1];
-		//this.components.pop();
 
 		return true;
 

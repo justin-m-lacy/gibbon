@@ -1,4 +1,4 @@
-import Component from '../component';
+import Component from '../core/component';
 import { Point } from 'pixi.js';
 export type HtmlWrapperOpts = {
 

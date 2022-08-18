@@ -1,7 +1,7 @@
 import System from "../system";
 import { Rectangle, Container } from "pixi.js";
 import Game from "../game";
-import GameObject from '../game-object';
+import GameObject from '../core/game-object';
 
 export type ExitFunction = (go: GameObject) => void;
 

@@ -1,24 +1,22 @@
-import Component from "../component";
+import Component from "../core/component";
 import { Point } from "pixi.js";
-import { IPoint } from '../game-object';
+import { IPoint } from '../core/game-object';
 
 export default class Mover extends Component {
 
 	/**
 	 * @property {number} rotation - wraps gameObject rotation in radians.
 	 */
-	get rotation() { return this.clip!.rotation; }
+	get rotation() { return this.gameObject!.rotation; }
 	set rotation(v) {
-		if (v > Math.PI) v -= 2 * Math.PI;
-		else if (v < -Math.PI) v += 2 * Math.PI;
-		this.clip!.rotation = v;
+		this.gameObject!.rotation = v;
 	}
 
 	/**
 	 * @property {PIXI.Point} position
 	 */
-	get position() { return this.clip!.position; }
-	set position(v) { this.clip!.position = v; }
+	get position() { return this.gameObject!.position; }
+	set position(v) { this.gameObject!.position = v; }
 
 	/**
 	 * @property {PIXI.Point} velocity

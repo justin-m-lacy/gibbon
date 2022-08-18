@@ -1,5 +1,5 @@
 import { Point, DisplayObject, Rectangle } from 'pixi.js';
-import Component from '../component';
+import Component from '../core/component';
 
 export default class Camera extends Component {
 

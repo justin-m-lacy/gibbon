@@ -1,7 +1,7 @@
 import GameObject from "./game-object";
-import { Constructor } from './utils/types';
+import { Constructor } from '../utils/types';
 import { DisplayObject } from 'pixi.js';
-import Game from './game';
+import Game from '../game';
 
 export default class Component {
 
@@ -46,30 +46,27 @@ export default class Component {
 	/**
 	 * @property {number} x
 	 */
-	get x() { return this.clip?.x ?? 0; }
+	get x() { return this.gameObject?.x ?? 0; }
 	set x(v) {
-		if (this.clip != null) {
-			this.clip.x = v;
+		if (this.gameObject) {
+			this.gameObject.x = v;
 		}
 	}
 
 	/**
 	 * @property {number} y
 	*/
-	get y(): number { return this.clip?.y ?? 0; }
-	set y(v) { if (this.clip != null) this.clip.y = v; }
+	get y(): number { return this.gameObject?.y ?? 0; }
+	set y(v) { if (this.gameObject != null) this.gameObject.y = v; }
 
 	/**
 	* @property {number} rotation - underlying clip rotation in radians.
 	*/
-	get rotation(): number { return this.clip?.rotation ?? 0; }
+	get rotation(): number { return this.gameObject?.rotation ?? 0; }
 	set rotation(v: number) {
-
-		/// TODO: modulus.
-		if (v > Math.PI) v -= 2 * Math.PI;
-		else if (v < -Math.PI) v += 2 * Math.PI;
-
-		if (this.clip) this.clip.rotation = v;
+		if (this.gameObject) {
+			this.gameObject.rotation = v;
+		}
 	}
 
 	/**
@@ -103,9 +100,9 @@ export default class Component {
 
 
 	/**
-	 * @property {DisplayObject} clip - Convenience copy of GameObject clip.
+	 * @property clip - Convenience accessor of GameObject clip.
 	 */
-	clip?: DisplayObject | null;
+	get clip() { return this.gameObject?.clip; }
 
 	/**
 	 * Constructor intentionally empty so components can be
@@ -123,8 +120,6 @@ export default class Component {
 	_init(gameObject: GameObject) {
 
 		this.gameObject = gameObject;
-		this.clip = this.gameObject.clip;
-
 		this._enabled = true;
 
 		this.init?.();
@@ -222,7 +217,6 @@ export default class Component {
 		}
 		this._enabled = false;
 		this._destroyed = true;
-		this.clip = null;
 		this.gameObject = undefined;
 
 	}

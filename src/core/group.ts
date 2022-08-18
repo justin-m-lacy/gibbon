@@ -1,8 +1,8 @@
-import { GameObject } from "..";
-import Game from './game';
+import { GameObject } from "../..";
+import Game from '../game';
 import { Container, DisplayObject } from 'pixi.js';
-import Engine from './engine';
-import { contains } from './utils/array-utils';
+import Engine from '../engine';
+import { contains } from '../utils/array-utils';
 
 /**
  * If a clip is supplied to the Group, it will act as the parent
@@ -16,7 +16,7 @@ export default class Group {
 	}
 
 	/**
-	  * @property clip - clip associated with group, if any.
+	  * @property Optional clip associated with group.
 	  * Objects added to the group are added to clip's child clips.
 	  */
 	readonly clip?: Container | null;

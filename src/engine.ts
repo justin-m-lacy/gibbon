@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import GameObject from './game-object';
+import GameObject from './core/game-object';
 import Library from './library';
 import { quickSplice } from './utils/array-utils';
 import { Point, DisplayObject, Container } from 'pixi.js';

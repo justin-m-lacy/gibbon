@@ -1,4 +1,4 @@
-import Group from "./group";
+import Group from "./core/group";
 import { DisplayObject, Container, Loader } from "pixi.js";
 import { GameObject } from "..";
 import Game from './game';

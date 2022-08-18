@@ -1,6 +1,6 @@
-import Component from "../component";
+import Component from "../core/component";
 import { quickSplice } from "../utils/array-utils";
-import GameObject from '../game-object';
+import GameObject from '../core/game-object';
 import Engine from '../engine';
 
 export default class SleepSystem extends Component {

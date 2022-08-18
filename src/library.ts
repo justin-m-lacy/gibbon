@@ -1,6 +1,6 @@
 import { Point } from 'pixi.js';
 import { Constructor, isConstructor, Clonable, isClonable } from './utils/types';
-import GameObject from './game-object';
+import GameObject from './core/game-object';
 
 /// Function to create instances of game objects.
 export type CreateFunction = (...params: any[]) => GameObject;
