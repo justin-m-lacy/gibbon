@@ -71,7 +71,7 @@ export default class LayerManager {
 	 */
 	addLayer(name: string, index?: number | null): Container {
 
-		let clip = new Container();
+		const clip = new Container();
 		clip.name = name;
 		if (index === null || index === undefined) {
 			this.game.stage.addChild(clip);
@@ -85,7 +85,7 @@ export default class LayerManager {
 	initFromData(layerData: LayerData[]) {
 
 		const stage = this.game.stage;
-		for (let data of layerData) {
+		for (const data of layerData) {
 
 			var clip = new Container();
 			clip.name = data.name || '';

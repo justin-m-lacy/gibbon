@@ -15,7 +15,6 @@ export type { Clonable, Constructor } from './src/utils/types';
 import * as DisplayUtils from './src/utils/displayUtils';
 import * as ColorUtils from './src/utils/colorUtils';
 import * as DrawUtils from './src/utils/drawUtils';
-import * as RandUtils from './src/utils/rand';
 import { tweenOf, getTween, removeTween } from './src/utils/tweens';
 export { IPoint } from './src/core/game-object';
 
@@ -46,7 +45,6 @@ export {
 	SpriteTiler,
 	TimeDestroy,
 	DisplayUtils,
-	RandUtils,
 	ColorUtils,
 	CanvasDraw,
 	Mover,
@@ -63,7 +61,7 @@ const Gibbon = {
 	Components,
 	Systems,
 	Utils,
-	Geom,
+	Geom: Geom,
 	Engine,
 	System,
 	Game,

@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { Rectangle, DisplayObject, Container } from 'pixi.js';
+import { Rectangle, DisplayObject, Container, Point, Application } from 'pixi.js';
 import LayerManager from './layerManager';
 import Engine from './engine';
 import GameObject from './core/game-object';
@@ -11,6 +11,7 @@ import { Tween } from '@tweenjs/tween.js';
 import { tweenOf } from './utils/tweens';
 import { contains } from './utils/array-utils';
 import { IUpdater } from './engine';
+import { WheelControl } from './input/mouse-wheel';
 
 /**
  * Extendable Game class.
@@ -20,9 +21,9 @@ export default class Game {
 	static current: Game;
 
 	/**
-	 * @property {PIXI.Application} app
+	 * @property {Application} app
 	 */
-	get app(): PIXI.Application { return this._app; }
+	get app(): Application { return this._app; }
 
 	/**
 	 * @property {PIXI.Renderer} renderer - renderer for application.
@@ -86,17 +87,6 @@ export default class Game {
 	 */
 	get mouseInfo() { return this.renderer.plugins.interaction.mouse; }
 
-	/**
-	 * @property {number} wheelScale - Amount by which to scroll wheel input.
-	 */
-	wheelScale: number = 1;
-
-	wheelEnabled: boolean = true;
-
-	/**
-	 * Stored value of wheel scrolling function when wheel is enabled.
-	 */
-	wheelFunc?: (e: WheelEvent) => void;
 
 	get groups() { return this._groups; }
 
@@ -110,11 +100,10 @@ export default class Game {
 	 */
 	get layerManager(): LayerManager { return this._layerManager!; }
 
-	private _app: PIXI.Application;
+	private _app: Application;
 	private _screen: Rectangle;
 	private _stage: Container;
 
-	private _wheelScale: number = 1;
 	private _loader: PIXI.Loader;
 
 	private _groups: Group[];
@@ -135,9 +124,9 @@ export default class Game {
 
 	/**
 	 *
-	 * @param {PIXI.Application} app - The pixi application, or options object.
+	 * @param app - The pixi application, or options object.
 	 */
-	constructor(app: PIXI.Application) {
+	constructor(app: Application) {
 
 		this._app = app;
 		this._screen = this._app.screen;
@@ -146,8 +135,6 @@ export default class Game {
 		this._stage.hitArea = this._screen;
 
 		Game.current = this;
-
-		this._wheelScale = 1;
 		this._loader = PIXI.Loader.shared;
 
 		this._groups = [];
@@ -286,12 +273,17 @@ export default class Game {
 	}
 
 	/**
-	 * Creates an empty game object with a Container clip.
-	 * @param {Point|Object} [loc=null]
-	 * @return {GameObject}
+	 * Create an empty game object with a Container clip.
+	 */
+	makeContainer(loc?: Point) {
+		return this.engine.Instantiate(new PIXI.Container(), loc);
+	}
+
+	/**
+	 * Create empty game object with no clip.
 	 */
 	makeEmpty(loc?: PIXI.Point) {
-		return this.engine.Instantiate(new PIXI.Container(), loc);
+		return this.engine.Instantiate(null, loc);
 	}
 
 	/**
@@ -327,62 +319,14 @@ export default class Game {
 	 * Enable mouse wheel events.
 	 */
 	enableWheel() {
-
-		if (this.wheelEnabled === true) return;
-
-		let mgr = this.app.renderer.plugins.interaction;
-
-		this.wheelEnabled = true;
-
-		// store to remove later.
-		this.wheelFunc = (e) => {
-
-			let evt = new PIXI.InteractionEvent();
-			let data = new PIXI.InteractionData();
-
-			data.originalEvent = e;
-
-			/// TODO: PIXI has changed implementation for this:
-			//data.deltaY = e.deltaY * this.wheelScale;
-			//data.deltaX = e.deltaX * this.wheelScale;
-
-			data.originalEvent = e;
-
-			Object.assign(data, mgr.eventData);
-
-			let target: DisplayObject | undefined = evt.target = data.target;
-			evt.data = data;
-			evt.type = 'wheel';
-
-			while (target) {
-
-				if (target.interactive === true) {
-					evt.currentTarget = target;
-					target.emit('wheel', evt);
-				}
-				target = target.parent;
-
-			}
-
-		};
-
-		this.app.view.addEventListener('wheel', this.wheelFunc);
-
+		WheelControl.enableWheel(this.app);
 	}
 
 	/**
 	 * Disable wheel events.
 	 */
 	disableWheel() {
-
-		if (this.wheelEnabled === true) {
-			if (this.wheelFunc) {
-				this.app.view.removeEventListener('wheel', this.wheelFunc);
-			}
-			this.wheelFunc = undefined;
-			this.wheelEnabled = false;
-		}
-
+		WheelControl.disableWheel(this.app);
 	}
 
 }

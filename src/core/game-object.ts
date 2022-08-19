@@ -1,4 +1,4 @@
-import { Point, DisplayObject, Container, InteractionEvent } from 'pixi.js';
+import { Point, DisplayObject, Container } from 'pixi.js';
 import * as PIXI from 'pixi.js';
 import { quickSplice } from '../utils/array-utils';
 import Group from './group';
@@ -174,8 +174,6 @@ export default class GameObject {
 
 	protected _group: Group | null = null;
 
-	private _game!: Game;
-
 	flags: number = 0;
 
 	readonly _compMap: Map<Constructor<Component> | Function, Component>;
@@ -208,7 +206,6 @@ export default class GameObject {
 			}
 		} else {
 
-			this.clip = null;
 			this._position = pos || new Point(0, 0);
 
 		}
@@ -221,9 +218,12 @@ export default class GameObject {
 
 	}
 
-	pause() { }
-	unpause() {
-	}
+	/**
+	 * Override in subclass.
+	 */
+	added(): void { }
+	pause(): void { }
+	unpause(): void { }
 
 	/**
 	 * Called when GameObject is added to engine.
@@ -248,10 +248,7 @@ export default class GameObject {
 
 	}
 
-	/**
-	 * Override in subclass.
-	 */
-	added() { }
+
 
 	/**
 	 *
@@ -358,8 +355,7 @@ export default class GameObject {
 	 * @param {number} y
 	 */
 	translate(x: number, y: number) {
-		this._position.x += x;
-		this._position.y += y;
+		this._position.set(this._position.x + x, this._position.y + y);
 	}
 
 	/**

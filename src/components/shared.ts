@@ -7,7 +7,7 @@ import GameObject from '../core/game-object';
  */
 export default class SharedComponent extends Component {
 
-	_attachCount: number = 0;
+	private _attachCount: number = 0;
 
 	constructor() {
 		super();

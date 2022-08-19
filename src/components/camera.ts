@@ -1,10 +1,11 @@
 import { Point, DisplayObject, Rectangle } from 'pixi.js';
 import Component from '../core/component';
+import GameObject from '../core/game-object';
 
 export default class Camera extends Component {
 
-	get target(): DisplayObject | null { return this._target; }
-	set target(v: DisplayObject | null) {
+	get target(): DisplayObject | GameObject | null { return this._target; }
+	set target(v: DisplayObject | GameObject | null) {
 
 		if (v) {
 			this._target = v;
@@ -81,7 +82,11 @@ export default class Camera extends Component {
 	get bottom(): number { return this._viewRect.bottom; }
 
 	private _screen: Rectangle | null = null;
-	private _target: DisplayObject | null = null;
+
+	/**
+	 * Target camera should track.
+	 */
+	private _target: DisplayObject | GameObject | null = null;
 	private _minScale: number = 0;
 	private _maxScale: number = 0;
 	private _viewScale: number = 0;
@@ -144,8 +149,7 @@ export default class Camera extends Component {
 	 */
 	toCameraPoint(global: Point, dest?: Point) {
 
-		dest = dest || new Point();
-		return this._panClip?.toLocal(global, undefined, dest);
+		return this._panClip?.toLocal(global, undefined, dest ?? new Point());
 
 	}
 
@@ -168,12 +172,12 @@ export default class Camera extends Component {
 
 		if (this._target === null) return;
 
-		let targPos = this._target.position;
+		const targPos = this._target.position;
 
-		let destX = this._halfWidth - targPos.x;
-		let destY = this._halfHeight - targPos.y;
+		const destX = this._halfWidth - targPos.x;
+		const destY = this._halfHeight - targPos.y;
 
-		let pos = this._panClip!.position;
+		const pos = this._panClip!.position;
 		pos.set(
 			pos.x + (destX - pos.x) / 4,
 			pos.y + (destY - pos.y) / 4
