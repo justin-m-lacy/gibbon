@@ -11,7 +11,12 @@ export type HtmlWrapperOpts = {
     /**
      * Html Element positioning mode.
      */
-    position?: 'relative' | 'absolute' | 'sticky' | 'fixed' | 'static'
+    position?: 'relative' | 'absolute' | 'sticky' | 'fixed' | 'static',
+
+    /**
+ * Create named element if not found.
+ */
+    createElement?: boolean
 
 }
 
@@ -74,9 +79,6 @@ export default class HtmlWrapper extends Component {
     /// display to restore after hiding.
     _display?: string;
 
-    _elmPosition?: string;
-
-
     autoRemove: boolean;
 
     /**
@@ -88,7 +90,7 @@ export default class HtmlWrapper extends Component {
 
         super();
 
-        this._elm = typeof elm == 'string' ? document.getElementById(elm) : elm;
+        this.initElement(elm, opts);
         this._display = this._elm?.style.display;
 
         this.autoRemove = opts?.autoRemove ?? true;
@@ -98,6 +100,29 @@ export default class HtmlWrapper extends Component {
             }
         }
 
+    }
+
+    private initElement(elmId?: string | HTMLElement | null, opts?: HtmlWrapperOpts) {
+
+        if (typeof elmId === 'string') {
+            this._elm = document.getElementById(elmId);
+            if (this._elm == null && opts?.createElement) {
+                this._elm = this.createNamedDiv(elmId);
+            }
+
+        } else if (elmId == null && opts?.createElement === true) {
+            this._elm = this.createNamedDiv();
+        } else {
+            this._elm = elmId;
+        }
+
+    }
+
+    private createNamedDiv(elmId?: string) {
+        const elm = document.createElement('div');
+        if (elmId) elm.id = elmId;
+        document.body.appendChild(elm);
+        return elm;
     }
 
     onEnable() {
