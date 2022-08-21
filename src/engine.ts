@@ -3,7 +3,6 @@ import GameObject from './core/game-object';
 import Library from './library';
 import { quickSplice } from './utils/array-utils';
 import { Point, DisplayObject, Container } from 'pixi.js';
-import System from './system';
 
 export interface IUpdater {
 
