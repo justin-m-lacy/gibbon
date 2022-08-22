@@ -1,4 +1,4 @@
-import Component from '../component';
+import Component from '../core/component';
 import Camera from './camera';
 import Mover from './mover';
 import HtmlWrapper from './html-wrapper';

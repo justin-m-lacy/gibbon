@@ -1,5 +1,5 @@
-import Component from "../component";
-import GameObject from '../game-object';
+import Component from "../core/component";
+import GameObject from '../core/game-object';
 import Engine from '../engine';
 export default class SleepSystem extends Component {
     /**

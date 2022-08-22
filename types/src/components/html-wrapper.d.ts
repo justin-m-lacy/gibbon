@@ -1,4 +1,4 @@
-import Component from '../component';
+import Component from '../core/component';
 import { Point } from 'pixi.js';
 export declare type HtmlWrapperOpts = {
     /**
@@ -10,6 +10,10 @@ export declare type HtmlWrapperOpts = {
      * Html Element positioning mode.
      */
     position?: 'relative' | 'absolute' | 'sticky' | 'fixed' | 'static';
+    /**
+ * Create named element if not found.
+ */
+    createElement?: boolean;
 };
 /**
  * Displays raw HtmlElement.
@@ -27,7 +31,6 @@ export default class HtmlWrapper extends Component {
     set position(p: Point);
     _elm?: HTMLElement | null;
     _display?: string;
-    _elmPosition?: string;
     autoRemove: boolean;
     /**
      *
@@ -35,6 +38,8 @@ export default class HtmlWrapper extends Component {
      * @param opts
      */
     constructor(elm?: HTMLElement | string, opts?: HtmlWrapperOpts);
+    private initElement;
+    private createNamedDiv;
     onEnable(): void;
     onDisable(): void;
     onDestroy(): void;

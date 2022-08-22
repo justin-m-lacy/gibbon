@@ -1,10 +1,10 @@
 import * as PIXI from 'pixi.js';
-import { Rectangle, DisplayObject, Container } from 'pixi.js';
+import { Rectangle, DisplayObject, Container, Point, Application } from 'pixi.js';
 import LayerManager from './layerManager';
 import Engine from './engine';
-import GameObject from './game-object';
+import GameObject from './core/game-object';
 import Camera from './components/camera';
-import Group from './group';
+import Group from './core/group';
 import Library from './library';
 import { LayerData } from './layerManager';
 import { Tween } from '@tweenjs/tween.js';
@@ -15,9 +15,9 @@ import { IUpdater } from './engine';
 export default class Game {
     static current: Game;
     /**
-     * @property {PIXI.Application} app
+     * @property {Application} app
      */
-    get app(): PIXI.Application;
+    get app(): Application;
     /**
      * @property {PIXI.Renderer} renderer - renderer for application.
      * Convenience accessor. Cache for quick access.
@@ -66,15 +66,6 @@ export default class Game {
      * @property {InteractionData} mouseInfo - convenience accessor for global mouse information.
      */
     get mouseInfo(): any;
-    /**
-     * @property {number} wheelScale - Amount by which to scroll wheel input.
-     */
-    wheelScale: number;
-    wheelEnabled: boolean;
-    /**
-     * Stored value of wheel scrolling function when wheel is enabled.
-     */
-    wheelFunc?: (e: WheelEvent) => void;
     get groups(): Group[];
     /**
      * @property {Engine} engine
@@ -87,7 +78,6 @@ export default class Game {
     private _app;
     private _screen;
     private _stage;
-    private _wheelScale;
     private _loader;
     private _groups;
     /**
@@ -101,9 +91,9 @@ export default class Game {
     private _camera?;
     /**
      *
-     * @param {PIXI.Application} app - The pixi application, or options object.
+     * @param app - The pixi application, or options object.
      */
-    constructor(app: PIXI.Application);
+    constructor(app: Application);
     /**
      * After init(), layerManager and game layers are available for use.
      */
@@ -162,9 +152,11 @@ export default class Game {
      */
     instantiate(clip?: DisplayObject, loc?: PIXI.Point): GameObject;
     /**
-     * Creates an empty game object with a Container clip.
-     * @param {Point|Object} [loc=null]
-     * @return {GameObject}
+     * Create an empty game object with a Container clip.
+     */
+    makeContainer(loc?: Point): GameObject;
+    /**
+     * Create empty game object with no clip.
      */
     makeEmpty(loc?: PIXI.Point): GameObject;
     /**

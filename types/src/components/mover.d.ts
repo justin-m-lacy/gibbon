@@ -1,6 +1,6 @@
-import Component from "../component";
+import Component from "../core/component";
 import { Point } from "pixi.js";
-import { IPoint } from '../game-object';
+import { IPoint } from '../core/game-object';
 export default class Mover extends Component {
     /**
      * @property {number} rotation - wraps gameObject rotation in radians.
@@ -10,8 +10,8 @@ export default class Mover extends Component {
     /**
      * @property {PIXI.Point} position
      */
-    get position(): import("pixi.js").ObservablePoint<any>;
-    set position(v: import("pixi.js").ObservablePoint<any>);
+    get position(): Point;
+    set position(v: Point);
     /**
      * @property {PIXI.Point} velocity
      */

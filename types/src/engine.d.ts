@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import GameObject from './game-object';
+import GameObject from './core/game-object';
 import Library from './library';
 import { Point, DisplayObject, Container } from 'pixi.js';
 export interface IUpdater {

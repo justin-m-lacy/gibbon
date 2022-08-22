@@ -1,6 +1,6 @@
 import { Point } from 'pixi.js';
 import { Constructor, Clonable } from './utils/types';
-import GameObject from './game-object';
+import GameObject from './core/game-object';
 export declare type CreateFunction = (...params: any[]) => GameObject;
 export default class Library {
     _lib: Map<string, Constructor<any> | Clonable<any> | Object>;
