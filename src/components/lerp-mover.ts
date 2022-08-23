@@ -2,6 +2,10 @@ import Component from '../core/component';
 import { IPoint } from '../core/actor';
 import Mover from './mover';
 
+/**
+ * Linearly interpolate Actor between two points over
+ * a defined time frame.
+ */
 export default class LerpMover extends Component {
 
     private lerpTimeSec: number = 300;

@@ -5,7 +5,7 @@ import Group from './group';
 import Game from '../game';
 import Component from './component';
 import { Constructor } from '../utils/types';
-import { Transform } from '../data/transform';
+import { Transform } from './transform';
 
 /**
  * Point without reference to pixi.
