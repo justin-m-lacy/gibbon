@@ -1,5 +1,5 @@
 import Component from '../core/component';
-import { IPoint } from '../core/game-object';
+import { IPoint } from '../core/actor';
 import Mover from './mover';
 
 export default class LerpMover extends Component {

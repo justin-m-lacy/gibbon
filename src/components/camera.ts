@@ -1,11 +1,11 @@
 import { Point, DisplayObject, Rectangle } from 'pixi.js';
 import Component from '../core/component';
-import GameObject from '../core/game-object';
+import Actor from '../core/actor';
 
 export default class Camera extends Component {
 
-	get target(): DisplayObject | GameObject | null { return this._target; }
-	set target(v: DisplayObject | GameObject | null) {
+	get target(): DisplayObject | Actor | null { return this._target; }
+	set target(v: DisplayObject | Actor | null) {
 
 		if (v) {
 			this._target = v;
@@ -86,7 +86,7 @@ export default class Camera extends Component {
 	/**
 	 * Target camera should track.
 	 */
-	private _target: DisplayObject | GameObject | null = null;
+	private _target: DisplayObject | Actor | null = null;
 	private _minScale: number = 0;
 	private _maxScale: number = 0;
 	private _viewScale: number = 0;

@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { Rectangle, DisplayObject, Container, Point, Application } from 'pixi.js';
 import LayerManager from './layerManager';
 import Engine from './engine';
-import GameObject from './core/game-object';
+import Actor from './core/actor';
 import Camera from './components/camera';
 import Group from './core/group';
 import Library from './library';
@@ -54,7 +54,7 @@ export default class Game {
 	 * and base objectLayer.
 	 * Basic game systems can also be added to root as Components.
 	 */
-	get root(): GameObject { return this._defaultGroup._gameObject!; }
+	get root(): Actor { return this._defaultGroup._gameObject!; }
 
 	get defaultGroup(): Group { return this._defaultGroup; }
 
@@ -246,9 +246,9 @@ export default class Game {
 
 	/**
 	 * Wrapper for Engine.add(gameObject)
-	 * @param {GameObject} gameObject
+	 * @param {Actor} gameObject
 	 */
-	addObject(gameObject: GameObject) {
+	addObject(gameObject: Actor) {
 		this._engine.add(gameObject);
 	}
 

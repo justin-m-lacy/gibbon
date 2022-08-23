@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import GameObject from './core/game-object';
+import Actor from './core/actor';
 import Library from './library';
 import { quickSplice } from './utils/array-utils';
 import { Point, DisplayObject, Container } from 'pixi.js';
@@ -19,7 +19,7 @@ export default class Engine implements IUpdater {
 	/**
 	 * @property {GameObject[]} objects
 	 */
-	readonly objects: GameObject[];
+	readonly objects: Actor[];
 
 	/**
 	 * @property {IUpdater[]} updaters - Updaters are for systems or objects with update
@@ -47,12 +47,12 @@ export default class Engine implements IUpdater {
 	 * Instantiate a GameObject with a clip or a named clonable object from the library.
 	 * @param {DisplayObject} [clip=null]
 	 * @param {PIXI.Point} [loc=null]
-	 * @returns {GameObject}
+	 * @returns {Actor}
 	 */
 	Instantiate(clip: DisplayObject | null | string = null, loc?: Point | null) {
 
 		var view = (typeof clip === 'string') ? this.library.instance<DisplayObject>(clip, loc) : clip;
-		let go = new GameObject(view, loc);
+		let go = new Actor(view, loc);
 
 		this.add(go);
 		return go;
@@ -93,9 +93,9 @@ export default class Engine implements IUpdater {
 
 	/**
 	 * Add GameObject to the engine.
-	 * @param {GameObject} obj
+	 * @param {Actor} obj
 	*/
-	add(obj: GameObject) {
+	add(obj: Actor) {
 
 		if (obj === null || obj === undefined) {
 			console.log('ERROR: engine.add() object is null');
@@ -135,10 +135,10 @@ export default class Engine implements IUpdater {
 
 	/**
 	 * Remove a GameObject from the Engine.
-	 * @param {GameObject} obj
+	 * @param {Actor} obj
 	 * @returns {boolean} true if object was removed.
 	 */
-	remove(obj: GameObject): boolean {
+	remove(obj: Actor): boolean {
 
 		let ind = this.objects.indexOf(obj);
 		if (ind < 0) return false;
@@ -154,9 +154,9 @@ export default class Engine implements IUpdater {
 
 	/**
 	 * Destroy a game object.
-	 * @param {GameObject} obj
+	 * @param {Actor} obj
 	 */
-	destroy(obj: GameObject) {
+	destroy(obj: Actor) {
 
 		if (obj.isDestroyed !== true) {
 			obj.destroy();

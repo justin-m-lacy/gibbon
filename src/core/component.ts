@@ -1,4 +1,4 @@
-import GameObject from "./game-object";
+import Actor from "./actor";
 import { Constructor } from '../utils/types';
 import { DisplayObject } from 'pixi.js';
 import Game from '../game';
@@ -88,7 +88,7 @@ export default class Component {
 	/**
 	 * @property {GameObject} - Game object containing this component.
 	 */
-	gameObject?: GameObject;
+	gameObject?: Actor;
 
 	_enabled: boolean = false;
 	_destroyed: boolean = false;
@@ -115,9 +115,9 @@ export default class Component {
 
 	/**
 	 * Private initializer calls subclassed init()
-	 * @param {GameObject} gameObject
+	 * @param {Actor} gameObject
 	 */
-	_init(gameObject: GameObject) {
+	_init(gameObject: Actor) {
 
 		this.gameObject = gameObject;
 		this._enabled = true;

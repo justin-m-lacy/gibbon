@@ -5,6 +5,7 @@ import Group from './group';
 import Game from '../game';
 import Component from './component';
 import { Constructor } from '../utils/types';
+import { Transform } from '../components/transform';
 
 /**
  * Point without reference to pixi.
@@ -27,7 +28,11 @@ export type DestroyOptions = {
 /**
  *
  */
-export default class GameObject {
+export default class Actor {
+
+	private static NextId: number = 1000;
+
+	readonly id: number;
 
 	/**
 	 * @property {Game} game
@@ -174,6 +179,8 @@ export default class GameObject {
 
 	protected _group: Group | null = null;
 
+	readonly transform: Transform = new Transform();
+
 	flags: number = 0;
 
 	readonly _compMap: Map<Constructor<Component> | Function, Component>;
@@ -184,6 +191,8 @@ export default class GameObject {
 	 * @param {Point} [pos=null]
 	 */
 	constructor(clip?: DisplayObject | null | undefined, pos?: Point | null) {
+
+		this.id = Actor.NextId++;
 
 		this._components = [];
 		this._compMap = new Map();

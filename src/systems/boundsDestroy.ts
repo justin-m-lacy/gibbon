@@ -1,9 +1,9 @@
 import System from "../system";
 import { Rectangle, Container } from "pixi.js";
 import Game from "../game";
-import GameObject from '../core/game-object';
+import Actor from '../core/actor';
 
-export type ExitFunction = (go: GameObject) => void;
+export type ExitFunction = (go: Actor) => void;
 
 /**
  *

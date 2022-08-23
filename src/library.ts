@@ -1,9 +1,9 @@
 import { Point } from 'pixi.js';
 import { Constructor, isConstructor, Clonable, isClonable } from './utils/types';
-import GameObject from './core/game-object';
+import Actor from './core/actor';
 
 /// Function to create instances of game objects.
-export type CreateFunction = (...params: any[]) => GameObject;
+export type CreateFunction = (...params: any[]) => Actor;
 
 export default class Library {
 

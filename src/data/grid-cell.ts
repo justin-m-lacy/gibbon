@@ -1,21 +1,53 @@
-import GameObject from "@/core/game-object";
 import { quickSplice } from "@/utils/array-utils";
+import { Positionable } from "./grid";
 
-export class GridCell {
+export class GridCell<T extends Positionable> {
 
-    private items: Array<GameObject> = [];
+    private items: Array<T> = [];
 
-    constructor() {
+    clear() {
+        this.items.length = 0;
     }
 
-    addItem(go: GameObject) {
+    /**
+     * Get objects in cell that overlap given flags.
+     * @param object - Object being hit tested. Included so it wont hit test
+     * against itself.
+     * @param results - optional results array.
+     * @returns 
+     */
+    getHits(object: T, results: T[] = []) {
+
+
+        for (let i = this.items.length - 1; i >= 0; i--) {
+            const item = this.items[i];
+
+            if (item != object && (!item.flags || !object.hitFlags || (item.flags & object.hitFlags))) {
+                results.push(item);
+            }
+        }
+
+        return results;
+
+    }
+
+    getItems(results: T[] = []) {
+        for (let i = this.items.length - 1; i >= 0; i--) {
+            if (results.indexOf(this.items[i]) < 0) {
+                results.push(this.items[i]);
+            }
+        }
+        return results;
+    }
+
+    addItem(go: T) {
 
         if (this.items.indexOf(go) < 0) {
             this.items.push(go);
         }
     }
 
-    removeItem(go: GameObject) {
+    removeItem(go: T) {
 
         for (let i = this.items.length - 1; i >= 0; i--) {
 

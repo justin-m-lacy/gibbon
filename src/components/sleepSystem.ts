@@ -1,6 +1,6 @@
 import Component from "../core/component";
 import { quickSplice } from "../utils/array-utils";
-import GameObject from '../core/game-object';
+import Actor from '../core/actor';
 import Engine from '../engine';
 
 export default class SleepSystem extends Component {
@@ -19,7 +19,7 @@ export default class SleepSystem extends Component {
 	 */
 	_hideDist: number;
 
-	_sleepers: GameObject[];
+	_sleepers: Actor[];
 
 	_countdown: number;
 

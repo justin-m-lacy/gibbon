@@ -1,6 +1,6 @@
 import Component from "../core/component";
 import { Point } from "pixi.js";
-import { IPoint } from '../core/game-object';
+import { IPoint } from '../core/actor';
 
 export default class Mover extends Component {
 

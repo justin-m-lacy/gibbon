@@ -1,5 +1,5 @@
 import Component from '../core/component';
-import GameObject from '../core/game-object';
+import Actor from '../core/actor';
 
 /**
  * Not fully developed.
@@ -13,7 +13,7 @@ export default class SharedComponent extends Component {
 		super();
 	}
 
-	_init(gameObject: GameObject) {
+	_init(gameObject: Actor) {
 
 		super._init(gameObject);
 

@@ -16,9 +16,9 @@ import * as DisplayUtils from './src/utils/displayUtils';
 import * as ColorUtils from './src/utils/colorUtils';
 import * as DrawUtils from './src/utils/drawUtils';
 import { tweenOf, getTween, removeTween } from './src/utils/tweens';
-export { IPoint } from './src/core/game-object';
+export { IPoint } from './src/core/actor';
 
-import GameObject from './src/core/game-object';
+import Actor from './src/core/actor';
 import DestAccel from './src/components/dest-accel';
 import Mover from './src/components/mover';
 import Camera from './src/components/camera';
@@ -33,7 +33,7 @@ import CanvasDraw from './src/utils/canvas-draw';
 
 export {
 	Engine, Game, Component, System,
-	GameObject,
+	Actor as GameObject,
 	Library,
 	Group,
 	LoadGroup,
@@ -68,7 +68,7 @@ const Gibbon = {
 	Group,
 	LoadGroup,
 	Component,
-	GameObject,
+	Actor: GameObject,
 	Library,
 	Camera,
 	Mover,

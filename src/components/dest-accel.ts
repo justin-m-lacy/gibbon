@@ -1,7 +1,7 @@
 import Component from '../core/component';
 import { Point } from 'pixi.js';
 import Mover from './mover';
-import { IPoint } from '../core/game-object';
+import { IPoint } from '../core/actor';
 
 
 /**
