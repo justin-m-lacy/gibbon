@@ -1,8 +1,8 @@
 import BoundsDestroy from './boundsDestroy';
-declare const _default: {
-    BoundsDestroy: typeof BoundsDestroy;
-};
 /**
  * Systems collection.
  */
+declare const _default: {
+    BoundsDestroy: typeof BoundsDestroy;
+};
 export default _default;

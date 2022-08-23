@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import GameObject from './core/game-object';
+import Actor from './core/actor';
 import Library from './library';
 import { Point, DisplayObject, Container } from 'pixi.js';
 export interface IUpdater {
@@ -11,32 +11,32 @@ export default class Engine implements IUpdater {
      */
     objectLayer?: Container;
     /**
-     * @property {GameObject[]} objects
+     * @property {Actor[]} objects
      */
-    readonly objects: GameObject[];
+    readonly objects: Actor[];
     /**
      * @property {IUpdater[]} updaters - Updaters are for systems or objects with update
-     * functions that don't require complex GameObjects.
+     * functions that don't require complex Actors.
      */
     readonly updaters: IUpdater[];
     readonly library: Library;
     readonly ticker: PIXI.Ticker;
     constructor(ticker?: PIXI.Ticker);
     /**
-     * Instantiate a GameObject with a clip or a named clonable object from the library.
+     * Instantiate a Actor with a clip or a named clonable object from the library.
      * @param {DisplayObject} [clip=null]
      * @param {PIXI.Point} [loc=null]
-     * @returns {GameObject}
+     * @returns {Actor}
      */
-    Instantiate(clip?: DisplayObject | null | string, loc?: Point | null): GameObject;
+    Instantiate(clip?: DisplayObject | null | string, loc?: Point | null): Actor;
     update(): void;
     start(): void;
     stop(): void;
     /**
-     * Add GameObject to the engine.
-     * @param {GameObject} obj
+     * Add Actor to the engine.
+     * @param {Actor} obj
     */
-    add(obj: GameObject): void;
+    add(obj: Actor): void;
     /**
      *
      * @param {IUpdater} sys
@@ -48,14 +48,14 @@ export default class Engine implements IUpdater {
      */
     removeUpdater(sys: IUpdater): void;
     /**
-     * Remove a GameObject from the Engine.
-     * @param {GameObject} obj
+     * Remove a Actor from the Engine.
+     * @param {Actor} obj
      * @returns {boolean} true if object was removed.
      */
-    remove(obj: GameObject): boolean;
+    remove(obj: Actor): boolean;
     /**
      * Destroy a game object.
-     * @param {GameObject} obj
+     * @param {Actor} obj
      */
-    destroy(obj: GameObject): void;
+    destroy(obj: Actor): void;
 }

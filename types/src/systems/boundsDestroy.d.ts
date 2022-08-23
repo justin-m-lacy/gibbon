@@ -1,14 +1,14 @@
 import System from "../system";
 import { Rectangle, Container } from "pixi.js";
 import Game from "../game";
-import GameObject from '../core/game-object';
-export declare type ExitFunction = (go: GameObject) => void;
+import Actor from '../core/actor';
+export declare type ExitFunction = (go: Actor) => void;
 /**
  *
  */
 export default class BoundsDestroy extends System {
     /**
-     * @property {(GameObject)=>void} onExit - function to call when object
+     * @property {(Actor)=>void} onExit - function to call when object
      * leaves bounds. If a function is specified, the object is not destroyed
      * automatically, but is removed from group.
      */

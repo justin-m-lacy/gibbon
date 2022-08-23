@@ -11,8 +11,8 @@ import * as DisplayUtils from './src/utils/displayUtils';
 import * as ColorUtils from './src/utils/colorUtils';
 import * as DrawUtils from './src/utils/drawUtils';
 import { tweenOf, getTween, removeTween } from './src/utils/tweens';
-export { IPoint } from './src/core/game-object';
-import GameObject from './src/core/game-object';
+export { IPoint } from './src/core/actor';
+import Actor from './src/core/actor';
 import DestAccel from './src/components/dest-accel';
 import Mover from './src/components/mover';
 import Camera from './src/components/camera';
@@ -24,7 +24,7 @@ import LoadGroup from './src/loadGroup';
 import * as Geom from './src/utils/geom';
 import * as Rand from './src/utils/rand';
 import CanvasDraw from './src/utils/canvas-draw';
-export { Engine, Game, Component, System, GameObject, Library, Group, LoadGroup, Geom, Rand, Systems, HtmlWrapper, SleepSystem, SpriteTiler, TimeDestroy, DisplayUtils, ColorUtils, CanvasDraw, Mover, DrawUtils, DestAccel, getTween, tweenOf, removeTween };
+export { Engine, Game, Component, System, Actor, Library, Group, LoadGroup, Geom, Rand, Systems, HtmlWrapper, SleepSystem, SpriteTiler, TimeDestroy, DisplayUtils, ColorUtils, CanvasDraw, Mover, DrawUtils, DestAccel, getTween, tweenOf, removeTween };
 declare const Gibbon: {
     CanvasDraw: typeof CanvasDraw;
     Components: {
@@ -51,7 +51,7 @@ declare const Gibbon: {
     Group: typeof Group;
     LoadGroup: typeof LoadGroup;
     Component: typeof Component;
-    GameObject: typeof GameObject;
+    Actor: typeof Actor;
     Library: typeof Library;
     Camera: typeof Camera;
     Mover: typeof Mover;

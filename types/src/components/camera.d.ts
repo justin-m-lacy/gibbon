@@ -1,9 +1,9 @@
 import { Point, DisplayObject, Rectangle } from 'pixi.js';
 import Component from '../core/component';
-import GameObject from '../core/game-object';
+import Actor from '../core/actor';
 export default class Camera extends Component {
-    get target(): DisplayObject | GameObject | null;
-    set target(v: DisplayObject | GameObject | null);
+    get target(): DisplayObject | Actor | null;
+    set target(v: DisplayObject | Actor | null);
     get minScale(): number;
     set minScale(v: number);
     get maxScale(): number;

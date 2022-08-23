@@ -1,9 +1,9 @@
 import Component from "../core/component";
 import { Point } from "pixi.js";
-import { IPoint } from '../core/game-object';
+import { IPoint } from '../core/actor';
 export default class Mover extends Component {
     /**
-     * @property {number} rotation - wraps gameObject rotation in radians.
+     * @property {number} rotation - wraps actor rotation in radians.
      */
     get rotation(): number;
     set rotation(v: number);

@@ -19,7 +19,7 @@ export default class LoadGroup extends Group {
      * @param {DisplayObject} [clip=null]
      * @param {Loader} [loader=null] - Loader to use for loading resources. If null,
      * the game's shared loader is used.
-     * @param {Boolean} [createObject=false] - Whether to create a GameObject for the group.
+     * @param {Boolean} [createObject=false] - Whether to create a Actor for the group.
      * If true, a new container is created for the group clip.
      */
     constructor(game: Game, clip?: Container | null | undefined, loader?: Loader | null, createObject?: boolean);

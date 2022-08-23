@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { Rectangle, DisplayObject, Container, Point, Application } from 'pixi.js';
 import LayerManager from './layerManager';
 import Engine from './engine';
-import GameObject from './core/game-object';
+import Actor from './core/actor';
 import Camera from './components/camera';
 import Group from './core/group';
 import Library from './library';
@@ -38,11 +38,11 @@ export default class Game {
     get screen(): Rectangle;
     get camera(): Camera | undefined;
     /**
-     * @property {GameObject} root - GameObject containing the main Camera component
+     * @property {Actor} root - Actor containing the main Camera component
      * and base objectLayer.
      * Basic game systems can also be added to root as Components.
      */
-    get root(): GameObject;
+    get root(): Actor;
     get defaultGroup(): Group;
     get objectLayer(): Container;
     get uiLayer(): Container;
@@ -132,10 +132,10 @@ export default class Game {
      */
     removeGroup(g: Group): boolean;
     /**
-     * Wrapper for Engine.add(gameObject)
-     * @param {GameObject} gameObject
+     * Wrapper for Engine.add(actor)
+     * @param {Actor} actor
      */
-    addObject(gameObject: GameObject): void;
+    addObject(actor: Actor): void;
     /**
      *
      * @param {*} sys
@@ -148,17 +148,17 @@ export default class Game {
     removeUpdater(sys: IUpdater): void;
     /**
      * Wraps engine.Instantiate()
-     * Instantiate a GameObject with a clip or a named clonable object from the library.
+     * Instantiate a Actor with a clip or a named clonable object from the library.
      */
-    instantiate(clip?: DisplayObject, loc?: PIXI.Point): GameObject;
+    instantiate(clip?: DisplayObject, loc?: PIXI.Point): Actor;
     /**
      * Create an empty game object with a Container clip.
      */
-    makeContainer(loc?: Point): GameObject;
+    makeContainer(loc?: Point): Actor;
     /**
      * Create empty game object with no clip.
      */
-    makeEmpty(loc?: PIXI.Point): GameObject;
+    makeEmpty(loc?: PIXI.Point): Actor;
     /**
      * Replace existing tweens on the target with a newly created one.
      * Convenience accesor for setting config data.

@@ -4,6 +4,9 @@ import Mover from './mover';
 import HtmlWrapper from './html-wrapper';
 import SpriteTiler from './spriteTiler';
 import TimeDestroy from './timeDestroy';
+/**
+ * Collection of exported components.
+ */
 declare const _default: {
     Component: typeof Component;
     Camera: typeof Camera;
@@ -12,7 +15,4 @@ declare const _default: {
     TimeDestroy: typeof TimeDestroy;
     HtmlWrapper: typeof HtmlWrapper;
 };
-/**
- * Collection of exported components.
- */
 export default _default;

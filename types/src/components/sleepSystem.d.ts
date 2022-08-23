@@ -1,5 +1,5 @@
 import Component from "../core/component";
-import GameObject from '../core/game-object';
+import Actor from '../core/actor';
 import Engine from '../engine';
 export default class SleepSystem extends Component {
     /**
@@ -14,7 +14,7 @@ export default class SleepSystem extends Component {
      * @property {number} hideDist - distance offscreen at which object is hidden.
      */
     _hideDist: number;
-    _sleepers: GameObject[];
+    _sleepers: Actor[];
     _countdown: number;
     _engine?: Engine;
     /**
