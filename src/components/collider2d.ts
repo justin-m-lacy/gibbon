@@ -3,12 +3,9 @@ import Component from "../core/component";
 
 export class Collider2d extends Component {
 
-    get width() { return this.actor.width; }
+    get width() { return this.actor?.width ?? 0; }
 
-    get height() { return this.actor.height }
-
-    private _lastPos: Point;
-    private _lastSize: Point;
+    get height() { return this.actor?.height ?? 0 }
 
     /**
      * Actor flags of objects to check hits against.
@@ -39,20 +36,11 @@ export class Collider2d extends Component {
     init() {
 
         const pos = this.position;
-        const size = this.actor.transform.size;
+        const size = this.actor!.transform.size;
 
-        this._lastPos = new Point(pos.x, pos.y);
-        this._lastSize = new Point(size.x, size.y);
-
-        //this.onActivate = this.onEnable = this.addToWorld;
-        //this.onDeactivate = this.onDisable = this.onDestroy = this.removeFromWorld;
+        //this._lastPos = new Point(pos.x, pos.y);
+        //this._lastSize = new Point(size.x, size.y);
     }
-
-    /*addToWorld() {
-    }
-
-    removeFromWorld() {
-    }*/
 
 
     /*update(delta: number) {
