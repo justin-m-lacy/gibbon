@@ -31,7 +31,7 @@ export default class SpriteTiler extends Component {
 	init() {
 
 		if (!this.sprite) {
-			this.sprite = this.gameObject!.clip as TilingSprite;
+			this.sprite = this.actor!.clip as TilingSprite;
 		}
 
 	}

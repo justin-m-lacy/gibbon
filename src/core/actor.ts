@@ -40,7 +40,7 @@ export default class Actor {
 	get game() { return Game.current; }
 
 	/**
-	 * @property {Group} group - owning group of the gameObject, if any.
+	 * @property {Group} group - owning group of the actor, if any.
 	 */
 	get group(): Group | null { return this._group; }
 	set group(v: Group | null) { this._group = v; }
@@ -147,7 +147,7 @@ export default class Actor {
 	get isDestroyed() { return this._destroyed }
 
 	/**
-	 * @property {DisplayObject} clip - clip of the gameObject.d.
+	 * @property {DisplayObject} clip - clip of the actor.d.
 	 */
 	readonly clip?: DisplayObject | null;
 
@@ -276,7 +276,7 @@ export default class Actor {
 	}
 
 	/**
-	 * Emit an event through the underlying gameObject clip. If the gameObject
+	 * Emit an event through the underlying actor clip. If the actor
 	 * does not contain a clip, the event is emitted through a custom emitter.
 	 * @param {*} args - First argument should be the {string} event name.
 	 */

@@ -245,11 +245,11 @@ export default class Game {
 	}
 
 	/**
-	 * Wrapper for Engine.add(gameObject)
-	 * @param {Actor} gameObject
+	 * Wrapper for Engine.add(actor)
+	 * @param {Actor} actor
 	 */
-	addObject(gameObject: Actor) {
-		this._engine.add(gameObject);
+	addObject(actor: Actor) {
+		this._engine.add(actor);
 	}
 
 	/**

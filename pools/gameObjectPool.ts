@@ -1,4 +1,4 @@
-import GameObject from "../src/gameObject";
+import GameObject from "../src/actor";
 import { DisplayObject, Point } from 'pixi.js';
 
 /**

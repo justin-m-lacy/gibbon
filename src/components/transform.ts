@@ -125,7 +125,7 @@ export class Transform extends Component {
 
             this._children.push(t);
 
-            this.gameObject!.emit(GameEvents.ChildAdded, t);
+            this.actor!.emit(GameEvents.ChildAdded, t);
 
         }
 
@@ -141,7 +141,7 @@ export class Transform extends Component {
      */
     removeChild(t: Transform) {
 
-        if (t._parent?.gameObject == this.game.root) {
+        if (t._parent?.actor == this.game.root) {
             return;
         } else {
 
@@ -149,7 +149,7 @@ export class Transform extends Component {
             if (ind >= 0) {
                 quickSplice(this._children, ind);
             }
-            this.gameObject?.emit(GameEvents.ChildRemoved, t);
+            this.actor?.emit(GameEvents.ChildRemoved, t);
 
             if (t._parent == this) {
                 this.game.root.transform.addChild(t);

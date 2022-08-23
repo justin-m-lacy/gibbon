@@ -5,18 +5,18 @@ import { IPoint } from '../core/actor';
 export default class Mover extends Component {
 
 	/**
-	 * @property {number} rotation - wraps gameObject rotation in radians.
+	 * @property {number} rotation - wraps actor rotation in radians.
 	 */
-	get rotation() { return this.gameObject!.rotation; }
+	get rotation() { return this.actor!.rotation; }
 	set rotation(v) {
-		this.gameObject!.rotation = v;
+		this.actor!.rotation = v;
 	}
 
 	/**
 	 * @property {PIXI.Point} position
 	 */
-	get position() { return this.gameObject!.position; }
-	set position(v) { this.gameObject!.position = v; }
+	get position() { return this.actor!.position; }
+	set position(v) { this.actor!.position = v; }
 
 	/**
 	 * @property {PIXI.Point} velocity

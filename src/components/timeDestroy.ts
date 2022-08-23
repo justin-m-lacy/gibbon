@@ -27,7 +27,7 @@ export default class TimeDestroy extends Component {
 			this._timer -= delta;
 			if (this._timer <= 0) {
 
-				this.gameObject?.destroy();
+				this.actor?.destroy();
 
 			}
 		}

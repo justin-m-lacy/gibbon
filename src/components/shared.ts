@@ -3,7 +3,7 @@ import Actor from '../core/actor';
 
 /**
  * Not fully developed.
- * Referencing gameObject on SharedComponent is not currently safe.
+ * Referencing actor on SharedComponent is not currently safe.
  */
 export default class SharedComponent extends Component {
 
@@ -13,9 +13,9 @@ export default class SharedComponent extends Component {
 		super();
 	}
 
-	_init(gameObject: Actor) {
+	_init(actor: Actor) {
 
-		super._init(gameObject);
+		super._init(actor);
 
 		this._attachCount++;
 

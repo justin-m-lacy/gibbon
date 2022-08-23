@@ -3,9 +3,9 @@ import Component from "../core/component";
 
 export class Collider2d extends Component {
 
-    get width() { return this.gameObject.width; }
+    get width() { return this.actor.width; }
 
-    get height() { return this.gameObject.height }
+    get height() { return this.actor.height }
 
     private _lastPos: Point;
     private _lastSize: Point;

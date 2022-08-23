@@ -11,7 +11,7 @@ import { contains } from '../utils/array-utils';
 export default class Group {
 
 
-	get gameObject(): GameObject | undefined {
+	get actor(): GameObject | undefined {
 		return this._gameObject;
 	}
 

@@ -8,7 +8,7 @@ export default class Component {
 	/**
 	 * @property {Game} game
 	 */
-	get game() { return this.gameObject!.game; }
+	get game() { return this.actor!.game; }
 
 	/**
 	 * @property {Engine} engine
@@ -18,13 +18,13 @@ export default class Component {
 	/**
 	 * @property {number} flags - Convenience accessor for GameObject.flags.
 	 */
-	get flags() { return this.gameObject!.flags; }
-	set flags(v) { this.gameObject!.flags = v; }
+	get flags() { return this.actor!.flags; }
+	set flags(v) { this.actor!.flags = v; }
 
 	/**
 	 * Group controlling the component's GameObject, if any.
 	 */
-	get group() { return this.gameObject?.group; }
+	get group() { return this.actor?.group; }
 
 	/**
 	 * @property {boolean} enabled - Whether the component is enabled.
@@ -46,34 +46,34 @@ export default class Component {
 	/**
 	 * @property {number} x
 	 */
-	get x() { return this.gameObject?.x ?? 0; }
+	get x() { return this.actor?.x ?? 0; }
 	set x(v) {
-		if (this.gameObject) {
-			this.gameObject.x = v;
+		if (this.actor) {
+			this.actor.x = v;
 		}
 	}
 
 	/**
 	 * @property {number} y
 	*/
-	get y(): number { return this.gameObject?.y ?? 0; }
-	set y(v) { if (this.gameObject != null) this.gameObject.y = v; }
+	get y(): number { return this.actor?.y ?? 0; }
+	set y(v) { if (this.actor != null) this.actor.y = v; }
 
 	/**
 	* @property {number} rotation - underlying clip rotation in radians.
 	*/
-	get rotation(): number { return this.gameObject?.rotation ?? 0; }
+	get rotation(): number { return this.actor?.rotation ?? 0; }
 	set rotation(v: number) {
-		if (this.gameObject) {
-			this.gameObject.rotation = v;
+		if (this.actor) {
+			this.actor.rotation = v;
 		}
 	}
 
 	/**
 	 * @property {PIXI.Point} position - only usable after init()
 	 */
-	get position() { return this.gameObject!.position; }
-	set position(v) { this.gameObject!.position = v; }
+	get position() { return this.actor!.position; }
+	set position(v) { this.actor!.position = v; }
 
 	/**
 	 * Indicates the component has been marked for disposal and should no longer
@@ -88,7 +88,7 @@ export default class Component {
 	/**
 	 * @property {GameObject} - Game object containing this component.
 	 */
-	gameObject?: Actor;
+	actor?: Actor;
 
 	_enabled: boolean = false;
 	_destroyed: boolean = false;
@@ -102,24 +102,24 @@ export default class Component {
 	/**
 	 * @property clip - Convenience accessor of GameObject clip.
 	 */
-	get clip() { return this.gameObject?.clip; }
+	get clip() { return this.actor?.clip; }
 
 	/**
 	 * Constructor intentionally empty so components can be
 	 * instantiated and added to GameObjects without
 	 * knowledge of the underlying game system.
-	 * @note component properties such as gameObject, clip, and game,
+	 * @note component properties such as actor, clip, and game,
 	 * are not available in component constructor.
 	 */
 	constructor() { }
 
 	/**
 	 * Private initializer calls subclassed init()
-	 * @param {Actor} gameObject
+	 * @param {Actor} actor
 	 */
-	_init(gameObject: Actor) {
+	_init(actor: Actor) {
 
-		this.gameObject = gameObject;
+		this.actor = actor;
 		this._enabled = true;
 
 		this.init?.();
@@ -127,12 +127,12 @@ export default class Component {
 	}
 
 	/**
-	 * Called when gameObject.active is set to true.
+	 * Called when actor.active is set to true.
 	 */
 	onActivate?(): void;
 
 	/**
-	 * Called when gameObject.active is set to false.
+	 * Called when actor.active is set to false.
 	 */
 	onDeactivate?(): void;
 
@@ -158,37 +158,37 @@ export default class Component {
 	 * @returns {Component}
 	 */
 	add(cls: Component): Component {
-		return this.gameObject!.add(cls);
+		return this.actor!.add(cls);
 	}
 
 	/**
-	 * Add a component already instantiated. Wraps gameObject.addExisting()
+	 * Add a component already instantiated. Wraps actor.addExisting()
 	 * @param {Component} comp
 	 * @returns {Component} The added component instance.
 	 */
 	addInstance(comp: Component, cls?: Constructor<Component>) {
 
-		return this.gameObject!.addInstance(comp, cls);
+		return this.actor!.addInstance(comp, cls);
 	}
 
 	/**
-	 * Add a component already instantiated. Wraps gameObject.addExisting()
+	 * Add a component already instantiated. Wraps actor.addExisting()
 	 * @deprecated Use addInstance()
 	 * @param {Component} comp
 	 * @returns {Component} The added component instance.
 	 */
 	addExisting(comp: Component, cls?: Constructor<Component>) {
 
-		return this.gameObject!.addInstance(comp, cls);
+		return this.actor!.addInstance(comp, cls);
 	}
 
 	/**
 	 *
-	 * @param {class} cls - wrapper for gameObject get()
+	 * @param {class} cls - wrapper for actor get()
 	 * @returns {Component|null}
 	 */
 	get<T extends Component>(cls: Constructor<T>): T | undefined {
-		return this.gameObject!.get(cls);
+		return this.actor!.get(cls);
 	}
 
 	/**
@@ -196,7 +196,7 @@ export default class Component {
 	 * @param {*} cls
 	 * @returns {Component}
 	 */
-	require<T extends Component>(cls: Constructor<T>): T { return this.gameObject!.require(cls); }
+	require<T extends Component>(cls: Constructor<T>): T { return this.actor!.require(cls); }
 
 	onDestroy?(): void;
 
@@ -217,7 +217,7 @@ export default class Component {
 		}
 		this._enabled = false;
 		this._destroyed = true;
-		this.gameObject = undefined;
+		this.actor = undefined;
 
 	}
 

@@ -73,8 +73,8 @@ export default class LoadGroup extends Group {
 
 		console.log('destroying load group');
 		this._loader = null;
-		if (this.gameObject) {
-			this.gameObject.destroy();
+		if (this.actor) {
+			this.actor.destroy();
 		}
 
 		super.destroy();

@@ -156,7 +156,7 @@ export default class Camera extends Component {
 	init() {
 
 		this._target = null;
-		this._panClip = this.gameObject?.clip;
+		this._panClip = this.actor?.clip;
 
 		this._viewScale = 1;
 
