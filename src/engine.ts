@@ -17,13 +17,13 @@ export default class Engine implements IUpdater {
 	objectLayer?: Container;
 
 	/**
-	 * @property {GameObject[]} objects
+	 * @property {Actor[]} objects
 	 */
 	readonly objects: Actor[];
 
 	/**
 	 * @property {IUpdater[]} updaters - Updaters are for systems or objects with update
-	 * functions that don't require complex GameObjects.
+	 * functions that don't require complex Actors.
 	 */
 	readonly updaters: IUpdater[];
 
@@ -44,7 +44,7 @@ export default class Engine implements IUpdater {
 	}
 
 	/**
-	 * Instantiate a GameObject with a clip or a named clonable object from the library.
+	 * Instantiate a Actor with a clip or a named clonable object from the library.
 	 * @param {DisplayObject} [clip=null]
 	 * @param {PIXI.Point} [loc=null]
 	 * @returns {Actor}
@@ -92,7 +92,7 @@ export default class Engine implements IUpdater {
 	}
 
 	/**
-	 * Add GameObject to the engine.
+	 * Add Actor to the engine.
 	 * @param {Actor} obj
 	*/
 	add(obj: Actor) {
@@ -134,7 +134,7 @@ export default class Engine implements IUpdater {
 	}
 
 	/**
-	 * Remove a GameObject from the Engine.
+	 * Remove a Actor from the Engine.
 	 * @param {Actor} obj
 	 * @returns {boolean} true if object was removed.
 	 */

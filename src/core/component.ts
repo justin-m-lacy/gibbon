@@ -16,13 +16,13 @@ export default class Component {
 	get engine() { return this.game.engine; }
 
 	/**
-	 * @property {number} flags - Convenience accessor for GameObject.flags.
+	 * @property {number} flags - Convenience accessor for Actor.flags.
 	 */
 	get flags() { return this.actor!.flags; }
 	set flags(v) { this.actor!.flags = v; }
 
 	/**
-	 * Group controlling the component's GameObject, if any.
+	 * Group controlling the component's Actor, if any.
 	 */
 	get group() { return this.actor?.group; }
 
@@ -86,7 +86,7 @@ export default class Component {
 	set sleep(v: boolean) { this._sleep = v; }
 
 	/**
-	 * @property {GameObject} - Game object containing this component.
+	 * @property {Actor} - Game object containing this component.
 	 */
 	actor?: Actor;
 
@@ -100,13 +100,13 @@ export default class Component {
 
 
 	/**
-	 * @property clip - Convenience accessor of GameObject clip.
+	 * @property clip - Convenience accessor of Actor clip.
 	 */
 	get clip() { return this.actor?.clip; }
 
 	/**
 	 * Constructor intentionally empty so components can be
-	 * instantiated and added to GameObjects without
+	 * instantiated and added to Actors without
 	 * knowledge of the underlying game system.
 	 * @note component properties such as actor, clip, and game,
 	 * are not available in component constructor.
@@ -192,7 +192,7 @@ export default class Component {
 	}
 
 	/**
-	 * Wraps GameObject require().
+	 * Wraps Actor require().
 	 * @param {*} cls
 	 * @returns {Component}
 	 */

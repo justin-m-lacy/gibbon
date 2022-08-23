@@ -50,7 +50,7 @@ export default class Game {
 	get camera(): Camera | undefined { return this._camera; }
 
 	/**
-	 * @property {GameObject} root - GameObject containing the main Camera component
+	 * @property {Actor} root - Actor containing the main Camera component
 	 * and base objectLayer.
 	 * Basic game systems can also be added to root as Components.
 	 */
@@ -266,7 +266,7 @@ export default class Game {
 
 	/**
 	 * Wraps engine.Instantiate()
-	 * Instantiate a GameObject with a clip or a named clonable object from the library.
+	 * Instantiate a Actor with a clip or a named clonable object from the library.
 	 */
 	instantiate(clip?: DisplayObject, loc?: PIXI.Point) {
 		return this.engine.Instantiate(clip, loc);

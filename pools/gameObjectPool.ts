@@ -1,13 +1,13 @@
-import GameObject from "../src/actor";
+import Actor from "../src/actor";
 import { DisplayObject, Point } from 'pixi.js';
 
 /**
- * Pool for GameObjects.
+ * Pool for Actors.
  * Not fully developed.
  */
-export default class GameObjectPool {
+export default class ActorPool {
 
-	_objs: GameObject[];
+	_objs: Actor[];
 
 	constructor() {
 		this._objs = [];
@@ -15,16 +15,16 @@ export default class GameObjectPool {
 
 	/**
 	 * 
-	 * @param {GameObject} obj 
+	 * @param {Actor} obj 
 	 */
-	add(obj: GameObject) {
+	add(obj: Actor) {
 		this._objs.push(obj);
 	}
 
 	get(clip?: DisplayObject, pos?: Point) {
 
 		if (this._objs.length === 0) {
-			return new GameObject(clip, pos);
+			return new Actor(clip, pos);
 		} else {
 
 			let obj = this._objs.pop();

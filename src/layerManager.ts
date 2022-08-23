@@ -9,7 +9,7 @@ export type LayerData = {
 /**
  * Use to keep track of basic game layers.
  * Each layer is a separate PIXI.Container objects on the stage.
- * Possibly change these layers to GameObjects in the future, but at the moment
+ * Possibly change these layers to Actors in the future, but at the moment
  * they're easier to deal with as raw PIXI Containers.
  */
 export default class LayerManager {

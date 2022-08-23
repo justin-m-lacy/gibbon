@@ -33,7 +33,7 @@ import CanvasDraw from './src/utils/canvas-draw';
 
 export {
 	Engine, Game, Component, System,
-	Actor as GameObject,
+	Actor,
 	Library,
 	Group,
 	LoadGroup,
@@ -68,7 +68,7 @@ const Gibbon = {
 	Group,
 	LoadGroup,
 	Component,
-	Actor: GameObject,
+	Actor,
 	Library,
 	Camera,
 	Mover,

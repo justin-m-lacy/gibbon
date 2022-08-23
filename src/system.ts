@@ -16,7 +16,7 @@ export default class System extends Group implements IUpdater {
 	/**
 	 *
 	 * @param {Game} game
-	 * @param {GameObject} clip - system container clip.
+	 * @param {Actor} clip - system container clip.
 	 * @param {boolean} [enabled=false] - whether to start System immediately.
 	 */
 	constructor(game: Game, clip?: Container, enabled: boolean = false) {

@@ -11,7 +11,7 @@ export type ExitFunction = (go: Actor) => void;
 export default class BoundsDestroy extends System {
 
 	/**
-	 * @property {(GameObject)=>void} onExit - function to call when object
+	 * @property {(Actor)=>void} onExit - function to call when object
 	 * leaves bounds. If a function is specified, the object is not destroyed
 	 * automatically, but is removed from group.
 	 */

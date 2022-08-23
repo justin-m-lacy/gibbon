@@ -5,7 +5,7 @@ import Group from './group';
 import Game from '../game';
 import Component from './component';
 import { Constructor } from '../utils/types';
-import { Transform } from '../components/transform';
+import { Transform } from '../data/transform';
 
 /**
  * Point without reference to pixi.
@@ -16,7 +16,7 @@ export interface IPoint {
 }
 
 /**
- * Options for destroying a GameObject
+ * Options for destroying a Actor
  */
 export type DestroyOptions = {
 
@@ -46,7 +46,7 @@ export default class Actor {
 	set group(v: Group | null) { this._group = v; }
 
 	/**
-	 * @property {string} name - Name of the GameObject.
+	 * @property {string} name - Name of the Actor.
 	 */
 	get name() { return this._name; }
 	set name(v) { this._name = v; }
@@ -106,8 +106,8 @@ export default class Actor {
 	get height() { return this.clip?.getBounds().height ?? 0; }
 
 	/**
-	 * @property {boolean} interactive - Set the interactivity for the GameObject.
-	 * The setting is ignored if the GameObject has no clip.
+	 * @property {boolean} interactive - Set the interactivity for the Actor.
+	 * The setting is ignored if the Actor has no clip.
 	 */
 	get interactive() { return this.clip?.interactive ?? false }
 	set interactive(v: boolean) {
@@ -137,7 +137,7 @@ export default class Actor {
 	}
 
 	/**
-	 * @property {boolean} isAdded - true after GameObject has been added to Engine.
+	 * @property {boolean} isAdded - true after Actor has been added to Engine.
 	 */
 	get isAdded() { return this._isAdded; }
 
@@ -235,7 +235,7 @@ export default class Actor {
 	unpause(): void { }
 
 	/**
-	 * Called when GameObject is added to engine.
+	 * Called when Actor is added to engine.
 	 * Calls init() on all components and self.added()
 	 */
 	_added() {
@@ -302,7 +302,7 @@ export default class Actor {
 	}
 
 	/**
-	 * Add an existing component to the GameObject.
+	 * Add an existing component to the Actor.
 	 * @param {Component} inst
 	 * @param {?Object} [cls=null]
 	 * @returns {Component} Returns the instance.
@@ -326,7 +326,7 @@ export default class Actor {
 	}
 
 	/**
-	 * Instantiate and add a component to the GameObject.
+	 * Instantiate and add a component to the Actor.
 	 * @param {class} cls - component class to instantiate.
 	 * @returns {Object}
 	*/
@@ -368,7 +368,7 @@ export default class Actor {
 	}
 
 	/**
-	 * Determine if GameObject contains a Component entry
+	 * Determine if Actor contains a Component entry
 	 * under class or key cls.
 	 * @param {*} cls - class or key of component.
 	 */
@@ -410,7 +410,7 @@ export default class Actor {
 
 	/**
 	 * Creates a copy of the given component and adds it
-	 * to this GameObject.
+	 * to this Actor.
 	 * @param {Component} comp
 	 */
 	addCopy(comp: Component) {
@@ -477,7 +477,7 @@ export default class Actor {
 
 	/**
 	 * Set options for destroying the PIXI DisplayObject when
-	 * the GameObject is destroyed.
+	 * the Actor is destroyed.
 	 * @param {boolean} children
 	 * @param {boolean} texture
 	 * @param {boolean} baseTexture
@@ -518,7 +518,7 @@ export default class Actor {
 	}
 
 	/**
-	 * destroys all components and then the GameObject itself.
+	 * destroys all components and then the Actor itself.
 	 */
 	_destroy() {
 

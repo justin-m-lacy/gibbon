@@ -1,4 +1,4 @@
-import { GameObject } from "../..";
+import { Actor } from "../..";
 import Game from '../game';
 import { Container, DisplayObject } from 'pixi.js';
 import Engine from '../engine';
@@ -6,12 +6,12 @@ import { contains } from '../utils/array-utils';
 
 /**
  * If a clip is supplied to the Group, it will act as the parent
- * of all GameObject clips added to the group.
+ * of all Actor clips added to the group.
  */
 export default class Group {
 
 
-	get actor(): GameObject | undefined {
+	get actor(): Actor | undefined {
 		return this._gameObject;
 	}
 
@@ -34,15 +34,15 @@ export default class Group {
 
 	readonly subgroups: Group[];
 
-	readonly objects: GameObject[];
+	readonly objects: Actor[];
 
 	readonly game: Game;
 	get engine(): Engine { return this.game.engine; }
 
 	/**
-	 * GameObject to hold group components.
+	 * Actor to hold group components.
 	 */
-	_gameObject?: GameObject;
+	_gameObject?: Actor;
 
 	_paused: boolean = false;
 
@@ -70,9 +70,9 @@ export default class Group {
 	}
 
 	/**
-	  * Ensure the group has its own group GameObject.
+	  * Ensure the group has its own group Actor.
 	  */
-	makeGroupObject(): GameObject {
+	makeGroupObject(): Actor {
 		this._gameObject = this.engine.Instantiate(this.clip);
 		return this._gameObject!;
 	}
@@ -172,10 +172,10 @@ export default class Group {
 	}
 
 	/**
-	 * Remove GameObject from group, but not Engine.
-	 * @param {GameObject} obj
+	 * Remove Actor from group, but not Engine.
+	 * @param {Actor} obj
 	 */
-	remove(obj: GameObject, removeClip: boolean = true) {
+	remove(obj: Actor, removeClip: boolean = true) {
 
 		let ind = this.objects.indexOf(obj);
 		if (ind < 0) return;
@@ -192,10 +192,10 @@ export default class Group {
 
 	/**
 	 *
-	 * @param {GameObject} obj
-	 * @returns {GameObject} the object.
+	 * @param {Actor} obj
+	 * @returns {Actor} the object.
 	 */
-	add(obj: GameObject): GameObject {
+	add(obj: Actor): Actor {
 
 		if (this.clip && obj.clip && (obj.clip != this.clip)) {
 			this.clip.addChild(obj.clip);

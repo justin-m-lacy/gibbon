@@ -1,7 +1,7 @@
 {
   "name": "gibbon.js",
   "version": "2.4.0",
-  "description": "GameObject/Component system for use with pixi.js.",
+  "description": "Actor/Component system for use with pixi.js.",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,7 +15,7 @@
   },
   "keywords": [
     "Component",
-    "GameObject",
+    "Actor",
     "Engine",
     "pixi",
     "pixi.js",
