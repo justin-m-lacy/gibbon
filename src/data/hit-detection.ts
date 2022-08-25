@@ -1,8 +1,8 @@
 
-import Component from '@/core/component';
+import Component from '../core/component';
 import { Grid } from './grid';
 import { Collider2d } from '../components/collider2d';
-import { GameEvents } from '@/events/game-events';
+import { GameEvents } from '../events/game-events';
 import { Transform } from '../core/transform';
 /**
  * Wraps quadtree to give access to geometric testing.
