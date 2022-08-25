@@ -1,6 +1,6 @@
 {
   "name": "gibbon.js",
-  "version": "2.5.2",
+  "version": "2.5.3",
   "description": "Actor/Component system for use with pixi.js.",
   "main": "lib/index.js",
   "scripts": {
