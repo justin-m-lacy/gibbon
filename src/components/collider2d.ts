@@ -1,4 +1,3 @@
-import { Point } from "pixi.js";
 import Component from "../core/component";
 
 export class Collider2d extends Component {

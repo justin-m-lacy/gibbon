@@ -1,6 +1,5 @@
-import Actor from "./actor";
+import type Actor from "./actor";
 import { Constructor } from '../utils/types';
-import { DisplayObject } from 'pixi.js';
 
 export default class Component {
 
