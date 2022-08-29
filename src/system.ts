@@ -19,9 +19,9 @@ export default class System extends Group implements IUpdater {
 	 * @param {Actor} clip - system container clip.
 	 * @param {boolean} [enabled=false] - whether to start System immediately.
 	 */
-	constructor(game: Game, clip?: Container, enabled: boolean = false) {
+	constructor(clip?: Container, enabled: boolean = false) {
 
-		super(game, clip, !enabled);
+		super(clip, !enabled);
 
 		if (enabled === true) this.start();
 
@@ -30,7 +30,7 @@ export default class System extends Group implements IUpdater {
 	start() {
 
 		if (!this._enabled) {
-			this.game.addUpdater(this);
+			this.game?.addUpdater(this);
 		}
 		super.unpause();
 		this._enabled = true;
@@ -40,7 +40,7 @@ export default class System extends Group implements IUpdater {
 	stop() {
 
 		if (this._enabled === true) {
-			this.game.removeUpdater(this);
+			this.game?.removeUpdater(this);
 		}
 		super.pause();
 		this._enabled = false;

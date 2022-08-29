@@ -49,10 +49,11 @@ export default class Group {
 
 	_paused: boolean = false;
 
-	/**
-	 * Used to add actors to group.
-	 */
 	private _game?: Game;
+	/**
+	 * Game group is added to, if any.
+	 */
+	public get game() { return this._game }
 
 	/**
 	 * Parent group, if any.

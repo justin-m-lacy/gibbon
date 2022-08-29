@@ -124,9 +124,14 @@ export default class Game {
     emit(...args: any): void;
     off(evt: string, fn?: PIXI.utils.EventEmitter.ListenerFn, context?: any): PIXI.utils.EventEmitter<string | symbol>;
     findGroup(name: string): Group | undefined;
+    /**
+     * Add group to game. Attempting to add the same group multiple
+     * times to a game will be ignored.
+     * @param g
+     */
     addGroup(g: Group): void;
     /**
-     *
+     * Remove group from game.
      * @param {Group} g
      * @returns {boolean} True if g was found and removed.
      */
