@@ -24,7 +24,7 @@ export const drawToTexture = (d: DisplayObject, renderer?: AbstractRenderer) => 
  */
 function createShape(data: GraphicsData) {
 
-	let g = new Graphics();
+	const g = new Graphics();
 
 	g.beginFill(
 		data.fillStyle.color,
@@ -82,7 +82,7 @@ function createShape(data: GraphicsData) {
  */
 function createPoly(points: Polygon | number[] | Point[], graphicsData: GraphicsData) {
 
-	let g = new Graphics();
+	const g = new Graphics();
 
 	g.beginFill(graphicsData.fillStyle.color, graphicsData.fillStyle.alpha);
 	g.lineStyle(graphicsData.lineStyle.width, graphicsData.lineStyle.color, graphicsData.lineStyle.alpha);

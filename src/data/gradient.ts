@@ -36,7 +36,7 @@ export class Gradient {
 	 */
 	normalize() {
 
-		let a = this.stops;
+		const a = this.stops;
 		let tot = 0;
 		for (let i = a.length - 1; i >= 0; i--) {
 			tot += a[i];

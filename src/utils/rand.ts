@@ -29,7 +29,7 @@ export function randPoly(minPoints = 3, maxPoints = 4, minRadius = 4, maxRadius 
 	const len = randInt(minPoints, maxPoints);
 	const step = 2 * Math.PI / maxPoints;
 
-	let pts = new Array(len);
+	const pts = new Array(len);
 	let r, theta = 0;
 	for (let i = 0; i < len; i++) {
 

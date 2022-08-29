@@ -9,7 +9,7 @@ export const getLength = (p: Point): number => {
  * Returns the distance between two points.
  */
 export const dist = (p1: Point, p2: Point): number => {
-	let dx = p2.x - p1.x, dy = p2.y - p1.y;
+	const dx = p2.x - p1.x, dy = p2.y - p1.y;
 	return Math.sqrt(dx * dx + dy * dy);
 }
 
@@ -22,7 +22,7 @@ export const dist = (p1: Point, p2: Point): number => {
  */
 export const getTravelPt = (points: Point[], dist: number) => {
 
-	let count = points.length;
+	const count = points.length;
 	let curPt, prevPt = points[0];
 	let curDist = 0;
 
@@ -86,8 +86,8 @@ export const setLerp = (p0: Point, p1: Point, t: number) => {
  */
 export const getMidPt = (p1: Point, p2: Point, len: number) => {
 
-	let dx = p2.x - p1.x;
-	let dy = p2.y - p1.y;
+	const dx = p2.x - p1.x;
+	const dy = p2.y - p1.y;
 
 	let d = Math.sqrt(dx * dx + dy * dy);
 	if (d === 0) return new Point();
@@ -108,7 +108,7 @@ export const getMidPt = (p1: Point, p2: Point, len: number) => {
  */
 export const getCenter = (points: Point[]) => {
 
-	let len = points.length;
+	const len = points.length;
 	if (len === 0) return new Point();
 
 	let p = points[0];
@@ -162,7 +162,7 @@ export const cross = (p1: Point, p2: Point) => { return p1.x * p2.y - p1.y * p2.
  */
 export const move = (poly: Polygon, tx: number, ty: number) => {
 
-	let points = poly.points;
+	const points = poly.points;
 
 	for (let i = points.length - 1; i >= 0; i--) {
 
@@ -180,7 +180,7 @@ export const translate = (points: Point[], tx: number, ty: number) => {
 
 	for (let i = points.length - 1; i >= 0; i--) {
 
-		var p = points[i];
+		const p = points[i];
 		p.set(p.x + tx, p.y + ty);
 
 	}
@@ -192,20 +192,16 @@ export const translate = (points: Point[], tx: number, ty: number) => {
  */
 export const rotate = (points: Point[], theta: number) => {
 
-	let cos = Math.cos(theta);
-	let sin = Math.sin(theta);
+	const cos = Math.cos(theta);
+	const sin = Math.sin(theta);
 
-	let x, y;
 	for (let i = points.length - 1; i >= 0; i--) {
 
-		var p = points[i];
-
-		x = p.x;
-		y = p.y;
+		const p = points[i];
 
 		p.set(
-			x * cos - y * sin,
-			x * sin + y * cos
+			p.x * cos - p.y * sin,
+			p.x * sin + p.y * cos
 		);
 
 	}

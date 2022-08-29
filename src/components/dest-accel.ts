@@ -42,7 +42,7 @@ export default class DestAccel extends Component {
         const dx = this.dest.x - pt.x;
         const dy = this.dest.y - pt.y;
 
-        let d = dx * dx + dy * dy;
+        const d = dx * dx + dy * dy;
 
         if (d < (this.stopRadius * this.stopRadius)) {
 

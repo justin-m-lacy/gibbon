@@ -1,4 +1,4 @@
-import Actor from "../src/actor";
+import Actor from "../src/core/actor";
 import { DisplayObject, Point } from 'pixi.js';
 
 /**
@@ -27,7 +27,7 @@ export default class ActorPool {
 			return new Actor(clip, pos);
 		} else {
 
-			let obj = this._objs.pop();
+			const obj = this._objs.pop();
 			//obj._reset(clip, pos);
 
 			return obj;

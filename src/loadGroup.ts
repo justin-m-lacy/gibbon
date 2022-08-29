@@ -1,6 +1,5 @@
 import Group from "./core/group";
-import { DisplayObject, Container, Loader } from "pixi.js";
-import { Actor } from "..";
+import { Container, Loader } from "pixi.js";
 import Game from './game';
 
 /**
@@ -11,7 +10,7 @@ export default class LoadGroup extends Group {
 	/**
 	 * @property {PIXI.Loader} loader
 	 */
-	get loader() { return this._loader || this.game.loader; }
+	get loader() { return this._loader || this.game?.loader; }
 
 	/**
 	 * @property {LayerManager} layerManager - Wrapper for Game layer manager.
@@ -19,6 +18,8 @@ export default class LoadGroup extends Group {
 	get layerManager() { return this.game.layerManager; }
 
 	_loader: Loader | null = null;
+
+	private game: Game;
 
 	/**
 	 * @param {Game} game
@@ -33,8 +34,9 @@ export default class LoadGroup extends Group {
 		loader: Loader | null = null,
 		createObject: boolean = false) {
 
-		super(game, clip);
+		super(clip);
 
+		this.game = game;
 		if (loader) {
 			this._loader = loader;
 		}
@@ -46,7 +48,7 @@ export default class LoadGroup extends Group {
 
 	load() {
 
-		let loader = this.loader;
+		const loader = this.loader;
 
 		if (this.addAssets) {
 			this.addAssets(loader);

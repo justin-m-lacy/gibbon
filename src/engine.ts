@@ -52,7 +52,7 @@ export default class Engine implements IUpdater {
 	Instantiate(clip: DisplayObject | null | string = null, loc?: Point | null) {
 
 		var view = (typeof clip === 'string') ? this.library.instance<DisplayObject>(clip, loc) : clip;
-		let go = new Actor(view, loc);
+		const go = new Actor(view, loc);
 
 		this.add(go);
 		return go;
@@ -126,7 +126,7 @@ export default class Engine implements IUpdater {
 	 */
 	removeUpdater(sys: IUpdater) {
 
-		let ind = this.updaters.indexOf(sys);
+		const ind = this.updaters.indexOf(sys);
 		if (ind >= 0) {
 			this.updaters.splice(ind, 1);
 		}
@@ -140,7 +140,7 @@ export default class Engine implements IUpdater {
 	 */
 	remove(obj: Actor): boolean {
 
-		let ind = this.objects.indexOf(obj);
+		const ind = this.objects.indexOf(obj);
 		if (ind < 0) return false;
 
 		this.objects.splice(ind, 0);

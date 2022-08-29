@@ -20,16 +20,15 @@ class WheelController {
 
         if (this.wheelEnabled === true) return;
 
-        let mgr = app.renderer.plugins.interaction;
+        const mgr = app.renderer.plugins.interaction;
 
         this.wheelEnabled = true;
 
         // store to remove later.
         this.wheelFunc = (e) => {
 
-            let evt = new InteractionEvent();
-
-            let data = new InteractionData();
+            const evt = new InteractionEvent();
+            const data = new InteractionData();
 
             data.originalEvent = e;
 

@@ -26,10 +26,10 @@ export const htmlStr = (color: number) => {
  */
 export const lerpColor = (col1: number, col2: number, t: number) => {
 
-	let s = 1 - t;
-	let r = Math.floor(s * (col1 >> 16) + t * (col2 >> 16));
-	let g = Math.floor(s * ((0xff00 & col1) >> 8) + t * ((0xff00 & col2) >> 8));
-	let b = Math.floor(s * (0xff & col1) + t * ((0xff & col2)));
+	const s = 1 - t;
+	const r = Math.floor(s * (col1 >> 16) + t * (col2 >> 16));
+	const g = Math.floor(s * ((0xff00 & col1) >> 8) + t * ((0xff00 & col2) >> 8));
+	const b = Math.floor(s * (0xff & col1) + t * ((0xff & col2)));
 
 	return (r << 16) + (g << 8) + b;
 

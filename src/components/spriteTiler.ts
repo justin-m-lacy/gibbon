@@ -39,7 +39,7 @@ export default class SpriteTiler extends Component {
 	update(delta: number) {
 
 		if (!this._target) return;
-		let pos = this._target.position;
+		const pos = this._target.position;
 
 		this.sprite?.tilePosition.set(-pos.x, -pos.y);
 

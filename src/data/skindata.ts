@@ -106,7 +106,7 @@ export default class SkinData {
 
 		if (this.texture) return new Sprite(this.texture);
 
-		let g = new Graphics();
+		const g = new Graphics();
 
 		if (this.fill) g.beginFill(this.fillColor, this.fillAlpha);
 

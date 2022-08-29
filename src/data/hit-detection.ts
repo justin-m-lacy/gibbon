@@ -119,7 +119,7 @@ export class HitDetection extends Component {
         /**
          * Updating Positions: In future might actually detect changes in colliders themselves?
          */
-        for (let child of this._transform) {
+        for (const child of this._transform) {
 
             const collider = child.get(Collider2d);
             if (collider && !collider.isStatic) {
@@ -130,7 +130,7 @@ export class HitDetection extends Component {
 
         const hitResults: Array<Collider2d> = [];
 
-        for (let child of this._transform) {
+        for (const child of this._transform) {
 
             const collider = child.get(Collider2d);
             if (collider) {

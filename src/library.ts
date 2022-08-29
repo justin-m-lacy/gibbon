@@ -29,11 +29,11 @@ export default class Library {
 	 */
 	instance<T>(name: string, p?: Point | null) {
 
-		let item = this._lib.get(name);
+		const item = this._lib.get(name);
 		if (!item) return null;
 
 		if (isConstructor<T>(item)) {
-			let type = new item();
+			const type = new item();
 		} else if (isClonable<T>(item)) return item.clone();
 		else return item as T;
 

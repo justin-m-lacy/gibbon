@@ -61,7 +61,7 @@ export default class Actor {
 			this._active = v;
 
 			if (v) {
-				for (let comp of this._components) {
+				for (const comp of this._components) {
 					comp.onActivate?.();
 				}
 			} else {
@@ -124,7 +124,7 @@ export default class Actor {
 	 */
 	get orient() {
 
-		let rads = this.rotation;
+		const rads = this.rotation;
 		return new Point(Math.cos(rads), Math.sin(rads));
 
 	}
@@ -242,7 +242,7 @@ export default class Actor {
 
 		this._isAdded = true;
 
-		let len = this._components.length;
+		const len = this._components.length;
 		for (let i = 0; i < len; i++) {
 			this._components[i]._init(this);
 		}
@@ -348,7 +348,7 @@ export default class Actor {
 	 */
 	contains(pt: Point): boolean {
 
-		let clip = this.clip;
+		const clip = this.clip;
 		if (clip == null) return false;
 		if (!clip.hitArea) {
 			return clip.getBounds().contains(pt.x, pt.y);
@@ -382,7 +382,7 @@ export default class Actor {
 	 */
 	get<T extends Component>(cls: Constructor<T>): T | undefined {
 
-		let inst = this._compMap.get(cls) as T;
+		const inst = this._compMap.get(cls) as T;
 		if (inst !== undefined) return inst;
 
 		for (let i = this._components.length - 1; i >= 0; i--) {
@@ -398,7 +398,7 @@ export default class Actor {
 	 */
 	require<T extends Component>(cls: Constructor<T>): T {
 
-		let inst = this._compMap.get(cls);
+		const inst = this._compMap.get(cls);
 		if (inst !== undefined && inst instanceof cls) return inst as T;
 
 		for (let i = this._components.length - 1; i >= 0; i--) {
@@ -415,7 +415,7 @@ export default class Actor {
 	 */
 	addCopy(comp: Component) {
 
-		let copy = Object.assign(
+		const copy = Object.assign(
 			Object.create(Object.getPrototypeOf(comp)),
 			comp);
 
@@ -429,11 +429,11 @@ export default class Actor {
 	 */
 	update(delta: number) {
 
-		let comps = this._components;
+		const comps = this._components;
 
 		for (let i = comps.length - 1; i >= 0; i--) {
 
-			var comp = comps[i];
+			const comp = comps[i];
 			if (comp._destroyed === true) {
 
 				quickSplice(comps, i);
@@ -509,7 +509,7 @@ export default class Actor {
 
 		this._destroyed = true;
 
-		let comps = this._components;
+		const comps = this._components;
 
 		for (let i = comps.length - 1; i >= 0; i--) {
 			this.remove(comps[i]);

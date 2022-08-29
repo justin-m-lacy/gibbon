@@ -88,14 +88,14 @@ export default class Group {
 		if (this._paused) return;
 		this._paused = true;
 
-		for (let obj of this.objects) {
+		for (const obj of this.objects) {
 			if (('pause' in obj) && typeof obj.pause === 'function') {
 				obj.pause();
 			}
 			obj.active = false;
 		}
 
-		for (let g of this.subgroups) {
+		for (const g of this.subgroups) {
 			g.pause();
 		}
 
@@ -105,11 +105,11 @@ export default class Group {
 
 		if (this._paused === false) return;
 
-		for (let obj of this.objects) {
+		for (const obj of this.objects) {
 			if (obj.unpause) obj.unpause();
 			obj.active = true;
 		}
-		for (let g of this.subgroups) {
+		for (const g of this.subgroups) {
 			g.unpause();
 		}
 

@@ -16,7 +16,7 @@ export default class Pool {
 	 */
 	get(key, creator) {
 
-		let list = this.getList(key);
+		const list = this.getList(key);
 		if (list.length > 0) return list.pop();
 		return creator();
 

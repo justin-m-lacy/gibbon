@@ -151,7 +151,7 @@ export default class Game {
 	 */
 	init(layerData?: LayerData[]) {
 
-		let layerManager = new LayerManager(this);
+		const layerManager = new LayerManager(this);
 		if (layerData != null) {
 			layerManager.initFromData(layerData);
 		}
@@ -184,7 +184,7 @@ export default class Game {
 
 		this.app.renderer.resize(document.body.clientWidth, document.body.clientHeight);
 
-		let resizer = () => {
+		const resizer = () => {
 			this.app.renderer.resize(
 				document.body.clientWidth,
 				document.body.clientHeight);
@@ -242,7 +242,7 @@ export default class Game {
 	 */
 	removeGroup(g: Group): boolean {
 
-		let ind = this._groups.indexOf(g);
+		const ind = this._groups.indexOf(g);
 		if (ind >= 0) {
 			this._groups.splice(ind, 1);
 			g._onRemoved();

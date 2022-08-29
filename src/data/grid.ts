@@ -1,8 +1,14 @@
 import { GridCell } from './grid-cell';
 import { GridRange } from './grid-range';
 
+/**
+ * Tyoe for objects stored in Grid.
+ */
 export type Positionable = { x: number, y: number, width: number, height: number, flags?: number, hitFlags?: number };
 
+/**
+ * Grid for tracking Actor location and hit tests.
+ */
 export class Grid<T extends Positionable> {
 
     private rows: number;
@@ -44,6 +50,11 @@ export class Grid<T extends Positionable> {
 
     }
 
+    /**
+     * Add items to range of grid cells.
+     * @param range 
+     * @param item 
+     */
     addToRange(range: GridRange, item: T) {
 
         const maxR = range.maxRow;
