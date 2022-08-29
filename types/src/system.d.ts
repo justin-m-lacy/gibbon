@@ -1,5 +1,4 @@
 import Group from "./core/group";
-import Game from './game';
 import { IUpdater } from "./engine";
 import { Container } from 'pixi.js';
 export default class System extends Group implements IUpdater {
@@ -15,7 +14,7 @@ export default class System extends Group implements IUpdater {
      * @param {Actor} clip - system container clip.
      * @param {boolean} [enabled=false] - whether to start System immediately.
      */
-    constructor(game: Game, clip?: Container, enabled?: boolean);
+    constructor(clip?: Container, enabled?: boolean);
     start(): void;
     stop(): void;
     pause(): void;

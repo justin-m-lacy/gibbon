@@ -10,16 +10,16 @@ export default class LoadGroup extends Group {
 	/**
 	 * @property {PIXI.Loader} loader
 	 */
-	get loader() { return this._loader || this.game?.loader; }
+	get loader() { return this._loader || this._loadGame.loader; }
 
 	/**
 	 * @property {LayerManager} layerManager - Wrapper for Game layer manager.
 	 */
-	get layerManager() { return this.game.layerManager; }
+	get layerManager() { return this._loadGame.layerManager; }
 
 	_loader: Loader | null = null;
 
-	private game: Game;
+	private _loadGame: Game;
 
 	/**
 	 * @param {Game} game
@@ -36,7 +36,8 @@ export default class LoadGroup extends Group {
 
 		super(clip);
 
-		this.game = game;
+		this._loadGame = game;
+
 		if (loader) {
 			this._loader = loader;
 		}
