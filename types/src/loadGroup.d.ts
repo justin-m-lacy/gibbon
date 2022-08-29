@@ -14,7 +14,7 @@ export default class LoadGroup extends Group {
      */
     get layerManager(): import("./layerManager").default;
     _loader: Loader | null;
-    private game;
+    private _loadGame;
     /**
      * @param {Game} game
      * @param {DisplayObject} [clip=null]

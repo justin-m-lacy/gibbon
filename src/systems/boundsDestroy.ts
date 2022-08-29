@@ -30,9 +30,9 @@ export default class BoundsDestroy extends System {
 	 * @param {Container} clip
 	 * @param {Rectangle} rect
 	 */
-	constructor(game: Game, rect: Rectangle, clip?: Container) {
+	constructor(rect: Rectangle, clip?: Container) {
 
-		super(game, clip)
+		super(clip)
 
 		this.bounds = rect;
 
