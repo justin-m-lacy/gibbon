@@ -54,7 +54,7 @@ export default class Game {
 	 * and base objectLayer.
 	 * Basic game systems can also be added to root as Components.
 	 */
-	get root(): Actor { return this._defaultGroup._gameObject!; }
+	get root(): Actor { return this._defaultGroup._actor!; }
 
 	get defaultGroup(): Group { return this._defaultGroup; }
 
@@ -159,8 +159,10 @@ export default class Game {
 		this._layerManager = layerManager;
 		this._engine.objectLayer = layerManager.objectLayer;
 
-		this._defaultGroup = new Group(this, layerManager.objectLayer, false, true);
+		this._defaultGroup = new Group(layerManager.objectLayer, false, true);
 		this._camera = this.root.add(Camera);
+
+		this.addGroup(this._defaultGroup);
 
 	}
 
@@ -221,14 +223,20 @@ export default class Game {
 		return this._groups.find((g) => g.name === name);
 	}
 
+	/**
+	 * Add group to game. Attempting to add the same group multiple
+	 * times to a game will be ignored.
+	 * @param g 
+	 */
 	addGroup(g: Group) {
 		if (!contains(this._groups, g)) {
 			this._groups.push(g);
+			g._onAdded(this);
 		}
 	}
 
 	/**
-	 *
+	 * Remove group from game.
 	 * @param {Group} g
 	 * @returns {boolean} True if g was found and removed.
 	 */
@@ -237,6 +245,7 @@ export default class Game {
 		let ind = this._groups.indexOf(g);
 		if (ind >= 0) {
 			this._groups.splice(ind, 1);
+			g._onRemoved();
 			return true;
 		}
 

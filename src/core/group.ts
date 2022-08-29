@@ -12,7 +12,7 @@ export default class Group {
 
 
 	get actor(): Actor | undefined {
-		return this._gameObject;
+		return this._actor;
 	}
 
 	/**
@@ -32,37 +32,43 @@ export default class Group {
 	get paused() { return this._paused; }
 
 
-	readonly subgroups: Group[];
+	/**
+	 * Subgroups of this group.
+	 */
+	readonly subgroups: Group[] = [];
 
-	readonly objects: Actor[];
-
-	readonly game: Game;
-	get engine(): Engine { return this.game.engine; }
+	/**
+	 * Objects in group.
+	 */
+	readonly objects: Actor[] = [];
 
 	/**
 	 * Actor to hold group components.
 	 */
-	_gameObject?: Actor;
+	_actor?: Actor;
 
 	_paused: boolean = false;
 
+	/**
+	 * Used to add actors to group.
+	 */
+	private _game?: Game;
+
+	/**
+	 * Parent group, if any.
+	 */
+	private _parent?: Group;
 
 	/**
 	 *
-	 * @param {Game} game
 	 * @param {DisplayObject} [clip=null]
 	 * @param {boolean} [paused=false]
 	 */
-	constructor(game: Game, clip: Container | undefined | null = undefined, paused: boolean = false, createGroupObject: boolean = false) {
+	constructor(clip: Container | undefined | null = undefined, paused: boolean = false, createGroupObject: boolean = false) {
 
 		this._paused = paused;
 
 		this.clip = clip;
-
-		this.game = game;
-
-		this.objects = [];
-		this.subgroups = [];
 
 		if (createGroupObject) {
 			this.makeGroupObject();
@@ -73,8 +79,8 @@ export default class Group {
 	  * Ensure the group has its own group Actor.
 	  */
 	makeGroupObject(): Actor {
-		this._gameObject = this.engine.Instantiate(this.clip);
-		return this._gameObject!;
+		this._actor = new Actor();
+		return this._actor;
 	}
 
 	pause() {
@@ -112,6 +118,63 @@ export default class Group {
 	}
 
 	/**
+	 * Override in subclasses for notification of when
+	 * group is added to game.
+	 */
+	onAdded() {
+	}
+
+	/**
+	 * Override in subclasses to be notified when group is removed.
+	 */
+	onRemoved() {
+	}
+
+	/**
+	 * Internal message of group being added to game.
+	 * Do not call directly.
+	 * Override onAdded() in subclasses for the event.
+	 */
+	_onAdded(game: Game) {
+
+		if (this._game == game) {
+			/// already added to this game.
+			return;
+		}
+
+		this._game = game;
+		this.onAdded();
+
+		for (const g of this.subgroups) {
+			g._onAdded(game);
+		}
+
+
+	}
+
+	/**
+	 * Internal message of group being removed from game.
+	 * Do not call directly.
+	 * Override onRemoved() in subclasses for the event.
+	 */
+	_onRemoved() {
+
+		if (this._game === undefined) {
+			/// not added to any game.
+			return;
+		}
+
+		this.onRemoved();
+
+		this._game = undefined;
+		for (const g of this.subgroups) {
+			g._onRemoved();
+		}
+
+
+	}
+
+	/**
 	 * Show all the objects in the group and subgroups.
 	 */
 	show() {
@@ -126,6 +189,9 @@ export default class Group {
 
 	}
 
+	/**
+	 * Hide all actors in this group and subgroups.
+	 */
 	hide() {
 
 		if (this.clip) {
@@ -138,6 +204,11 @@ export default class Group {
 
 	}
 
+	/**
+	 * Find subgroup of this group.
+	 * @param gname 
+	 * @returns 
+	 */
 	findGroup(gname: string): Group | undefined {
 
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {
@@ -148,31 +219,50 @@ export default class Group {
 	}
 
 	/**
-	 *
+	 * Add subgroup to this group.
 	 * @param {Group} g
 	 */
 	addGroup(g: Group) {
+
+		if (g._parent) {
+
+			if (g._parent === this) {
+				return;
+			}
+			g._parent.removeGroup(g);
+		}
+
+		g._parent = this;
 		if (!contains(this.subgroups, g)) {
 			this.subgroups.push(g);
 		}
 	}
 
 	/**
-	 *
+	 * Remove subgroup from this group.
 	 * @param {Group} g
 	 */
 	removeGroup(g: Group) {
 
+		if (g._parent !== this) {
+			return;
+		}
+		g._parent = undefined;
+
 		for (var i = this.subgroups.length - 1; i >= 0; i--) {
+
 			if (this.subgroups[i] == g) {
 				this.subgroups.splice(i, 1);
+
+				g.onRemoved();
+
 				return;
 			}
 		}
 	}
 
 	/**
-	 * Remove Actor from group, but not Engine.
+	 * Remove Actor from group, but not Game or Engine.
 	 * @param {Actor} obj
 	 */
 	remove(obj: Actor, removeClip: boolean = true) {
@@ -205,7 +295,7 @@ export default class Group {
 		obj.on('destroy', this.remove, this);
 
 		this.objects.push(obj);
-		this.engine.add(obj)
+		this._game?.engine.add(obj);
 
 		return obj;
 
@@ -215,6 +305,7 @@ export default class Group {
 
 		this._paused = true;
 
+
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {
 			this.subgroups[i].destroy();
 		}
@@ -222,6 +313,8 @@ export default class Group {
 			this.objects[i].off('destroy', this.remove, this);
 			this.objects[i].destroy();
 		}
+
+		this._game = undefined;
 
 	}
 
