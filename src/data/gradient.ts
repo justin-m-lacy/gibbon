@@ -32,17 +32,25 @@ export class Gradient {
 	}
 
 	/**
-	 * Ensure stops range from 0 to 1.
+	 * Ensure stops are nondecreasing between 0 and 1.
 	 */
 	normalize() {
 
 		const a = this.stops;
-		let tot = 0;
+		let prev = 0;
 		for (let i = a.length - 1; i >= 0; i--) {
-			tot += a[i];
+
+			const cur = a[i];
+			if (cur < prev) {
+				a[i] = prev;
+			} else if (cur > 1) {
+				a[i] = prev = 1;
+			} else {
+				prev = cur;
+			}
+
 		}
 
-		if (tot === 1) return;
 	}
 
 }
