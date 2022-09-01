@@ -6,8 +6,8 @@ export class SpriteTiler extends Component {
 	/**
 	 * @property {DisplayObject} DisplayObject to follow.
 	 */
-	get target(): DisplayObject | undefined { return this._target; }
-	set target(v: DisplayObject | undefined) {
+	get target() { return this._target; }
+	set target(v) {
 		this._target = v;
 		if (v) {
 			this.sprite?.tilePosition.set(-v.position.x, -v.position.y);
@@ -38,10 +38,11 @@ export class SpriteTiler extends Component {
 
 	update(delta: number) {
 
-		if (!this._target) return;
-		const pos = this._target.position;
+		if (this._target) {
 
-		this.sprite?.tilePosition.set(-pos.x, -pos.y);
+			const pos = this._target.position;
+			this.sprite?.tilePosition.set(-pos.x, -pos.y);
+		}
 
 	}
 

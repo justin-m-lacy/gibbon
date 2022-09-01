@@ -83,7 +83,7 @@ export class SkinData {
 
 	/**
 	 * 
-	 * @param {Object} [opts=null] 
+	 * @param opts
 	 */
 	constructor(opts?: Partial<SkinData>) {
 

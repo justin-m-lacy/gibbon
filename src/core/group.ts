@@ -137,18 +137,16 @@ export class Group<T extends Game = Game> {
 	 */
 	_onAdded(game: T) {
 
-		if (this._game == game) {
-			/// already added to this game.
-			return;
+		if (this._game !== game) {
+
+			this._game = game;
+			this.onAdded();
+
+			for (const g of this.subgroups) {
+				g._onAdded(game);
+			}
+
 		}
-
-		this._game = game;
-		this.onAdded();
-
-		for (const g of this.subgroups) {
-			g._onAdded(game);
-		}
-
 
 	}
 
@@ -267,7 +265,7 @@ export class Group<T extends Game = Game> {
 	 */
 	remove(obj: Actor, removeClip: boolean = true) {
 
-		let ind = this.objects.indexOf(obj);
+		const ind = this.objects.indexOf(obj);
 		if (ind < 0) return;
 
 		this.objects.splice(ind, 1);

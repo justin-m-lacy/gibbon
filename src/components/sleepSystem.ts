@@ -19,7 +19,7 @@ export class SleepSystem extends Component {
 	 */
 	_hideDist: number;
 
-	_sleepers: Actor[];
+	private readonly _sleepers: Actor[] = [];
 
 	_countdown: number;
 

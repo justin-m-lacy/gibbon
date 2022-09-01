@@ -111,7 +111,7 @@ export class Camera extends Component {
 	 * @returns true if item is completely onscreen, false otherwise.
 	 */
 	containsItem(it: any): boolean {
-		return false;
+		throw Error("Not implemented.");
 	}
 
 	/**
@@ -120,14 +120,14 @@ export class Camera extends Component {
 	 * @returns true if item is within the camera view, false otherwise.
 	 */
 	itemInView(it: any): boolean {
-		return false;
+		throw Error("Not implemented.");
 	}
 
 	/**
 	 *
-	 * @param {PIXI.Point} p
+	 * @param p
 	 */
-	ptInView(p: Point): Boolean {
+	ptInView(p: IPoint): Boolean {
 		return this._viewRect?.contains(p.x, p.y) ?? false;
 	}
 

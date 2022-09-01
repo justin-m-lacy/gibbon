@@ -5,8 +5,6 @@ import type { DisplayObject } from 'pixi.js';
  */
 export const moveTop = (clip: DisplayObject) => {
 
-	if (clip.parent) {
-		clip.parent.setChildIndex(clip, clip.parent.children.length - 1);
-	}
+	clip.parent?.setChildIndex(clip, clip.parent.children.length - 1);
 
 }

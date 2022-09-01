@@ -14,7 +14,7 @@ import EventEmitter from 'eventemitter3';
  */
 export interface IPoint {
 	x: number,
-	y: number
+	y: number,
 }
 
 /**
@@ -153,7 +153,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 	 */
 	readonly clip?: T;
 
-	readonly _components: Component[];
+	readonly _components: Component[] = [];
 
 	/**
 	 * Object was destroyed and should not be used any more.
@@ -169,7 +169,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 
 	protected _sleep: boolean = false;
 
-	protected _name: string;
+	protected _name: string = '';
 
 	protected _destroyOpts?: DestroyOptions;
 
@@ -185,7 +185,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 
 	flags: number = 0;
 
-	readonly _compMap: Map<Constructor<Component> | Function, Component>;
+	readonly _compMap: Map<Constructor<Component> | Function, Component> = new Map();
 
 	/**
 	 *
@@ -195,13 +195,6 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 	constructor(clip?: T, pos?: Point | null) {
 
 		this.id = Actor.NextId++;
-
-		this._components = [];
-		this._compMap = new Map();
-
-		this._isAdded = false;
-
-		this._name = '';
 
 		if (clip != null) {
 
@@ -223,7 +216,6 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 
 		this._active = true;
 
-		this.flags = 0;
 		this.emitter = clip || new EventEmitter();
 		this.clip = clip;
 

@@ -32,7 +32,6 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	set enabled(v) {
 
 		this._enabled = v;
-
 		if (v === true) {
 			this.onEnable?.();
 		} else {
@@ -219,9 +218,8 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	 */
 	_destroy() {
 
-		if (this.onDestroy) {
-			this.onDestroy();
-		}
+		this.onDestroy?.();
+
 		this._enabled = false;
 		this._destroyed = true;
 		this.actor = undefined;

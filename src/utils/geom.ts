@@ -1,26 +1,27 @@
 import * as PIXI from 'pixi.js';
 import { Point, Polygon } from 'pixi.js';
+import { IPoint } from '../core/actor';
 
-export const getLength = (p: Point): number => {
+export const getLength = (p: IPoint): number => {
 	return Math.sqrt(p.x * p.x + p.y * p.y);
 }
 
 /**
  * Returns the distance between two points.
  */
-export const dist = (p1: Point, p2: Point): number => {
+export const dist = (p1: IPoint, p2: IPoint): number => {
 	const dx = p2.x - p1.x, dy = p2.y - p1.y;
 	return Math.sqrt(dx * dx + dy * dy);
 }
 
 /**
- * Get the point located by travelling along a sequence of points
+ * Get a point located by travelling along a sequence of points
  * for the given distance.
- * @param {Point[]} points
- * @param {number} dist
+ * @param  points
+ * @param  dist
  * @returns {Point}
  */
-export const getTravelPt = (points: Point[], dist: number) => {
+export const getTravelPt = (points: IPoint[], dist: number) => {
 
 	const count = points.length;
 	let curPt, prevPt = points[0];
@@ -59,32 +60,33 @@ export const getTravelPt = (points: Point[], dist: number) => {
 
 /**
  * Return interpolated point.
- * @param {Point} p0
- * @param {Point} p1
+ * @param p0
+ * @param p1
  * @param {number} t
  */
-export const lerpPt = (p0: Point, p1: Point, t: number) => {
+export const lerpPt = (p0: IPoint, p1: IPoint, t: number) => {
 	return new Point((1 - t) * p0.x + t * p1.x, (1 - t) * p0.y + p1.y);
 }
 
 /**
  * Set p0 to the linear interpolation of p0 and p1.
- * @param {Point} p0
- * @param {Point} p1
+ * @param p0
+ * @param p1
  * @param {number} t
  * @returns {Point} returns p0.
  */
-export const setLerp = (p0: Point, p1: Point, t: number) => {
-	p0.set((1 - t) * p0.x + t * p1.x, (1 - t) * p0.y + p1.y);
+export const setLerp = (p0: IPoint, p1: IPoint, t: number) => {
+	p0.x = (1 - t) * p0.x + t * p1.x;
+	p0.y = (1 - t) * p0.y + p1.y;
 }
 
 /**
  * Return a point falling a given distance between two points.
- * @param {Point} p1
- * @param {Point} p2
+ * @param p1
+ * @param p2
  * @param {number} len - length between p2 and p1.
  */
-export const getMidPt = (p1: Point, p2: Point, len: number) => {
+export const getMidPt = (p1: IPoint, p2: IPoint, len: number) => {
 
 	const dx = p2.x - p1.x;
 	const dy = p2.y - p1.y;
@@ -103,10 +105,10 @@ export const getMidPt = (p1: Point, p2: Point, len: number) => {
 
 /**
  *
- * @param {Point[]} points
+ * @param points
  * @returns {Point} Center point of all points.
  */
-export const getCenter = (points: Point[]) => {
+export const getCenter = (points: IPoint[]) => {
 
 	const len = points.length;
 	if (len === 0) return new Point();
@@ -145,15 +147,15 @@ export const reflection = (a: number, b: number) => {
 }
 
 /**
- * @returns {PIXI.Point} point normal to p.
+ * @returns point normal to p.
  */
-export const norm = (p: Point) => { return new PIXI.Point(p.y, -p.x) }
+export const norm = (p: IPoint) => { return new PIXI.Point(p.y, -p.x) }
 
 /**
  * @returns {number} - magnitude of the cross product p1xp2
  * left hand rule; normals point screen upwards.
  */
-export const cross = (p1: Point, p2: Point) => { return p1.x * p2.y - p1.y * p2.x; }
+export const cross = (p1: IPoint, p2: IPoint) => { return p1.x * p2.y - p1.y * p2.x; }
 
 /**
  * move() is separate from translate() because of how PIXI
@@ -174,14 +176,16 @@ export const move = (poly: Polygon, tx: number, ty: number) => {
 }
 
 /**
- * @property {Point[]} points
+ * Translate an array of points by (tx,ty)
+ * @property points
  */
-export const translate = (points: Point[], tx: number, ty: number) => {
+export const translate = (points: IPoint[], tx: number, ty: number) => {
 
 	for (let i = points.length - 1; i >= 0; i--) {
 
 		const p = points[i];
-		p.set(p.x + tx, p.y + ty);
+		p.x += tx;
+		p.y += ty;
 
 	}
 

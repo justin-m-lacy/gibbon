@@ -11,6 +11,7 @@ export class SharedComponent extends Component {
 
 	constructor() {
 		super();
+		throw Error("Not implemented.");
 	}
 
 	_init(actor: Actor) {
