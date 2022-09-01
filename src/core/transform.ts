@@ -3,7 +3,6 @@ import Component from "../core/component";
 import { quickSplice } from "../utils/array-utils";
 import { Constructor } from "../utils/types";
 import { Point } from 'pixi.js';
-import { IPoint } from "../core/actor";
 import { GameEvents } from "../events/game-events";
 
 

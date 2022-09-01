@@ -4,7 +4,7 @@ import { Constructor } from '../utils/types';
 export default class Component {
 
 	/**
-	 * @property {Game} game
+	 * @property game
 	 */
 	get game() { return this.actor!.game; }
 
@@ -150,6 +150,14 @@ export default class Component {
 	 */
 	update?(delta: number): void;
 
+	/**
+	 * Emit event through owning actor's emitter..
+	 * @param evt 
+	 * @param args 
+	 */
+	emit(evt: string, ...args: any[]) {
+		this.actor!.emit(evt, ...args);
+	}
 	/**
 	 *
 	 * @param {class} cls - class to add to the component's game object.

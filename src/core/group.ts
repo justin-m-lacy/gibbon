@@ -1,14 +1,13 @@
 import { Actor } from "../..";
-import Game from '../game';
-import { Container, DisplayObject } from 'pixi.js';
-import Engine from '../engine';
+import type Game from '../game';
+import type { Container } from 'pixi.js';
 import { contains } from '../utils/array-utils';
 
 /**
  * If a clip is supplied to the Group, it will act as the parent
  * of all Actor clips added to the group.
  */
-export default class Group {
+export default class Group<T extends Game = Game> {
 
 
 	get actor(): Actor | undefined {
@@ -35,7 +34,7 @@ export default class Group {
 	/**
 	 * Subgroups of this group.
 	 */
-	readonly subgroups: Group[] = [];
+	readonly subgroups: Group<T>[] = [];
 
 	/**
 	 * Objects in group.
@@ -49,7 +48,7 @@ export default class Group {
 
 	_paused: boolean = false;
 
-	private _game?: Game;
+	private _game?: T;
 	/**
 	 * Game group is added to, if any.
 	 */
@@ -136,7 +135,7 @@ export default class Group {
 	 * Do not call directly.
 	 * Override onAdded() in subclasses for the event.
 	 */
-	_onAdded(game: Game) {
+	_onAdded(game: T) {
 
 		if (this._game == game) {
 			/// already added to this game.
@@ -223,7 +222,7 @@ export default class Group {
 	 * Add subgroup to this group.
 	 * @param {Group} g
 	 */
-	addGroup(g: Group) {
+	addGroup(g: Group<T>) {
 
 		if (g._parent) {
 

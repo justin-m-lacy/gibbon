@@ -6,6 +6,10 @@ import { Point, DisplayObject, Container } from 'pixi.js';
 
 export interface IUpdater {
 
+	/**
+	 * 
+	 * @param delta - time transpired in seconds.
+	 */
 	update(delta: number): void;
 }
 

@@ -1,11 +1,11 @@
 import { Point, DisplayObject, Container } from 'pixi.js';
 import * as PIXI from 'pixi.js';
 import { quickSplice } from '../utils/array-utils';
-import Group from './group';
 import Game from '../game';
 import Component from './component';
 import { Constructor } from '../utils/types';
 import { Transform } from './transform';
+import type Group from './group';
 
 /**
  * Point without reference to pixi.
@@ -281,7 +281,7 @@ export default class Actor {
 	 * @param {*} args - First argument should be the {string} event name.
 	 */
 	emit(event: string, ...args: any[]) {
-		this.emitter.emit.call(this.emitter, event, ...args);
+		this.emitter.emit(event, ...args);
 	}
 
 	/**

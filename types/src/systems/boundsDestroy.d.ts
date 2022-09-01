@@ -1,6 +1,5 @@
 import System from "../system";
 import { Rectangle, Container } from "pixi.js";
-import Game from "../game";
 import Actor from '../core/actor';
 export declare type ExitFunction = (go: Actor) => void;
 /**
@@ -25,6 +24,6 @@ export default class BoundsDestroy extends System {
      * @param {Container} clip
      * @param {Rectangle} rect
      */
-    constructor(game: Game, rect: Rectangle, clip?: Container);
+    constructor(rect: Rectangle, clip?: Container);
     update(): void;
 }
