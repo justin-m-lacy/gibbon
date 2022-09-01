@@ -151,7 +151,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 	 */
 	readonly clip?: T;
 
-	readonly _components: Component<T>[];
+	readonly _components: Component[];
 
 	/**
 	 * Object was destroyed and should not be used any more.
@@ -183,7 +183,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 
 	flags: number = 0;
 
-	readonly _compMap: Map<Constructor<Component<T>> | Function, Component<T>>;
+	readonly _compMap: Map<Constructor<Component> | Function, Component>;
 
 	/**
 	 *
@@ -297,7 +297,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 	 * @param inst 
 	 * @param cls 
 	 */
-	addExisting<C extends Component<T>>(inst: C, cls?: Constructor<C>): C {
+	addExisting<C extends Component>(inst: C, cls?: Constructor<C>): C {
 		return this.addInstance(inst, cls);
 	}
 
@@ -307,7 +307,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 	 * @param {?Object} [cls=null]
 	 * @returns {Component} Returns the instance.
 	 */
-	addInstance<C extends Component<T>>(inst: C, cls?: Constructor<C>): C {
+	addInstance<C extends Component>(inst: C, cls?: Constructor<C>): C {
 
 		const key = cls ?? (<any>inst).constructor ?? Object.getPrototypeOf(inst).constructor ?? inst;
 
@@ -330,7 +330,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 	 * @param {class} cls - component class to instantiate.
 	 * @returns {Object}
 	*/
-	add<C extends Component<T>>(cls: C | Constructor<C>): C {
+	add<C extends Component>(cls: C | Constructor<C>): C {
 		if (cls instanceof Component) {
 			return this.addInstance(cls);
 		} else {
@@ -380,7 +380,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 	 *
 	 * @param {*} cls
 	 */
-	get<C extends Component<T>>(cls: Constructor<C>): C | undefined {
+	get<C extends Component>(cls: Constructor<C>): C | undefined {
 
 		const inst = this._compMap.get(cls) as C;
 		if (inst !== undefined) return inst;
@@ -396,7 +396,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 	 *
 	 * @param {*} cls
 	 */
-	require<C extends Component<T>>(cls: Constructor<C>): C {
+	require<C extends Component>(cls: Constructor<C>): C {
 
 		const inst = this._compMap.get(cls);
 		if (inst !== undefined && inst instanceof cls) return inst as C;
@@ -438,7 +438,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 	 * @param {Component} comp - the component to remove from the game object.
 	 * @param {bool} [destroy=true] - whether the component should be destroyed.
 	 */
-	remove(comp: Component<T>, destroy: boolean = true) {
+	remove(comp: Component, destroy: boolean = true) {
 
 		if (destroy === true) comp._destroy();
 

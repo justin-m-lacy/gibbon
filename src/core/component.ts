@@ -164,7 +164,7 @@ export default class Component<T extends DisplayObject = DisplayObject> {
 	 * @param {class} cls - class to add to the component's game object.
 	 * @returns {Component}
 	 */
-	add(cls: Component<T>): Component<T> {
+	add(cls: Component): Component {
 		return this.actor!.add(cls);
 	}
 
@@ -173,7 +173,7 @@ export default class Component<T extends DisplayObject = DisplayObject> {
 	 * @param {Component} comp
 	 * @returns {Component} The added component instance.
 	 */
-	addInstance(comp: Component<T>, cls?: Constructor<Component<T>>) {
+	addInstance(comp: Component, cls?: Constructor<Component>) {
 
 		return this.actor!.addInstance(comp, cls);
 	}
@@ -184,7 +184,7 @@ export default class Component<T extends DisplayObject = DisplayObject> {
 	 * @param {Component} comp
 	 * @returns {Component} The added component instance.
 	 */
-	addExisting(comp: Component<T>, cls?: Constructor<Component<T>>) {
+	addExisting(comp: Component, cls?: Constructor<Component<T>>) {
 
 		return this.actor!.addInstance(comp, cls);
 	}
@@ -194,7 +194,7 @@ export default class Component<T extends DisplayObject = DisplayObject> {
 	 * @param {class} cls - wrapper for actor get()
 	 * @returns {Component|null}
 	 */
-	get<C extends Component<T>>(cls: Constructor<C>): C | undefined {
+	get<C extends Component>(cls: Constructor<C>): C | undefined {
 		return this.actor!.get(cls);
 	}
 
@@ -203,7 +203,7 @@ export default class Component<T extends DisplayObject = DisplayObject> {
 	 * @param {*} cls
 	 * @returns {Component}
 	 */
-	require<C extends Component<T>>(cls: Constructor<C>): C { return this.actor!.require(cls); }
+	require<C extends Component>(cls: Constructor<C>): C { return this.actor!.require(cls); }
 
 	onDestroy?(): void;
 
