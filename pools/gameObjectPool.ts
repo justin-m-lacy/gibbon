@@ -1,4 +1,4 @@
-import Actor from "../src/core/actor";
+import { Actor } from "../src/core/actor";
 import type { DisplayObject, Point } from 'pixi.js';
 
 /**

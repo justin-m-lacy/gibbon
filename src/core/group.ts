@@ -249,7 +249,7 @@ export class Group<T extends Game = Game> {
 		}
 		g._parent = undefined;
 
-		for (var i = this.subgroups.length - 1; i >= 0; i--) {
+		for (let i = this.subgroups.length - 1; i >= 0; i--) {
 
 			if (this.subgroups[i] == g) {
 				this.subgroups.splice(i, 1);

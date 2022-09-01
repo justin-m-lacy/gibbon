@@ -143,10 +143,6 @@ export class Game {
 
 		this._emitter = new EventEmitter();
 
-		var a = new Actor();
-		this._emitter.emit(EngineEvent.ActorDestroyed, a);
-		this._emitter.on(EngineEvent.ActorDestroyed, (a: Actor) => { }, this);
-
 		this._engine = new Engine(new Ticker());
 		this.library = this._engine.library;
 

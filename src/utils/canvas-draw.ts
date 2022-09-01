@@ -36,9 +36,9 @@ export class CanvasDraw {
 	 */
 	gradFill(p0: Point, p1: PIXI.Point, gradient: Gradient) {
 
-		var ctx = this.canvas.getContext('2d');
+		const ctx = this.canvas.getContext('2d');
 
-		var grad = ctx!.createLinearGradient(p0.x, p0.y, p1.x, p1.y);
+		const grad = ctx!.createLinearGradient(p0.x, p0.y, p1.x, p1.y);
 		gradient.addStops(grad);
 
 		ctx!.fillStyle = grad;
@@ -52,7 +52,7 @@ export class CanvasDraw {
 	 * @param {number} color
 	 */
 	fill(color: number) {
-		var ctx = this.canvas.getContext('2d');
+		const ctx = this.canvas.getContext('2d');
 		ctx!.fillStyle = htmlStr(color);
 		ctx!.fillRect(0, 0, this.width, this.height);
 

@@ -54,7 +54,7 @@ export class Engine implements IUpdater {
 	 */
 	Instantiate<T extends DisplayObject>(clip: T | null | string = null, loc?: Point | null) {
 
-		var view = (typeof clip === 'string') ? this.library.instance<DisplayObject>(clip, loc) : clip;
+		const view = (typeof clip === 'string') ? this.library.instance<DisplayObject>(clip, loc) : clip;
 		const go = new Actor(view ?? undefined, loc);
 
 		this.add(go);
@@ -74,7 +74,7 @@ export class Engine implements IUpdater {
 
 		for (let i = objs.length - 1; i >= 0; i--) {
 
-			var obj = objs[i];
+			const obj = objs[i];
 			if (obj.isDestroyed === true) {
 
 				obj._destroy();

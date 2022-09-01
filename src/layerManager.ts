@@ -87,7 +87,7 @@ export class LayerManager {
 		const stage = this.game.stage;
 		for (const data of layerData) {
 
-			var clip = new Container();
+			const clip = new Container();
 			clip.name = data.name || '';
 
 			if (data.depth) {

@@ -1,6 +1,7 @@
 import type { Actor } from '../core/actor';
 import { Point, DisplayObject, Rectangle } from 'pixi.js';
 import { Component } from '../core/component';
+import { IPoint } from '../core/actor';
 
 export class Camera extends Component {
 
@@ -70,7 +71,7 @@ export class Camera extends Component {
 	get centerX() { return this._viewRect.x + this._halfWidth; }
 	get centerY() { return this._viewRect.y + this._halfHeight; }
 
-	get center(): Point {
+	get center(): IPoint {
 		return new Point(
 			this._viewRect.x + this._halfWidth,
 			this._viewRect.y + this._halfHeight);
@@ -146,11 +147,11 @@ export class Camera extends Component {
 
 	/**
 	 *
-	 * @param {PIXI.Point} global
-	 * @param {PIXI.Point} [dest=null]
+	 * @param  global
+	 * @param  dest=null
 	 * @returns {PIXI.Point}
 	 */
-	toCameraPoint(global: Point, dest?: Point) {
+	toCameraPoint(global: IPoint, dest?: IPoint) {
 
 		return this._panClip?.toLocal(global, undefined, dest ?? new Point());
 

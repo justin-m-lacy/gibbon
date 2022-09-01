@@ -43,12 +43,12 @@ export class BoundsDestroy extends System {
 
 		for (let i = this.objects.length - 1; i >= 0; i--) {
 
-			var o = this.objects[i];
+			const o = this.objects[i];
 			if (o.isDestroyed) {
 				continue;
 			}
 
-			var pos = o.position;
+			const pos = o.position;
 			if (this.bounds.contains(pos.x, pos.y) === false) {
 
 				if (this.onExit) this.onExit(o);

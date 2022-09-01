@@ -52,7 +52,8 @@ export class SleepSystem extends Component {
 
 	update(delta: number) {
 
-		var obj, pos, del, objects = this._sleepers;
+		let del;
+		let objects = this._sleepers;
 		const rect = this.game.camera?.viewRect;
 
 		if (rect == null) {
@@ -61,8 +62,8 @@ export class SleepSystem extends Component {
 
 		for (let i = objects.length - 1; i >= 0; i--) {
 
-			obj = objects[i];
-			pos = obj.position;
+			const obj = objects[i];
+			const pos = obj.position;
 
 			del = Math.max(rect.x - pos.x, pos.x - rect.right, pos.y - rect.bottom, rect.top - pos.y);
 			if (del < this._sleepDist) {
@@ -86,10 +87,10 @@ export class SleepSystem extends Component {
 
 			for (let i = objects.length - 1; i >= 0; i--) {
 
-				obj = objects[i];
+				const obj = objects[i];
 				// already handled by other loop, plus hidden objects shouldnt be hidden.
 				if (obj.sleep === true || obj.visible === false) continue;
-				pos = obj.position;
+				const pos = obj.position;
 
 				del = Math.max(rect.x - pos.x, pos.x - rect.right, pos.y - rect.bottom, rect.top - pos.y);
 				if (del > this._hideDist) {
