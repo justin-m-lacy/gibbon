@@ -1,9 +1,9 @@
 import { Engine } from './src/engine';
 import { Component } from './src/core/component';
 
-import Components from './src/components';
+import * as Components from './src/components';
 import * as Systems from './src/systems/systems';
-import Utils from './src/utils/utils';
+import * as Utils from './src/utils/utils';
 
 import { HtmlWrapper } from './src/components/html-wrapper';
 import { SleepSystem } from './src/components/sleepSystem';
@@ -40,6 +40,7 @@ export {
 	Geom,
 	Rand,
 	Systems,
+	Camera,
 	HtmlWrapper,
 	SleepSystem,
 	SpriteTiler,
@@ -52,27 +53,8 @@ export {
 	DestAccel,
 	getTween,
 	tweenOf,
-	removeTween
-};
-
-const Gibbon = {
-
-	CanvasDraw,
+	removeTween,
 	Components,
-	Systems,
 	Utils,
-	Geom: Geom,
-	Engine,
-	System,
-	Game,
-	Group,
-	LoadGroup,
-	Component,
-	Actor,
-	Library,
-	Camera,
-	Mover,
-	Rand
 
-}
-export default Gibbon;
+};

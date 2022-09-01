@@ -1,4 +1,4 @@
-import Component from "../core/component";
+import { Component } from "../core/component";
 
 export class Collider2d extends Component {
 

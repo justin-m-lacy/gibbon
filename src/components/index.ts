@@ -8,7 +8,7 @@ import { TimeDestroy } from './timeDestroy';
 /**
  * Collection of exported components.
  */
-export default {
+export {
 
 	Component,
 	Camera,

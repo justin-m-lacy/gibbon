@@ -2,7 +2,7 @@ import * as Color from './colorUtils'
 import { Geom, Rand } from '../..';
 import { Gradient } from '../data/gradient';
 
-export default {
+export {
 	Gradient,
 	Color,
 	Geom,
