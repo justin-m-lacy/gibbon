@@ -1,4 +1,4 @@
-export default class Pool {
+export class Pool {
 
 	private _byType: Map<any, any>;
 

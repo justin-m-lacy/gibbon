@@ -1,8 +1,8 @@
-import type Actor from "./actor";
+import type { Actor } from "./actor";
 import { Constructor } from '../utils/types';
 import { DisplayObject } from 'pixi.js';
 
-export default class Component<T extends DisplayObject = DisplayObject> {
+export class Component<T extends DisplayObject = DisplayObject> {
 
 	/**
 	 * @property game
@@ -184,7 +184,7 @@ export default class Component<T extends DisplayObject = DisplayObject> {
 	 * @param {Component} comp
 	 * @returns {Component} The added component instance.
 	 */
-	addExisting(comp: Component, cls?: Constructor<Component<T>>) {
+	addExisting(comp: Component, cls?: Constructor<Component>) {
 
 		return this.actor!.addInstance(comp, cls);
 	}

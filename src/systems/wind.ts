@@ -1,8 +1,8 @@
-import System from '../system';
+import { System } from '../system';
 /**
  * Wind simulation system. Unimplemented.
  */
-export default class Wind extends System {
+export class Wind extends System {
 
 	update(delta: number) {
 	}

@@ -1,6 +1,6 @@
-import Component from "../core/component";
+import { Component } from "../core/component";
 
-export default class TimeDestroy extends Component {
+export class TimeDestroy extends Component {
 
 	/**
 	 * @property {number} time - time in milliseconds before destroy/effect.

@@ -1,13 +1,13 @@
-import System from "../system";
 import { Rectangle, Container } from "pixi.js";
-import Actor from '../core/actor';
+import { System } from "../system";
+import { Actor } from '../core/actor';
 
 export type ExitFunction = (go: Actor) => void;
 
 /**
  *
  */
-export default class BoundsDestroy extends System {
+export class BoundsDestroy extends System {
 
 	/**
 	 * @property {(Actor)=>void} onExit - function to call when object

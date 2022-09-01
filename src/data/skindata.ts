@@ -1,11 +1,11 @@
-import { Sprite, Graphics, Texture, Circle, Rectangle, Ellipse, Polygon, RoundedRectangle, DisplayObject, Point, GraphicsData, SHAPES } from 'pixi.js';
+import { Sprite, Graphics, Texture, Circle, Rectangle, Ellipse, Polygon, RoundedRectangle, DisplayObject, Point, GraphicsData } from 'pixi.js';
 
 type Shape = Circle | Rectangle | Ellipse | Polygon | RoundedRectangle;
 
 /**
  * Graphical information for rendering a PIXI DisplayObject.
  */
-export default class SkinData {
+export class SkinData {
 
 	/**
 	 * @property {} graphicsData

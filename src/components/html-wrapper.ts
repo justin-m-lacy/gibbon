@@ -1,5 +1,6 @@
-import Component from '../core/component';
+import { Component } from '../core/component';
 import { Point } from 'pixi.js';
+
 export type HtmlWrapperOpts = {
 
     /**
@@ -24,7 +25,7 @@ export type HtmlWrapperOpts = {
  * Displays raw HtmlElement.
  * Should not be used for intensive animation, effects.
  */
-export default class HtmlWrapper extends Component {
+export class HtmlWrapper extends Component {
 
     get element() { return this._elm; }
     set element(v: HTMLElement | undefined | null) {

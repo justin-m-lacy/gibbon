@@ -1,9 +1,9 @@
-import Component from "../core/component";
+import { Component } from "../core/component";
 import { quickSplice } from "../utils/array-utils";
-import Actor from '../core/actor';
-import Engine from '../engine';
+import type { Actor } from '../core/actor';
+import type { Engine } from '../engine';
 
-export default class SleepSystem extends Component {
+export class SleepSystem extends Component {
 
 	/**
 	 * @property {number} _checkTimeFrames - frames between sleep/unsleep checks.

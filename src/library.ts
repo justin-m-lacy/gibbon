@@ -5,7 +5,7 @@ import Actor from './core/actor';
 /// Function to create instances of game objects.
 export type CreateFunction = (...params: any[]) => Actor;
 
-export default class Library {
+export class Library {
 
 	_lib: Map<string, Constructor<any> | Clonable<any> | Object> = new Map();
 

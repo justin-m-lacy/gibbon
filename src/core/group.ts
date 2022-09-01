@@ -1,5 +1,5 @@
 import { Actor } from "../..";
-import type Game from '../game';
+import type { Game } from '../game';
 import type { Container } from 'pixi.js';
 import { contains } from '../utils/array-utils';
 
@@ -7,7 +7,7 @@ import { contains } from '../utils/array-utils';
  * If a clip is supplied to the Group, it will act as the parent
  * of all Actor clips added to the group.
  */
-export default class Group<T extends Game = Game> {
+export class Group<T extends Game = Game> {
 
 
 	get actor(): Actor | undefined {

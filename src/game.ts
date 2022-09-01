@@ -1,24 +1,24 @@
 import * as PIXI from 'pixi.js';
 import { Rectangle, DisplayObject, Container, Point, Application, Ticker } from 'pixi.js';
-import LayerManager from './layerManager';
-import Engine from './engine';
-import Actor from './core/actor';
-import Camera from './components/camera';
-import Group from './core/group';
-import Library from './library';
+import { LayerManager } from './layerManager';
+import { Engine } from './engine';
+import { Actor } from './core/actor';
+import { Camera } from './components/camera';
+import { Group } from './core/group';
+import { Library } from './library';
 import { LayerData } from './layerManager';
 import { Tween } from '@tweenjs/tween.js';
 import { tweenOf } from './utils/tweens';
 import { contains } from './utils/array-utils';
-import { IUpdater } from './engine';
 import { WheelControl } from './input/mouse-wheel';
-import EventEmitter, { EventArgs, EventNames, EventListener } from 'eventemitter3';
-import { GameEvents, EngineEvent, UnionEmitter } from './events/engine-events';
+import EventEmitter, { EventArgs, EventNames } from 'eventemitter3';
+import type { IUpdater } from './engine';
+import { EngineEvent, UnionEmitter } from './events/engine-events';
 
 /**
  * Extendable Game class.
  */
-export default class Game {
+export class Game {
 
 	static current: Game;
 

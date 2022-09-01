@@ -1,8 +1,8 @@
-import Component from "../core/component";
+import { Component } from "../core/component";
 import { Point } from "pixi.js";
-import { IPoint } from '../core/actor';
+import type { IPoint } from '../core/actor';
 
-export default class Mover extends Component {
+export class Mover extends Component {
 
 	/**
 	 * @property {number} rotation - wraps actor rotation in radians.
@@ -13,13 +13,13 @@ export default class Mover extends Component {
 	}
 
 	/**
-	 * @property {PIXI.Point} position
+	 * @property  position
 	 */
 	get position() { return this.actor!.position; }
 	set position(v) { this.actor!.position = v; }
 
 	/**
-	 * @property {PIXI.Point} velocity
+	 * @property  velocity
 	 */
 	get velocity() { return this._velocity; }
 	set velocity(v) { this._velocity.set(v.x, v.y); }
@@ -31,7 +31,7 @@ export default class Mover extends Component {
 	set velocityMax(v: number) { this._speedMax = v; }
 
 	/**
-	 * @property {PIXI.Point} accel
+	 * @property accel
 	 */
 	get accel(): IPoint { return this._accel; }
 	set accel(v: IPoint) {

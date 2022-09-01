@@ -5,7 +5,7 @@ import Game from './game';
 /**
  * Group with methods for defining, loading, and managing assets.
  */
-export default class LoadGroup extends Group {
+export class LoadGroup extends Group {
 
 	/**
 	 * @property {PIXI.Loader} loader

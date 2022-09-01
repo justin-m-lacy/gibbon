@@ -1,5 +1,5 @@
-import Actor from './core/actor';
-import Library from './library';
+import { Actor } from './core/actor';
+import { Library } from './library';
 import { quickSplice } from './utils/array-utils';
 import { Point, DisplayObject, Container, Ticker } from 'pixi.js';
 
@@ -12,7 +12,7 @@ export interface IUpdater {
 	update(delta: number): void;
 }
 
-export default class Engine implements IUpdater {
+export class Engine implements IUpdater {
 
 	/**
 	 * @property {Container} objectLayer

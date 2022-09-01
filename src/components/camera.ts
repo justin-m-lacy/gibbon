@@ -1,8 +1,8 @@
-import type Actor from '../core/actor';
+import type { Actor } from '../core/actor';
 import { Point, DisplayObject, Rectangle } from 'pixi.js';
-import Component from '../core/component';
+import { Component } from '../core/component';
 
-export default class Camera extends Component {
+export class Camera extends Component {
 
 	get target(): DisplayObject | Actor | null { return this._target; }
 	set target(v: DisplayObject | Actor | null) {

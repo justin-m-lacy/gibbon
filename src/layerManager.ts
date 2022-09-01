@@ -12,7 +12,7 @@ export type LayerData = {
  * Possibly change these layers to Actors in the future, but at the moment
  * they're easier to deal with as raw PIXI Containers.
  */
-export default class LayerManager {
+export class LayerManager {
 
 	//get layers() { return this._layers;}
 

@@ -1,8 +1,8 @@
-import Group from "./core/group";
+import { Group } from "./core/group";
 import { IUpdater } from "./engine";
 import { Container } from 'pixi.js';
 
-export default class System extends Group implements IUpdater {
+export class System extends Group implements IUpdater {
 
 	/**
 	 * @property {boolean} enabled

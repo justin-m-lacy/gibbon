@@ -22,7 +22,7 @@ export const drawToTexture = (d: DisplayObject, renderer?: AbstractRenderer) => 
  * @returns {PIXI.GraphicsData|Object} graphicsData - information on how to draw the shape.
  * @returns {?Graphics}
  */
-function createShape(data: GraphicsData) {
+export const createShape = (data: GraphicsData) => {
 
 	const g = new Graphics();
 
@@ -80,7 +80,7 @@ function createShape(data: GraphicsData) {
  * @param {*} graphicsData
  * @returns {Graphic}
  */
-function createPoly(points: Polygon | number[] | Point[], graphicsData: GraphicsData) {
+export const createPoly = (points: Polygon | number[] | Point[], graphicsData: GraphicsData) => {
 
 	const g = new Graphics();
 
@@ -93,5 +93,3 @@ function createPoly(points: Polygon | number[] | Point[], graphicsData: Graphics
 	return g;
 
 }
-
-export { createShape, createPoly };

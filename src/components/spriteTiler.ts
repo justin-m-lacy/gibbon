@@ -1,7 +1,7 @@
-import Component from "../core/component";
+import { Component } from "../core/component";
 import { DisplayObject, TilingSprite } from 'pixi.js';
 
-export default class SpriteTiler extends Component {
+export class SpriteTiler extends Component {
 
 	/**
 	 * @property {DisplayObject} DisplayObject to follow.

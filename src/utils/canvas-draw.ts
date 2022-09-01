@@ -4,7 +4,7 @@ import * as PIXI from 'pixi.js';
 import { Point } from 'pixi.js';
 import { Gradient } from '../data/gradient';
 
-export default class CanvasDraw {
+export class CanvasDraw {
 
 	readonly canvas: HTMLCanvasElement;
 	readonly width: number;

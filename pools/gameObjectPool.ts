@@ -1,11 +1,11 @@
 import Actor from "../src/core/actor";
-import { DisplayObject, Point } from 'pixi.js';
+import type { DisplayObject, Point } from 'pixi.js';
 
 /**
  * Pool for Actors.
  * Not fully developed.
  */
-export default class ActorPool {
+export class ActorPool {
 
 	_objs: Actor[];
 

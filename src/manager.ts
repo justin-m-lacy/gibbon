@@ -1,6 +1,9 @@
-import Game from './game';
-import Engine from './engine';
-export default class Manager {
+import type Game from './game';
+import type Engine from './engine';
+
+
+/// Currently unused.
+export class Manager {
 
 	readonly game: Game;
 	readonly engine: Engine;

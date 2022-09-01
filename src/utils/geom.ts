@@ -158,7 +158,7 @@ export const cross = (p1: Point, p2: Point) => { return p1.x * p2.y - p1.y * p2.
 /**
  * move() is separate from translate() because of how PIXI
  * handles Polygon point storage.
- * @property {PIXI.Polygon} poly - polygon to translate.
+ * @param poly - polygon to translate.
  */
 export const move = (poly: Polygon, tx: number, ty: number) => {
 

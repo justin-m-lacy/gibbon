@@ -1,6 +1,6 @@
-import Component from '../core/component';
+import { Component } from '../core/component';
 import { Point } from 'pixi.js';
-import Mover from './mover';
+import { Mover } from './mover';
 import { IPoint } from '../core/actor';
 
 
@@ -8,7 +8,7 @@ import { IPoint } from '../core/actor';
  * Uses mover component to accelerate towards a destination point
  * and deccelerate upon arrival.
  */
-export default class DestAccel extends Component {
+export class DestAccel extends Component {
 
     readonly dest: Point = new Point();
 

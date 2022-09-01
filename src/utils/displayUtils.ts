@@ -1,4 +1,4 @@
-import { DisplayObject } from 'pixi.js';
+import type { DisplayObject } from 'pixi.js';
 /**
  * 
  * @param {DisplayObject} clip 

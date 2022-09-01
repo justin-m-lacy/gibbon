@@ -4,7 +4,7 @@ import { Gradient } from '../data/gradient';
 
 export default {
 	Gradient,
-	Color: Color,
-	Geom: Geom,
-	Rand: Rand
+	Color,
+	Geom,
+	Rand
 }
