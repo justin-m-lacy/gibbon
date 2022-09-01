@@ -1,5 +1,5 @@
-import type Game from './game';
-import type Engine from './engine';
+import type { Game } from './game';
+import type { Engine } from './engine';
 
 
 /// Currently unused.

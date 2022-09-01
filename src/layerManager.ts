@@ -1,5 +1,5 @@
 import { Container, DisplayObject } from 'pixi.js';
-import Game from './game';
+import { Game } from './game';
 
 export type LayerData = {
 	depth?: number,

@@ -1,6 +1,6 @@
-import Group from "./core/group";
+import { Group } from "./core/group";
 import { Container, Loader } from "pixi.js";
-import Game from './game';
+import { Game } from './game';
 
 /**
  * Group with methods for defining, loading, and managing assets.
