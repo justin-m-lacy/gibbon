@@ -2,7 +2,7 @@
 import Component from '../core/component';
 import { Grid } from './grid';
 import { Collider2d } from '../components/collider2d';
-import { GameEvents } from '../events/game-events';
+import { EngineEvent } from '../events/engine-events';
 import { Transform } from '../core/transform';
 /**
  * Wraps quadtree to give access to geometric testing.
@@ -68,9 +68,9 @@ export class HitDetection extends Component {
             this.grid.addItem(colliders[i]);
         }
 
-        this.actor!.on(GameEvents.ChildAdded, this.childAdded, this);
-        this.actor!.off(GameEvents.ChildRemoved, this.childRemoved, this);
-        this.actor!.on(GameEvents.ActorDestroyed, this.childRemoved, this);
+        this.actor!.on(EngineEvent.ChildAdded, this.childAdded, this);
+        this.actor!.off(EngineEvent.ChildRemoved, this.childRemoved, this);
+        this.actor!.on(EngineEvent.ActorDestroyed, this.childRemoved, this);
 
 
     }
@@ -139,7 +139,7 @@ export class HitDetection extends Component {
                 this.grid.getHits(collider, hitResults);
 
                 if (hitResults.length > 0) {
-                    collider.actor!.emit(GameEvents.Collision, collider, hitResults);
+                    collider.actor!.emit(EngineEvent.Collision, collider, hitResults);
                 }
 
 

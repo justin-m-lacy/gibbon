@@ -3,7 +3,7 @@ import Component from "../core/component";
 import { quickSplice } from "../utils/array-utils";
 import { Constructor } from "../utils/types";
 import { Point } from 'pixi.js';
-import { GameEvents } from "../events/game-events";
+import { EngineEvent } from "../events/engine-events";
 
 
 export class Transform extends Component {
@@ -124,7 +124,7 @@ export class Transform extends Component {
 
             this._children.push(t);
 
-            this.actor!.emit(GameEvents.ChildAdded, t);
+            this.actor!.emit(EngineEvent.ChildAdded, t);
 
         }
 
@@ -148,7 +148,7 @@ export class Transform extends Component {
             if (ind >= 0) {
                 quickSplice(this._children, ind);
             }
-            this.actor?.emit(GameEvents.ChildRemoved, t);
+            this.actor?.emit(EngineEvent.ChildRemoved, t);
 
             if (t._parent == this) {
                 this.game.root.transform.addChild(t);

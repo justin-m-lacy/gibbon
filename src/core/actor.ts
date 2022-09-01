@@ -6,6 +6,8 @@ import Component from './component';
 import { Constructor } from '../utils/types';
 import { Transform } from './transform';
 import type Group from './group';
+import { EngineEvent } from '../events/engine-events';
+import EventEmitter from 'eventemitter3';
 
 /**
  * Point without reference to pixi.
@@ -163,7 +165,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 	 */
 	private _isAdded: boolean = false;
 
-	readonly emitter: PIXI.utils.EventEmitter;
+	readonly emitter: EventEmitter;
 
 	protected _sleep: boolean = false;
 
@@ -222,7 +224,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 		this._active = true;
 
 		this.flags = 0;
-		this.emitter = clip || new PIXI.utils.EventEmitter();
+		this.emitter = clip || new EventEmitter();
 		this.clip = clip;
 
 	}
@@ -235,7 +237,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 	unpause(): void { }
 
 	/**
-	 * Called when Actor is added to engine.
+	 * Called by Engine when Actor is added to engine.
 	 * Calls init() on all components and self.added()
 	 */
 	_added() {
@@ -293,15 +295,6 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 	}
 
 	/**
-	 * @deprecated Use addInstance<> instead.
-	 * @param inst 
-	 * @param cls 
-	 */
-	addExisting<C extends Component>(inst: C, cls?: Constructor<C>): C {
-		return this.addInstance(inst, cls);
-	}
-
-	/**
 	 * Add an existing component to the Actor.
 	 * @param {Component} inst
 	 * @param {?Object} [cls=null]
@@ -328,13 +321,14 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 	/**
 	 * Instantiate and add a component to the Actor.
 	 * @param {class} cls - component class to instantiate.
+	 * @param args - arguments to pass to class constructor.
 	 * @returns {Object}
 	*/
-	add<C extends Component>(cls: C | Constructor<C>): C {
+	add<C extends Component>(cls: C | Constructor<C>, ...args: any[]): C {
 		if (cls instanceof Component) {
 			return this.addInstance(cls);
 		} else {
-			return this.addInstance(new cls(), cls);
+			return this.addInstance(new cls(...args), cls);
 		}
 	}
 
@@ -396,7 +390,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 	 *
 	 * @param {*} cls
 	 */
-	require<C extends Component>(cls: Constructor<C>): C {
+	require<C extends Component>(cls: Constructor<C>, ...args: any[]): C {
 
 		const inst = this._compMap.get(cls);
 		if (inst !== undefined && inst instanceof cls) return inst as C;
@@ -404,7 +398,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 		for (let i = this._components.length - 1; i >= 0; i--) {
 			if (this._components[i] instanceof cls) return this._components[i] as C;
 		}
-		return this.add(cls);
+		return this.add(cls, ...args);
 
 	}
 
@@ -507,7 +501,7 @@ export default class Actor<T extends DisplayObject = DisplayObject> {
 	 */
 	_destroy() {
 
-		this.emitter.emit('destroy', this);
+		this.emitter.emit(EngineEvent.ActorDestroyed, this);
 		this.emitter.removeAllListeners();
 		if (this.clip) {
 			if (this.clip instanceof Container && this._destroyOpts) {

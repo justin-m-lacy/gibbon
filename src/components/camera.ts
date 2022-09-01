@@ -1,6 +1,6 @@
+import type Actor from '../core/actor';
 import { Point, DisplayObject, Rectangle } from 'pixi.js';
 import Component from '../core/component';
-import Actor from '../core/actor';
 
 export default class Camera extends Component {
 
@@ -81,7 +81,7 @@ export default class Camera extends Component {
 	get top(): number { return this._viewRect.top; }
 	get bottom(): number { return this._viewRect.bottom; }
 
-	private _screen: Rectangle | null = null;
+	private _screen: Rectangle;
 
 	/**
 	 * Target camera should track.
@@ -97,8 +97,11 @@ export default class Camera extends Component {
 	private _halfHeight: number = 0;
 
 
-	constructor() {
+	constructor(rect: Rectangle) {
 		super();
+
+		this._screen = rect;
+
 	}
 
 	/**
@@ -160,11 +163,10 @@ export default class Camera extends Component {
 
 		this._viewScale = 1;
 
-		this._screen = this.game.screen!;
-		this._viewRect.copyFrom(this._screen!);
+		this._viewRect.copyFrom(this._screen);
 
-		this._halfWidth = this._screen!.width / 2;
-		this._halfHeight = this._screen!.height / 2;
+		this._halfWidth = this._screen.width / 2;
+		this._halfHeight = this._screen.height / 2;
 
 	}
 

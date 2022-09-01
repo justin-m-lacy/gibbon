@@ -1,8 +1,7 @@
-import * as PIXI from 'pixi.js';
 import Actor from './core/actor';
 import Library from './library';
 import { quickSplice } from './utils/array-utils';
-import { Point, DisplayObject, Container } from 'pixi.js';
+import { Point, DisplayObject, Container, Ticker } from 'pixi.js';
 
 export interface IUpdater {
 
@@ -33,24 +32,24 @@ export default class Engine implements IUpdater {
 
 	readonly library: Library;
 
-	readonly ticker: PIXI.Ticker;
+	readonly ticker: Ticker;
 
-	constructor(ticker?: PIXI.Ticker) {
+	constructor(ticker?: Ticker) {
 
 		this.objects = [];
 		this.updaters = [];
 
 		this.library = new Library();
 
-		this.ticker = ticker ?? new PIXI.Ticker();
+		this.ticker = ticker ?? new Ticker();
 		this.ticker.add(this.update, this);
 
 	}
 
 	/**
 	 * Instantiate a Actor with a clip or a named clonable object from the library.
-	 * @param {DisplayObject} [clip=null]
-	 * @param {PIXI.Point} [loc=null]
+	 * @param clip
+	 * @param loc
 	 * @returns {Actor}
 	 */
 	Instantiate<T extends DisplayObject>(clip: T | null | string = null, loc?: Point | null) {

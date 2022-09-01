@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { Rectangle, DisplayObject, Container, Point, Application } from 'pixi.js';
+import { Rectangle, DisplayObject, Container, Point, Application, Ticker } from 'pixi.js';
 import LayerManager from './layerManager';
 import Engine from './engine';
 import Actor from './core/actor';
@@ -12,6 +12,8 @@ import { tweenOf } from './utils/tweens';
 import { contains } from './utils/array-utils';
 import { IUpdater } from './engine';
 import { WheelControl } from './input/mouse-wheel';
+import EventEmitter, { EventArgs, EventNames, EventListener } from 'eventemitter3';
+import { GameEvents, EngineEvent, UnionEmitter } from './events/engine-events';
 
 /**
  * Extendable Game class.
@@ -68,17 +70,17 @@ export default class Game {
 	get backgroundLayer(): DisplayObject | undefined { return this._layerManager?.background; }
 
 	/**
-	 * @property {PIXI.Ticker} ticker - Game Ticker.
+	 * @property ticker - Game Ticker.
 	 */
 	get ticker() { return this.engine.ticker; }
 
 	/**
-	 * @property {PIXI.Ticker} sharedTicker - Shared non-game ticker. (UI Elements, nonpausing effects.)
+	 * @property sharedTicker - Shared non-game ticker. (UI Elements, nonpausing effects.)
 	*/
-	get sharedTicker() { return PIXI.Ticker.shared; }
+	get sharedTicker() { return Ticker.shared; }
 
 	/**
-	 * @property {PIXI.utils.EventEmitter} emitter - Game-level Emitter. By default, the PIXI shared EventEmitter.
+	 * @property emitter - Game-level Emitter. By default, the PIXI shared EventEmitter.
 	 */
 	get emitter() { return this._emitter; }
 
@@ -113,7 +115,7 @@ export default class Game {
 	 */
 	private _defaultGroup!: Group;
 
-	private _emitter: PIXI.utils.EventEmitter;
+	private _emitter: UnionEmitter;
 
 	private _engine: Engine;
 	library: Library;
@@ -139,9 +141,13 @@ export default class Game {
 
 		this._groups = [];
 
-		this._emitter = new PIXI.utils.EventEmitter();
+		this._emitter = new EventEmitter();
 
-		this._engine = new Engine(new PIXI.Ticker());
+		var a = new Actor();
+		this._emitter.emit(EngineEvent.ActorDestroyed, a);
+		this._emitter.on(EngineEvent.ActorDestroyed, (a: Actor) => { }, this);
+
+		this._engine = new Engine(new Ticker());
 		this.library = this._engine.library;
 
 	}
@@ -160,7 +166,7 @@ export default class Game {
 		this._engine.objectLayer = layerManager.objectLayer;
 
 		this._defaultGroup = new Group(layerManager.objectLayer, false, true);
-		this._camera = this.root.add(Camera);
+		this._camera = this.root.add(Camera, this._app.screen);
 
 		this.addGroup(this._defaultGroup);
 
@@ -202,7 +208,7 @@ export default class Game {
 	 * @param {*} [context=null]
 	 * @returns {PIXI.utils.EventEmitter}
 	 */
-	on(event: string, func: PIXI.utils.EventEmitter.ListenerFn, context?: any) {
+	on<T extends EventNames<UnionEmitter>>(event: T, func: EventEmitter.EventListener<UnionEmitter, T>, context?: any) {
 		return this._emitter.on(event, func, context);
 	}
 
@@ -210,12 +216,12 @@ export default class Game {
 	 * Emit event with game emitter.
 	 * @param  {...any} args
 	 */
-	emit(...args: any) {
-		this._emitter.emit.apply(this._emitter, args);
+	emit<T extends EventNames<UnionEmitter>>(evt: T, ...args: EventArgs<UnionEmitter, T>) {
+		this._emitter.emit(evt, args);
 	}
 
 
-	off(evt: string, fn?: PIXI.utils.EventEmitter.ListenerFn, context?: any) {
+	off<T extends EventNames<UnionEmitter>>(evt: T, fn?: EventEmitter.EventListener<UnionEmitter, T>, context?: any) {
 		return this._emitter.off(evt, fn, context);
 	}
 
@@ -285,7 +291,7 @@ export default class Game {
 	 * Create an empty game object with a Container clip.
 	 */
 	makeContainer(loc?: Point) {
-		return this.engine.Instantiate(new PIXI.Container(), loc);
+		return this.engine.Instantiate(new Container(), loc);
 	}
 
 	/**
