@@ -28,7 +28,7 @@ export type DestroyOptions = {
 /**
  *
  */
-export default class Actor {
+export default class Actor<T extends DisplayObject = DisplayObject> {
 
 	private static NextId: number = 1000;
 
@@ -137,21 +137,21 @@ export default class Actor {
 	}
 
 	/**
-	 * @property {boolean} isAdded - true after Actor has been added to Engine.
+	 * @property isAdded - true after Actor has been added to Engine.
 	 */
 	get isAdded() { return this._isAdded; }
 
 	/**
-	 * @property {boolean} destroyed
+	 * @property destroyed
 	 */
 	get isDestroyed() { return this._destroyed }
 
 	/**
-	 * @property {DisplayObject} clip - clip of the actor.d.
+	 * @property clip - clip of the actor.d.
 	 */
-	readonly clip?: DisplayObject | null;
+	readonly clip?: T;
 
-	readonly _components: Component[];
+	readonly _components: Component<T>[];
 
 	/**
 	 * Object was destroyed and should not be used any more.
@@ -183,14 +183,14 @@ export default class Actor {
 
 	flags: number = 0;
 
-	readonly _compMap: Map<Constructor<Component> | Function, Component>;
+	readonly _compMap: Map<Constructor<Component<T>> | Function, Component<T>>;
 
 	/**
 	 *
 	 * @param {DisplayObject} [clip=null]
 	 * @param {Point} [pos=null]
 	 */
-	constructor(clip?: DisplayObject | null | undefined, pos?: Point | null) {
+	constructor(clip?: T, pos?: Point | null) {
 
 		this.id = Actor.NextId++;
 
@@ -297,7 +297,7 @@ export default class Actor {
 	 * @param inst 
 	 * @param cls 
 	 */
-	addExisting<T extends Component>(inst: T, cls?: Constructor<T>): T {
+	addExisting<C extends Component<T>>(inst: C, cls?: Constructor<C>): C {
 		return this.addInstance(inst, cls);
 	}
 
@@ -307,7 +307,7 @@ export default class Actor {
 	 * @param {?Object} [cls=null]
 	 * @returns {Component} Returns the instance.
 	 */
-	addInstance<T extends Component>(inst: T, cls?: Constructor<T>): T {
+	addInstance<C extends Component<T>>(inst: C, cls?: Constructor<C>): C {
 
 		const key = cls ?? (<any>inst).constructor ?? Object.getPrototypeOf(inst).constructor ?? inst;
 
@@ -330,7 +330,7 @@ export default class Actor {
 	 * @param {class} cls - component class to instantiate.
 	 * @returns {Object}
 	*/
-	add<T extends Component>(cls: T | Constructor<T>): T {
+	add<C extends Component<T>>(cls: C | Constructor<C>): C {
 		if (cls instanceof Component) {
 			return this.addInstance(cls);
 		} else {
@@ -372,7 +372,7 @@ export default class Actor {
 	 * under class or key cls.
 	 * @param {*} cls - class or key of component.
 	 */
-	has(cls: Constructor<Component>) {
+	has(cls: Constructor<Component<T>>) {
 		return this._compMap.has(cls);
 	}
 
@@ -380,13 +380,13 @@ export default class Actor {
 	 *
 	 * @param {*} cls
 	 */
-	get<T extends Component>(cls: Constructor<T>): T | undefined {
+	get<C extends Component<T>>(cls: Constructor<C>): C | undefined {
 
-		const inst = this._compMap.get(cls) as T;
+		const inst = this._compMap.get(cls) as C;
 		if (inst !== undefined) return inst;
 
 		for (let i = this._components.length - 1; i >= 0; i--) {
-			if (this._components[i] instanceof cls) return this._components[i] as T;
+			if (this._components[i] instanceof cls) return this._components[i] as C;
 		}
 		return undefined;
 
@@ -396,30 +396,15 @@ export default class Actor {
 	 *
 	 * @param {*} cls
 	 */
-	require<T extends Component>(cls: Constructor<T>): T {
+	require<C extends Component<T>>(cls: Constructor<C>): C {
 
 		const inst = this._compMap.get(cls);
-		if (inst !== undefined && inst instanceof cls) return inst as T;
+		if (inst !== undefined && inst instanceof cls) return inst as C;
 
 		for (let i = this._components.length - 1; i >= 0; i--) {
-			if (this._components[i] instanceof cls) return this._components[i] as T;
+			if (this._components[i] instanceof cls) return this._components[i] as C;
 		}
 		return this.add(cls);
-
-	}
-
-	/**
-	 * Creates a copy of the given component and adds it
-	 * to this Actor.
-	 * @param {Component} comp
-	 */
-	addCopy(comp: Component) {
-
-		const copy = Object.assign(
-			Object.create(Object.getPrototypeOf(comp)),
-			comp);
-
-		return this.addInstance(copy);
 
 	}
 
@@ -453,7 +438,7 @@ export default class Actor {
 	 * @param {Component} comp - the component to remove from the game object.
 	 * @param {bool} [destroy=true] - whether the component should be destroyed.
 	 */
-	remove(comp: Component, destroy: boolean = true) {
+	remove(comp: Component<T>, destroy: boolean = true) {
 
 		if (destroy === true) comp._destroy();
 

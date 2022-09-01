@@ -3,6 +3,10 @@ import Actor from './core/actor';
 import Library from './library';
 import { Point, DisplayObject, Container } from 'pixi.js';
 export interface IUpdater {
+    /**
+     *
+     * @param delta - time transpired in seconds.
+     */
     update(delta: number): void;
 }
 export default class Engine implements IUpdater {
@@ -28,7 +32,7 @@ export default class Engine implements IUpdater {
      * @param {PIXI.Point} [loc=null]
      * @returns {Actor}
      */
-    Instantiate(clip?: DisplayObject | null | string, loc?: Point | null): Actor;
+    Instantiate<T extends DisplayObject>(clip?: T | null | string, loc?: Point | null): Actor<PIXI.DisplayObject>;
     update(): void;
     start(): void;
     stop(): void;

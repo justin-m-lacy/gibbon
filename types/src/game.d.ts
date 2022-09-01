@@ -66,7 +66,7 @@ export default class Game {
      * @property {InteractionData} mouseInfo - convenience accessor for global mouse information.
      */
     get mouseInfo(): any;
-    get groups(): Group[];
+    get groups(): Group<Game>[];
     /**
      * @property {Engine} engine
      */
@@ -155,15 +155,15 @@ export default class Game {
      * Wraps engine.Instantiate()
      * Instantiate a Actor with a clip or a named clonable object from the library.
      */
-    instantiate(clip?: DisplayObject, loc?: PIXI.Point): Actor;
+    instantiate(clip?: DisplayObject, loc?: PIXI.Point): Actor<PIXI.DisplayObject>;
     /**
      * Create an empty game object with a Container clip.
      */
-    makeContainer(loc?: Point): Actor;
+    makeContainer(loc?: Point): Actor<PIXI.DisplayObject>;
     /**
      * Create empty game object with no clip.
      */
-    makeEmpty(loc?: PIXI.Point): Actor;
+    makeEmpty(loc?: PIXI.Point): Actor<PIXI.DisplayObject>;
     /**
      * Replace existing tweens on the target with a newly created one.
      * Convenience accesor for setting config data.

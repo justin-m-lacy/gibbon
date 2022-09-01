@@ -1,7 +1,7 @@
 import Engine from './src/engine';
 import Component from './src/core/component';
 
-import Components from './src/components/components';
+import Components from './src/components';
 import Systems from './src/systems/systems';
 import Utils from './src/utils/utils';
 

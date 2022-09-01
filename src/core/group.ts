@@ -79,7 +79,7 @@ export default class Group<T extends Game = Game> {
 	  * Ensure the group has its own group Actor.
 	  */
 	makeGroupObject(): Actor {
-		this._actor = new Actor();
+		this._actor = new Actor(this.clip ?? undefined);
 		return this._actor;
 	}
 

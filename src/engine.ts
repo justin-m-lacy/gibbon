@@ -53,10 +53,10 @@ export default class Engine implements IUpdater {
 	 * @param {PIXI.Point} [loc=null]
 	 * @returns {Actor}
 	 */
-	Instantiate(clip: DisplayObject | null | string = null, loc?: Point | null) {
+	Instantiate<T extends DisplayObject>(clip: T | null | string = null, loc?: Point | null) {
 
 		var view = (typeof clip === 'string') ? this.library.instance<DisplayObject>(clip, loc) : clip;
-		const go = new Actor(view, loc);
+		const go = new Actor(view ?? undefined, loc);
 
 		this.add(go);
 		return go;

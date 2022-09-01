@@ -1,7 +1,8 @@
 import type Actor from "./actor";
 import { Constructor } from '../utils/types';
+import { DisplayObject } from 'pixi.js';
 
-export default class Component {
+export default class Component<T extends DisplayObject = DisplayObject> {
 
 	/**
 	 * @property game
@@ -84,9 +85,9 @@ export default class Component {
 	set sleep(v: boolean) { this._sleep = v; }
 
 	/**
-	 * @property {Actor} - Game object containing this component.
+	 * @property  - Game object containing this component.
 	 */
-	actor?: Actor;
+	actor?: Actor<T>;
 
 	_enabled: boolean = false;
 	_destroyed: boolean = false;
@@ -115,7 +116,7 @@ export default class Component {
 	 * Private initializer calls subclassed init()
 	 * @param {Actor} actor
 	 */
-	_init(actor: Actor) {
+	_init(actor: Actor<T>) {
 
 		this.actor = actor;
 		this._enabled = true;
@@ -163,7 +164,7 @@ export default class Component {
 	 * @param {class} cls - class to add to the component's game object.
 	 * @returns {Component}
 	 */
-	add(cls: Component): Component {
+	add(cls: Component<T>): Component<T> {
 		return this.actor!.add(cls);
 	}
 
@@ -172,7 +173,7 @@ export default class Component {
 	 * @param {Component} comp
 	 * @returns {Component} The added component instance.
 	 */
-	addInstance(comp: Component, cls?: Constructor<Component>) {
+	addInstance(comp: Component<T>, cls?: Constructor<Component<T>>) {
 
 		return this.actor!.addInstance(comp, cls);
 	}
@@ -183,7 +184,7 @@ export default class Component {
 	 * @param {Component} comp
 	 * @returns {Component} The added component instance.
 	 */
-	addExisting(comp: Component, cls?: Constructor<Component>) {
+	addExisting(comp: Component<T>, cls?: Constructor<Component<T>>) {
 
 		return this.actor!.addInstance(comp, cls);
 	}
@@ -193,7 +194,7 @@ export default class Component {
 	 * @param {class} cls - wrapper for actor get()
 	 * @returns {Component|null}
 	 */
-	get<T extends Component>(cls: Constructor<T>): T | undefined {
+	get<C extends Component<T>>(cls: Constructor<C>): C | undefined {
 		return this.actor!.get(cls);
 	}
 
@@ -202,7 +203,7 @@ export default class Component {
 	 * @param {*} cls
 	 * @returns {Component}
 	 */
-	require<T extends Component>(cls: Constructor<T>): T { return this.actor!.require(cls); }
+	require<C extends Component<T>>(cls: Constructor<C>): C { return this.actor!.require(cls); }
 
 	onDestroy?(): void;
 
