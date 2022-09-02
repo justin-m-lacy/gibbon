@@ -2,6 +2,7 @@ import { Actor } from "../..";
 import type { Game } from '../game';
 import type { Container } from 'pixi.js';
 import { contains } from '../utils/array-utils';
+import { GameEvents, EngineEvent } from '../events/engine-events';
 
 /**
  * If a clip is supplied to the Group, it will act as the parent
@@ -89,9 +90,7 @@ export class Group<T extends Game = Game> {
 		this._paused = true;
 
 		for (const obj of this.objects) {
-			if (('pause' in obj) && typeof obj.pause === 'function') {
-				obj.pause();
-			}
+			obj.pause();
 			obj.active = false;
 		}
 
@@ -140,6 +139,10 @@ export class Group<T extends Game = Game> {
 		if (this._game !== game) {
 
 			this._game = game;
+			if (this._actor && !this._actor.isAdded) {
+				/// add actor to group.
+				game.addObject(this._actor);
+			}
 			this.onAdded();
 
 			for (const g of this.subgroups) {
@@ -224,16 +227,20 @@ export class Group<T extends Game = Game> {
 
 		if (g._parent) {
 
-			if (g._parent === this) {
-				return;
-			}
+			if (g._parent === this) return;
 			g._parent.removeGroup(g);
 		}
 
 		g._parent = this;
 		if (!contains(this.subgroups, g)) {
+
 			this.subgroups.push(g);
+			if (this.game && g.game !== this.game) {
+				g._onAdded(this.game);
+			}
+
 		}
+
 	}
 
 	/**
@@ -270,7 +277,7 @@ export class Group<T extends Game = Game> {
 
 		this.objects.splice(ind, 1);
 
-		obj.off('destroy', this.remove, this);
+		obj.off(EngineEvent.ActorDestroyed, this.remove, this);
 		if (this.clip && obj.clip && removeClip) {
 			this.clip.removeChild(obj.clip);
 		}
@@ -290,7 +297,7 @@ export class Group<T extends Game = Game> {
 		}
 
 		obj.group = this;
-		obj.on('destroy', this.remove, this);
+		obj.on(EngineEvent.ActorDestroyed, this.remove, this);
 
 		this.objects.push(obj);
 		this._game?.engine.add(obj);
@@ -308,10 +315,13 @@ export class Group<T extends Game = Game> {
 			this.subgroups[i].destroy();
 		}
 		for (let i = this.objects.length - 1; i >= 0; i--) {
-			this.objects[i].off('destroy', this.remove, this);
+			// Don't listen to the remove event since we're already looping.
+			this.objects[i].off(EngineEvent.ActorDestroyed, this.remove, this);
 			this.objects[i].destroy();
 		}
 
+		this.objects.length = 0;
+		this.subgroups.length = 0;
 		this._game = undefined;
 
 	}

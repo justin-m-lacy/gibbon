@@ -13,7 +13,7 @@ import { contains } from './utils/array-utils';
 import { WheelControl } from './input/mouse-wheel';
 import EventEmitter, { EventArgs, EventNames } from 'eventemitter3';
 import type { IUpdater } from './engine';
-import { EngineEvent, UnionEmitter } from './events/engine-events';
+import { UnionEmitter } from './events/engine-events';
 
 /**
  * Extendable Game class.
@@ -108,7 +108,7 @@ export class Game {
 
 	private _loader: PIXI.Loader;
 
-	private _groups: Group[];
+	private readonly _groups: Group[] = [];
 
 	/**
 	 * Default group for added objects.
@@ -138,8 +138,6 @@ export class Game {
 
 		Game.current = this;
 		this._loader = PIXI.Loader.shared;
-
-		this._groups = [];
 
 		this._emitter = new EventEmitter();
 
