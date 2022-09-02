@@ -13,7 +13,6 @@ import { contains } from './utils/array-utils';
 import { WheelControl } from './input/mouse-wheel';
 import EventEmitter, { EventArgs, EventNames } from 'eventemitter3';
 import type { IUpdater } from './engine';
-import { UnionEmitter } from './events/engine-events';
 
 /**
  * Extendable Game class.
@@ -115,7 +114,7 @@ export class Game {
 	 */
 	private _defaultGroup!: Group;
 
-	private _emitter: UnionEmitter;
+	private _emitter: EventEmitter;
 
 	private _engine: Engine;
 	library: Library;
@@ -202,7 +201,7 @@ export class Game {
 	 * @param {*} [context=null]
 	 * @returns {PIXI.utils.EventEmitter}
 	 */
-	on<T extends EventNames<UnionEmitter>>(event: T, func: EventEmitter.EventListener<UnionEmitter, T>, context?: any) {
+	on(event: string, func: (...args: any[]) => void, context?: any) {
 		return this._emitter.on(event, func, context);
 	}
 
@@ -210,12 +209,12 @@ export class Game {
 	 * Emit event with game emitter.
 	 * @param  {...any} args
 	 */
-	emit<T extends EventNames<UnionEmitter>>(evt: T, ...args: EventArgs<UnionEmitter, T>) {
+	emit(evt: string, ...args: any[]) {
 		this._emitter.emit(evt, args);
 	}
 
 
-	off<T extends EventNames<UnionEmitter>>(evt: T, fn?: EventEmitter.EventListener<UnionEmitter, T>, context?: any) {
+	off(evt: string, fn?: (...args: any[]) => void, context?: any) {
 		return this._emitter.off(evt, fn, context);
 	}
 
