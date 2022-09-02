@@ -192,7 +192,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 	 * @param {DisplayObject} [clip=null]
 	 * @param {Point} [pos=null]
 	 */
-	constructor(clip?: T | null, pos?: Point | null) {
+	constructor(clip?: T | null, pos?: IPoint | null) {
 
 		this.id = Actor.NextId++;
 
@@ -210,7 +210,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 			}
 		} else {
 
-			this._position = pos || new Point(0, 0);
+			this._position = new Point(pos?.x, pos?.y);
 
 		}
 
