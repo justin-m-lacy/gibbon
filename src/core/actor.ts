@@ -241,7 +241,6 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 			this._components[i]._init(this);
 		}
 		if (this._active) {
-			console.log(`activating components...`);
 			for (let i = 0; i < len; i++) {
 				this._components[i].onActivate?.();
 			}

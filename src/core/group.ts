@@ -81,6 +81,9 @@ export class Group<T extends Game = Game> {
 	  */
 	makeGroupObject(): Actor {
 		this._actor = new Actor(this.clip ?? undefined);
+		if (this._game) {
+			this._game.addObject(this._actor);
+		}
 		return this._actor;
 	}
 
@@ -138,9 +141,11 @@ export class Group<T extends Game = Game> {
 
 		if (this._game !== game) {
 
+			console.log(`adding group to game.`);
 			this._game = game;
 			if (this._actor && !this._actor.isAdded) {
 				/// add actor to group.
+				console.log(`adding group actor...`);
 				game.addObject(this._actor);
 			}
 			this.onAdded();
