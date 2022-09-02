@@ -192,7 +192,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 	 * @param {DisplayObject} [clip=null]
 	 * @param {Point} [pos=null]
 	 */
-	constructor(clip?: T, pos?: Point | null) {
+	constructor(clip?: T | null, pos?: Point | null) {
 
 		this.id = Actor.NextId++;
 
@@ -217,7 +217,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 		this._active = true;
 
 		this.emitter = clip || new EventEmitter();
-		this.clip = clip;
+		this.clip = clip ?? undefined;
 
 	}
 
