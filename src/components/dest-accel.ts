@@ -31,7 +31,7 @@ export class DestAccel extends Component {
 
     init() {
 
-        this.mover = this.require<Mover>(Mover);
+        this.mover = this.require(Mover);
         this.dest.copyFrom(this.position);
     }
 

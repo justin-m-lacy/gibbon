@@ -107,7 +107,7 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	 * instantiated and added to Actors without
 	 * knowledge of the underlying game system.
 	 * @note component properties such as actor, clip, and game,
-	 * are not available in component constructor.
+	 * are not available until init() is called by the Engine.
 	 */
 	constructor() { }
 
@@ -209,7 +209,7 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	/**
 	 * Use to destroy a Component.
 	 * override onDestroy() to clean up your components.
-	 * Do not call _destroy() or destroy() directly.
+	 * Do not call _destroy() directly.
 	 */
 	destroy() { this._destroy(); }
 

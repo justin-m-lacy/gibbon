@@ -42,10 +42,10 @@ export const getTravelPt = (points: IPoint[], dist: number) => {
 
 			d = (dist - curDist) / d;	// percent between points.
 			// TODO: check if curPt is right here.
-			return new Point(
-				curPt.x + d * dx,
-				curPt.y + d * dy
-			);
+			return {
+				x: curPt.x + d * dx,
+				y: curPt.y + d * dy
+			};
 
 		}
 
@@ -55,7 +55,7 @@ export const getTravelPt = (points: IPoint[], dist: number) => {
 	} //for-loop.
 
 	// point not found.
-	return points[count - 1];
+	return { x: prevPt.x, y: prevPt.y };
 }
 
 /**
@@ -65,7 +65,7 @@ export const getTravelPt = (points: IPoint[], dist: number) => {
  * @param {number} t
  */
 export const lerpPt = (p0: IPoint, p1: IPoint, t: number) => {
-	return new Point((1 - t) * p0.x + t * p1.x, (1 - t) * p0.y + p1.y);
+	return { x: (1 - t) * p0.x + t * p1.x, y: (1 - t) * p0.y + p1.y };
 }
 
 /**
@@ -92,14 +92,14 @@ export const getMidPt = (p1: IPoint, p2: IPoint, len: number) => {
 	const dy = p2.y - p1.y;
 
 	let d = Math.sqrt(dx * dx + dy * dy);
-	if (d === 0) return new Point();
+	if (d === 0) return { x: 0, y: 0 };
 
 	d = len / d;	// convert from distance to percent.
 
-	return new Point(
-		p1.x + dx * d,
-		p1.y + dy * d
-	)
+	return {
+		x: p1.x + dx * d,
+		y: p1.y + dy * d
+	};
 
 }
 
@@ -111,7 +111,7 @@ export const getMidPt = (p1: IPoint, p2: IPoint, len: number) => {
 export const getCenter = (points: IPoint[]) => {
 
 	const len = points.length;
-	if (len === 0) return new Point();
+	if (len === 0) return { x: 0, y: 0 };
 
 	let p = points[0];
 	let x = p.x, y = p.y;
@@ -123,10 +123,7 @@ export const getCenter = (points: IPoint[]) => {
 		y += p.y;
 	}
 
-	x /= len;
-	y /= len;
-
-	return new Point(x, y);
+	return { x: x / len, y: y / len };
 
 }
 
@@ -149,7 +146,7 @@ export const reflection = (a: number, b: number) => {
 /**
  * @returns point normal to p.
  */
-export const norm = (p: IPoint) => { return new PIXI.Point(p.y, -p.x) }
+export const norm = (p: IPoint) => { return { x: p.y, y: -p.x } }
 
 /**
  * @returns {number} - magnitude of the cross product p1xp2
@@ -192,9 +189,11 @@ export const translate = (points: IPoint[], tx: number, ty: number) => {
 }
 
 /**
- * @property {Point[]} points
+ * @param points
+ * @param theta - rotation in radians.
+ * 
  */
-export const rotate = (points: Point[], theta: number) => {
+export const rotate = (points: IPoint[], theta: number) => {
 
 	const cos = Math.cos(theta);
 	const sin = Math.sin(theta);
@@ -203,10 +202,8 @@ export const rotate = (points: Point[], theta: number) => {
 
 		const p = points[i];
 
-		p.set(
-			p.x * cos - p.y * sin,
-			p.x * sin + p.y * cos
-		);
+		p.x = p.x * cos - p.y * sin;
+		p.y = p.x * sin + p.y * cos;
 
 	}
 

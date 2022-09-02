@@ -52,17 +52,20 @@ export class LerpMover extends Component {
 
             }
 
-            let t = this.deltaTime / this.lerpTimeSec;
+            const t = this.deltaTime / this.lerpTimeSec;
             if (t >= 1) {
-                t = 1;
+                this.position.x = this.target.x;
+                this.position.y = this.target.y;
                 this.lerping = false;
+            } else {
+                this.position.set(
+
+                    this.position.x * (1 - t) + t * this.target.x,
+                    this.position.y * (1 - t) + t * this.target.y
+
+                );
             }
-            this.position.set(
 
-                this.position.x * (1 - t) + t * this.target.x,
-                this.position.y * (1 - t) + t * this.target.y
-
-            );
 
         }
 

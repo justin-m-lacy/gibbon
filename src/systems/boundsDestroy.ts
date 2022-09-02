@@ -39,8 +39,6 @@ export class BoundsDestroy extends System {
 
 	update() {
 
-		if (!this.bounds) return;
-
 		for (let i = this.objects.length - 1; i >= 0; i--) {
 
 			const o = this.objects[i];

@@ -22,9 +22,9 @@ export interface IPoint {
  */
 export type DestroyOptions = {
 
-	children?: boolean | undefined,
-	texture?: boolean | undefined,
-	baseTexture?: boolean | undefined
+	children?: boolean,
+	texture?: boolean,
+	baseTexture?: boolean
 };
 
 /**

@@ -13,20 +13,20 @@ export class TimeDestroy extends Component {
 		this._timer = v;
 	}
 
-	_timer: number;
+	_timer: number = -1;
 
 	constructor() {
 		super();
-		this._timer = -1;
 	}
 
 	update(delta: number) {
 
-		if (this._timer > 0) {
+		if (this._timer >= 0) {
 
 			this._timer -= delta;
 			if (this._timer <= 0) {
 
+				this._timer = -1;
 				this.actor?.destroy();
 
 			}

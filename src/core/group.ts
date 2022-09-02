@@ -10,7 +10,7 @@ import { contains } from '../utils/array-utils';
 export class Group<T extends Game = Game> {
 
 
-	get actor(): Actor | undefined {
+	get actor() {
 		return this._actor;
 	}
 
@@ -61,8 +61,8 @@ export class Group<T extends Game = Game> {
 
 	/**
 	 *
-	 * @param {DisplayObject} [clip=null]
-	 * @param {boolean} [paused=false]
+	 * @param clip
+	 * @param paused
 	 */
 	constructor(clip: Container | undefined | null = undefined, paused: boolean = false, createGroupObject: boolean = false) {
 
