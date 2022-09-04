@@ -45,7 +45,7 @@ export class Group<T extends Game = Game> {
 	/**
 	 * Actor to hold group components.
 	 */
-	_actor?: Actor;
+	private readonly _actor?: Actor<Container>;
 
 	_paused: boolean = false;
 
@@ -62,29 +62,38 @@ export class Group<T extends Game = Game> {
 
 	/**
 	 *
-	 * @param clip
+	 * @param actor -actor to assign to group, or container to use as group container,
+	 * or 'true' to create a group container.
 	 * @param paused
 	 */
-	constructor(clip: Container | undefined | null = undefined, paused: boolean = false, createGroupObject: boolean = false) {
+	constructor(actor?: Container | boolean | undefined | null, paused: boolean = false) {
 
 		this._paused = paused;
-
-		this.clip = clip;
-
-		if (createGroupObject) {
-			this.makeGroupObject();
+		if (actor) {
+			this._actor = this.makeGroupActor(actor);
+			this.clip = this._actor.clip;
 		}
+
 	}
 
 	/**
 	  * Ensure the group has its own group Actor.
 	  */
-	makeGroupObject(): Actor {
-		this._actor = new Actor(this.clip ?? undefined);
-		if (this._game) {
-			this._game.addObject(this._actor);
+	private makeGroupActor(clip: Actor<Container> | Container | boolean): Actor<Container> {
+
+		let actor: Actor<Container>;
+		if (typeof clip === 'boolean') {
+			actor = new Actor<Container>();
+		} else if (clip instanceof Actor) {
+			actor = clip;
+		} else {
+			actor = new Actor<Container>(clip);
 		}
-		return this._actor;
+
+		if (this._game) {
+			this._game.addObject(actor);
+		}
+		return actor;
 	}
 
 	pause() {
@@ -185,8 +194,8 @@ export class Group<T extends Game = Game> {
 	 */
 	show() {
 
-		if (this.clip) {
-			this.clip.visible = false;
+		if (this.actor) {
+			this.actor.visible = false;
 		}
 
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {
@@ -200,8 +209,8 @@ export class Group<T extends Game = Game> {
 	 */
 	hide() {
 
-		if (this.clip) {
-			this.clip.visible = true;
+		if (this.actor) {
+			this.actor.visible = true;
 		}
 
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {

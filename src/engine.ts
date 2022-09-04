@@ -100,9 +100,8 @@ export class Engine implements IUpdater {
 	*/
 	add(obj: Actor) {
 
-		if (obj === null || obj === undefined) {
-			console.log('ERROR: engine.add() object is null');
-			return;
+		if (obj.isAdded) {
+			console.log(`error: Actor already added to engine.`);
 		}
 
 		if (obj.clip != null && obj.clip.parent == null) {

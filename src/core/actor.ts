@@ -125,10 +125,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 	 * @property {Point} orient - returns the normalized orientation vector of the object.
 	 */
 	get orient() {
-
-		const rads = this.rotation;
-		return new Point(Math.cos(rads), Math.sin(rads));
-
+		return new Point(Math.cos(this._rotation), Math.sin(this._rotation));
 	}
 
 	get visible() { return this.clip?.visible ?? false }

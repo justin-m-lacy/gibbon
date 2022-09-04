@@ -11,7 +11,7 @@ import { Tween } from '@tweenjs/tween.js';
 import { tweenOf } from './utils/tweens';
 import { contains } from './utils/array-utils';
 import { WheelControl } from './input/mouse-wheel';
-import EventEmitter, { EventArgs, EventNames } from 'eventemitter3';
+import EventEmitter from 'eventemitter3';
 import type { IUpdater } from './engine';
 
 /**
@@ -55,7 +55,7 @@ export class Game {
 	 * and base objectLayer.
 	 * Basic game systems can also be added to root as Components.
 	 */
-	get root(): Actor { return this._defaultGroup._actor!; }
+	get root(): Actor { return this._defaultGroup.actor!; }
 
 	get defaultGroup(): Group { return this._defaultGroup; }
 
@@ -158,7 +158,7 @@ export class Game {
 		this._layerManager = layerManager;
 		this._engine.objectLayer = layerManager.objectLayer;
 
-		this._defaultGroup = new Group(layerManager.objectLayer, false, true);
+		this._defaultGroup = new Group(layerManager.objectLayer, false);
 		this._camera = this.root.add(Camera, this._app.screen);
 
 		this.addGroup(this._defaultGroup);
