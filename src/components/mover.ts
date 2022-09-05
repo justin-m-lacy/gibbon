@@ -48,8 +48,6 @@ export class Mover extends Component {
 		}
 	}
 
-
-
 	/**
 	 * @property {number} accelMax
 	 */
