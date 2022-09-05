@@ -30,12 +30,14 @@ import { LoadGroup } from './src/loadGroup';
 import * as Geom from './src/utils/geom';
 import * as Rand from './src/utils/rand';
 import { CanvasDraw } from './src/utils/canvas-draw';
+import { Driver } from './src/components/driver';
 
 export {
 	Engine, Game, Component, System,
 	Actor,
 	Library,
 	Group,
+	Driver,
 	LoadGroup,
 	Geom,
 	Rand,
