@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
-import { Point, Polygon } from 'pixi.js';
-import { IPoint } from '../core/actor';
+import { Polygon } from 'pixi.js';
+import { IPoint } from '../data/geom';
 
 export const getLength = (p: IPoint): number => {
 	return Math.sqrt(p.x * p.x + p.y * p.y);

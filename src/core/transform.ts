@@ -4,7 +4,7 @@ import { quickSplice } from "../utils/array-utils";
 import { Constructor } from "../utils/types";
 import { Point } from 'pixi.js';
 import { EngineEvent } from "../events/engine-events";
-import { IPoint } from './actor';
+import { IPoint, TPoint } from '../data/geom';
 
 
 export class Transform extends Component {
@@ -39,7 +39,7 @@ export class Transform extends Component {
     get height() { return this._size.y }
     set height(v) { this._size.y = v; }
 
-    private _size: IPoint = { x: 0, y: 0 };
+    private _size: TPoint = { x: 0, y: 0 };
 
     private _parent?: Transform;
     public get parent() { return this._parent; }

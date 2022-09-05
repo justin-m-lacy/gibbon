@@ -16,7 +16,7 @@ import * as DisplayUtils from './src/utils/displayUtils';
 import * as ColorUtils from './src/utils/colorUtils';
 import * as DrawUtils from './src/utils/drawUtils';
 import { tweenOf, getTween, removeTween } from './src/utils/tweens';
-export { IPoint } from './src/core/actor';
+export { IPoint, TPoint } from './src/data/geom';
 
 import { Actor } from './src/core/actor';
 import { DestAccel } from './src/components/dest-accel';

@@ -1,7 +1,7 @@
 import type { Actor } from '../core/actor';
 import { Point, DisplayObject, Rectangle, Container } from 'pixi.js';
 import { Component } from '../core/component';
-import { IPoint } from '../core/actor';
+import { IPoint } from '../data/geom';
 
 export class Camera extends Component<Container> {
 

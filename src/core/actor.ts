@@ -1,6 +1,5 @@
 import { Point, DisplayObject, Container } from 'pixi.js';
 import * as PIXI from 'pixi.js';
-import { quickSplice } from '../utils/array-utils';
 import { Game } from '../game';
 import { Component } from './component';
 import { Constructor } from '../utils/types';
@@ -8,14 +7,9 @@ import { Transform } from './transform';
 import type { Group } from './group';
 import { EngineEvent } from '../events/engine-events';
 import EventEmitter from 'eventemitter3';
+import { IPoint } from '@/data/geom';
 
-/**
- * Point without reference to pixi.
- */
-export interface IPoint {
-	x: number,
-	y: number,
-}
+
 
 /**
  * Options for destroying a Actor

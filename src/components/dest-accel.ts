@@ -1,7 +1,7 @@
 import { Component } from '../core/component';
 import { Point } from 'pixi.js';
 import { Mover } from './mover';
-import { IPoint } from '../core/actor';
+import { IPoint } from '../data/geom';
 
 
 /**
@@ -48,7 +48,7 @@ export class DestAccel extends Component {
 
             const v = this.mover.velocity;
             /// arrive.
-            this.mover.accel = { x: -v.x, y: -v.y };
+            this.mover.accel.set(-v.x, -v.y);
 
 
         } else if (d < this.slowRadius * this.slowRadius) {
@@ -60,12 +60,12 @@ export class DestAccel extends Component {
             const deltaV = (Math.sqrt(d) / this.slowRadius) * this.mover.velocityMax
                 - Math.sqrt(vx * vx + vy * vy);
 
-            this.mover.accel = { x: deltaV * dx, y: deltaV * dy };
+            this.mover.accel.set(deltaV * dx, deltaV * dy);
 
         } else {
 
             // acceleration cap is handled in mover.
-            this.mover.accel = { x: this.mover.accelMax * dx, y: this.mover.accelMax * dy };
+            this.mover.accel.set(this.mover.accelMax * dx, this.mover.accelMax * dy);
 
         }
 

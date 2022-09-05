@@ -1,5 +1,5 @@
 import { Component } from '../core/component';
-import type { IPoint } from '../core/actor';
+import type { IPoint, TPoint } from '../data/geom';
 import { Mover } from './mover';
 
 /**
@@ -9,7 +9,7 @@ import { Mover } from './mover';
 export class LerpMover extends Component {
 
     private lerpTimeSec: number = 300;
-    private target: IPoint = { x: 0, y: 0 };
+    private target: TPoint = { x: 0, y: 0 };
 
     /**
      * Time spent on current interpolation.

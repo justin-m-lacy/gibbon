@@ -1,6 +1,6 @@
 import { Component } from "../core/component";
 import { Point } from "pixi.js";
-import type { IPoint } from '../core/actor';
+import type { IPoint } from '../data/geom';
 
 export class Mover extends Component {
 
