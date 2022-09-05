@@ -87,7 +87,7 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	 * Priority of component. Higher priority components'
 	 * update functions are updated before lower priority.
 	 * (0 is lowest priority.)
-	 * Priority cannot be changed once a component is
+	 * Priority should not be changed once a component is
 	 * added to an Actor.
 	 */
 	priority: number = 0;

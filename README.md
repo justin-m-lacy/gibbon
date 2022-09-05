@@ -58,3 +58,12 @@ const game = new MyGame(app);
 game.init();
 game.start();
 ```
+
+
+## Development
+
+
+### Actors and Components
+
+While it is possible to subclass Actors, it is better to subclass Components
+and add them to actors.

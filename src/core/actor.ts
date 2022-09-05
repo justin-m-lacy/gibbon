@@ -298,7 +298,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 
 		const key = cls ?? (<any>inst).constructor ?? Object.getPrototypeOf(inst).constructor ?? inst;
 
-		this._components.push(inst);
+		this._toAdd.push(inst);
 		this._compMap.set(key, inst);
 
 		if (this._isAdded) {
