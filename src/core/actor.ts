@@ -429,7 +429,8 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 
 		}
 
-		for (let i = comps.length - 1; destroyed > 0 && i >= 0; i--) {
+		this._removeDestroyed(destroyed);
+		/*for (let i = comps.length - 1; destroyed > 0 && i >= 0; i--) {
 
 			const comp = comps[i];
 			if (comp._destroyed) {
@@ -438,11 +439,53 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 				destroyed--;
 			}
 
-		}
+		}*/
 
 
 	}
 
+	/**
+	 * Remove destroyed components at the end of update.
+	 */
+	_removeDestroyed(count: number) {
+
+		const comps = this._components;
+		const len = comps.length;
+
+		/// Slide down non-destroyed components over the destroyed ones.
+		/// Move destroyed components forward until they reach end.
+		for (let i = 0; i < len; i++) {
+
+			const c = comps[i];
+			if (!c._destroyed) {
+
+				/// slide down until a non-destroyed component is hit.
+				let j = i - 1;
+				while (j >= 0) {
+
+					if (!comps[j]._destroyed) {
+						break;
+					} else {
+						j--;
+					}
+				}
+				/// swap destroyed component ahead. 
+				if (++j < i) {
+					comps[i] = comps[j];
+					comps[j] = c;
+				}
+
+			}
+
+		}
+
+		///  all destroyed components are now at the end of the array.
+		while (count--) {
+			comps.pop();
+		}
+
+
+	}
 
 	/**
 	 *
