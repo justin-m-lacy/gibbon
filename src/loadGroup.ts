@@ -31,8 +31,7 @@ export class LoadGroup extends Group {
 	 */
 	constructor(game: Game,
 		clip: Container | null | undefined = null,
-		loader: Loader | null = null,
-		createObject: boolean = false) {
+		loader: Loader | null = null) {
 
 		super(clip);
 
@@ -40,9 +39,6 @@ export class LoadGroup extends Group {
 
 		if (loader) {
 			this._loader = loader;
-		}
-		if (createObject) {
-			this.makeGroupObject();
 		}
 
 	}

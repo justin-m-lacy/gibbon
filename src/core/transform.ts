@@ -59,11 +59,6 @@ export class Transform extends Component {
     }
 
     init() {
-
-        if (this._parent == null) {
-            this.game.root.transform.addChild(this);
-        }
-
     }
 
     /**
@@ -141,20 +136,16 @@ export class Transform extends Component {
      */
     removeChild(t: Transform) {
 
-        if (t._parent?.actor == this.game.root) {
-            return;
-        } else {
-
-            const ind = this._children.indexOf(t);
-            if (ind >= 0) {
-                quickSplice(this._children, ind);
-            }
-            this.actor?.emit(EngineEvent.ChildRemoved, t);
-
-            if (t._parent == this) {
-                this.game.root.transform.addChild(t);
-            }
+        const ind = this._children.indexOf(t);
+        if (ind >= 0) {
+            quickSplice(this._children, ind);
         }
+        this.actor?.emit(EngineEvent.ChildRemoved, t);
+
+        if (t._parent == this) {
+            t._parent = undefined;
+        }
+
     }
 
 }

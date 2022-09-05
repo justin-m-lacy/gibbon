@@ -17,7 +17,6 @@ export class Group<T extends Game = Game> {
 
 	/**
 	  * @property Optional clip associated with group.
-	  * Objects added to the group are added to clip's child clips.
 	  */
 	readonly clip?: Container | null;
 
@@ -278,6 +277,7 @@ export class Group<T extends Game = Game> {
 				return;
 			}
 		}
+
 	}
 
 	/**
@@ -292,9 +292,6 @@ export class Group<T extends Game = Game> {
 		this.objects.splice(ind, 1);
 
 		obj.off(EngineEvent.ActorDestroyed, this.remove, this);
-		if (this.clip && obj.clip && removeClip) {
-			this.clip.removeChild(obj.clip);
-		}
 		obj.group = null;
 
 	}
@@ -305,10 +302,6 @@ export class Group<T extends Game = Game> {
 	 * @returns {Actor} the object.
 	 */
 	add(obj: Actor): Actor {
-
-		if (this.clip && obj.clip && (obj.clip != this.clip)) {
-			this.clip.addChild(obj.clip);
-		}
 
 		obj.group = this;
 		obj.on(EngineEvent.ActorDestroyed, this.remove, this);

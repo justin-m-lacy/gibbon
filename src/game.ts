@@ -46,18 +46,16 @@ export class Game {
 	/**
 	 * @property {PIXI.Rectangle} screen - Screen/View Rectangle.
 	 */
-	get screen(): Rectangle { return this._screen; }
+	get screen() { return this._screen; }
 
-	get camera(): Camera | undefined { return this._camera; }
+	get camera() { return this._camera; }
 
 	/**
 	 * @property {Actor} root - Actor containing the main Camera component
 	 * and base objectLayer.
 	 * Basic game systems can also be added to root as Components.
 	 */
-	get root(): Actor { return this._defaultGroup.actor!; }
-
-	get defaultGroup(): Group { return this._defaultGroup; }
+	get root(): Actor { return this._root; }
 
 	get objectLayer(): Container { return this.layerManager.objectLayer!; }
 
@@ -110,9 +108,9 @@ export class Game {
 	private readonly _groups: Group[] = [];
 
 	/**
-	 * Default group for added objects.
+	 * Root object. Not accessible before init() is called.
 	 */
-	private _defaultGroup!: Group;
+	private _root!: Actor;
 
 	private _emitter: EventEmitter;
 
@@ -158,10 +156,9 @@ export class Game {
 		this._layerManager = layerManager;
 		this._engine.objectLayer = layerManager.objectLayer;
 
-		this._defaultGroup = new Group(layerManager.objectLayer, false);
+		this._root = new Actor(layerManager.objectLayer);
 		this._camera = this.root.add(Camera, this._app.screen);
-
-		this.addGroup(this._defaultGroup);
+		this.addObject(this._root);
 
 	}
 
@@ -187,6 +184,9 @@ export class Game {
 			this.app.renderer.resize(
 				document.body.clientWidth,
 				document.body.clientHeight);
+			if (this._camera != null) {
+				this.camera!.resized(this.app.screen);
+			}
 		};
 		window.addEventListener('resize', resizer);
 

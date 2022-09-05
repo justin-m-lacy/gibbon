@@ -1,19 +1,19 @@
 import type { Actor } from '../core/actor';
-import { Point, DisplayObject, Rectangle } from 'pixi.js';
+import { Point, DisplayObject, Rectangle, Container } from 'pixi.js';
 import { Component } from '../core/component';
 import { IPoint } from '../core/actor';
 
-export class Camera extends Component {
+export class Camera extends Component<Container> {
 
 	get target(): DisplayObject | Actor | null { return this._target; }
 	set target(v: DisplayObject | Actor | null) {
 
 		if (v) {
 			this._target = v;
-			if (this._viewRect != null) {
-				this._viewRect.x = v.x - this._halfWidth;
-				this._viewRect.y = v.y - this._halfHeight;
-			}
+
+			this._viewRect.x = v.x - this._halfWidth;
+			this._viewRect.y = v.y - this._halfHeight;
+
 			this._panClip?.position.set(this._halfWidth - v.x, this._halfHeight - v.y);
 		}
 
@@ -36,37 +36,30 @@ export class Camera extends Component {
 
 	get x(): number { return -(this._panClip?.x ?? 0); }
 	set x(v: number) {
-		if (this._viewRect != null) {
-			this._viewRect.x = v * this._viewScale;
-			if (this._panClip != null) {
-				this._panClip.x = -this._viewRect.x;
-			}
+
+		this._viewRect.x = v * this._viewScale;
+		if (this._panClip != null) {
+			this._panClip.x = -this._viewRect.x;
 		}
+
 	}
 
 	get y(): number { return -(this._panClip?.y ?? 0); }
 	set y(v: number) {
 
-		if (this._viewRect != null) {
-			this._viewRect.y = v * this._viewScale;
-			if (this._panClip != null) {
-				this._panClip.y = -this._viewRect.y;
-			}
+
+		this._viewRect.y = v * this._viewScale;
+		if (this._panClip != null) {
+			this._panClip.y = -this._viewRect.y;
 		}
+
 
 	}
 
 	/**
 	 * @property {Rectangle} Visible rectangle in the Camera's coordinate system.
 	 */
-	get viewRect(): Rectangle | null { return this._viewRect; }
-
-	/**
-	 * @property {Rectangle} Size of the Canvas.
-	 */
-	get screen(): Rectangle { return this._screen ?? new Rectangle(); }
-	set screen(v: Rectangle) { this._screen = v; }
-
+	get viewRect() { return this._viewRect; }
 
 	get centerX() { return this._viewRect.x + this._halfWidth; }
 	get centerY() { return this._viewRect.y + this._halfHeight; }
@@ -82,8 +75,6 @@ export class Camera extends Component {
 	get top(): number { return this._viewRect.top; }
 	get bottom(): number { return this._viewRect.bottom; }
 
-	private _screen: Rectangle;
-
 	/**
 	 * Target camera should track.
 	 */
@@ -91,8 +82,8 @@ export class Camera extends Component {
 	private _minScale: number = 0;
 	private _maxScale: number = 0;
 	private _viewScale: number = 0;
-	private _viewRect: Rectangle = new Rectangle();
-	private _panClip?: DisplayObject | null;
+	private readonly _viewRect: Rectangle = new Rectangle();
+	private _panClip?: Container | null;
 
 	private _halfWidth: number = 0;
 	private _halfHeight: number = 0;
@@ -101,7 +92,21 @@ export class Camera extends Component {
 	constructor(rect: Rectangle) {
 		super();
 
-		this._screen = rect;
+		this.resized(rect);
+
+	}
+
+	/**
+	 * Call when view size has changed.
+	 * @param rect 
+	 */
+	resized(rect: Rectangle) {
+
+		this._viewRect.width = rect.width;
+		this._viewRect.height = rect.height;
+
+		this._halfWidth = rect.width / 2;
+		this._halfHeight = rect.height / 2;
 
 	}
 
@@ -137,12 +142,12 @@ export class Camera extends Component {
 	 * @returns true if a rectangle falls within the camera view, false otherwise.
 	 */
 	rectInView(r: Rectangle) {
-		if (this._viewRect != null) {
-			return r.x < this._viewRect.right &&
-				r.right > this._viewRect.x &&
-				r.y < this._viewRect.bottom &&
-				r.bottom > this._viewRect.y;
-		}
+
+		return r.x < this._viewRect.right &&
+			r.right > this._viewRect.x &&
+			r.y < this._viewRect.bottom &&
+			r.bottom > this._viewRect.y;
+
 	}
 
 	/**
@@ -160,14 +165,12 @@ export class Camera extends Component {
 	init() {
 
 		this._target = null;
-		this._panClip = this.actor?.clip;
+		this._panClip = this.actor!.clip;
 
 		this._viewScale = 1;
 
-		this._viewRect.copyFrom(this._screen);
-
-		this._halfWidth = this._screen.width / 2;
-		this._halfHeight = this._screen.height / 2;
+		this._halfWidth = this._viewRect.width / 2;
+		this._halfHeight = this._viewRect.height / 2;
 
 	}
 
