@@ -156,6 +156,12 @@ export class Group<T extends Game = Game> {
 				console.log(`adding group actor...`);
 				game.addObject(this._actor);
 			}
+
+			/// Add all objects in group.
+			for (const a of this.objects) {
+				game.addObject(a);
+			}
+
 			this.onAdded();
 
 			for (const g of this.subgroups) {
@@ -173,16 +179,18 @@ export class Group<T extends Game = Game> {
 	 */
 	_onRemoved() {
 
-		if (this._game === undefined) {
-			/// not added to any game.
-			return;
-		}
+		if (this._game) {
 
-		this.onRemoved();
+			this.onRemoved();
 
-		this._game = undefined;
-		for (const g of this.subgroups) {
-			g._onRemoved();
+			for (const a of this.objects) {
+				this.game!.engine.remove(a);
+			}
+
+			this._game = undefined;
+			for (const g of this.subgroups) {
+				g._onRemoved();
+			}
 		}
 
 
