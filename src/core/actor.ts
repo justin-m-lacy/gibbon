@@ -185,6 +185,12 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 	readonly _compMap: Map<Constructor<Component> | Function, Component> = new Map();
 
 	/**
+	 * List of components waiting to be added next update.
+	 * Components cannot add while actor is updating.
+	 */
+	private _toAdd: Component<any>[] = [];
+
+	/**
 	 *
 	 * @param {DisplayObject} [clip=null]
 	 * @param {Point} [pos=null]
@@ -321,6 +327,20 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 	}
 
 	/**
+	 * Private function adds waiting components at start of update.
+	 */
+	_addNew() {
+
+		if (this._toAdd.length > 0) {
+			this._components.push.apply(this._components, this._toAdd);
+			this._components.sort((a, b) => a.priority - b.priority);
+			this._toAdd.length = 0;
+		}
+
+	}
+
+
+	/**
 	 * Checks if the Object's clip contains a global point.
 	 * Always false for objects without clips or clip.hitAreas.
 	 * @param {Vector|Object} pt
@@ -398,12 +418,15 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 
 		const comps = this._components;
 
+		let destroyed = 0;
+
+		this._addNew();
+
 		for (let i = comps.length - 1; i >= 0; i--) {
 
 			const comp = comps[i];
 			if (comp._destroyed === true) {
-
-				quickSplice(comps, i);
+				destroyed++;
 				continue;
 			}
 			if (comp.update && comp.sleep !== true && comp.enabled === true) {
@@ -411,6 +434,18 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 			}
 
 		}
+
+		for (let i = comps.length - 1; destroyed > 0 && i >= 0; i--) {
+
+			const comp = comps[i];
+			if (comp._destroyed) {
+				// safe since counting down.
+				comps.splice(i, 1);
+				destroyed--;
+			}
+
+		}
+
 
 	}
 
@@ -498,11 +533,6 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 				this.clip.destroy();
 			}
 		}
-
-		/*this._position = null;
-		this._emitter = null;
-		this._compMap = null;
-		this._components = null;*/
 
 	}
 

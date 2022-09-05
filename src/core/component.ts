@@ -84,6 +84,15 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	set sleep(v: boolean) { this._sleep = v; }
 
 	/**
+	 * Priority of component. Higher priority components'
+	 * update functions are updated before lower priority.
+	 * (0 is lowest priority.)
+	 * Priority cannot be changed once a component is
+	 * added to an Actor.
+	 */
+	priority: number = 0;
+
+	/**
 	 * @property  - Game object containing this component.
 	 */
 	actor?: Actor<T>;
