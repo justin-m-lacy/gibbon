@@ -7,7 +7,7 @@ const tweens = new WeakMap<any, Tween<any>>();
  * @param targ 
  * @returns 
  */
-export const getTween = <T>(targ: T): Tween<T> | undefined => {
+export const getTween = <T extends Object>(targ: T): Tween<T> | undefined => {
     return tweens.get(targ) as Tween<T>;
 }
 
@@ -16,7 +16,7 @@ export const getTween = <T>(targ: T): Tween<T> | undefined => {
  * @param targ 
  * @returns 
  */
-export const tweenOf = <T>(targ: T): Tween<T> => {
+export const tweenOf = <T extends Object>(targ: T): Tween<T> => {
     let cur = tweens.get(targ) as Tween<T>;
     if (cur) {
         return cur;
