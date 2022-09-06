@@ -302,7 +302,7 @@ export class Game {
 	 * @param {?number} time
 	 * @returns {Tween} - The tween created.
 	 */
-	replaceTween<T>(target: T, props: any, time?: number): Tween<T> {
+	replaceTween<T>(target: T, props: Record<string, any>, time?: number): Tween<T> {
 
 		const tween = tweenOf(target);
 		return tween.to(props, time);
