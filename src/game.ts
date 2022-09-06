@@ -302,7 +302,7 @@ export class Game {
 	 * @param {?number} time
 	 * @returns {Tween} - The tween created.
 	 */
-	replaceTween<T>(target: T, props: Object, time?: number): Tween<T> {
+	replaceTween<T extends Object>(target: T, props: Record<string, any>, time?: number): Tween<T> {
 
 		const tween = tweenOf(target);
 		return tween.to(props, time);
@@ -316,7 +316,7 @@ export class Game {
 	 * @param {?number} time - tween time.
 	 * @returns {Tween}
 	 */
-	createTween<T>(target: T, props: any, time?: number) {
+	createTween<T extends Object>(target: T, props: any, time?: number) {
 
 		const tween = new Tween(target);
 		return tween.to(props, time);
