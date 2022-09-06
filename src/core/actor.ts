@@ -320,19 +320,6 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 		}
 	}
 
-	/**
-	 * Private function adds waiting components at start of update.
-	 */
-	_addNew() {
-
-		if (this._toAdd.length > 0) {
-			this._components.push.apply(this._components, this._toAdd);
-			this._components.sort((a, b) => a.priority - b.priority);
-			this._toAdd.length = 0;
-		}
-
-	}
-
 
 	/**
 	 * Checks if the Object's clip contains a global point.
@@ -441,6 +428,19 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 
 		}*/
 
+
+	}
+
+	/**
+ * Private function adds waiting components at start of update.
+ */
+	_addNew() {
+
+		if (this._toAdd.length > 0) {
+			this._components.push.apply(this._components, this._toAdd);
+			this._components.sort((a, b) => a.priority - b.priority);
+			this._toAdd.length = 0;
+		}
 
 	}
 
