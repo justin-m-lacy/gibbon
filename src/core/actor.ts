@@ -233,6 +233,9 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 
 		this._isAdded = true;
 
+		/// add components waiting.
+		this._addNew();
+
 		const len = this._components.length;
 		for (let i = 0; i < len; i++) {
 			this._components[i]._init(this);
@@ -292,10 +295,11 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 
 		const key = cls ?? (<any>inst).constructor ?? Object.getPrototypeOf(inst).constructor ?? inst;
 
-		this._toAdd.push(inst);
 		this._compMap.set(key, inst);
+		this._toAdd.push(inst);
 
 		if (this._isAdded) {
+
 			inst._init(this);
 			if (this._active) {
 				inst.onActivate?.();
