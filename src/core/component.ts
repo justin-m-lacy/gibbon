@@ -167,34 +167,15 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	emit(evt: string, ...args: any[]) {
 		this.actor!.emit(evt, ...args);
 	}
-	/**
-	 *
-	 * @param {class} cls - class to add to the component's game object.
-	 * @returns {Component}
-	 */
-	add(cls: Component): Component {
-		return this.actor!.add(cls);
-	}
 
 	/**
-	 * Add a component already instantiated. Wraps actor.addExisting()
+	 * Add a component already instantiated.
 	 * @param {Component} comp
 	 * @returns {Component} The added component instance.
 	 */
-	addInstance(comp: Component, cls?: Constructor<Component>) {
+	add(comp: Component | Constructor<Component>, cls?: Constructor<Component>) {
 
-		return this.actor!.addInstance(comp, cls);
-	}
-
-	/**
-	 * Add a component already instantiated. Wraps actor.addExisting()
-	 * @deprecated Use addInstance()
-	 * @param {Component} comp
-	 * @returns {Component} The added component instance.
-	 */
-	addExisting(comp: Component, cls?: Constructor<Component>) {
-
-		return this.actor!.addInstance(comp, cls);
+		return this.actor!.add(comp, cls);
 	}
 
 	/**

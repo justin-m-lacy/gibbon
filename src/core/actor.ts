@@ -291,7 +291,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 	 * @param {?Object} [cls=null]
 	 * @returns {Component} Returns the instance.
 	 */
-	addInstance<C extends Component>(inst: C, cls?: Constructor<C>): C {
+	private addInstance<C extends Component>(inst: C, cls?: Constructor<C>): C {
 
 		const key = cls ?? (<any>inst).constructor ?? Object.getPrototypeOf(inst).constructor ?? inst;
 
@@ -436,8 +436,8 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 	}
 
 	/**
- * Private function adds waiting components at start of update.
- */
+	 * Add waiting components to component list.
+	 */
 	_addNew() {
 
 		if (this._toAdd.length > 0) {

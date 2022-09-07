@@ -1,14 +1,18 @@
 import { Component } from '../core/component';
 import type { IPoint, TPoint } from '../data/geom';
-import { Mover } from './mover';
 
 /**
- * Linearly interpolate Actor between two points over
- * a defined time frame.
+ * Linearly interpolate Actor between current
+ * position and target position
+ * over a period of time.
  */
-export class LerpMover extends Component {
+export class LerpPos extends Component {
 
-    private lerpTimeSec: number = 300;
+    /**
+     * Time to reach target point in seconds.
+     */
+    lerpTime: number = 3;
+
     private target: TPoint = { x: 0, y: 0 };
 
     /**
@@ -17,15 +21,13 @@ export class LerpMover extends Component {
     private deltaTime: number = 0;
     private lerping: boolean = false;
 
-    /**
-     * Whether to add current velocity to target point
-     * every frame.
-     */
-    private addVelocity: boolean = false;
-
-    setDest(target?: IPoint) {
+    setDest(target?: IPoint, time?: number) {
 
         if (target) {
+            if (time) {
+                this.lerpTime = time;
+            }
+
             this.target.x = target.x;
             this.target.y = target.y;
             this.lerping = true;
@@ -41,18 +43,8 @@ export class LerpMover extends Component {
         if (this.lerping && this.target != null) {
 
             this.deltaTime += deltaS;
-            if (this.addVelocity) {
 
-
-                const mover = this.get(Mover);
-                if (mover) {
-                    this.position.x += mover.x * deltaS;
-                    this.position.y += mover.y * deltaS;
-                }
-
-            }
-
-            const t = this.deltaTime / this.lerpTimeSec;
+            const t = this.deltaTime / this.lerpTime;
             if (t >= 1) {
                 this.position.x = this.target.x;
                 this.position.y = this.target.y;

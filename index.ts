@@ -31,8 +31,11 @@ import * as Geom from './src/utils/geom';
 import * as Rand from './src/utils/rand';
 import { CanvasDraw } from './src/utils/canvas-draw';
 import { Driver } from './src/components/driver';
+import { LerpPos } from './src/components/lerp-pos';
 
 export {
+
+	LerpPos,
 	Engine, Game, Component, System,
 	Actor,
 	Library,
