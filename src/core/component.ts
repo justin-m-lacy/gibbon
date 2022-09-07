@@ -173,7 +173,7 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	 * @param {Component} comp
 	 * @returns {Component} The added component instance.
 	 */
-	add(comp: Component | Constructor<Component>, cls?: Constructor<Component>) {
+	add(comp: Component | Constructor<Component>, cls?: Constructor<Component>): Component {
 
 		return this.actor!.add(comp, cls);
 	}
