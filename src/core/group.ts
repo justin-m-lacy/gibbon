@@ -90,7 +90,7 @@ export class Group<T extends Game = Game> {
 		}
 
 		if (this._game) {
-			this._game.addObject(actor);
+			this._game.addActor(actor);
 		}
 		return actor;
 	}
@@ -154,12 +154,12 @@ export class Group<T extends Game = Game> {
 			if (this._actor && !this._actor.isAdded) {
 				/// add actor to group.
 				console.log(`adding group actor...`);
-				game.addObject(this._actor);
+				game.addActor(this._actor);
 			}
 
 			/// Add all objects in group.
 			for (const a of this.objects) {
-				game.addObject(a);
+				game.addActor(a);
 			}
 
 			this.onAdded();
@@ -202,7 +202,7 @@ export class Group<T extends Game = Game> {
 	show() {
 
 		if (this.actor) {
-			this.actor.visible = false;
+			this.actor.visible = true;
 		}
 
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {
@@ -217,7 +217,7 @@ export class Group<T extends Game = Game> {
 	hide() {
 
 		if (this.actor) {
-			this.actor.visible = true;
+			this.actor.visible = false;
 		}
 
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {

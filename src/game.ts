@@ -158,7 +158,7 @@ export class Game {
 
 		this._root = new Actor(layerManager.objectLayer);
 		this._camera = this.root.add(Camera, this._app.screen);
-		this.addObject(this._root);
+		this.addActor(this._root);
 
 	}
 
@@ -256,7 +256,7 @@ export class Game {
 	 * Wrapper for Engine.add(actor)
 	 * @param {Actor} actor
 	 */
-	addObject(actor: Actor) {
+	addActor(actor: Actor) {
 		this._engine.add(actor);
 	}
 
