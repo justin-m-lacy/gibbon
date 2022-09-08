@@ -80,13 +80,19 @@ export class LerpPos extends Component {
             } else {
 
                 if (this.targetAngle) {
-                    this.rotation = t * this.targetAngle + (1 - t) * this.rotation;
+
+                    let dAngle = this.targetAngle - this.rotation;
+                    if (Math.abs(dAngle) > Math.PI) {
+                        dAngle = dAngle > 0 ? dAngle - 2 * Math.PI : dAngle + 2 * Math.PI;
+                    }
+                    this.rotation = t * dAngle + this.rotation;
+
                 }
 
                 this.position.set(
 
-                    this.position.x * (1 - t) + t * this.target.x,
-                    this.position.y * (1 - t) + t * this.target.y
+                    (1 - t) * this.position.x + t * this.target.x,
+                    (1 - t) * this.position.y + t * this.target.y
 
                 );
             }
