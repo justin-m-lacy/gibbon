@@ -10,10 +10,13 @@ export class LerpPos extends Component {
 
     /**
      * Time to reach target point in seconds.
+     * This may be an expected lag time from server.
      */
-    lerpTime: number = 3;
+    lerpTime: number = 0.300;
 
     private target: TPoint = { x: 0, y: 0 };
+    private targetAngle?: number = 0;
+
 
     /**
      * Time spent on current interpolation.
@@ -21,12 +24,14 @@ export class LerpPos extends Component {
     private deltaTime: number = 0;
     private lerping: boolean = false;
 
-    setDest(target?: IPoint, time?: number) {
+    setDest(target?: IPoint, angle?: number, time?: number) {
 
         if (target) {
             if (time) {
                 this.lerpTime = time;
             }
+
+            this.targetAngle = angle;
 
             this.target.x = target.x;
             this.target.y = target.y;
@@ -35,6 +40,24 @@ export class LerpPos extends Component {
 
         } else {
             this.lerping = false;
+        }
+    }
+
+    /**
+     * Add an expected motion to the target.
+     * This is useful when the local simulation is behind
+     * a server, but the server point is expected to continue
+     * moving with a velocity or angular velocity.
+     * @param pt 
+     * @param angle 
+     */
+    addDelta(pt: IPoint, angle?: number) {
+
+        this.target.x += pt.x;
+        this.target.y += pt.y;
+
+        if (this.targetAngle && angle) {
+            this.targetAngle += angle;
         }
     }
 
@@ -48,8 +71,18 @@ export class LerpPos extends Component {
             if (t >= 1) {
                 this.position.x = this.target.x;
                 this.position.y = this.target.y;
+
+                if (this.targetAngle) {
+                    this.rotation = this.targetAngle;
+                }
+
                 this.lerping = false;
             } else {
+
+                if (this.targetAngle) {
+                    this.rotation = t * this.targetAngle + (1 - t) * this.rotation;
+                }
+
                 this.position.set(
 
                     this.position.x * (1 - t) + t * this.target.x,
