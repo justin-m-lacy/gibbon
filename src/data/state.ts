@@ -141,7 +141,7 @@ export class Transition {
 }
 
 
-export class State<TKey = string | number | Symbol> {
+export class State<TKey = string | number | Symbol, TTrigger = string | Symbol> {
 
     readonly name: TKey;
 
@@ -151,11 +151,38 @@ export class State<TKey = string | number | Symbol> {
     /**
      * Maps triggers to next state key.
      */
-    readonly edges: Map<string, TKey> = new Map();
+    private readonly edges: Map<TTrigger, TKey> = new Map();
 
-    constructor(name: TKey) {
+    constructor(name: TKey, opts?: { onEnter?: Transition | TransitionDef, onExit?: Transition | TransitionDef }) {
         this.name = name;
 
+        if (opts) {
+            this.onEnter = opts.onEnter instanceof Transition ? opts.onEnter : new Transition(opts.onEnter!);
+            this.onExit = opts.onExit instanceof Transition ? opts.onExit : new Transition(opts.onExit!);
+        }
+    }
+
+    /**
+     * 
+     * @param state 
+     * @returns true if an edge exists that leads
+     * from this state to the named state. This is not
+     * an efficient search.
+     */
+    hasEdge(state: TKey) {
+        for (const name of this.edges.values()) {
+            if (name === state) return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param trigger 
+     * @returns True if the state contains an edge
+     * to another state with this trigger.
+     */
+    canTrigger(trigger: TTrigger) {
+        return this.edges.has(trigger);
     }
 
     /**
@@ -163,11 +190,11 @@ export class State<TKey = string | number | Symbol> {
      * @param trigger 
      * @param state 
      */
-    addTrigger(trigger: string, state: TKey) {
+    addTrigger(trigger: TTrigger, state: TKey) {
         this.edges.set(trigger, state);
     }
 
-    removeTrigger(trigger: string) {
+    removeTrigger(trigger: TTrigger) {
         this.edges.delete(trigger);
     }
 
@@ -176,7 +203,7 @@ export class State<TKey = string | number | Symbol> {
      * @param trigger 
      * @returns 
      */
-    getNextState(trigger: string) {
+    getNextState(trigger: TTrigger) {
         return this.edges.get(trigger);
     }
 

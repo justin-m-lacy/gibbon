@@ -115,7 +115,7 @@ export class Game {
 	private _emitter: EventEmitter;
 
 	private _engine: Engine;
-	library: Library;
+	readonly library: Library = new Library();
 
 	private _layerManager?: LayerManager;
 
@@ -139,7 +139,6 @@ export class Game {
 		this._emitter = new EventEmitter();
 
 		this._engine = new Engine(new Ticker());
-		this.library = this._engine.library;
 
 	}
 
@@ -276,22 +275,28 @@ export class Game {
 	 * Wraps engine.Instantiate()
 	 * Instantiate a Actor with a clip or a named clonable object from the library.
 	 */
-	instantiate(clip?: DisplayObject, loc?: PIXI.Point) {
-		return this.engine.Instantiate(clip, loc);
+	instantiate(clip?: DisplayObject | null | string, loc?: PIXI.Point) {
+
+		const view = (typeof clip === 'string') ? this.library.instance<DisplayObject>(clip, loc) : clip;
+		const go = new Actor(view ?? undefined, loc);
+
+		this.engine.add(go);
+		return go;
+
 	}
 
 	/**
 	 * Create an empty game object with a Container clip.
 	 */
 	makeContainer(loc?: Point) {
-		return this.engine.Instantiate(new Container(), loc);
+		return this.instantiate(new Container(), loc);
 	}
 
 	/**
 	 * Create empty game object with no clip.
 	 */
 	makeEmpty(loc?: PIXI.Point) {
-		return this.engine.Instantiate(null, loc);
+		return this.instantiate(null, loc);
 	}
 
 	/**
