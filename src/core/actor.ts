@@ -496,7 +496,16 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 	 * @param {Component} comp - the component to remove from the game object.
 	 * @param {bool} [destroy=true] - whether the component should be destroyed.
 	 */
-	remove(comp: Component, destroy: boolean = true) {
+	remove(comp: Component | Constructor<Component>, destroy: boolean = true) {
+
+		if (!(comp instanceof Component)) {
+			const val = this._compMap.get(comp);
+			if (val) {
+				comp = val;
+			} else {
+				return false;
+			}
+		}
 
 		if (destroy === true) comp._destroy();
 
