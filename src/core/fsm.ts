@@ -20,11 +20,18 @@ export class FSM extends Component {
      */
     private _changing = false;
 
-    constructor(start?: State) {
+    constructor(start?: State | string) {
 
         super();
 
-        this._startState = start ?? new State('default');
+
+        if (start) {
+            this._startState = typeof start === 'string' ? new State(start) : start;
+        } else {
+            this._startState = new State('default');
+        }
+        this.addState(this._startState);
+
         this._current = this._startState;
 
     }
