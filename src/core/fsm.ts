@@ -1,6 +1,10 @@
 import { Component } from './component';
-import { State } from '../data/state';
+import { State, Transition } from '../data/state';
 
+
+/**
+ * Basis State Machine for adding/removing components on state changes.
+ */
 export class FSM extends Component {
 
     private _startState: State;
@@ -9,6 +13,12 @@ export class FSM extends Component {
 
     public get current() { return this._current; }
     private _current: State;
+
+    /**
+     * True if state is changing. Used to detect
+     * multiple simultaneous state changes.
+     */
+    private _changing = false;
 
     constructor(start?: State) {
 
@@ -19,26 +29,62 @@ export class FSM extends Component {
 
     }
 
-    _exitState(state: State) {
+    /**
+     * Trigger transition on current state.
+     * @param trigger 
+     */
+    trigger(trigger: string) {
 
-        if (state.onExit) {
-
-            const remove = state.onExit.toRemove;
-            for (let i = 0; i < remove.length; i++) {
-                this.actor!.remove(remove[i]);
+        const next = this._current.trigger(trigger);
+        if (next) {
+            const state = this.getState(next);
+            if (state) {
+                this.switchState(state);
             }
+        }
+    }
 
-            const add = state.onExit.toAdd;
-            for (let i = 0; i < add.length; i++) {
+    /**
+     * Switch to new state, triggering exit and enter transitions.
+     * @param newState 
+     */
+    switchState(newState: State) {
 
-                const comp = add[i];
-                if (comp instanceof Component) {
-                    this.actor!.add(comp);
-                } else {
-                    this.actor!.require(comp);
-                }
+        if (this._changing) {
+            throw new Error(`Conflicting State Change: ${newState.name}`);
+        }
+        this._changing = true;
+
+        if (this._current.onExit) {
+            this._onTransition(this._current.onExit);
+        }
+
+        this._current = newState;
+        if (newState.onEnter) {
+            this._onTransition(newState
+                .onEnter);
+        }
+
+        this._changing = false;
+
+    }
+
+    _onTransition(t: Transition) {
+
+        const remove = t.toRemove;
+        for (let i = 0; i < remove.length; i++) {
+            this.actor!.remove(remove[i]);
+        }
+
+        const add = t.toAdd;
+        for (let i = 0; i < add.length; i++) {
+
+            const comp = add[i];
+            if (comp instanceof Component) {
+                this.actor!.add(comp);
+            } else {
+                this.actor!.require(comp);
             }
-
         }
 
     }
@@ -47,6 +93,10 @@ export class FSM extends Component {
         return this._states.get(name);
     }
 
+    /**
+     * Set current state without triggering transitions.
+     * @param name 
+     */
     setState(name: string) {
 
         const state = this._states.get(name);
@@ -56,7 +106,30 @@ export class FSM extends Component {
 
     }
 
-    setStartState(state: State | string) {
+    /**
+     * Create and return new state of FSM.
+     * @param name 
+     * @returns 
+     */
+    createState(name: string) {
+
+        if (this._states.has(name)) {
+            return false;
+        } else {
+
+            const st = new State(name);
+            this._states.set(name, st);
+
+            return st;
+        }
+
+    }
+
+    /**
+     * Set FSM Start State.
+     * @param state 
+     */
+    setStart(state: State | string) {
 
         if (typeof state === 'string') {
 
@@ -75,6 +148,5 @@ export class FSM extends Component {
     addState(state: State) {
         this._states.set(state.name, state);
     }
-
 
 }

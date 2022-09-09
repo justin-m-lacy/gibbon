@@ -32,9 +32,11 @@ import * as Rand from './src/utils/rand';
 import { CanvasDraw } from './src/utils/canvas-draw';
 import { Driver } from './src/components/driver';
 import { LerpPos } from './src/components/lerp-pos';
+import { FSM } from './src/core/fsm';
 
 export {
 
+	FSM,
 	LerpPos,
 	Engine, Game, Component, System,
 	Actor,
