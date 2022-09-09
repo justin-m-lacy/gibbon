@@ -75,10 +75,10 @@ export class HtmlWrapper extends Component {
         super.position = p;
     }
 
-    _elm?: HTMLElement | null;
+    protected _elm?: HTMLElement | null;
 
     /// display to restore after hiding.
-    _display?: string;
+    protected _display?: string;
 
     autoRemove: boolean;
 

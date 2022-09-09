@@ -1,5 +1,4 @@
 import { Component } from '../core/component';
-import { Point } from 'pixi.js';
 
 /**
  * A Driver always moves without slipping
@@ -70,13 +69,13 @@ export class Driver extends Component {
     /**
      * Velocity is always along the orientation.
      */
-    _speed: number = 0;
+    private _speed: number = 0;
 
     /**
      * As the driver only moves in the direction of its
      * orientation, acceleration is only a number.
      */
-    _accel: number = 0;
+    private _accel: number = 0;
 
     private _speedMax: number = 4;
     private _accelMax: number = 1;

@@ -1,9 +1,9 @@
 import type { Actor } from '../core/actor';
-import { Collider2d } from '../components/collider2d';
-import { Component } from '../core/component';
-import { DisplayObject } from 'pixi.js';
-import EventEmitter from 'eventemitter3';
-import { EventNames } from 'eventemitter3';
+import type { Collider2d } from '../components/collider2d';
+import type { Component } from '../core/component';
+import type { DisplayObject } from 'pixi.js';
+import type EventEmitter from 'eventemitter3';
+import type { EventNames } from 'eventemitter3';
 
 
 /**

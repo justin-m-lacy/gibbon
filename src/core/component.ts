@@ -1,6 +1,6 @@
 import type { Actor } from "./actor";
 import { Constructor } from '../utils/types';
-import { DisplayObject } from 'pixi.js';
+import type { DisplayObject } from 'pixi.js';
 
 export class Component<T extends DisplayObject = DisplayObject> {
 

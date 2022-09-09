@@ -10,6 +10,9 @@ export const isConstructor = <T>(c: any): c is Constructor<T> => {
 }
 
 
+/**
+ * Confirms item contains a clone function.
+ */
 export const isClonable = <T>(item: any): item is Clonable<T> => {
     return typeof (item.clone) === 'function';
 }

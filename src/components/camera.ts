@@ -1,12 +1,12 @@
-import type { Actor } from '../core/actor';
-import { Point, DisplayObject, Rectangle, Container } from 'pixi.js';
+import type { DisplayObject } from 'pixi.js';
+import { Point, Rectangle } from 'pixi.js';
 import { Component } from '../core/component';
-import { IPoint } from '../data/geom';
+import type { IPoint } from '../data/geom';
 
-export class Camera extends Component<Container> {
+export class Camera extends Component<DisplayObject> {
 
-	get target(): DisplayObject | Actor | null { return this._target; }
-	set target(v: DisplayObject | Actor | null) {
+	get target() { return this._target; }
+	set target(v) {
 
 		if (v) {
 			this._target = v;
@@ -78,12 +78,12 @@ export class Camera extends Component<Container> {
 	/**
 	 * Target camera should track.
 	 */
-	private _target: DisplayObject | Actor | null = null;
+	private _target: { position: IPoint, x: number, y: number } | null = null;
 	private _minScale: number = 0;
 	private _maxScale: number = 0;
 	private _viewScale: number = 0;
 	private readonly _viewRect: Rectangle = new Rectangle();
-	private _panClip?: Container | null;
+	private _panClip?: DisplayObject | null;
 
 	private _halfWidth: number = 0;
 	private _halfHeight: number = 0;

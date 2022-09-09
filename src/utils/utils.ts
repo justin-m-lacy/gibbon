@@ -1,4 +1,4 @@
-import * as Color from './colorUtils'
+import * as Color from './color-utils'
 import { Geom, Rand } from '../..';
 import { Gradient } from '../data/gradient';
 

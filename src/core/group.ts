@@ -2,7 +2,7 @@ import { Actor } from "../..";
 import type { Game } from '../game';
 import type { Container } from 'pixi.js';
 import { contains } from '../utils/array-utils';
-import { GameEvents, EngineEvent } from '../events/engine-events';
+import { EngineEvent } from '../events/engine-events';
 
 /**
  * If a clip is supplied to the Group, it will act as the parent

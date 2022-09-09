@@ -1,4 +1,4 @@
-import { Actor } from "../..";
+import type { Actor } from "../..";
 import type { Game } from '../game';
 import type { Container } from 'pixi.js';
 import { Group } from "./group";

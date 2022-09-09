@@ -39,7 +39,7 @@ export class Transform extends Component {
     get height() { return this._size.y }
     set height(v) { this._size.y = v; }
 
-    private _size: TPoint = { x: 0, y: 0 };
+    private readonly _size: TPoint = { x: 0, y: 0 };
 
     private _parent?: Transform;
     public get parent() { return this._parent; }

@@ -11,6 +11,9 @@ export const quickSplice = <T>(a: T[], i: number) => {
 	a.pop();
 }
 
+/**
+ * @returns Random element from an array. 
+ */
 export const randElm = <T>(a: T[]): T | undefined => {
 
 	if (a.length > 0) {
@@ -28,6 +31,9 @@ export const remove = <T>(a: T[], e: T) => {
 	}
 }
 
+/**
+ * @returns True if array contains element.
+ */
 export const contains = <T>(a: T[], e: T) => {
 	for (let i = a.length - 1; i >= 0; i--) {
 		if (a[i] === e) {

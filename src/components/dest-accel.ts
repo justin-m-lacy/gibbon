@@ -1,7 +1,7 @@
 import { Component } from '../core/component';
 import { Point } from 'pixi.js';
 import { Mover } from './mover';
-import { IPoint } from '../data/geom';
+import type { IPoint } from '../data/geom';
 
 
 /**
@@ -23,7 +23,7 @@ export class DestAccel extends Component {
      */
     slowRadius: number = 150;
 
-    mover!: Mover;
+    private mover!: Mover;
 
     setDest(pt: IPoint) {
         this.dest.set(pt.x, pt.y);

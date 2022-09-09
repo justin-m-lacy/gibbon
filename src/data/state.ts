@@ -1,4 +1,4 @@
-import { ComponentKey, Actor } from '../core/actor';
+import type { ComponentKey, Actor } from '../core/actor';
 import { Component } from '../core/component';
 
 

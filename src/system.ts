@@ -1,6 +1,6 @@
 import { Group } from "./core/group";
-import { IUpdater } from "./engine";
-import { Container } from 'pixi.js';
+import type { IUpdater } from "./engine";
+import type { Container } from 'pixi.js';
 
 export class System extends Group implements IUpdater {
 

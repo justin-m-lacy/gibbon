@@ -61,8 +61,8 @@ class WheelController {
     }
 
     /**
- * Disable wheel events.
- */
+     * Disable wheel events.
+     */
     disableWheel(app: Application) {
 
         if (this.wheelEnabled === true) {

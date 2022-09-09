@@ -1,7 +1,7 @@
-import { htmlStr } from './colorUtils';
+import { htmlStr } from './color-utils';
 
 import * as PIXI from 'pixi.js';
-import { Point } from 'pixi.js';
+import type { Point } from 'pixi.js';
 import { Gradient } from '../data/gradient';
 
 export class CanvasDraw {

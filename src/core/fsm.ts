@@ -1,6 +1,7 @@
 
 import { Component } from './component';
-import { State, Transition, TransitionDef } from '../data/state';
+import { State } from '../data/state';
+import type { Transition, TransitionDef } from '../data/state';
 
 export enum StateEvent {
     enter = 'enterState',

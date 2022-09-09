@@ -1,4 +1,4 @@
-import { htmlStr } from "../utils/colorUtils";
+import { htmlStr } from "../utils/color-utils";
 
 export class Gradient {
 

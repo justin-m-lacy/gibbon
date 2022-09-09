@@ -1,4 +1,5 @@
-import { Point, Polygon, Rectangle } from "pixi.js";
+import { Point, Polygon } from "pixi.js";
+import type { Rectangle } from 'pixi.js';
 
 /**
  * Return random point in Rectangle.
@@ -14,7 +15,10 @@ export const randInRect = (r: Rectangle) => {
 */
 export const randInt = (min: number, max: number) => { return min + Math.floor(Math.random() * (max + 1 - min)) }
 
-export const randRange = (min: number, max: number) => { return min + (Math.random() * (max - min)) }
+/** 
+ * @returns Random float f, min <= f < max
+ */
+export const randFloat = (min: number, max: number) => { return min + (Math.random() * (max - min)) }
 
 /**
 * Create random polygon centered on 0,0.

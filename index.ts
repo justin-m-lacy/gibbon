@@ -12,9 +12,9 @@ import { TimeDestroy } from './src/components/timeDestroy';
 
 export { isClonable, isConstructor, } from './src/utils/types';
 export type { Clonable, Constructor } from './src/utils/types';
-import * as DisplayUtils from './src/utils/displayUtils';
-import * as ColorUtils from './src/utils/colorUtils';
-import * as DrawUtils from './src/utils/drawUtils';
+import * as DisplayUtils from './src/utils/display-utils';
+import * as ColorUtils from './src/utils/color-utils';
+import * as DrawUtils from './src/utils/draw-utils';
 import { tweenOf, getTween, removeTween } from './src/utils/tweens';
 export { IPoint, TPoint } from './src/data/geom';
 

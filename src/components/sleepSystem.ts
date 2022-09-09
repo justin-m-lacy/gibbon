@@ -8,20 +8,21 @@ export class SleepSystem extends Component {
 	/**
 	 * @property {number} _checkTimeFrames - frames between sleep/unsleep checks.
 	 */
-	_checkTimeFrames: number;
+	private _checkTimeFrames: number;
+
 	/**
 	 * @property {number} sleepDist - distance at which object is slept.
 	 */
-	_sleepDist: number;
+	private _sleepDist: number;
 
 	/**
 	 * @property {number} hideDist - distance offscreen at which object is hidden.
 	 */
-	_hideDist: number;
+	private _hideDist: number;
 
 	private readonly _sleepers: Actor[] = [];
 
-	_countdown: number;
+	private _countdown: number;
 
 	_engine?: Engine;
 

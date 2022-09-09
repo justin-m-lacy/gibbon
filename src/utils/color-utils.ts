@@ -17,11 +17,11 @@ export const htmlStr = (color: number) => {
 };
 
 /**
- * Interpolates two numeric colors into a third
- * color.
+ * Interpolates two numeric colors into a third color.
  * @param {number} col1
  * @param {number} col2
- * @param {number} t
+ * @param {number} t - Interpolation percent. 0 <= t <= 1
+ * t=0 is all color1 and t=1 is all color2
  * @returns {number}
  */
 export const lerpColor = (col1: number, col2: number, t: number) => {

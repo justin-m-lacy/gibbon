@@ -35,7 +35,7 @@ export class Game {
 	/**
 	 * @property {PIXI.Container} stage
 	 */
-	get stage() { return this._stage; }
+	get stage() { return this._app.stage; }
 
 	/**
 	 * @property {PIXI.Loader} loader
@@ -46,7 +46,7 @@ export class Game {
 	/**
 	 * @property {PIXI.Rectangle} screen - Screen/View Rectangle.
 	 */
-	get screen() { return this._screen; }
+	get screen() { return this._app.screen; }
 
 	get camera() { return this._camera; }
 
@@ -99,9 +99,7 @@ export class Game {
 	 */
 	get layerManager(): LayerManager { return this._layerManager!; }
 
-	private _app: Application;
-	private _screen: Rectangle;
-	private _stage: Container;
+	private readonly _app: Application;
 
 	private _loader: PIXI.Loader;
 
@@ -112,7 +110,7 @@ export class Game {
 	 */
 	private _root!: Actor;
 
-	private _emitter: EventEmitter;
+	private _emitter: EventEmitter = new EventEmitter();
 
 	private _engine: Engine;
 	readonly library: Library = new Library();
@@ -128,15 +126,11 @@ export class Game {
 	constructor(app: Application) {
 
 		this._app = app;
-		this._screen = this._app.screen;
-		this._stage = this._app.stage;
-		this._stage.interactive = true;
-		this._stage.hitArea = this._screen;
+		this.app.stage.interactive = true;
+		this.app.stage.hitArea = this._app.screen;
 
 		Game.current = this;
 		this._loader = PIXI.Loader.shared;
-
-		this._emitter = new EventEmitter();
 
 		this._engine = new Engine(new Ticker());
 
@@ -308,10 +302,7 @@ export class Game {
 	 * @returns {Tween} - The tween created.
 	 */
 	replaceTween<T extends Object>(target: T, props: Record<string, any>, time?: number): Tween<T> {
-
-		const tween = tweenOf(target);
-		return tween.to(props, time);
-
+		return tweenOf(target).to(props, time);
 	}
 
 	/**
@@ -323,8 +314,7 @@ export class Game {
 	 */
 	createTween<T extends Object>(target: T, props: any, time?: number) {
 
-		const tween = new Tween(target);
-		return tween.to(props, time);
+		return new Tween(target).to(props, time);
 
 	}
 

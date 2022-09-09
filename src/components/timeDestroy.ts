@@ -13,11 +13,7 @@ export class TimeDestroy extends Component {
 		this._timer = v;
 	}
 
-	_timer: number = -1;
-
-	constructor() {
-		super();
-	}
+	private _timer: number = -1;
 
 	update(delta: number) {
 

@@ -14,7 +14,7 @@ export class SpriteTiler extends Component {
 		}
 	}
 
-	_target?: DisplayObject;
+	private _target?: DisplayObject;
 	sprite?: TilingSprite;
 
 	/**
