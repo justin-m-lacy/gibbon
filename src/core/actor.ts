@@ -10,6 +10,7 @@ import EventEmitter from 'eventemitter3';
 import { IPoint } from '@/data/geom';
 
 
+export type ComponentKey = Component | Constructor<Component>;
 
 /**
  * Options for destroying a Actor
@@ -565,6 +566,9 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 
 		for (let i = comps.length - 1; i >= 0; i--) {
 			this.remove(comps[i]);
+		}
+		if (this._group) {
+			this._group.remove(this);
 		}
 
 	}

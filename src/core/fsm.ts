@@ -1,18 +1,22 @@
+import { State } from '../data/state';
 import { Component } from './component';
-import { State, Transition } from '../data/state';
 
+export enum StateEvent {
+    enter = 'enterState',
+    exit = 'exitState'
+}
 
 /**
  * Basis State Machine for adding/removing components on state changes.
  */
-export class FSM extends Component {
+export class FSM<TKey = string | Symbol | number> extends Component {
 
-    private _startState: State;
+    private _startState: State<TKey>;
 
-    private readonly _states: Map<string, State> = new Map();
+    private readonly _states: Map<TKey, State<TKey>> = new Map();
 
     public get current() { return this._current; }
-    private _current: State;
+    private _current: State<TKey>;
 
     /**
      * True if state is changing. Used to detect
@@ -20,16 +24,12 @@ export class FSM extends Component {
      */
     private _changing = false;
 
-    constructor(start?: State | string) {
+    constructor(start: State<TKey> | TKey) {
 
         super();
 
+        this._startState = start instanceof State ? start : new State<TKey>(start);
 
-        if (start) {
-            this._startState = typeof start === 'string' ? new State(start) : start;
-        } else {
-            this._startState = new State('default');
-        }
         this.addState(this._startState);
 
         this._current = this._startState;
@@ -42,7 +42,7 @@ export class FSM extends Component {
      */
     trigger(trigger: string) {
 
-        const next = this._current.trigger(trigger);
+        const next = this._current.getNextState(trigger);
         if (next) {
             const state = this.getState(next);
             if (state) {
@@ -52,51 +52,31 @@ export class FSM extends Component {
     }
 
     /**
-     * Switch to new state, triggering exit and enter transitions.
+     * Switch to new state, triggering exit and enter transitions
+     * from current and next states respectively.
      * @param newState 
      */
-    switchState(newState: State) {
+    switchState(newState: State<TKey>) {
 
         if (this._changing) {
-            throw new Error(`Conflicting State Change: ${newState.name}`);
+            throw new Error(`Overlapping State Change: ${newState.name}`);
+        } else if (!this.actor) {
+            throw new Error(`Attempting to change state with no actor: ${newState.name}`)
         }
         this._changing = true;
+        this._current.onExit?.apply(this.actor!);
+        this.actor?.emit(StateEvent.exit, this._current);
 
-        if (this._current.onExit) {
-            this._onTransition(this._current.onExit);
-        }
 
         this._current = newState;
-        if (newState.onEnter) {
-            this._onTransition(newState
-                .onEnter);
-        }
+        newState.onEnter?.apply(this.actor!);
+        this.actor!.emit(StateEvent.enter, newState);
 
         this._changing = false;
 
     }
 
-    _onTransition(t: Transition) {
-
-        const remove = t.toRemove;
-        for (let i = 0; i < remove.length; i++) {
-            this.actor!.remove(remove[i]);
-        }
-
-        const add = t.toAdd;
-        for (let i = 0; i < add.length; i++) {
-
-            const comp = add[i];
-            if (comp instanceof Component) {
-                this.actor!.add(comp);
-            } else {
-                this.actor!.require(comp);
-            }
-        }
-
-    }
-
-    getState(name: string) {
+    getState(name: TKey) {
         return this._states.get(name);
     }
 
@@ -104,7 +84,7 @@ export class FSM extends Component {
      * Set current state without triggering transitions.
      * @param name 
      */
-    setState(name: string) {
+    setState(name: TKey) {
 
         const state = this._states.get(name);
         if (state) {
@@ -118,13 +98,13 @@ export class FSM extends Component {
      * @param name 
      * @returns 
      */
-    createState(name: string) {
+    createState(name: TKey) {
 
         if (this._states.has(name)) {
             return false;
         } else {
 
-            const st = new State(name);
+            const st = new State<TKey>(name);
             this._states.set(name, st);
 
             return st;
@@ -136,23 +116,23 @@ export class FSM extends Component {
      * Set FSM Start State.
      * @param state 
      */
-    setStart(state: State | string) {
+    setStart(state: State<TKey> | TKey) {
 
-        if (typeof state === 'string') {
+        if (state instanceof State) {
+            this.addState(state);
+            this._startState = state;
 
+        } else {
             const st = this._states.get(state);
             if (st) {
                 this._startState = st;
             }
 
-        } else {
-            this.addState(state);
-            this._startState = state;
         }
 
     }
 
-    addState(state: State) {
+    addState(state: State<TKey>) {
         this._states.set(state.name, state);
     }
 

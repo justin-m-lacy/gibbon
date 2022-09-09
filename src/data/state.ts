@@ -1,41 +1,159 @@
-import { Component } from "@/components";
-import { Constructor } from '../utils/types';
+import { ComponentKey, Actor } from '../core/actor';
+import { Component } from '../core/component';
+
+
+export type TransitionDef = {
+    add?: Array<ComponentKey>;
+
+    remove?: Array<ComponentKey>;
+
+
+    disable?: Array<ComponentKey>;
+
+    enable?: Array<ComponentKey>;
+
+}
 
 export class Transition {
 
     /**
      * Components or component types to add when using this transition.
      */
-    toAdd: Array<Component | Constructor<Component>>;
+    protected add?: Array<ComponentKey>;
 
     /**
      * Components or component types to remove when using this transition.
      */
-    toRemove: Array<Component | Constructor<Component>>;
+    protected remove?: Array<ComponentKey>;
 
-    constructor(add?: (Component | Constructor<Component>)[], remove?: (Component | Constructor<Component>)[]) {
+    /**
+     * Components to disable.
+     */
+    protected disable?: Array<ComponentKey>;
 
-        this.toAdd = add ?? [];
-        this.toRemove = remove ?? [];
+    protected enable?: Array<ComponentKey>;
+
+
+    constructor(
+        changes: TransitionDef) {
+
+        this.add = changes.add;
+        this.remove = changes.remove;
+        this.disable = changes.disable;
+        this.enable = changes.enable;
+
 
     }
+
+    /**
+     * Set components to disable on this transition.
+     * @param disable 
+     */
+    setDisables(disable: ComponentKey[]) {
+        this.disable = disable;
+    }
+
+    /**
+     * Set components to disable on this transition.
+     * @param enable 
+     */
+    setEnable(enable: ComponentKey[]) {
+        this.enable = enable;
+    }
+
+    /**
+     * Set components to disable on this transition.
+     * @param disable 
+     */
+    setAdds(add: ComponentKey[]) {
+        this.add = add;
+    }
+
+    /**
+     * Set components to disable on this transition.
+     * @param disable 
+     */
+    setRemoves(removes: ComponentKey[]) {
+        this.remove = removes;
+    }
+
+    /**
+     * Apply transition to actor.
+     * @param actor 
+     */
+    apply(actor: Actor) {
+
+        if (this.add) {
+            const add = this.add;
+            for (let i = 0; i < add.length; i++) {
+
+                const comp = add[i];
+                if (comp instanceof Component) {
+                    actor!.add(comp);
+                } else {
+                    actor!.require(comp);
+                }
+            }
+        }
+        if (this.enable) {
+
+            const enable = this.enable;
+            for (let i = 0; i < enable.length; i++) {
+                let comp = enable[i];
+                if (comp instanceof Component) {
+                    comp.enabled = true;
+                } else {
+                    const val = actor.get(comp);
+                    if (val) {
+                        val.enabled = true;
+                    }
+                }
+            }
+
+        }
+
+        if (this.remove) {
+            const remove = this.remove;
+            for (let i = 0; i < remove.length; i++) {
+                actor!.remove(remove[i]);
+            }
+        }
+
+        if (this.disable) {
+
+            const disable = this.disable;
+            for (let i = 0; i < disable.length; i++) {
+                let comp = disable[i];
+                if (comp instanceof Component) {
+                    comp.enabled = false;
+                } else {
+                    const val = actor.get(comp);
+                    if (val) {
+                        val.enabled = false;
+                    }
+                }
+            }
+        }
+
+    }
+
 
 }
 
 
-export class State {
+export class State<TKey = string | number | Symbol> {
 
-    readonly name: string;
+    readonly name: TKey;
 
     onEnter?: Transition;
     onExit?: Transition;
 
     /**
-     * Maps triggers to next state name.
+     * Maps triggers to next state key.
      */
-    readonly edges: Map<string, string> = new Map();
+    readonly edges: Map<string, TKey> = new Map();
 
-    constructor(name: string) {
+    constructor(name: TKey) {
         this.name = name;
 
     }
@@ -45,7 +163,7 @@ export class State {
      * @param trigger 
      * @param state 
      */
-    addTrigger(trigger: string, state: string) {
+    addTrigger(trigger: string, state: TKey) {
         this.edges.set(trigger, state);
     }
 
@@ -53,24 +171,29 @@ export class State {
         this.edges.delete(trigger);
     }
 
-    trigger(t: string) {
-        return this.edges.get(t);
+    /**
+     * Get name of state resulting from trigger.
+     * @param trigger 
+     * @returns 
+     */
+    getNextState(trigger: string) {
+        return this.edges.get(trigger);
     }
 
     /**
      * Set Enter-State Transition.
      * @param t 
      */
-    addEnter(t: Transition | Partial<Transition>) {
-        this.onEnter = t instanceof Transition ? t : new Transition(t.toAdd, t.toRemove);
+    addEnter(t: Transition | TransitionDef) {
+        this.onEnter = t instanceof Transition ? t : new Transition(t);
     }
 
     /**
      * Set leave-state transition.
      * @param t 
      */
-    addExit(t: Transition | Partial<Transition>) {
-        this.onExit = t instanceof Transition ? t : new Transition(t.toAdd, t.toRemove);
+    addExit(t: Transition | TransitionDef) {
+        this.onExit = t instanceof Transition ? t : new Transition(t);
     }
 
 }
