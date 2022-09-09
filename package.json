@@ -26,7 +26,6 @@
   "author": "Justin Lacy",
   "license": "MIT",
   "dependencies": {
-    "@timohausmann/quadtree-ts": "github:justin-m-lacy/quadtree-ts",
     "@tweenjs/tween.js": "^18.6.4",
     "eventemitter3": "^4.0.7",
     "pixi.js": "6.2.2"
