@@ -208,6 +208,10 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	 */
 	_destroy() {
 
+		if (this._destroyed === true) {
+			return;
+		}
+
 		this.onDestroy?.();
 
 		this._enabled = false;

@@ -560,6 +560,10 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 	 */
 	destroy() {
 
+		if (this._destroyed === true) {
+			return;
+		}
+
 		this._destroyed = true;
 
 		const comps = this._components;
