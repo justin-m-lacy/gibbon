@@ -321,10 +321,16 @@ export class Group<T extends Game = Game> {
 
 	}
 
+	/**
+	 * Override in subclasses to cleanup before group destroyed.
+	 */
+	onDestroy?(): void;
+
 	destroy() {
 
 		this._paused = true;
 
+		this.onDestroy?.();
 
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {
 			this.subgroups[i].destroy();
@@ -335,8 +341,11 @@ export class Group<T extends Game = Game> {
 			this.objects[i].destroy();
 		}
 
+		this._actor?.destroy();
+
 		this.objects.length = 0;
 		this.subgroups.length = 0;
+		this._parent = undefined;
 		this._game = undefined;
 
 	}

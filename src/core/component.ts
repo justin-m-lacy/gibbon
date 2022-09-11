@@ -194,6 +194,9 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	 */
 	require<C extends Component>(cls: Constructor<C>): C { return this.actor!.require(cls); }
 
+	/**
+	 * Override in subclasses to clean up before component destroyed.
+	 */
 	onDestroy?(): void;
 
 	/**
@@ -201,12 +204,7 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	 * override onDestroy() to clean up your components.
 	 * Do not call _destroy() directly.
 	 */
-	destroy() { this._destroy(); }
-
-	/**
-	 * calls destroy() and cleans up any variables.
-	 */
-	_destroy() {
+	destroy() {
 
 		if (this._destroyed === true) {
 			return;
@@ -217,7 +215,6 @@ export class Component<T extends DisplayObject = DisplayObject> {
 		this._enabled = false;
 		this._destroyed = true;
 		this.actor = undefined;
-
 	}
 
 }

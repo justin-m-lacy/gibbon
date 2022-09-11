@@ -22,10 +22,10 @@ export class SharedComponent extends Component {
 
 	}
 
-	_destroy() {
+	destroy() {
 
 		this._attachCount--;
-		if (this._attachCount <= 0) super._destroy();
+		if (this._attachCount <= 0) super.destroy();
 
 	}
 

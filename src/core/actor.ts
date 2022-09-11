@@ -508,7 +508,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 			}
 		}
 
-		if (destroy === true) comp._destroy();
+		if (destroy === true) comp.destroy();
 
 		this._compMap.delete(comp.constructor || comp);
 
@@ -574,7 +574,8 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 			this.remove(comps[i]);
 		}
 		if (this._group) {
-			this._group.remove(this);
+			this._group?.remove(this);
+			this._group = null;
 		}
 
 	}
@@ -589,6 +590,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 		if (this.clip) {
 			if (this.clip instanceof Container && this._destroyOpts) {
 				this.clip.destroy(this._destroyOpts);
+				this._destroyOpts = undefined;
 			} else {
 				this.clip.destroy();
 			}
