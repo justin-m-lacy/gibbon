@@ -566,6 +566,8 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 
 		this._destroyed = true;
 
+		this.emitter.emit(EngineEvent.ActorDestroyed, this);
+
 		const comps = this._components;
 
 		for (let i = comps.length - 1; i >= 0; i--) {
@@ -582,7 +584,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 	 */
 	_destroy() {
 
-		this.emitter.emit(EngineEvent.ActorDestroyed, this);
+
 		this.emitter.removeAllListeners();
 		if (this.clip) {
 			if (this.clip instanceof Container && this._destroyOpts) {
