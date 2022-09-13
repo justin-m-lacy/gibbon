@@ -2,7 +2,7 @@ import type { ComponentKey, Actor } from '../core/actor';
 import { Component } from '../core/component';
 
 
-export type TransitionDef = {
+export type StateEffectDef = {
     add?: Array<ComponentKey>;
 
     remove?: Array<ComponentKey>;
@@ -14,7 +14,7 @@ export type TransitionDef = {
 
 }
 
-export class Transition {
+export class StateEffect {
 
     /**
      * Components or component types to add when using this transition.
@@ -35,7 +35,7 @@ export class Transition {
 
 
     constructor(
-        changes: TransitionDef) {
+        changes: StateEffectDef) {
 
         this.add = changes.add;
         this.remove = changes.remove;
@@ -140,25 +140,43 @@ export class Transition {
 
 }
 
+export class Transition<TKey = string | number | symbol> {
+
+    dest: TKey;
+
+    /**
+     * Time before transition enters new state.
+     */
+    enterTime: number;
+
+    constructor(destState: TKey, enterTime: number = 0) {
+        this.dest = destState;
+        this.enterTime = enterTime;
+    }
+
+}
 
 export class State<TKey = string | number | Symbol, TTrigger = string | Symbol> {
 
     readonly name: TKey;
 
-    onEnter?: Transition;
-    onExit?: Transition;
+    onEnter?: StateEffect;
+    onExit?: StateEffect;
+
+    autoNext?: Transition<TKey>;
 
     /**
      * Maps triggers to next state key.
      */
     private readonly edges: Map<TTrigger, TKey> = new Map();
 
-    constructor(name: TKey, opts?: { onEnter?: Transition | TransitionDef, onExit?: Transition | TransitionDef }) {
+    constructor(name: TKey, opts?: { onEnter?: StateEffect | StateEffectDef, onExit?: StateEffect | StateEffectDef, autoNext?: Transition<TKey> }) {
         this.name = name;
 
         if (opts) {
-            this.onEnter = opts.onEnter instanceof Transition ? opts.onEnter : new Transition(opts.onEnter!);
-            this.onExit = opts.onExit instanceof Transition ? opts.onExit : new Transition(opts.onExit!);
+            this.onEnter = opts.onEnter instanceof StateEffect ? opts.onEnter : new StateEffect(opts.onEnter!);
+            this.onExit = opts.onExit instanceof StateEffect ? opts.onExit : new StateEffect(opts.onExit!);
+            this.autoNext = opts.autoNext;
         }
     }
 
@@ -211,16 +229,16 @@ export class State<TKey = string | number | Symbol, TTrigger = string | Symbol> 
      * Set Enter-State Transition.
      * @param t 
      */
-    addEnter(t: Transition | TransitionDef) {
-        this.onEnter = t instanceof Transition ? t : new Transition(t);
+    addEnter(t: StateEffect | StateEffectDef) {
+        this.onEnter = t instanceof StateEffect ? t : new StateEffect(t);
     }
 
     /**
      * Set leave-state transition.
      * @param t 
      */
-    addExit(t: Transition | TransitionDef) {
-        this.onExit = t instanceof Transition ? t : new Transition(t);
+    addExit(t: StateEffect | StateEffectDef) {
+        this.onExit = t instanceof StateEffect ? t : new StateEffect(t);
     }
 
 }

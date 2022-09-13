@@ -2,6 +2,18 @@ import * as PIXI from 'pixi.js';
 import { Polygon } from 'pixi.js';
 import { IPoint } from '../data/geom';
 
+export const clampTo2Pi = (v: number) => {
+	if (v > 2 * Math.PI || v < -2 * Math.PI) v %= 2 * Math.PI;
+}
+
+/**
+ * Clamp angle in radians in [-2*Math.PI,2*Math.PI] to [-Math.PI, Math.PI]
+ */
+export const clampToPi = (a: number) => {
+	return a > Math.PI ? a - 2 * Math.PI :
+		(a < -Math.PI ? a + 2 * Math.PI : a);
+}
+
 export const getLength = (p: IPoint): number => {
 	return Math.sqrt(p.x * p.x + p.y * p.y);
 }

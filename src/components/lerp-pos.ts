@@ -1,5 +1,6 @@
 import { Component } from '../core/component';
 import type { IPoint, TPoint } from '../data/geom';
+import { clampToPi } from '../utils/geom';
 
 /**
  * Linearly interpolate Actor between current
@@ -81,10 +82,7 @@ export class LerpPos extends Component {
 
                 if (this.targetAngle) {
 
-                    let dAngle = this.targetAngle - this.rotation;
-                    if (Math.abs(dAngle) > Math.PI) {
-                        dAngle = dAngle > 0 ? dAngle - 2 * Math.PI : dAngle + 2 * Math.PI;
-                    }
+                    let dAngle = clampToPi(this.targetAngle - this.rotation);
                     this.rotation = t * dAngle + this.rotation;
 
                 }

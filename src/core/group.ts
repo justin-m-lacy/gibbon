@@ -3,6 +3,7 @@ import type { Game } from '../game';
 import type { Container } from 'pixi.js';
 import { contains } from '../utils/array-utils';
 import { EngineEvent } from '../events/engine-events';
+import { Constructor } from '../utils/types';
 
 /**
  * If a clip is supplied to the Group, it will act as the parent
@@ -238,6 +239,22 @@ export class Group<T extends Game = Game> {
 		}
 
 		return undefined;
+	}
+
+	/**
+	 * Return first subgroup found of type.
+	 */
+	get<GType extends Group<T> = Group<T>>(kind: Constructor<GType>) {
+
+		for (let i = this.subgroups.length - 1; i >= 0; i--) {
+
+			if (this.subgroups[i] instanceof kind) {
+				return this.subgroups[i];
+			}
+
+		}
+		return null;
+
 	}
 
 	/**

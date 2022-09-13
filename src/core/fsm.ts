@@ -1,7 +1,7 @@
 
 import { Component } from './component';
-import { State } from '../data/state';
-import type { Transition, TransitionDef } from '../data/state';
+import { State, Transition } from '../data/state';
+import type { StateEffect, StateEffectDef } from '../data/state';
 
 export enum StateEvent {
     enter = 'enterState',
@@ -26,6 +26,15 @@ export class FSM<TKey = string | Symbol | number, TTrigger = string | Symbol> ex
      */
     private _changing = false;
 
+    /**
+     * Current transition for timed transitions.
+     */
+    private curTransition: Transition<TKey> | null = null;
+    /**
+     * Timer on current transition.
+     */
+    private transTimer: number = 0;
+
     constructor(start: State<TKey, TTrigger> | TKey) {
 
         super();
@@ -36,6 +45,10 @@ export class FSM<TKey = string | Symbol | number, TTrigger = string | Symbol> ex
 
         this._current = this._startState;
 
+    }
+
+    init() {
+        this.enterState(this._current);
     }
 
     /**
@@ -72,6 +85,8 @@ export class FSM<TKey = string | Symbol | number, TTrigger = string | Symbol> ex
         }
 
         this._changing = true;
+        this.curTransition = null;
+
         const newState = this.getState(stateName);
 
         if (newState) {
@@ -79,10 +94,7 @@ export class FSM<TKey = string | Symbol | number, TTrigger = string | Symbol> ex
             this._current.onExit?.apply(this.actor!);
             this.actor?.emit(StateEvent.exit, this._current);
 
-
-            this._current = newState;
-            newState.onEnter?.apply(this.actor!);
-            this.actor!.emit(StateEvent.enter, newState);
+            this.enterState(newState);
 
             return newState;
         }
@@ -90,6 +102,35 @@ export class FSM<TKey = string | Symbol | number, TTrigger = string | Symbol> ex
         return false;
 
     }
+
+    private enterState(newState: State<TKey, TTrigger>) {
+
+        this._current = newState;
+        newState.onEnter?.apply(this.actor!);
+        this.actor!.emit(StateEvent.enter, newState);
+
+        if (newState.autoNext) {
+            this.curTransition = newState.autoNext;
+            this.transTimer = newState.autoNext.enterTime;
+        }
+
+
+
+    }
+
+    update(delta: number) {
+
+        if (this.curTransition) {
+
+            this.transTimer -= delta;
+            if (this.transTimer <= 0) {
+                this.switchState(this.curTransition.dest);
+            }
+
+        }
+
+    }
+
 
     getState(name: TKey) {
         return this._states.get(name);
@@ -113,7 +154,7 @@ export class FSM<TKey = string | Symbol | number, TTrigger = string | Symbol> ex
 
         const state = this._states.get(name);
         if (state) {
-            this._current = state;
+            this.enterState(state);
         }
 
     }
@@ -123,7 +164,7 @@ export class FSM<TKey = string | Symbol | number, TTrigger = string | Symbol> ex
      * @param name 
      * @returns 
      */
-    createState(name: TKey, opts?: { onEnter?: Transition | TransitionDef, onExit?: Transition | TransitionDef }) {
+    createState(name: TKey, opts?: { onEnter?: StateEffect | StateEffectDef, onExit?: StateEffect | StateEffectDef }) {
 
         if (this._states.has(name)) {
             return false;
