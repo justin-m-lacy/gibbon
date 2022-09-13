@@ -249,7 +249,7 @@ export class Group<T extends Game = Game> {
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {
 
 			if (this.subgroups[i] instanceof kind) {
-				return this.subgroups[i];
+				return this.subgroups[i] as GType;
 			}
 
 		}
