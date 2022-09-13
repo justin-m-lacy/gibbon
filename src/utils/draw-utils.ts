@@ -1,4 +1,4 @@
-import { Circle, Graphics, Rectangle, Polygon, Ellipse, GraphicsData, RoundedRectangle, Point, DisplayObject, RenderTexture, AbstractRenderer } from 'pixi.js';
+import { Circle, Graphics, Rectangle, Polygon, Ellipse, GraphicsData, RoundedRectangle, Point, DisplayObject, RenderTexture, AbstractRenderer, Container } from 'pixi.js';
 import * as PIXI from 'pixi.js';
 
 export const drawToTexture = (d: DisplayObject, renderer?: AbstractRenderer) => {
@@ -18,26 +18,22 @@ export const drawToTexture = (d: DisplayObject, renderer?: AbstractRenderer) => 
  * Create a DisplayObject for a Shape.
  * The shape will be drawn centered within the Graphics object, and the Graphic
  * Object itself placed at the Shape's x,y location.
- * @param {PIXI.Rectangle|PIXI.Circle|PIXI.Polygon|PIXI.Ellipse}
+ * @param data - Shape and drawing data.
+ * @param container - Container to add created graphic to.
  * @returns {PIXI.GraphicsData|Object} graphicsData - information on how to draw the shape.
  * @returns {?Graphics}
  */
-export const createShape = (data: GraphicsData) => {
+export const createShape = (data: GraphicsData, container?: Container) => {
 
 	const g = new Graphics();
 
-	g.beginFill(
-		data.fillStyle.color,
-		data.fillStyle.alpha);
-
-
-	g.lineStyle(
-		data.lineStyle.width,
-		data.lineStyle.color,
-		data.lineStyle.alignment);
+	g.beginFill(data.fillStyle.color,
+		data.fillStyle.alpha).lineStyle(
+			data.lineStyle.width,
+			data.lineStyle.color,
+			data.lineStyle.alignment);
 
 	const shape = data.shape;
-	//g.drawShape(data.shape);
 
 	switch (data.type) {
 
@@ -63,12 +59,16 @@ export const createShape = (data: GraphicsData) => {
 
 	}
 
-	if ('x' in shape && 'y' in shape) {
+	if ('x' in shape) {
 		g.x = shape.x;
 		g.y = shape.y;
 	}
 
 	g.endFill();
+
+	if (container) {
+		container.addChild(g)
+	}
 
 	return g;
 

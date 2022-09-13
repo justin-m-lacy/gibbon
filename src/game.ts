@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { Rectangle, DisplayObject, Container, Point, Application, Ticker } from 'pixi.js';
+import { DisplayObject, Container, Point, Application, Ticker } from 'pixi.js';
 import { LayerManager } from './layerManager';
 import { Engine } from './engine';
 import { Actor } from './core/actor';

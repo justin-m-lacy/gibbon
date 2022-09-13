@@ -15,6 +15,8 @@ export type { Clonable, Constructor } from './src/utils/types';
 import * as DisplayUtils from './src/utils/display-utils';
 import * as ColorUtils from './src/utils/color-utils';
 import * as DrawUtils from './src/utils/draw-utils';
+export * as Logging from './src/utils/logging';
+
 import { tweenOf, getTween, removeTween } from './src/utils/tweens';
 export { IPoint, TPoint } from './src/data/geom';
 
