@@ -55,6 +55,8 @@ export class Group<T extends Game = Game> {
 	 */
 	public get game() { return this._game }
 
+	get parent() { return this._parent }
+
 	/**
 	 * Parent group, if any.
 	 */
