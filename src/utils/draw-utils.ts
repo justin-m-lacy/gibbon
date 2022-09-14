@@ -27,11 +27,14 @@ export const createShape = (data: GraphicsData, container?: Container) => {
 
 	const g = new Graphics();
 
-	g.beginFill(data.fillStyle.color,
-		data.fillStyle.alpha).lineStyle(
-			data.lineStyle.width,
-			data.lineStyle.color,
-			data.lineStyle.alignment);
+	if (data.fillStyle) {
+		g.beginFill(data.fillStyle.color,
+			data.fillStyle.alpha);
+	}
+	g.lineStyle(
+		data.lineStyle.width,
+		data.lineStyle.color,
+		data.lineStyle.alignment);
 
 	const shape = data.shape;
 
@@ -64,7 +67,9 @@ export const createShape = (data: GraphicsData, container?: Container) => {
 		g.y = shape.y;
 	}
 
-	g.endFill();
+	if (data.fillStyle) {
+		g.endFill();
+	}
 
 	if (container) {
 		container.addChild(g)
