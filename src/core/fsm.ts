@@ -75,13 +75,13 @@ export class FSM<TKey = string | Symbol | number, TTrigger = string | Symbol> ex
      */
     switchState(stateName: TKey) {
 
-        if (this._changing) {
+        if (stateName === this._current.name) {
+            // No state change.
+            return false;
+        } else if (this._changing) {
             throw new Error(`Overlapping State Change: ${stateName}`);
         } else if (!this.actor) {
             throw new Error(`Attempting to change state with no actor: ${stateName}`)
-        } else if (stateName === this._current.name) {
-            // No state change.
-            return false;
         }
 
         this._changing = true;
@@ -95,11 +95,9 @@ export class FSM<TKey = string | Symbol | number, TTrigger = string | Symbol> ex
             this.actor?.emit(StateEvent.exit, this._current);
 
             this.enterState(newState);
-
-            return newState;
         }
         this._changing = false;
-        return false;
+        return newState ?? false;
 
     }
 
