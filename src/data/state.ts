@@ -174,8 +174,12 @@ export class State<TKey = string | number | Symbol, TTrigger = string | Symbol> 
         this.name = name;
 
         if (opts) {
-            this.onEnter = opts.onEnter instanceof StateEffect ? opts.onEnter : new StateEffect(opts.onEnter!);
-            this.onExit = opts.onExit instanceof StateEffect ? opts.onExit : new StateEffect(opts.onExit!);
+            if (opts.onEnter) {
+                this.onEnter = opts.onEnter instanceof StateEffect ? opts.onEnter : new StateEffect(opts.onEnter!);
+            }
+            if (opts.onExit) {
+                this.onExit = opts.onExit instanceof StateEffect ? opts.onExit : new StateEffect(opts.onExit!);
+            }
             this.autoNext = opts.autoNext;
         }
     }
