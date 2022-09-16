@@ -347,8 +347,8 @@ export class Group<T extends Game = Game> {
 
 	destroy() {
 
+		this.game?.removeGroup(this);
 		this._paused = true;
-
 		this.onDestroy?.();
 
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {
