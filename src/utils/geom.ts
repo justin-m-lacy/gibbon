@@ -77,7 +77,7 @@ export const getTravelPt = (points: IPoint[], dist: number) => {
  * @param {number} t
  */
 export const lerpPt = (p0: IPoint, p1: IPoint, t: number) => {
-	return { x: (1 - t) * p0.x + t * p1.x, y: (1 - t) * p0.y + p1.y };
+	return { x: (1 - t) * p0.x + t * p1.x, y: (1 - t) * p0.y + t * p1.y };
 }
 
 /**
@@ -89,16 +89,17 @@ export const lerpPt = (p0: IPoint, p1: IPoint, t: number) => {
  */
 export const setLerp = (p0: IPoint, p1: IPoint, t: number) => {
 	p0.x = (1 - t) * p0.x + t * p1.x;
-	p0.y = (1 - t) * p0.y + p1.y;
+	p0.y = (1 - t) * p0.y + t * p1.y;
 }
 
 /**
  * Return a point falling a given distance between two points.
  * @param p1
  * @param p2
- * @param {number} len - length between p2 and p1.
+ * @param {number} dist - distance along the path from p1 to p2
+ * to get the point of. Actual distance, not a percent.
  */
-export const getMidPt = (p1: IPoint, p2: IPoint, len: number) => {
+export const getMidPt = (p1: IPoint, p2: IPoint, dist: number) => {
 
 	const dx = p2.x - p1.x;
 	const dy = p2.y - p1.y;
@@ -106,7 +107,7 @@ export const getMidPt = (p1: IPoint, p2: IPoint, len: number) => {
 	let d = Math.sqrt(dx * dx + dy * dy);
 	if (d === 0) return { x: 0, y: 0 };
 
-	d = len / d;	// convert from distance to percent.
+	d = dist / d;	// convert from distance to percent.
 
 	return {
 		x: p1.x + dx * d,
@@ -116,8 +117,7 @@ export const getMidPt = (p1: IPoint, p2: IPoint, len: number) => {
 }
 
 /**
- *
- * @param points
+ * Get the center of an array of points.
  * @returns {Point} Center point of all points.
  */
 export const getCenter = (points: IPoint[]) => {
