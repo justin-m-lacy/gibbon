@@ -31,11 +31,13 @@ export const createShape = (data: GraphicsData, container?: Container) => {
 		g.beginFill(data.fillStyle.color,
 			data.fillStyle.alpha);
 	}
-	g.lineStyle(
-		data.lineStyle.width,
-		data.lineStyle.color,
-		data.lineStyle.alignment);
+	if (data.lineStyle) {
+		g.lineStyle(
+			data.lineStyle.width,
+			data.lineStyle.color,
+			data.lineStyle.alignment);
 
+	}
 	const shape = data.shape;
 
 	switch (data.type) {
