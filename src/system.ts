@@ -19,13 +19,19 @@ export class System extends Group implements IUpdater {
 	 * @param {boolean} [enabled=false] - whether to start System immediately.
 	 */
 	constructor(clip?: Container, enabled: boolean = false) {
-
 		super(clip, !enabled);
-
-		if (enabled === true) this.start();
-
 	}
 
+	onAdded() {
+		if (this._enabled) {
+			this.start();
+		}
+	}
+	onRemoved() {
+		if (this._enabled) {
+			this.stop();
+		}
+	}
 	start() {
 
 		if (!this._enabled) {

@@ -177,7 +177,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 
 	flags: number = 0;
 
-	readonly _compMap: Map<Constructor<Component> | Function, Component> = new Map();
+	private readonly _compMap: Map<Constructor<Component> | Function, Component> = new Map();
 
 	/**
 	 * List of components waiting to be added next update.
