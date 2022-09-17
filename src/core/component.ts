@@ -2,6 +2,7 @@ import type { Actor } from "./actor";
 import { Constructor } from '../utils/types';
 import type { DisplayObject } from 'pixi.js';
 
+export const BasePriority = 3000;
 export class Component<T extends DisplayObject = DisplayObject> {
 
 	/**
@@ -90,7 +91,7 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	 * Priority should not be changed once a component is
 	 * added to an Actor.
 	 */
-	priority: number = 0;
+	priority: number = BasePriority;
 
 	/**
 	 * @property  - Game object containing this component.

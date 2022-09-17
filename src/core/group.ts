@@ -311,7 +311,7 @@ export class Group<T extends Game = Game> {
 	 * Remove Actor from group, but not Game or Engine.
 	 * @param {Actor} obj
 	 */
-	remove(obj: Actor, removeClip: boolean = true) {
+	remove(obj: Actor) {
 
 		const ind = this.objects.indexOf(obj);
 		if (ind < 0) return;
