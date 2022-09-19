@@ -32,6 +32,9 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	get enabled() { return this._enabled; }
 	set enabled(v) {
 
+		if (this._enabled === v) {
+			return;
+		}
 		this._enabled = v;
 		if (v === true) {
 			this.onEnable?.();
