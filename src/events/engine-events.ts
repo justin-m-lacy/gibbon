@@ -25,7 +25,8 @@ export enum EngineEvent {
     ComponentDestroyed = 'destroyComponent',
     ChildAdded = 'addChild',
     ChildRemoved = 'removeChild',
-    Collision = 'collision'
+    Collision = 'collision',
+    ScreenResized = 'resize',
 
 }
 

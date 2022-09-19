@@ -2,6 +2,7 @@ import type { DisplayObject } from 'pixi.js';
 import { Point, Rectangle } from 'pixi.js';
 import { Component } from '../core/component';
 import type { IPoint } from '../data/geom';
+import { EngineEvent } from '../events/engine-events';
 
 export class Camera extends Component<DisplayObject> {
 
@@ -96,6 +97,19 @@ export class Camera extends Component<DisplayObject> {
 
 	}
 
+	init() {
+
+		this._target = null;
+		this._panClip = this.actor!.clip;
+
+		this._viewScale = 1;
+
+		this._halfWidth = this._viewRect.width / 2;
+		this._halfHeight = this._viewRect.height / 2;
+
+		this.game!.on(EngineEvent.ScreenResized, this.resized, this);
+	}
+
 	/**
 	 * Call when view size has changed.
 	 * @param rect 
@@ -162,19 +176,7 @@ export class Camera extends Component<DisplayObject> {
 
 	}
 
-	init() {
-
-		this._target = null;
-		this._panClip = this.actor!.clip;
-
-		this._viewScale = 1;
-
-		this._halfWidth = this._viewRect.width / 2;
-		this._halfHeight = this._viewRect.height / 2;
-
-	}
-
-	update(delta: number) {
+	update() {
 
 		if (this._target === null) return;
 
@@ -194,6 +196,11 @@ export class Camera extends Component<DisplayObject> {
 		this._viewRect.x = -pos.x;
 		this._viewRect.y = -pos.y;
 
+	}
+
+	onDestroy() {
+
+		this.game?.off(EngineEvent.ScreenResized, this.resized, this);
 	}
 
 }

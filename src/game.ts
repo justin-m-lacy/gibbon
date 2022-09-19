@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { DisplayObject, Container, Point, Application, Ticker } from 'pixi.js';
+import { DisplayObject, Container, Point, Application, Ticker, Rectangle } from 'pixi.js';
 import { LayerManager } from './layerManager';
 import { Engine } from './engine';
 import { Actor } from './core/actor';
@@ -13,6 +13,7 @@ import { contains } from './utils/array-utils';
 import { WheelControl } from './input/mouse-wheel';
 import EventEmitter from 'eventemitter3';
 import type { IUpdater } from './engine';
+import { EngineEvent } from './events/engine-events';
 
 /**
  * Extendable Game class.
@@ -177,9 +178,7 @@ export class Game {
 			this.app.renderer.resize(
 				document.body.clientWidth,
 				document.body.clientHeight);
-			if (this._camera != null) {
-				this.camera!.resized(this.app.screen);
-			}
+			this._emitter.emit(EngineEvent.ScreenResized, new Rectangle(0, 0, document.body.clientWidth, document.body.clientHeight));
 		};
 		window.addEventListener('resize', resizer);
 
