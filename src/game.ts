@@ -172,13 +172,13 @@ export class Game {
 	 */
 	fullscreen() {
 
-		this.app.renderer.resize(document.body.clientWidth, document.body.clientHeight);
+		this.app.renderer.resize(window.visualViewport.width, window.visualViewport.height);
 
 		const resizer = () => {
 			this.app.renderer.resize(
-				document.body.clientWidth,
-				document.body.clientHeight);
-			this._emitter.emit(EngineEvent.ScreenResized, new Rectangle(0, 0, document.body.clientWidth, document.body.clientHeight));
+				window.visualViewport.width,
+				window.visualViewport.height);
+			this._emitter.emit(EngineEvent.ScreenResized, new Rectangle(0, 0, window.visualViewport.width, window.visualViewport.height));
 		};
 		window.addEventListener('resize', resizer);
 
