@@ -175,10 +175,13 @@ export class Game {
 		this.app.renderer.resize(window.visualViewport.width, window.visualViewport.height);
 
 		const resizer = () => {
+			const w = Math.ceil(window.visualViewport.width);
+			const h = Math.ceil(window.visualViewport.height);
+
 			this.app.renderer.resize(
-				window.visualViewport.width,
-				window.visualViewport.height);
-			this._emitter.emit(EngineEvent.ScreenResized, new Rectangle(0, 0, window.visualViewport.width, window.visualViewport.height));
+				w,
+				h);
+			this._emitter.emit(EngineEvent.ScreenResized, new Rectangle(0, 0, w, h));
 		};
 		window.addEventListener('resize', resizer);
 
