@@ -172,11 +172,15 @@ export class Game {
 	 */
 	fullscreen() {
 
-		this.app.renderer.resize(window.visualViewport.width, window.visualViewport.height);
+		const w = window.visualViewport ? Math.ceil(window.visualViewport.width) : document.body.clientWidth;
+		const h = window.visualViewport ? Math.ceil(window.visualViewport.height) : document.body.clientHeight;
+
+		this.app.renderer.resize(w, h);
+
 
 		const resizer = () => {
-			const w = Math.ceil(window.visualViewport.width);
-			const h = Math.ceil(window.visualViewport.height);
+			const w = window.visualViewport ? Math.ceil(window.visualViewport.width) : document.body.clientWidth;
+			const h = window.visualViewport ? Math.ceil(window.visualViewport.height) : document.body.clientHeight;
 
 			this.app.renderer.resize(
 				w,
