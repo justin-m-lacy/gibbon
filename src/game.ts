@@ -6,7 +6,6 @@ import { Actor } from './core/actor';
 import { Camera } from './components/camera';
 import { Group } from './core/group';
 import { Library } from './library';
-import { LayerData } from './layerManager';
 import { Tween } from '@tweenjs/tween.js';
 import { tweenOf } from './utils/tweens';
 import { contains } from './utils/array-utils';

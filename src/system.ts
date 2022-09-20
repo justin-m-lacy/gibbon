@@ -1,8 +1,9 @@
 import { Group } from "./core/group";
 import type { IUpdater } from "./engine";
 import type { Container } from 'pixi.js';
+import { Game } from "./game";
 
-export class System extends Group implements IUpdater {
+export class System<T extends Game = Game> extends Group<T> implements IUpdater {
 
 	/**
 	 * @property {boolean} enabled
