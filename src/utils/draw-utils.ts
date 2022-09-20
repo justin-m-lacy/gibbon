@@ -82,6 +82,24 @@ export const createShape = (data: GraphicsData, container?: Container) => {
 }
 
 /**
+ * Draw a dot. Can be useful for debugging.
+ * @param x 
+ * @param y 
+ * @returns 
+ */
+export const makeDot = (x: number, y: number, container?: Container) => {
+	const g = new Graphics();
+	g.beginFill(0x550000, 1);
+	g.drawCircle(0, 0, 8);
+	g.endFill();
+	g.position.set(x, y);
+
+	container?.addChild(g);
+	return g;
+
+}
+
+/**
  * Create a new Graphic with a polygon drawn in it.
  * @param {Vector[]} points
  * @param {*} graphicsData

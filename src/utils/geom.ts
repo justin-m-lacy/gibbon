@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { Polygon } from 'pixi.js';
-import { IPoint } from '../data/geom';
+import { TPoint } from '../data/geom';
 
 export const clampTo2Pi = (v: number) => {
 	if (v > 2 * Math.PI || v < -2 * Math.PI) v %= 2 * Math.PI;
@@ -14,14 +14,14 @@ export const clampToPi = (a: number) => {
 		(a < -Math.PI ? a + 2 * Math.PI : a);
 }
 
-export const getLength = (p: IPoint): number => {
+export const getLength = (p: TPoint): number => {
 	return Math.sqrt(p.x * p.x + p.y * p.y);
 }
 
 /**
  * Returns the distance between two points.
  */
-export const dist = (p1: IPoint, p2: IPoint): number => {
+export const dist = (p1: TPoint, p2: TPoint): number => {
 	const dx = p2.x - p1.x, dy = p2.y - p1.y;
 	return Math.sqrt(dx * dx + dy * dy);
 }
@@ -33,7 +33,7 @@ export const dist = (p1: IPoint, p2: IPoint): number => {
  * @param  dist
  * @returns {Point}
  */
-export const getTravelPt = (points: IPoint[], dist: number) => {
+export const getTravelPt = (points: TPoint[], dist: number) => {
 
 	const count = points.length;
 	let curPt, prevPt = points[0];
@@ -76,7 +76,7 @@ export const getTravelPt = (points: IPoint[], dist: number) => {
  * @param p1
  * @param {number} t
  */
-export const lerpPt = (p0: IPoint, p1: IPoint, t: number) => {
+export const lerpPt = (p0: TPoint, p1: TPoint, t: number) => {
 	return { x: (1 - t) * p0.x + t * p1.x, y: (1 - t) * p0.y + t * p1.y };
 }
 
@@ -87,7 +87,7 @@ export const lerpPt = (p0: IPoint, p1: IPoint, t: number) => {
  * @param {number} t
  * @returns {Point} returns p0.
  */
-export const setLerp = (p0: IPoint, p1: IPoint, t: number) => {
+export const setLerp = (p0: TPoint, p1: TPoint, t: number) => {
 	p0.x = (1 - t) * p0.x + t * p1.x;
 	p0.y = (1 - t) * p0.y + t * p1.y;
 }
@@ -99,7 +99,7 @@ export const setLerp = (p0: IPoint, p1: IPoint, t: number) => {
  * @param {number} dist - distance along the path from p1 to p2
  * to get the point of. Actual distance, not a percent.
  */
-export const getMidPt = (p1: IPoint, p2: IPoint, dist: number) => {
+export const getMidPt = (p1: TPoint, p2: TPoint, dist: number) => {
 
 	const dx = p2.x - p1.x;
 	const dy = p2.y - p1.y;
@@ -120,7 +120,7 @@ export const getMidPt = (p1: IPoint, p2: IPoint, dist: number) => {
  * Get the center of an array of points.
  * @returns {Point} Center point of all points.
  */
-export const getCenter = (points: IPoint[]) => {
+export const getCenter = (points: TPoint[]) => {
 
 	const len = points.length;
 	if (len === 0) return { x: 0, y: 0 };
@@ -156,22 +156,23 @@ export const reflection = (a: number, b: number) => {
 }
 
 /**
- * @returns point normal to p.
+ * @returns returns vector orthogonal to p with length equal |p|.
+ * Result is not normalized.
  */
-export const norm = (p: IPoint) => { return { x: p.y, y: -p.x } }
+export const othogonal = (p: TPoint) => { return { x: p.y, y: -p.x } }
 
 /**
  * @returns {number} - magnitude of the cross product p1xp2
  * left hand rule; normals point screen upwards.
  */
-export const cross = (p1: IPoint, p2: IPoint) => { return p1.x * p2.y - p1.y * p2.x; }
+export const cross = (p1: TPoint, p2: TPoint) => { return p1.x * p2.y - p1.y * p2.x; }
 
 /**
  * move() is separate from translate() because of how PIXI
  * handles Polygon point storage.
  * @param poly - polygon to translate.
  */
-export const move = (poly: Polygon, tx: number, ty: number) => {
+export const movePoly = (poly: Polygon, tx: number, ty: number) => {
 
 	const points = poly.points;
 
@@ -188,7 +189,7 @@ export const move = (poly: Polygon, tx: number, ty: number) => {
  * Translate an array of points by (tx,ty)
  * @property points
  */
-export const translate = (points: IPoint[], tx: number, ty: number) => {
+export const translate = (points: TPoint[], tx: number, ty: number) => {
 
 	for (let i = points.length - 1; i >= 0; i--) {
 
@@ -201,11 +202,12 @@ export const translate = (points: IPoint[], tx: number, ty: number) => {
 }
 
 /**
+ * Rotate points about the origin.
  * @param points
  * @param theta - rotation in radians.
  * 
  */
-export const rotate = (points: IPoint[], theta: number) => {
+export const rotate = (points: TPoint[], theta: number) => {
 
 	const cos = Math.cos(theta);
 	const sin = Math.sin(theta);
