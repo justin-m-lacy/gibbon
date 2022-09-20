@@ -22,7 +22,12 @@ export type UnionEmitter = EventEmitter<CombineEvents<GameEvents, string | symbo
  */
 export enum EngineEvent {
     ActorDestroyed = 'destroy',
-    ComponentDestroyed = 'destroyComponent',
+
+    /**
+     * At the point when a component is destroyed,
+     * its actor can still be referenced through comp.actor.
+     */
+    ComponentDestroyed = 'compDestroy',
     ChildAdded = 'addChild',
     ChildRemoved = 'removeChild',
     Collision = 'collision',
@@ -33,7 +38,7 @@ export enum EngineEvent {
 export type GameEvents = {
 
     [EngineEvent.ActorDestroyed]: (actor: Actor) => void,
-    [EngineEvent.ComponentDestroyed]: (comp: Component<any>) => void,
+    [EngineEvent.ComponentDestroyed]: (comp: Component) => void,
     [EngineEvent.ChildAdded]: <T extends DisplayObject>(actor: Actor<T>) => void;
     [EngineEvent.ChildRemoved]: (actor: Actor<DisplayObject>) => void;
     [EngineEvent.Collision]: (collider: Collider2d, hits: Collider2d[]) => void;

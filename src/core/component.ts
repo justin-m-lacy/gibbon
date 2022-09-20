@@ -2,6 +2,7 @@ import type { Actor } from "./actor";
 import { Constructor } from '../utils/types';
 import type { DisplayObject } from 'pixi.js';
 import type { Game } from "@/game";
+import { EngineEvent } from '../events/engine-events';
 
 export const BasePriority = 3000;
 export class Component<T extends DisplayObject = DisplayObject, G extends Game = Game> {
@@ -207,13 +208,15 @@ export class Component<T extends DisplayObject = DisplayObject, G extends Game =
 	/**
 	 * Use to destroy a Component.
 	 * override onDestroy() to clean up your components.
-	 * Do not call _destroy() directly.
 	 */
 	destroy() {
 
 		if (this._destroyed === true) {
 			return;
 		}
+
+		this.actor?.emit(
+			EngineEvent.ComponentDestroyed, this);
 
 		this.onDestroy?.();
 

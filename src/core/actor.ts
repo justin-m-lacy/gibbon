@@ -422,17 +422,6 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 		}
 
 		this._removeDestroyed(destroyed);
-		/*for (let i = comps.length - 1; destroyed > 0 && i >= 0; i--) {
-
-			const comp = comps[i];
-			if (comp._destroyed) {
-				// safe since counting down.
-				comps.splice(i, 1);
-				destroyed--;
-			}
-
-		}*/
-
 
 	}
 
