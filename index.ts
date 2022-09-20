@@ -37,6 +37,8 @@ import { LerpPos } from './src/components/lerp-pos';
 import { FSM } from './src/core/fsm';
 export { LayerGroup } from './src/core/layer-group';
 
+export * as ArrayUtils from './src/utils/array-utils';
+
 export {
 
 	FSM,
