@@ -178,7 +178,7 @@ export class Component<T extends DisplayObject = DisplayObject, G extends Game =
 	 * @param {Component} comp
 	 * @returns {Component} The added component instance.
 	 */
-	add(comp: Component | Constructor<Component>, cls?: Constructor<Component>): Component {
+	add<C extends Component>(comp: C | Constructor<C>, cls?: Constructor<C>): C {
 
 		return this.actor!.add(comp, cls);
 	}

@@ -3,13 +3,20 @@ import { Component } from "../core/component";
 export class TimeDestroy extends Component {
 
 	/**
-	 * @property {number} time - time in milliseconds before destroy/effect.
+	 * @property {number} timeMs - time in milliseconds before destroy/effect.
 	 * Setting to new value resets the timer.
 	 */
 	get timeMs(): number {
-		return this._timer;
+		return this._timer * 1000;
 	}
 	set timeMs(v: number) {
+		this._timer = v / 1000;
+	}
+
+	get time() {
+		return this._timer;
+	}
+	set time(v) {
 		this._timer = v;
 	}
 
