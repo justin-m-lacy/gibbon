@@ -25,7 +25,7 @@ export type DestroyOptions = {
 /**
  *
  */
-export class Actor<T extends DisplayObject = DisplayObject> {
+export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Game> {
 
 	private static NextId: number = 1000;
 
@@ -34,7 +34,7 @@ export class Actor<T extends DisplayObject = DisplayObject> {
 	/**
 	 * @property {Game} game
 	 */
-	get game() { return Game.current; }
+	get game(): G { return Game.current as G; }
 
 	/**
 	 * @property {Group} group - owning group of the actor, if any.

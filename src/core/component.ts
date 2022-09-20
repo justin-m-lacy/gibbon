@@ -1,9 +1,10 @@
 import type { Actor } from "./actor";
 import { Constructor } from '../utils/types';
 import type { DisplayObject } from 'pixi.js';
+import type { Game } from "@/game";
 
 export const BasePriority = 3000;
-export class Component<T extends DisplayObject = DisplayObject> {
+export class Component<T extends DisplayObject = DisplayObject, G extends Game = Game> {
 
 	/**
 	 * @property game
@@ -99,7 +100,7 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	/**
 	 * @property  - Game object containing this component.
 	 */
-	actor?: Actor<T>;
+	actor?: Actor<T, G>;
 
 	_enabled: boolean = false;
 	_destroyed: boolean = false;
@@ -128,7 +129,7 @@ export class Component<T extends DisplayObject = DisplayObject> {
 	 * Private initializer calls subclassed init()
 	 * @param {Actor} actor
 	 */
-	_init(actor: Actor<T>) {
+	_init(actor: Actor<T, G>) {
 
 		this.actor = actor;
 		this._enabled = true;
