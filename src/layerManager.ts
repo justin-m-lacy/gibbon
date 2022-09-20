@@ -7,6 +7,15 @@ export type LayerData = {
 	name?: string
 }
 
+export type LayerOptions = {
+
+	baseLayer?: Container,
+	objects?: Container,
+	background?: Container,
+	uiLayer?: Container,
+	foreground?: Container,
+	layers?: LayerData[]
+}
 /**
  * Use to keep track of basic game layers.
  * Each layer is a separate PIXI.Container objects on the stage.
@@ -40,9 +49,7 @@ export class LayerManager {
 	/**
 	 * @property {number}
 	 */
-	get layerCount() { return this.game.stage.children.length; }
-
-	game: Game;
+	get layerCount() { return this._objectLayer.parent.children.length }
 
 	_foreground?: DisplayObject;
 	_background?: DisplayObject;
@@ -50,17 +57,43 @@ export class LayerManager {
 	_uiLayer?: Container;
 
 
+	private _baseLayer: Container;
+
 	/**
 	 *
-	 * @param {Game} game
+	 * @param opts - Set initial LayerManager containers.
+	 * @param opts.baseLayer - Layer to use as the base of all others.
+	 * Defaults to game.stage.
+	 * @param opts.layers - Additional layers to create.
 	 */
-	constructor(game: Game) {
+	constructor(game: Game,
+		opts?: LayerOptions) {
 
-		this.game = game;
+		this._baseLayer = opts?.baseLayer ?? game.stage;
+		this._objectLayer = opts?.objects ?? this.createLayer('objects');
 
-		this._background = this.addLayer('background');
-		this._objectLayer = this.addLayer('object');
-		this._uiLayer = this.addLayer('uiLayer');
+		if (opts) {
+
+			this._uiLayer = opts.uiLayer;
+			this._background = opts.background;
+			this._foreground = opts.foreground;
+
+			if (opts.layers) {
+				this.initFromData(opts.layers);
+			}
+
+		} else {
+			this._background = this.createLayer('background');
+			this._uiLayer = this.createLayer('uiLayer');
+		}
+
+	}
+
+	addLayer(container: Container) {
+
+		if (container.parent === null) {
+			this._baseLayer.addChild(container);
+		}
 
 	}
 
@@ -70,31 +103,31 @@ export class LayerManager {
 	 * @param {number} index - index where the new clip is placed.
 	 * @returns {Container} the clip created.
 	 */
-	addLayer(name: string, index?: number | null): Container {
+	createLayer(name: string, index?: number | null): Container {
 
 		const clip = new Container();
 		clip.name = name;
 		if (index === null || index === undefined) {
-			this.game.stage.addChild(clip);
+			this._baseLayer.addChild(clip);
 		}
-		else this.game.stage.addChildAt(clip, index);
+		else this._baseLayer.addChildAt(clip, index);
 
 		return clip;
 
 	}
 
-	initFromData(layerData: LayerData[]) {
+	private initFromData(layerData: LayerData[]) {
 
-		const stage = this.game.stage;
+		const base = this._baseLayer;
 		for (const data of layerData) {
 
 			const clip = new Container();
 			clip.name = data.name || '';
 
 			if (data.depth) {
-				this.game.stage.addChildAt(clip, data.depth);
+				base.addChildAt(clip, data.depth);
 			}
-			else stage.addChild(clip);
+			else base.addChild(clip);
 
 
 		}

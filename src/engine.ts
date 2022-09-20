@@ -3,6 +3,12 @@ import { quickSplice } from './utils/array-utils';
 import { Ticker } from 'pixi.js';
 import type { Container } from 'pixi.js';
 
+export interface ITicker {
+
+	start(): void;
+	stop(): void;
+
+}
 export interface IUpdater {
 
 	/**
@@ -17,7 +23,12 @@ export class Engine implements IUpdater {
 	/**
 	 * @property {Container} objectLayer
 	 */
-	objectLayer?: Container;
+	_objectLayer?: Container;
+
+	get objectLayer() { return this._objectLayer }
+	set objectLayer(v: Container | undefined) {
+		this._objectLayer = v;
+	}
 
 	/**
 	 * @property {Actor[]} objects
@@ -85,7 +96,7 @@ export class Engine implements IUpdater {
 		}
 
 		if (obj.clip != null && obj.clip.parent == null) {
-			this.objectLayer!.addChild(obj.clip);
+			this._objectLayer!.addChild(obj.clip);
 		}
 
 		obj._added();

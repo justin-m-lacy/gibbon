@@ -6,6 +6,9 @@ import { EngineEvent } from '../events/engine-events';
 
 export class Camera extends Component<DisplayObject> {
 
+	/**
+	 * Target for camera to follow.
+	 */
 	get target() { return this._target; }
 	set target(v) {
 
@@ -18,6 +21,16 @@ export class Camera extends Component<DisplayObject> {
 			this._panClip?.position.set(this._halfWidth - v.x, this._halfHeight - v.y);
 		}
 
+	}
+
+	/**
+	 * Set the clip that moves to change the camera's position.
+	 * This should be a clip that contains all game objects.
+	 * (As opposed to static UI elements, backgrounds, etc.)
+	 */
+	get panClip() { return this._panClip }
+	set panClip(v: DisplayObject | null | undefined) {
+		this._panClip = v;
 	}
 
 	get minScale(): number { return this._minScale || 1; }

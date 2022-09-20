@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { DisplayObject, Container, Point, Application, Ticker, Rectangle } from 'pixi.js';
-import { LayerManager } from './layerManager';
+import { LayerManager, LayerOptions } from './layerManager';
 import { Engine } from './engine';
 import { Actor } from './core/actor';
 import { Camera } from './components/camera';
@@ -58,7 +58,7 @@ export class Game {
 	 */
 	get root(): Actor { return this._root; }
 
-	get objectLayer(): Container { return this.layerManager.objectLayer!; }
+	get objectLayer(): Container { return this.engine.objectLayer!; }
 
 	get uiLayer(): Container { return this.layerManager._uiLayer!; }
 
@@ -140,12 +140,9 @@ export class Game {
 	/**
 	 * After init(), layerManager and game layers are available for use.
 	 */
-	init(layerData?: LayerData[]) {
+	init(layerOptions?: LayerOptions) {
 
-		const layerManager = new LayerManager(this);
-		if (layerData != null) {
-			layerManager.initFromData(layerData);
-		}
+		const layerManager = new LayerManager(this, layerOptions);
 
 		this._layerManager = layerManager;
 		this._engine.objectLayer = layerManager.objectLayer;
