@@ -1,6 +1,8 @@
-import type { ComponentKey, Actor } from '../core/actor';
+import type { ComponentKey } from '../core/actor';
 import { Component } from '../core/component';
+import { Actor } from '../core/actor';
 
+type EffectTarget = ComponentKey | Actor;
 
 export type StateEffectDef = {
     add?: Array<ComponentKey>;
@@ -8,9 +10,9 @@ export type StateEffectDef = {
     remove?: Array<ComponentKey>;
 
 
-    disable?: Array<ComponentKey>;
+    disable?: Array<EffectTarget>;
 
-    enable?: Array<ComponentKey>;
+    enable?: Array<EffectTarget>;
 
 }
 
@@ -29,9 +31,9 @@ export class StateEffect {
     /**
      * Components to disable.
      */
-    protected disable?: Array<ComponentKey>;
+    protected disable?: Array<EffectTarget>;
 
-    protected enable?: Array<ComponentKey>;
+    protected enable?: Array<EffectTarget>;
 
 
     constructor(
@@ -49,7 +51,7 @@ export class StateEffect {
      * Set components to disable on this transition.
      * @param disable 
      */
-    setDisables(disable: ComponentKey[]) {
+    setDisables(disable: EffectTarget[]) {
         this.disable = disable;
     }
 
@@ -57,7 +59,7 @@ export class StateEffect {
      * Set components to disable on this transition.
      * @param enable 
      */
-    setEnable(enable: ComponentKey[]) {
+    setEnable(enable: EffectTarget[]) {
         this.enable = enable;
     }
 
@@ -102,6 +104,9 @@ export class StateEffect {
                 let comp = enable[i];
                 if (comp instanceof Component) {
                     comp.enabled = true;
+                }
+                else if (comp instanceof Actor) {
+                    comp.active = true;
                 } else {
                     const val = actor.get(comp);
                     if (val) {
@@ -126,6 +131,9 @@ export class StateEffect {
                 let comp = disable[i];
                 if (comp instanceof Component) {
                     comp.enabled = false;
+                } else if (comp instanceof Actor) {
+
+                    comp.active = false;
                 } else {
                     const val = actor.get(comp);
                     if (val) {
