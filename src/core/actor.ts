@@ -62,7 +62,9 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 					comp.onActivate?.();
 				}
 			} else {
-				this._components.every(v => v.onDeactivate?.());
+				for (const comp of this._components) {
+					comp.onDeactivate?.();
+				}
 			}
 
 		}
