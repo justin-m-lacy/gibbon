@@ -48,6 +48,66 @@ export class StateEffect {
     }
 
     /**
+     * Get list of components/actors to be enabled on transition.
+     */
+    getEnables() { return this.enable; }
+
+    /**
+     * Get list of components/actors to be disabled on transition.
+     */
+    getDisables() { return this.disable; }
+
+    /**
+     * Get list of components to be removed on transition.
+     */
+    getRemoves() { return this.remove; }
+
+
+    /**
+     * Get list of components to be added on transition.
+     */
+    getAdds() { return this.add; }
+
+    /**
+     * Add component or component type to be added.
+     */
+    addAdd(effect: ComponentKey) {
+        if (this.add === undefined) {
+            this.add = [effect];
+        } else {
+            this.add.push(effect);
+        }
+    }
+
+    /**
+     * Add component or component type to be removed.
+     */
+    addRemove(effect: ComponentKey) {
+        if (this.remove === undefined) {
+            this.remove = [effect];
+        } else {
+            this.remove.push(effect);
+        }
+    }
+
+
+    addEnable(effect: EffectTarget) {
+        if (this.enable === undefined) {
+            this.enable = [effect];
+        } else {
+            this.enable.push(effect);
+        }
+    }
+
+    addDisable(effect: EffectTarget) {
+        if (this.disable === undefined) {
+            this.disable = [effect];
+        } else {
+            this.disable.push(effect);
+        }
+    }
+
+    /**
      * Set components to disable on this transition.
      * @param disable 
      */
@@ -241,7 +301,7 @@ export class State<TKey = string | number | Symbol, TTrigger = string | Symbol> 
      * Set Enter-State Transition.
      * @param t 
      */
-    addEnter(t: StateEffect | StateEffectDef) {
+    setEnter(t: StateEffect | StateEffectDef) {
         this.onEnter = t instanceof StateEffect ? t : new StateEffect(t);
     }
 
@@ -249,7 +309,7 @@ export class State<TKey = string | number | Symbol, TTrigger = string | Symbol> 
      * Set leave-state transition.
      * @param t 
      */
-    addExit(t: StateEffect | StateEffectDef) {
+    setExit(t: StateEffect | StateEffectDef) {
         this.onExit = t instanceof StateEffect ? t : new StateEffect(t);
     }
 
