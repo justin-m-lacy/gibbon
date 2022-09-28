@@ -55,7 +55,11 @@ export class CanvasDraw {
 
 		ctx.fillStyle = grad;
 		const r = Math.max(r0, r1);
+
+		ctx.beginPath();
 		ctx.ellipse(x, y, r, r, 0, 0, 2 * Math.PI);
+		ctx.closePath();
+		ctx.fill();
 
 
 	}
