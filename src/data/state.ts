@@ -1,6 +1,7 @@
 import type { ComponentKey } from '../core/actor';
 import { Component } from '../core/component';
 import { Actor } from '../core/actor';
+import { addUnique } from '../utils/array-utils';
 
 type EffectTarget = ComponentKey | Actor;
 
@@ -47,6 +48,42 @@ export class StateEffect {
 
     }
 
+    addEffects(effects: StateEffectDef) {
+
+        if (effects.add) {
+            if (this.add) {
+                addUnique(this.add, effects.add);
+            } else {
+                this.add = effects.add;
+            }
+        }
+
+        if (effects.remove) {
+            if (this.remove) {
+                addUnique(this.remove, effects.remove);
+            } else {
+                this.remove = effects.remove;
+            }
+        }
+
+        if (effects.disable) {
+            if (this.disable) {
+                addUnique(this.disable, effects.disable);
+            } else {
+                this.disable = effects.disable;
+            }
+        }
+
+        if (effects.enable) {
+            if (this.enable) {
+                addUnique(this.enable, effects.enable);
+            } else {
+                this.enable = effects.enable;
+            }
+        }
+
+    }
+
     /**
      * Get list of components/actors to be enabled on transition.
      */
@@ -74,7 +111,7 @@ export class StateEffect {
     addAdd(effect: ComponentKey) {
         if (this.add === undefined) {
             this.add = [effect];
-        } else {
+        } else if (!this.add.includes(effect)) {
             this.add.push(effect);
         }
     }
@@ -85,7 +122,7 @@ export class StateEffect {
     addRemove(effect: ComponentKey) {
         if (this.remove === undefined) {
             this.remove = [effect];
-        } else {
+        } else if (!this.remove.includes(effect)) {
             this.remove.push(effect);
         }
     }
@@ -94,7 +131,7 @@ export class StateEffect {
     addEnable(effect: EffectTarget) {
         if (this.enable === undefined) {
             this.enable = [effect];
-        } else {
+        } else if (!this.enable.includes(effect)) {
             this.enable.push(effect);
         }
     }
@@ -102,7 +139,7 @@ export class StateEffect {
     addDisable(effect: EffectTarget) {
         if (this.disable === undefined) {
             this.disable = [effect];
-        } else {
+        } else if (!this.disable.includes(effect)) {
             this.disable.push(effect);
         }
     }
@@ -295,6 +332,23 @@ export class State<TKey = string | number | Symbol, TTrigger = string | Symbol> 
      */
     getNextState(trigger: TTrigger) {
         return this.edges.get(trigger);
+    }
+
+    addEnterEffect(effect: StateEffectDef) {
+
+        if (this.onEnter) {
+            this.onEnter.addEffects(effect);
+        } else {
+            this.onEnter = new StateEffect(effect);
+        }
+    }
+
+    addExitEffect(effect: StateEffectDef) {
+        if (this.onExit) {
+            this.onExit.addEffects(effect);
+        } else {
+            this.onExit = new StateEffect(effect);
+        }
     }
 
     /**

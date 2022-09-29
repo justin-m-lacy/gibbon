@@ -1,4 +1,22 @@
 /**
+ * Add elements of b to target when not already
+ * in the array.
+ * @param target
+ * @param b 
+ */
+export const addUnique = <T>(target: T[], b: T[]) => {
+
+	for (let i = b.length - 1; i >= 0; i--) {
+
+		if (target.indexOf(b[i]) < 0) {
+			target.push(b[i]);
+		}
+	}
+
+}
+
+
+/**
  * Splices an element from the array by replacing it
  * with the last element.
  * Array order is not preserved.
