@@ -202,7 +202,7 @@ export class StateEffect {
                 if (comp instanceof Component) {
                     comp.enabled = true;
                 }
-                else if (comp instanceof Actor) {
+                else if ('active' in comp) {
                     comp.active = true;
                 } else {
                     const val = actor.get(comp);
@@ -228,7 +228,7 @@ export class StateEffect {
                 let comp = disable[i];
                 if (comp instanceof Component) {
                     comp.enabled = false;
-                } else if (comp instanceof Actor) {
+                } else if ('active' in comp) {
 
                     comp.active = false;
                 } else {
