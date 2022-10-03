@@ -47,7 +47,7 @@ export class SleepSystem extends Component {
 
 	init() {
 
-		this._engine = this.game.engine;
+		this._engine = this.game!.engine;
 
 	}
 
@@ -55,7 +55,7 @@ export class SleepSystem extends Component {
 
 		let del;
 		let objects = this._sleepers;
-		const rect = this.game.camera?.viewRect;
+		const rect = this.game?.camera?.viewRect;
 
 		if (rect == null) {
 			return;
