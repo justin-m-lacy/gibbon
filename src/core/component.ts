@@ -10,12 +10,12 @@ export class Component<T extends DisplayObject = DisplayObject, G extends Game =
 	/**
 	 * @property game
 	 */
-	get game() { return this.actor!.game; }
+	get game(): G | undefined { return this.actor!.game; }
 
 	/**
 	 * @property {Engine} engine
 	 */
-	get engine() { return this.game.engine; }
+	get engine() { return this.game?.engine; }
 
 	/**
 	 * @property {number} flags - Convenience accessor for Actor.flags.

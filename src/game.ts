@@ -13,6 +13,7 @@ import { WheelControl } from './input/mouse-wheel';
 import EventEmitter from 'eventemitter3';
 import type { IUpdater } from './engine';
 import { EngineEvent } from './events/engine-events';
+import { Constructor } from './utils/types';
 
 /**
  * Extendable Game class.
@@ -212,6 +213,17 @@ export class Game {
 	off(evt: string, fn?: (...args: any[]) => void, context?: any) {
 		return this._emitter.off(evt, fn, context);
 	}
+
+	getGroup<G extends Group>(type: Constructor<G>): G | undefined {
+
+		for (let i = this._groups.length - 1; i >= 0; i--) {
+
+			if (this._groups[i] instanceof type) {
+				return this._groups[i] as G;
+			}
+		}
+	}
+
 
 	findGroup(name: string): Group | undefined {
 		return this._groups.find((g) => g.name === name);
