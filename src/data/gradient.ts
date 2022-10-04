@@ -1,4 +1,4 @@
-import { htmlStr } from "../utils/color-utils";
+import { htmlStr, rgbaStr } from '../utils/color-utils';
 
 export class Gradient {
 
@@ -17,7 +17,32 @@ export class Gradient {
 
 	}
 
-	toContextLinear(ctx: CanvasRenderingContext2D, x0: number, y0: number, x1: number, y1: number) {
+	/**
+	 * Create a linear gradient object for the context which may include alpha.
+	 */
+	toAlphaLinear(ctx: CanvasRenderingContext2D, x0: number, y0: number, x1: number, y1: number) {
+
+		const grad = ctx.createLinearGradient(x0, y0, x1, y1);
+		this.addAlphaStops(grad);
+
+		return grad;
+	}
+
+	/**
+	 * Create a radial gradient object for the context that includes alpha channel.
+	 */
+	toAlphaRadial(ctx: CanvasRenderingContext2D, r0: number, r1: number, x: number = 0, y: number = 0) {
+
+		const grad = ctx.createRadialGradient(x, y, r0, x, y, r1);
+		this.addAlphaStops(grad);
+
+		return grad;
+	}
+
+	/**
+	 * Create a linear gradient object for the context. alpha is ignored.
+	 */
+	toLinear(ctx: CanvasRenderingContext2D, x0: number, y0: number, x1: number, y1: number) {
 
 		const grad = ctx.createLinearGradient(x0, y0, x1, y1);
 		this.addStops(grad);
@@ -25,7 +50,11 @@ export class Gradient {
 		return grad;
 	}
 
-	toContextRadiual(ctx: CanvasRenderingContext2D, r0: number, r1: number, x: number = 0, y: number = 0) {
+
+	/**
+	 * Create a radial gradient object for the context. alpha is ignored.
+	 */
+	toRadial(ctx: CanvasRenderingContext2D, r0: number, r1: number, x: number = 0, y: number = 0) {
 
 		const grad = ctx.createRadialGradient(x, y, r0, x, y, r1);
 		this.addStops(grad);
@@ -34,7 +63,16 @@ export class Gradient {
 	}
 
 	/**
-	 * Add the Gradient color steps to the CanvasGradient.
+	 * Add gradient stops which include an alpha component.
+	 */
+	addAlphaStops(grad: CanvasGradient) {
+		for (let i = 0; i < this.stops.length; i++) {
+			grad.addColorStop(this.stops[i], rgbaStr(this.colors[i]));
+		}
+	}
+
+	/**
+	 * Add the Gradient color steps to the CanvasGradient with no alpha.
 	 * @param {CanvasGradient} grad
 	 */
 	addStops(grad: CanvasGradient) {

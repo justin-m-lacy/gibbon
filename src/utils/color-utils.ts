@@ -7,6 +7,10 @@ export const rgbStr = (color: number) => {
 	return color.toString(16).padStart(6, '0');
 };
 
+export const rgbaStr = (color: number) => {
+	return `rgba(${0xff & (color >> 16)},${0xff & (color >> 8)},${0xff & color},${0xff & (color >> 24)})`
+}
+
 /**
  * Returns a color string in the form of '#RRGGBB'
  * @param {number} color
