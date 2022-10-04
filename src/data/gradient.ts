@@ -17,6 +17,22 @@ export class Gradient {
 
 	}
 
+	toContextLinear(ctx: CanvasRenderingContext2D, x0: number, y0: number, x1: number, y1: number) {
+
+		const grad = ctx.createLinearGradient(x0, y0, x1, y1);
+		this.addStops(grad);
+
+		return grad;
+	}
+
+	toContextRadiual(ctx: CanvasRenderingContext2D, r0: number, r1: number, x: number = 0, y: number = 0) {
+
+		const grad = ctx.createRadialGradient(x, y, r0, x, y, r1);
+		this.addStops(grad);
+
+		return grad;
+	}
+
 	/**
 	 * Add the Gradient color steps to the CanvasGradient.
 	 * @param {CanvasGradient} grad
