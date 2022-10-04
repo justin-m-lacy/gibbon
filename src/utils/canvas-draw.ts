@@ -16,11 +16,16 @@ export class CanvasDraw {
 		return PIXI.BaseTexture.from(this.canvas);
 	}
 
+	getContext() {
+
+		return this.canvas.getContext('2d');
+
+	}
+
 	constructor(width: number, height: number) {
 
 
 		this.canvas = document.createElement('canvas');
-		//this.ctx = this._canvas.getContext('2d');
 
 		this.width = width;
 		this.height = height;
