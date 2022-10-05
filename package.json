@@ -28,7 +28,7 @@
   "dependencies": {
     "@tweenjs/tween.js": "^18.6.4",
     "eventemitter3": "^4.0.7",
-    "pixi.js": "^6.5.3"
+    "pixi.js": "6.5"
   },
   "devDependencies": {
     "@types/jest": "^29.0.0",
