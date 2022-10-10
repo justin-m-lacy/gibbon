@@ -35,7 +35,7 @@ export class Group<T extends Game = Game> {
 	/**
 	 * Subgroups of this group.
 	 */
-	readonly subgroups: Group<T>[] = [];
+	readonly subgroups: Group[] = [];
 
 	/**
 	 * Objects in group.
@@ -165,8 +165,8 @@ export class Group<T extends Game = Game> {
 
 			this.onAdded();
 
-			for (const g of this.subgroups) {
-				g._onAdded(game);
+			for (const s of this.subgroups) {
+				game.addGroup(s);
 			}
 
 		}
@@ -180,17 +180,24 @@ export class Group<T extends Game = Game> {
 	 */
 	_onRemoved() {
 
-		if (this._game) {
-
-			this.onRemoved();
-
-			for (const a of this.objects) {
-				this.game!.engine.remove(a);
-			}
+		const game = this._game;
+		if (game) {
 
 			this._game = undefined;
-			for (const g of this.subgroups) {
-				g._onRemoved();
+			this.onRemoved();
+
+			const objs = this.objects.slice();
+			this.objects.length = 0;
+
+			const subs = this.subgroups.slice();
+			this.subgroups.length = 0;
+
+			for (const a of objs) {
+				game.engine.remove(a);
+			}
+
+			for (const s of subs) {
+				game.removeGroup(s);
 			}
 		}
 
@@ -228,6 +235,29 @@ export class Group<T extends Game = Game> {
 	}
 
 	/**
+	 * Get group by class. Searches this group then
+	 * recurses up the parent chain, and then to the
+	 * current game, if Group has been added to game.
+	 * @param type 
+	 * @returns 
+	 */
+	getGroup<G extends Group>(type: Constructor<G>): G | undefined {
+
+		for (let i = this.subgroups.length - 1; i >= 0; i--) {
+
+			if (this.subgroups[i] instanceof type) {
+				return this.subgroups[i] as G;
+			}
+		}
+
+		if (this._parent) {
+			return this._parent.getGroup(type)
+		} else if (this._game) {
+			return this._game.getGroup(type);
+		}
+	}
+
+	/**
 	 * Find subgroup of this group.
 	 * @param gname 
 	 * @returns 
@@ -259,23 +289,23 @@ export class Group<T extends Game = Game> {
 
 	/**
 	 * Add subgroup to this group.
-	 * @param {Group} g
+	 * @param {Group} sub
 	 */
-	addGroup(g: Group<T>) {
+	addGroup(sub: Group) {
 
-		if (g._parent) {
+		if (!contains(this.subgroups, sub)) {
 
-			if (g._parent === this) return;
-			g._parent.removeGroup(g);
-		}
+			if (sub._parent) {
 
-		g._parent = this;
-		if (!contains(this.subgroups, g)) {
-
-			this.subgroups.push(g);
-			if (this.game && g.game !== this.game) {
-				g._onAdded(this.game);
+				if (sub._parent === this) return;
+				sub._parent.removeGroup(sub);
 			}
+			sub._parent = this;
+
+
+			this.subgroups.push(sub);
+			this.game?.addGroup(sub)
+
 
 		}
 
@@ -283,25 +313,25 @@ export class Group<T extends Game = Game> {
 
 	/**
 	 * Remove subgroup from this group.
-	 * @param {Group} g
+	 * @param {Group} sub
 	 */
-	removeGroup(g: Group) {
+	removeGroup(sub: Group) {
 
-		if (g._parent !== this) {
+		if (sub._parent !== this) {
 			return;
 		}
-		g._parent = undefined;
+		sub._parent = undefined;
 
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {
 
-			if (this.subgroups[i] == g) {
+			if (this.subgroups[i] == sub) {
 				this.subgroups.splice(i, 1);
-
-				g.onRemoved();
-
 				return;
 			}
 		}
+
+		this.game?.removeGroup(sub);
+
 
 	}
 
@@ -345,10 +375,6 @@ export class Group<T extends Game = Game> {
 
 	destroy() {
 
-		this.game?.removeGroup(this);
-		this._paused = true;
-		this.onDestroy?.();
-
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {
 			this.subgroups[i].destroy();
 		}
@@ -357,11 +383,15 @@ export class Group<T extends Game = Game> {
 			this.objects[i].off(EngineEvent.ActorDestroyed, this.remove, this);
 			this.objects[i].destroy();
 		}
+		this.objects.length = 0;
+		this.subgroups.length = 0;
+
+		this.game?.removeGroup(this);
+		this._paused = true;
+		this.onDestroy?.();
 
 		this._actor?.destroy();
 
-		this.objects.length = 0;
-		this.subgroups.length = 0;
 		this._parent = undefined;
 		this._game = undefined;
 
