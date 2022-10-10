@@ -110,7 +110,7 @@ export class Transform extends Component {
     addChild(t: Transform) {
 
         if (t === this) {
-            console.log(`Attempt to set self as parent failed.`);
+            console.warn(`Attempt to set self as parent failed.`);
         } else if (t._parent != this) {
 
             const oldParent = t._parent;

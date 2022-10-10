@@ -70,7 +70,6 @@ export class LoadGroup extends Group {
 
 	destroy() {
 
-		console.log('destroying load group');
 		this._loader = null;
 		if (this.actor) {
 			this.actor.destroy();

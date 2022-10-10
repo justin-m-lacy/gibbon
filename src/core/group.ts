@@ -152,11 +152,9 @@ export class Group<T extends Game = Game> {
 
 		if (this._game !== game) {
 
-			console.log(`adding group to game.`);
 			this._game = game;
 			if (this._actor && !this._actor.isAdded) {
 				/// add actor to group.
-				console.log(`adding group actor...`);
 				game.addActor(this._actor);
 			}
 

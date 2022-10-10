@@ -92,7 +92,7 @@ export class Engine implements IUpdater {
 	add(obj: Actor) {
 
 		if (obj.isAdded) {
-			console.log(`error: Actor already added to engine.`);
+			console.warn(`error: Actor already added to engine.`);
 		}
 
 		if (obj.clip != null && obj.clip.parent == null) {
