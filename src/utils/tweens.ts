@@ -1,4 +1,4 @@
-import { Tween } from '@tweenjs/tween.js';
+import { Tween } from 'tweedle.js';
 
 const tweens = new WeakMap<any, Tween<any>>();
 

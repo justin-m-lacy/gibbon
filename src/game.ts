@@ -6,7 +6,7 @@ import { Actor } from './core/actor';
 import { Camera } from './components/camera';
 import { Group } from './core/group';
 import { Library } from './library';
-import { Tween } from '@tweenjs/tween.js';
+import { Tween } from 'tweedle.js';
 import { tweenOf } from './utils/tweens';
 import { contains } from './utils/array-utils';
 import { WheelControl } from './input/mouse-wheel';

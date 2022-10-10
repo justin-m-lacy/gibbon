@@ -1,13 +1,13 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@tweenjs/tween.js': ^18.6.4
+  'tweedle': ^18.6.4
   eslint: ^8.14.0
   pixi.js: 6.2.2
   typescript: ^4.5.5
 
 dependencies:
-  '@tweenjs/tween.js': 18.6.4
+  'tweedle': 18.6.4
   pixi.js: 6.2.2
 
 devDependencies:
@@ -477,7 +477,7 @@ packages:
       url: 0.11.0
     dev: false
 
-  /@tweenjs/tween.js/18.6.4:
+  /tweedle/18.6.4:
     resolution: {integrity: sha512-lB9lMjuqjtuJrx7/kOkqQBtllspPIN+96OvTCeJ2j5FEzinoAXTdAMFnDAQT1KVPRlnYfBrqxtqP66vDM40xxQ==}
     dev: false
 
