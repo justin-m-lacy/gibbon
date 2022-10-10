@@ -183,8 +183,8 @@ export class Group<T extends Game = Game> {
 		const game = this._game;
 		if (game) {
 
-			this._game = undefined;
 			this.onRemoved();
+			this._game = undefined;
 
 			const objs = this.objects.slice();
 			this.objects.length = 0;
