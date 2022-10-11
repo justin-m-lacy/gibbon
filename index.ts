@@ -35,6 +35,7 @@ import { CanvasDraw } from './src/utils/canvas-draw';
 import { Driver } from './src/components/driver';
 import { LerpPos } from './src/components/lerp-pos';
 import { FSM } from './src/core/fsm';
+import { EngineEvent } from './src/events/engine-events';
 export { LayerGroup } from './src/core/layer-group';
 
 export * as ArrayUtils from './src/utils/array-utils';
@@ -68,5 +69,6 @@ export {
 	removeTween,
 	Components,
 	Utils,
+	EngineEvent
 
 };
