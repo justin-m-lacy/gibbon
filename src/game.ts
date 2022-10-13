@@ -206,7 +206,7 @@ export class Game {
 	 * @param  {...any} args
 	 */
 	emit(evt: string, ...args: any[]) {
-		this._emitter.emit(evt, args);
+		this._emitter.emit(evt, ...args);
 	}
 
 
