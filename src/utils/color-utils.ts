@@ -8,7 +8,7 @@ export const rgbStr = (color: number) => {
 };
 
 export const rgbaStr = (color: number) => {
-	return `rgba(${0xff & (color >> 16)},${0xff & (color >> 8)},${0xff & color},${(color >> 24) / 0xff})`
+	return `rgba(${0xff & (color >> 16)},${0xff & (color >> 8)},${0xff & color},${(0xff & (color >> 24)) / 0xff})`
 }
 
 /**
