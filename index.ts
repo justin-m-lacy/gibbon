@@ -28,7 +28,6 @@ import { Library } from './src/library';
 import { Game } from './src/game'
 import { Group } from './src/core/group';
 import { System } from './src/system';
-import { LoadGroup } from './src/loadGroup';
 import * as Geom from './src/utils/geom';
 import * as Rand from './src/utils/rand';
 import { CanvasDraw } from './src/utils/canvas-draw';
@@ -49,7 +48,6 @@ export {
 	Library,
 	Group,
 	Driver,
-	LoadGroup,
 	Geom,
 	Rand,
 	Systems,
