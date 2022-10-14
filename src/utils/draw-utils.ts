@@ -1,5 +1,4 @@
-import { Circle, Graphics, Rectangle, Polygon, Ellipse, GraphicsData, RoundedRectangle, Point, DisplayObject, RenderTexture, AbstractRenderer, Container } from 'pixi.js';
-import * as PIXI from 'pixi.js';
+import { Circle, Graphics, Rectangle, Polygon, Ellipse, GraphicsData, RoundedRectangle, Point, DisplayObject, RenderTexture, AbstractRenderer, Container, SHAPES, autoDetectRenderer } from 'pixi.js';
 
 export const drawToTexture = (d: DisplayObject, renderer?: AbstractRenderer) => {
 
@@ -7,7 +6,7 @@ export const drawToTexture = (d: DisplayObject, renderer?: AbstractRenderer) => 
 	const renderTex: RenderTexture =
 		RenderTexture.create({ width: bounds.width, height: bounds.height });
 
-	const useRenderer = renderer ?? PIXI.autoDetectRenderer();
+	const useRenderer = renderer ?? autoDetectRenderer();
 	useRenderer.render(d, { renderTexture: renderTex });
 
 	return renderTex;
@@ -42,20 +41,20 @@ export const createShape = (data: GraphicsData, container?: Container) => {
 
 	switch (data.type) {
 
-		case PIXI.SHAPES.RECT:
+		case SHAPES.RECT:
 			const rect = shape as Rectangle;
 			g.drawRect(-rect.width / 2, -rect.height / 2, rect.width, rect.height);
 			break;
-		case PIXI.SHAPES.CIRC:
+		case SHAPES.CIRC:
 			g.drawCircle(0, 0, (shape as Circle).radius);
 			break;
-		case PIXI.SHAPES.POLY:
+		case SHAPES.POLY:
 			g.drawPolygon((shape as Polygon).points);
 			break;
-		case PIXI.SHAPES.ELIP:
+		case SHAPES.ELIP:
 			g.drawEllipse(0, 0, (shape as Ellipse).width, (shape as Ellipse).height);
 			break;
-		case PIXI.SHAPES.RREC:
+		case SHAPES.RREC:
 			const rrect = shape as RoundedRectangle;
 			g.drawRoundedRect(0, 0, rrect.width, rrect.height, rrect.radius);
 			break;

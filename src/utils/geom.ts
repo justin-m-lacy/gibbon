@@ -1,5 +1,4 @@
-import * as PIXI from 'pixi.js';
-import { Polygon } from 'pixi.js';
+import { Matrix, Polygon } from 'pixi.js';
 import { TPoint } from '../data/geom';
 
 export const clampTo2Pi = (v: number) => {
@@ -144,15 +143,15 @@ export const getCenter = (points: TPoint[]) => {
  * without altering tx,ty.
  * @returns {Matrix}
  */
-export const setReflect = (mat: PIXI.Matrix, a: number, b: number) => {
+export const setReflect = (mat: Matrix, a: number, b: number) => {
 	mat.set(1 - 2 * b * b, 2 * a * b, 2 * a * b, 1 - 2 * a * a, mat.tx, mat.ty);
 }
 
 /**
- * @returns {PIXI.Matrix} - reflection matrix across the normal a,b.
+ * @returns reflection matrix across the normal a,b.
  */
 export const reflection = (a: number, b: number) => {
-	return new PIXI.Matrix(1 - 2 * b * b, 2 * a * b, 2 * a * b, 1 - 2 * a * a);
+	return new Matrix(1 - 2 * b * b, 2 * a * b, 2 * a * b, 1 - 2 * a * a);
 }
 
 /**

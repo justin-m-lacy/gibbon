@@ -1,5 +1,4 @@
-import * as PIXI from 'pixi.js';
-import { DisplayObject, Container, Point, Application, Ticker, Rectangle } from 'pixi.js';
+import { DisplayObject, Container, Application, Ticker, Rectangle } from 'pixi.js';
 import { LayerManager, LayerOptions } from './layerManager';
 import { Engine } from './engine';
 import { Actor } from './core/actor';
@@ -14,6 +13,7 @@ import EventEmitter from 'eventemitter3';
 import type { IUpdater } from './engine';
 import { EngineEvent } from './events/engine-events';
 import { Constructor } from './utils/types';
+import { IPoint } from './data/geom';
 
 /**
  * Extendable Game class.
@@ -37,12 +37,6 @@ export class Game {
 	 * @property {PIXI.Container} stage
 	 */
 	get stage() { return this._app.stage; }
-
-	/**
-	 * @property {PIXI.Loader} loader
-	 */
-	get loader() { return this._loader; }
-	set loader(v) { this._loader = v; }
 
 	/**
 	 * @property {PIXI.Rectangle} screen - Screen/View Rectangle.
@@ -102,8 +96,6 @@ export class Game {
 
 	private readonly _app: Application;
 
-	private _loader: PIXI.Loader;
-
 	private readonly _groups: Group[] = [];
 
 	/**
@@ -131,7 +123,6 @@ export class Game {
 		this.app.stage.hitArea = this._app.screen;
 
 		Game.current = this;
-		this._loader = PIXI.Loader.shared;
 
 		this._engine = new Engine(new Ticker());
 
@@ -283,9 +274,9 @@ export class Game {
 	 * Wraps engine.Instantiate()
 	 * Instantiate a Actor with a clip or a named clonable object from the library.
 	 */
-	instantiate(clip?: DisplayObject | null | string, loc?: PIXI.Point) {
+	instantiate(clip?: DisplayObject | null | string, loc?: IPoint) {
 
-		const view = (typeof clip === 'string') ? this.library.instance<DisplayObject>(clip, loc) : clip;
+		const view = (typeof clip === 'string') ? this.library.instance<DisplayObject>(clip) : clip;
 		const go = new Actor(view ?? undefined, loc);
 
 		this.engine.add(go);
@@ -296,14 +287,14 @@ export class Game {
 	/**
 	 * Create an empty game object with a Container clip.
 	 */
-	makeContainer(loc?: Point) {
+	makeContainer(loc?: IPoint) {
 		return this.instantiate(new Container(), loc);
 	}
 
 	/**
 	 * Create empty game object with no clip.
 	 */
-	makeEmpty(loc?: PIXI.Point) {
+	makeEmpty(loc?: IPoint) {
 		return this.instantiate(null, loc);
 	}
 

@@ -1,9 +1,8 @@
 import { htmlStr } from './color-utils';
 
-import * as PIXI from 'pixi.js';
-import type { Point } from 'pixi.js';
+import { BaseTexture, Sprite } from 'pixi.js';
 import { Gradient } from '../data/gradient';
-import { Sprite } from 'pixi.js';
+import { TPoint } from '@/data/geom';
 
 export class CanvasDraw {
 
@@ -13,7 +12,7 @@ export class CanvasDraw {
 
 	getTexture() {
 
-		return PIXI.BaseTexture.from(this.canvas);
+		return BaseTexture.from(this.canvas);
 	}
 
 	getContext() {
@@ -74,7 +73,7 @@ export class CanvasDraw {
 	 * @param {Point} p1
 	 * @param {Gradient} gradient
 	 */
-	gradFill(p0: Point, p1: PIXI.Point, gradient: Gradient) {
+	gradFill(p0: TPoint, p1: TPoint, gradient: Gradient) {
 
 		const ctx = this.canvas.getContext('2d')!;
 

@@ -17,7 +17,7 @@ Optionally override constructor and init() function.
 
 export class MyGame extends Game {
 
-    constructor(app:PIXI.Application){
+    constructor(app:Application){
         super(app);
     }
 
@@ -38,11 +38,11 @@ export class MyGame extends Game {
 
 ```
 
-import * as PIXI from 'pixi.js';
+import {Application} from 'pixi.js';
 import { MyGame } from './my-game';
 
 
-const app = new PIXI.Application({
+const app = new Application({
 
     width: window.innerWidth,
     height: window.innerHeight,

@@ -181,7 +181,7 @@ export class Camera extends Component<DisplayObject> {
 	 *
 	 * @param  global
 	 * @param  dest=null
-	 * @returns {PIXI.Point}
+	 * @returns {Point}
 	 */
 	toCameraPoint(global: IPoint, dest?: IPoint) {
 

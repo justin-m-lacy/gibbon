@@ -74,7 +74,7 @@ export class Component<T extends DisplayObject = DisplayObject, G extends Game =
 	}
 
 	/**
-	 * @property {PIXI.Point} position - only usable after init()
+	 * @property position - only usable after init()
 	 */
 	get position() { return this.actor!.position; }
 	set position(v) { this.actor!.position = v; }

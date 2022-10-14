@@ -1,5 +1,6 @@
 import { Actor } from "../src/core/actor";
-import type { DisplayObject, Point } from 'pixi.js';
+import type { DisplayObject } from 'pixi.js';
+import { IPoint } from '../src/data/geom';
 
 /**
  * Pool for Actors.
@@ -21,7 +22,7 @@ export class ActorPool {
 		this._objs.push(obj);
 	}
 
-	get(clip?: DisplayObject, pos?: Point) {
+	get(clip?: DisplayObject, pos?: IPoint) {
 
 		if (this._objs.length === 0) {
 			return new Actor(clip, pos);

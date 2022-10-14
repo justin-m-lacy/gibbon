@@ -1,4 +1,3 @@
-import type { Point } from 'pixi.js';
 import { Constructor, isConstructor, Clonable, isClonable } from './utils/types';
 import type { Actor } from './core/actor';
 
@@ -24,10 +23,9 @@ export class Library {
 	/**
 	 * 
 	 * @param {string} name 
-	 * @param {Point|?Object} [p=null] - point to place instance.
 	 * @returns {?Object} Object created, or null.
 	 */
-	instance<T>(name: string, p?: Point | null) {
+	instance<T>(name: string) {
 
 		const item = this._lib.get(name);
 		if (!item) return null;

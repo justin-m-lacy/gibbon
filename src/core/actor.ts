@@ -1,12 +1,11 @@
 import { Point, DisplayObject, Container } from 'pixi.js';
-import * as PIXI from 'pixi.js';
+import { EventEmitter } from '@pixi/utils';
 import type { Group } from './group';
 import { Game } from '../game';
 import { Component } from './component';
 import { Constructor } from '../utils/types';
 import { Transform } from './transform';
 import { EngineEvent } from '../events/engine-events';
-import EventEmitter from 'eventemitter3';
 import type { IPoint } from '@/data/geom';
 
 
@@ -119,7 +118,7 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	set sleep(v: boolean) { this._sleep = v; }
 
 	/**
-	 * @property {Point} orient - returns the normalized orientation vector of the object.
+	 * @property orient - returns the normalized orientation vector of the object.
 	 */
 	get orient() {
 		return new Point(Math.cos(this._rotation), Math.sin(this._rotation));
@@ -262,7 +261,7 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	 * @param {*} [context=null]
 	 * @returns {PIXI.utils.EventEmitter}
 	 */
-	on(evt: string, func: PIXI.utils.EventEmitter.ListenerFn, context?: any) {
+	on(evt: string, func: EventEmitter.ListenerFn, context?: any) {
 		if (this.clip != null) {
 			return this.clip.on(evt, func, context);
 		}
@@ -284,7 +283,7 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	 * Wrap emitter off()
 	 * @param  {...any} args
 	 */
-	off(e: string, fn?: PIXI.utils.EventEmitter.ListenerFn, context?: any) {
+	off(e: string, fn?: EventEmitter.ListenerFn, context?: any) {
 		this.emitter.off(e, fn, context);
 	}
 
