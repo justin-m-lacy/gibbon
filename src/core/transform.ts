@@ -4,7 +4,7 @@ import { quickSplice } from "../utils/array-utils";
 import { Constructor } from "../utils/types";
 import { Point } from 'pixi.js';
 import { EngineEvent } from "../events/engine-events";
-import { IPoint, TPoint } from '../data/geom';
+import { TPoint } from '../data/geom';
 
 
 export class Transform extends Component {
