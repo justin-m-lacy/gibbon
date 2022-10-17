@@ -14,7 +14,7 @@ export { isClonable, isConstructor, } from './src/utils/types';
 export type { Clonable, Constructor } from './src/utils/types';
 import * as DisplayUtils from './src/utils/display-utils';
 import * as ColorUtils from './src/utils/color-utils';
-import * as DrawUtils from './src/utils/draw-utils';
+import * as DrawUtils from './src/utils/draw';
 export * as Logging from './src/utils/logging';
 
 import { tweenOf, getTween, removeTween } from './src/utils/tweens';
