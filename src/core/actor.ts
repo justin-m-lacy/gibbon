@@ -293,7 +293,7 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	 * @param {?Object} [cls=null]
 	 * @returns {Component} Returns the instance.
 	 */
-	private addInstance<C extends Component>(inst: C, cls?: Constructor<C>): C {
+	public addInstance<C extends Component>(inst: C, cls?: Constructor<C>): C {
 
 		const key = cls ?? (<any>inst).constructor ?? Object.getPrototypeOf(inst).constructor ?? inst;
 
@@ -374,9 +374,13 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 		const inst = this._compMap.get(cls) as C;
 		if (inst !== undefined) return inst;
 
-		for (let i = this._components.length - 1; i >= 0; i--) {
-			if (this._components[i] instanceof cls) return this._components[i] as C;
+		for (const comp of this._compMap.values()) {
+			if (comp instanceof cls) return comp as C;
 		}
+		/*for (let i = this._components.length - 1; i >= 0; i--) {
+			if (this._components[i] instanceof cls) return this._components[i] as C;
+		}*/
+
 		return undefined;
 
 	}
