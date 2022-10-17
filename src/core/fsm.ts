@@ -2,6 +2,7 @@
 import { Component } from './component';
 import { State, Transition } from '../data/state';
 import type { StateEffect, StateEffectDef } from '../data/state';
+import { ComponentKey } from './actor';
 
 export enum StateEvent {
     enter = 'enterState',
@@ -199,5 +200,38 @@ export class FSM<TKey = string | Symbol | number, TTrigger = string | Symbol> ex
     addState(state: State<TKey, TTrigger>) {
         this._states.set(state.name, state);
     }
+
+    /**
+     * Add a component to enable when entering a state.
+     * @param state 
+     * @param enable 
+     */
+    addStateEnable(state: TKey, enable: ComponentKey) {
+
+        const st = this._states.get(state);
+        if (st) {
+            st.addEnterEnable(enable);
+        } else {
+            console.warn(`FSm.addStateEnable() unexpected missing state: ${state}`);
+        }
+
+    }
+
+    /**
+     * Add component to disable when entering a state.
+     * @param state 
+     * @param disable 
+     */
+    addStateDisable(state: TKey, disable: ComponentKey) {
+
+        const st = this._states.get(state);
+        if (st) {
+            st.addEnterDisable(disable);
+        } else {
+            console.warn(`FSm.addStateDisable() unexpected missing state: ${state}`);
+        }
+
+    }
+
 
 }

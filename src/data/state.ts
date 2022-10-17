@@ -343,6 +343,36 @@ export class State<TKey = string | number | Symbol, TTrigger = string | Symbol> 
         }
     }
 
+    /**
+     * Add Component to enable when entering state.
+     * @param key 
+     */
+    addEnterEnable(key: ComponentKey) {
+        if (this.onEnter) {
+
+            this.onEnter.addEnable(key);
+        } else {
+            this.onEnter = new StateEffect({
+                enable: [key]
+            })
+        }
+    }
+
+    /**
+     * Add Component to disable when entering state.
+     * @param key 
+     */
+    addEnterDisable(key: ComponentKey) {
+        if (this.onEnter) {
+
+            this.onEnter.addDisable(key);
+        } else {
+            this.onEnter = new StateEffect({
+                disable: [key]
+            })
+        }
+    }
+
     addExitEffect(effect: StateEffectDef) {
         if (this.onExit) {
             this.onExit.addEffects(effect);
