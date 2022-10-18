@@ -163,11 +163,11 @@ export class Group<T extends Game = Game> {
 				game.addActor(a);
 			}
 
-			this.onAdded();
-
 			for (const s of this.subgroups) {
 				game.addGroup(s);
 			}
+
+			this.onAdded();
 
 		}
 
