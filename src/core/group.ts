@@ -62,6 +62,8 @@ export class Group<T extends Game = Game> {
 	 */
 	private _parent?: Group;
 
+	protected isDestroyed: boolean = false;
+
 	/**
 	 *
 	 * @param actor -actor to assign to group, or container to use as group container,
@@ -173,30 +175,6 @@ export class Group<T extends Game = Game> {
 
 	}
 
-	/**
-	 * Internal message of group being removed from game.
-	 * Do not call directly.
-	 * Override onRemoved() in subclasses for the event.
-	 */
-	_onRemoved() {
-
-		const game = this._game;
-		if (game) {
-
-			this.onRemoved();
-			this._game = undefined;
-
-			for (const a of this.objects) {
-				game.engine.remove(a);
-			}
-
-			for (const s of this.subgroups) {
-				game.removeGroup(s);
-			}
-		}
-
-
-	}
 
 	/**
 	 * Show all the objects in the group and subgroups.
@@ -306,30 +284,6 @@ export class Group<T extends Game = Game> {
 	}
 
 	/**
-	 * Remove subgroup from this group.
-	 * @param {Group} sub
-	 */
-	removeGroup(sub: Group) {
-
-		if (sub._parent !== this) {
-			return;
-		}
-		sub._parent = undefined;
-
-		for (let i = this.subgroups.length - 1; i >= 0; i--) {
-
-			if (this.subgroups[i] == sub) {
-				this.subgroups.splice(i, 1);
-				return;
-			}
-		}
-
-		this.game?.removeGroup(sub);
-
-
-	}
-
-	/**
 	 * Remove Actor from group, but not Game or Engine.
 	 * @param {Actor} obj
 	 */
@@ -363,11 +317,63 @@ export class Group<T extends Game = Game> {
 	}
 
 	/**
+	 * Internal message of group being removed from game.
+	 * Do not call directly.
+	 * Override onRemoved() in subclasses for the event.
+	 */
+	_onRemoved() {
+
+		const game = this._game;
+		if (game) {
+
+			this.onRemoved();
+			this._game = undefined;
+
+			for (const a of this.objects) {
+				game.engine.remove(a);
+			}
+
+			for (const s of this.subgroups) {
+				game.removeGroup(s);
+			}
+		}
+
+
+	}
+
+	/**
+	 * Remove subgroup from this group.
+	 * @param {Group} sub
+	 */
+	removeGroup(sub: Group) {
+
+		if (sub._parent !== this) {
+			return;
+		}
+		sub._parent = undefined;
+
+		for (let i = this.subgroups.length - 1; i >= 0; i--) {
+
+			if (this.subgroups[i] == sub) {
+				this.subgroups.splice(i, 1);
+				return;
+			}
+		}
+
+		this.game?.removeGroup(sub);
+
+
+	}
+
+
+	/**
 	 * Override in subclasses to cleanup before group destroyed.
 	 */
 	onDestroy?(): void;
 
 	destroy() {
+
+		this.isDestroyed = true;
 
 		for (let i = this.subgroups.length - 1; i >= 0; i--) {
 			this.subgroups[i].destroy();
@@ -380,17 +386,20 @@ export class Group<T extends Game = Game> {
 		this.objects.length = 0;
 		this.subgroups.length = 0;
 
-		/// Temp workaround to ensure 'game' exists
-		/// after removeGroup clears game variable.
-		/// Long term: introduce onDestroyed() variable; or
-		/// don't use both onRemoved and onDestroy?
-		/// onRemoved destroys too many objects currently.
+
+		/// workaround to ensure 'game' exists in the onDestroy()
+		/// function since _onRemoved() clears it.
 		const tempGame = this._game;
-		tempGame?.removeGroup(this);
+		if (this._parent && !this._parent.isDestroyed) {
+			this._parent.removeGroup(this);
+		} else {
+			this._game?.removeGroup(this);
+		}
+
 		this._game = tempGame;
+		this.onDestroy?.();
 
 		this._paused = true;
-		this.onDestroy?.();
 
 		this._actor?.destroy();
 
