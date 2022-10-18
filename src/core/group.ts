@@ -186,17 +186,11 @@ export class Group<T extends Game = Game> {
 			this.onRemoved();
 			this._game = undefined;
 
-			const objs = this.objects.slice();
-			this.objects.length = 0;
-
-			const subs = this.subgroups.slice();
-			this.subgroups.length = 0;
-
-			for (const a of objs) {
+			for (const a of this.objects) {
 				game.engine.remove(a);
 			}
 
-			for (const s of subs) {
+			for (const s of this.subgroups) {
 				game.removeGroup(s);
 			}
 		}
@@ -386,7 +380,15 @@ export class Group<T extends Game = Game> {
 		this.objects.length = 0;
 		this.subgroups.length = 0;
 
-		this.game?.removeGroup(this);
+		/// Temp workaround to ensure 'game' exists
+		/// after removeGroup clears game variable.
+		/// Long term: introduce onDestroyed() variable; or
+		/// don't use both onRemoved and onDestroy?
+		/// onRemoved destroys too many objects currently.
+		const tempGame = this._game;
+		tempGame?.removeGroup(this);
+		this._game = tempGame;
+
 		this._paused = true;
 		this.onDestroy?.();
 
