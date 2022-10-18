@@ -372,7 +372,7 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	get<C extends Component>(cls: Constructor<C>): C | undefined {
 
 		const inst = this._compMap.get(cls) as C;
-		if (inst !== undefined) return inst;
+		if (inst) return inst;
 
 		for (const comp of this._compMap.values()) {
 			if (comp instanceof cls) return comp as C;
@@ -392,10 +392,10 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	require<C extends Component>(cls: Constructor<C>, ...args: any[]): C {
 
 		const inst = this._compMap.get(cls);
-		if (inst !== undefined && inst instanceof cls) return inst as C;
+		if (inst) return inst as C;
 
 		for (let i = this._components.length - 1; i >= 0; i--) {
-			if (this._components[i] instanceof cls) return this._components[i] as C;
+			if (this._components[i] instanceof cls && !this._components[i].isDestroyed) return this._components[i] as C;
 		}
 		return this.add(cls, ...args);
 
