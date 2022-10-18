@@ -356,7 +356,7 @@ export class Group<T extends Game = Game> {
 
 			if (this.subgroups[i] == sub) {
 				this.subgroups.splice(i, 1);
-				return;
+				break;
 			}
 		}
 
