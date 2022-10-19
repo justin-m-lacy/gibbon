@@ -187,7 +187,8 @@ export class StateEffect {
             for (let i = 0; i < add.length; i++) {
 
                 const comp = add[i];
-                if (comp instanceof Component) {
+
+                if ('_isComponent' in comp) {
                     actor!.add(comp);
                 } else {
                     actor!.require(comp);
@@ -199,7 +200,7 @@ export class StateEffect {
             const enable = this.enable;
             for (let i = 0; i < enable.length; i++) {
                 let comp = enable[i];
-                if (comp instanceof Component) {
+                if ('_isComponent' in comp) {
                     comp.enabled = true;
                 }
                 else if ('active' in comp) {
@@ -226,7 +227,7 @@ export class StateEffect {
             const disable = this.disable;
             for (let i = 0; i < disable.length; i++) {
                 let comp = disable[i];
-                if (comp instanceof Component) {
+                if ('_isComponent' in comp) {
                     comp.enabled = false;
                 } else if ('active' in comp) {
 

@@ -6,6 +6,7 @@ import { EngineEvent } from '../events/engine-events';
 
 export const BasePriority = 3000;
 export class Component<T extends DisplayObject = DisplayObject, G extends Game = Game> {
+	public readonly _isComponent = true;
 
 	/**
 	 * @property game
