@@ -40,7 +40,7 @@ export class HtmlWrapper extends Component {
     }
     set width(v: number) {
         if (this._elm) {
-            this._elm.style.minWidth = this._elm.style.maxWidth = this._elm.style.width = `${v} px`;
+            this._elm.style.minWidth = this._elm.style.maxWidth = this._elm.style.width = `${v}px`;
         }
     }
 
@@ -49,28 +49,29 @@ export class HtmlWrapper extends Component {
     }
     set height(v: number) {
         if (this._elm) {
-            this._elm.style.minHeight = this._elm.style.maxHeight = this._elm.style.height = `${v} px`;
+            this._elm.style.minHeight =
+                this._elm.style.maxHeight = this._elm.style.height = `${v}px`;
         }
     }
 
     set x(x: number) {
         if (this._elm) {
-            this._elm.style.left = `${x} px`;
+            this._elm.style.left = `${x}px`;
         }
         super.x = x;
     }
 
     set y(y: number) {
         if (this._elm) {
-            this._elm.style.left = `${y} px`;
+            this._elm.style.left = `${y}px`;
         }
         super.y = y;
     }
 
     set position(p: Point) {
         if (this._elm) {
-            this._elm.style.right = `${p.x} px`;
-            this._elm.style.left = `${p.y} px`;
+            this._elm.style.right = `${p.x}px`;
+            this._elm.style.left = `${p.y}px`;
         }
         super.position = p;
     }
