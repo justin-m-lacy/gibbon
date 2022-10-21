@@ -81,6 +81,14 @@ export class HtmlWrapper extends Component {
             this._elm.style.display = s ?? 'none';
         }
     }
+
+    get visible() {
+        return this._elm?.style.display !== 'none' && this.enabled;
+    }
+    set visible(b: boolean) {
+        this.enabled = b;
+    }
+
     get display() { return this._elm?.style.display }
     protected _elm?: HTMLElement | null;
 
