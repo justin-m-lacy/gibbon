@@ -75,6 +75,13 @@ export class HtmlWrapper extends Component {
         super.position = p;
     }
 
+    set display(s: string | undefined) {
+        this._display = s;
+        if (this._elm) {
+            this._elm.style.display = s ?? 'none';
+        }
+    }
+    get display() { return this._elm?.style.display }
     protected _elm?: HTMLElement | null;
 
     /// display to restore after hiding.
