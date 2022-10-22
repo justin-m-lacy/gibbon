@@ -61,17 +61,17 @@ export class HtmlWrapper extends Component {
         super.x = x;
     }
 
-    set y(y: number) {
+    set y(v: number) {
         if (this._elm) {
-            this._elm.style.left = `${y}px`;
+            this._elm.style.top = `${v}px`;
         }
-        super.y = y;
+        super.y = v;
     }
 
     set position(p: Point) {
         if (this._elm) {
-            this._elm.style.right = `${p.x}px`;
-            this._elm.style.left = `${p.y}px`;
+            this._elm.style.left = `${p.x}px`;
+            this._elm.style.top = `${p.y}px`;
         }
         super.position = p;
     }
