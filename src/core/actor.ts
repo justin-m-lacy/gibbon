@@ -420,7 +420,7 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 				destroyed++;
 				continue;
 			}
-			if (comp.update && comp.sleep !== true && comp.enabled === true) {
+			if (comp.update && comp.enabled === true) {
 				comp.update(delta);
 			}
 

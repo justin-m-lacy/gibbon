@@ -87,9 +87,6 @@ export class Component<T extends DisplayObject = DisplayObject, G extends Game =
 	 */
 	get isDestroyed() { return this._destroyed; }
 
-	get sleep() { return this._sleep; }
-	set sleep(v: boolean) { this._sleep = v; }
-
 	/**
 	 * Priority of component. Higher priority components'
 	 * update functions are updated before lower priority.
