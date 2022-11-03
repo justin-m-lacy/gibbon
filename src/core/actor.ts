@@ -95,10 +95,13 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	set rotation(v) {
 		if (v > 2 * Math.PI || v < -2 * Math.PI) v %= 2 * Math.PI;
 		this._rotation = v;
-		if (this.clip != null) {
+		if (this.clip && this._autoRotate === true) {
 			this.clip.rotation = v;
 		}
 	}
+
+	get autoRotate() { return this._autoRotate }
+	set autoRotate(v) { this._autoRotate = v }
 
 	get width() { return this.clip?.getBounds().width ?? 0; }
 	get height() { return this.clip?.getBounds().height ?? 0; }
@@ -152,6 +155,11 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	 * Object was destroyed and should not be used any more.
 	 */
 	private _destroyed: boolean = false;
+
+	/**
+	 * If true, actor display object will match actor's rotation.
+	 */
+	private _autoRotate: boolean = true;
 
 	/**
 	 * Game object was added to engine.
