@@ -272,6 +272,12 @@ export class State<TKey = string | number | Symbol, TTrigger = string | Symbol> 
     autoNext?: Transition<TKey>;
 
     /**
+     * If two state transitions overlap, a state with lower priority ( lower numeric value )
+     * will be ignored.
+     */
+    priority: number = 0;
+
+    /**
      * Maps triggers to next state key.
      */
     private readonly edges: Map<TTrigger, TKey> = new Map();

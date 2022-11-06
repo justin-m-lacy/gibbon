@@ -22,10 +22,9 @@ export class FSM<TKey = string | Symbol | number, TTrigger = string | Symbol> ex
     private _current: State<TKey, TTrigger>;
 
     /**
-     * True if state is changing. Used to detect
-     * multiple simultaneous state changes.
+     * State being transitioned to.
      */
-    private _changing = false;
+    private _changeState: State<TKey, TTrigger> | null = null;
 
     /**
      * Current transition for timed transitions.
@@ -79,16 +78,22 @@ export class FSM<TKey = string | Symbol | number, TTrigger = string | Symbol> ex
         if (stateName === this._current.name) {
             // No state change.
             return false;
-        } else if (this._changing) {
-            throw new Error(`Overlapping State Change: ${stateName}`);
         } else if (!this.actor) {
             throw new Error(`Attempting to change state with no actor: ${stateName}`)
         }
 
-        this._changing = true;
-        this.curTransition = null;
-
         const newState = this.getState(stateName);
+        if (!newState) {
+            return false;
+        }
+
+        if (this._changeState) {
+
+            if (newState.priority <= this._changeState.priority) {
+                return;
+            }
+        }
+        this.curTransition = null;
 
         if (newState) {
 
@@ -97,7 +102,7 @@ export class FSM<TKey = string | Symbol | number, TTrigger = string | Symbol> ex
 
             this.enterState(newState);
         }
-        this._changing = false;
+        this._changeState = null;
         return newState ?? false;
 
     }
