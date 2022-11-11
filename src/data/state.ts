@@ -380,6 +380,37 @@ export class State<TKey = string | number | Symbol, TTrigger = string | Symbol> 
         }
     }
 
+    /**
+ * Add Component to enable when entering state.
+ * @param key 
+ */
+    addExitEnable(key: ComponentKey) {
+        if (this.onExit) {
+
+            this.onExit.addEnable(key);
+        } else {
+            this.onExit = new StateEffect({
+                enable: [key]
+            })
+        }
+    }
+
+    /**
+     * Add Component to disable when entering state.
+     * @param key 
+     */
+    addExitDisable(key: ComponentKey) {
+        if (this.onExit) {
+
+            this.onExit.addDisable(key);
+        } else {
+            this.onExit = new StateEffect({
+                disable: [key]
+            })
+        }
+    }
+
+
     addExitEffect(effect: StateEffectDef) {
         if (this.onExit) {
             this.onExit.addEffects(effect);

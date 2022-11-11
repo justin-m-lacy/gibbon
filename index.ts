@@ -36,6 +36,7 @@ import { LerpPos } from './src/components/lerp-pos';
 import { FSM } from './src/core/fsm';
 import { EngineEvent } from './src/events/engine-events';
 import { ActorData } from './src/components/actor-data';
+import { State } from './src/data/state';
 export { LayerGroup } from './src/core/layer-group';
 
 export * as ArrayUtils from './src/utils/array-utils';
@@ -43,6 +44,7 @@ export * as ArrayUtils from './src/utils/array-utils';
 export {
 
 	FSM,
+	State,
 	LerpPos,
 	Engine, Game, Component, System,
 	Actor,
