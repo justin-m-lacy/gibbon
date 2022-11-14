@@ -22,12 +22,12 @@ export const getTween = <T extends object>(targ: T): Tween<T> | undefined => {
  * @param targ 
  * @returns 
  */
-export const tweenOf = <T extends object>(targ: T): Tween<T> => {
-    let cur = tweens.get(targ) as Tween<T>;
+export const tweenOf = <T extends object>(targ: T, group?: Group): Tween<T> => {
+    let cur = tweens.get(targ,) as Tween<T>;
     if (cur) {
         return cur;
     } else {
-        cur = new Tween(targ);
+        cur = new Tween(targ, group);
         tweens.set(targ, cur);
         return cur;
     }
