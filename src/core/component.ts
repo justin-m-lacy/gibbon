@@ -101,13 +101,15 @@ export class Component<T extends DisplayObject = DisplayObject, G extends Game =
 	 */
 	actor?: Actor<T, G>;
 
-	_enabled: boolean = false;
-	_destroyed: boolean = false;
+	/**
+	 * @private
+	 */
+	_enabled: boolean = true;
 
 	/**
-	 * True if component should sleep.
+	 * @private
 	 */
-	_sleep: boolean = false;
+	_destroyed: boolean = false;
 
 
 	/**
@@ -131,10 +133,11 @@ export class Component<T extends DisplayObject = DisplayObject, G extends Game =
 	_init(actor: Actor<T, G>) {
 
 		this.actor = actor;
-		this._enabled = true;
-
 		this.init?.();
 
+		if (this.enabled) {
+			this.onEnable?.();
+		}
 	}
 
 	/**

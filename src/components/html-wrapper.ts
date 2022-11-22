@@ -119,6 +119,18 @@ export class HtmlWrapper extends Component {
 
     }
 
+
+    onEnable() {
+        if (this._elm) {
+            this._elm.style.display = this._display ?? 'block';
+        }
+    }
+    onDisable() {
+        if (this._elm) {
+            this._elm.style.display = 'none';
+        }
+    }
+
     private initElement(elmId?: string | HTMLElement | null, opts?: HtmlWrapperOpts) {
 
         if (typeof elmId === 'string') {
@@ -135,24 +147,13 @@ export class HtmlWrapper extends Component {
 
     }
 
+
     private createNamedDiv(elmId?: string) {
         const elm = document.createElement('div');
         if (elmId) elm.id = elmId;
         document.body.appendChild(elm);
         return elm;
     }
-
-    onEnable() {
-        if (this._elm) {
-            this._elm.style.display = this._display ?? 'block';
-        }
-    }
-    onDisable() {
-        if (this._elm) {
-            this._elm.style.display = 'none';
-        }
-    }
-
 
     onDestroy(): void {
 
