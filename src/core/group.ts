@@ -26,11 +26,11 @@ export class Group<T extends Game = Game> {
 	 */
 	name?: string;
 
-	/**
-	 * @property {boolean} paused
-	 */
-	get paused() { return this._paused; }
 
+	/**
+	 * @property {boolean} enabled
+	 */
+	get enabled() { return this._enabled; }
 
 	/**
 	 * Subgroups of this group.
@@ -47,8 +47,6 @@ export class Group<T extends Game = Game> {
 	 */
 	private readonly _actor?: Actor<Container>;
 
-	_paused: boolean = false;
-
 	private _game?: T;
 	/**
 	 * Game group is added to, if any.
@@ -64,15 +62,23 @@ export class Group<T extends Game = Game> {
 
 	protected isDestroyed: boolean = false;
 
+	private _enabled: boolean = false;
+
+	/**
+	 * Whether group should enable when added to engine.
+	 * Used to track enable state before actually added.
+	 */
+	private _shouldEnable: boolean;
+
 	/**
 	 *
 	 * @param actor -actor to assign to group, or container to use as group container,
 	 * or 'true' to create a group container.
-	 * @param paused
+	 * @param enabled
 	 */
-	constructor(actor?: Container | boolean | undefined | null, paused: boolean = false) {
+	constructor(actor?: Container | boolean | undefined | null, enabled: boolean = true) {
 
-		this._paused = paused;
+		this._shouldEnable = enabled;
 		if (actor) {
 			this._actor = this.makeGroupActor(actor);
 			this.clip = this._actor.clip;
@@ -100,50 +106,43 @@ export class Group<T extends Game = Game> {
 		return actor;
 	}
 
-	pause() {
+	public enable() {
 
-		if (this._paused) return;
-		this._paused = true;
-
-		for (const obj of this.objects) {
-			obj.pause();
-			obj.active = false;
-		}
+		if (this._enabled === true) return;
+		this._shouldEnable = true;
 
 		for (const g of this.subgroups) {
-			g.pause();
+			g.enable();
+		}
+
+		this._enabled = true;
+
+	}
+
+	public disable() {
+
+		if (this._enabled === false) return;
+		this._shouldEnable = false;
+
+		this._enabled = true;
+		for (const g of this.subgroups) {
+			g.disable();
 		}
 
 	}
 
-	unpause() {
 
-		if (this._paused === false) return;
-
-		for (const obj of this.objects) {
-			if (obj.unpause) obj.unpause();
-			obj.active = true;
-		}
-		for (const g of this.subgroups) {
-			g.unpause();
-		}
-
-		this._paused = false;
-
-	}
 
 	/**
 	 * Override in subclasses for notification of when
 	 * group is added to game.
 	 */
-	onAdded() {
-	}
+	public onAdded() { }
 
 	/**
 	 * Override in subclasses to be notified when group is removed.
 	 */
-	onRemoved() {
-	}
+	public onRemoved() { }
 
 	/**
 	 * Internal message of group being added to game.
@@ -170,6 +169,9 @@ export class Group<T extends Game = Game> {
 			}
 
 			this.onAdded();
+			if (this._shouldEnable) {
+				this.enable();
+			}
 
 		}
 
@@ -323,6 +325,12 @@ export class Group<T extends Game = Game> {
 	 */
 	_onRemoved() {
 
+		/// Save previous enabled state in case group is re-added.
+		const curEnable = this._enabled;
+
+		this.disable();
+		this._shouldEnable = curEnable;
+
 		const game = this._game;
 		if (game) {
 
@@ -398,8 +406,6 @@ export class Group<T extends Game = Game> {
 
 		this._game = tempGame;
 		this.onDestroy?.();
-
-		this._paused = true;
 
 		this._actor?.destroy();
 

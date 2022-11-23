@@ -12,11 +12,11 @@ export class LayerGroup<T extends Game = Game> extends Group<T> {
 	/**
 	 *
 	 * @param container -actor to assign to group, or container to use as group container.
-	 * @param paused
+	 * @param enabled
 	 */
-	constructor(container: Container, paused: boolean = false) {
+	constructor(container: Container, enabled: boolean = true) {
 
-		super(container, paused);
+		super(container, enabled);
 
 	}
 

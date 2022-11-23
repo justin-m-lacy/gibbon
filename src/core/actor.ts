@@ -232,8 +232,6 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	 * Override in subclass.
 	 */
 	added(): void { }
-	pause(): void { }
-	unpause(): void { }
 
 	/**
 	 * Called by Engine when Actor is added to engine.

@@ -110,7 +110,9 @@ export class Engine implements IUpdater {
 	 * @param {IUpdater} sys
 	 */
 	addUpdater(sys: IUpdater) {
-		this.updaters.push(sys);
+		if (this.updaters.indexOf(sys) < 0) {
+			this.updaters.push(sys);
+		}
 	}
 
 	/**
