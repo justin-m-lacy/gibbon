@@ -124,7 +124,7 @@ export class Group<T extends Game = Game> {
 		this._shouldEnable = false;
 		if (this._enabled === false) return;
 
-		this._enabled = true;
+		this._enabled = false;
 		for (const g of this.subgroups) {
 			g.disable();
 		}
