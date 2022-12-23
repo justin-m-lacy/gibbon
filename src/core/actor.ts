@@ -510,7 +510,6 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 			}
 		}
 
-		comp.enabled = false;
 		if (destroy === true) comp.destroy();
 
 		this._compMap.delete(comp.constructor || comp);

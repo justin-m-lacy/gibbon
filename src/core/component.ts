@@ -216,12 +216,12 @@ export class Component<T extends DisplayObject = DisplayObject, G extends Game =
 			return;
 		}
 
+		this.enabled = false;
 		this.actor?.emit(
 			EngineEvent.ComponentDestroyed, this);
 
 		this.onDestroy?.();
 
-		this._enabled = false;
 		this._destroyed = true;
 		this.actor = undefined;
 	}
