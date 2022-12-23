@@ -277,6 +277,15 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	}
 
 	/**
+	 * Wrap emitter off()
+	 * @param  {...any} args
+	 */
+	off(e: string, fn?: EventEmitter.ListenerFn, context?: any) {
+		this.emitter.off(e, fn, context);
+	}
+
+
+	/**
 	 * Emit an event through the underlying actor clip. If the actor
 	 * does not contain a clip, the event is emitted through a custom emitter.
 	 * @param {*} args - First argument should be the {string} event name.
@@ -285,13 +294,6 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 		this.emitter.emit(event, ...args);
 	}
 
-	/**
-	 * Wrap emitter off()
-	 * @param  {...any} args
-	 */
-	off(e: string, fn?: EventEmitter.ListenerFn, context?: any) {
-		this.emitter.off(e, fn, context);
-	}
 
 	/**
 	 * Add an existing component to the Actor.
@@ -508,6 +510,7 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 			}
 		}
 
+		comp.enabled = false;
 		if (destroy === true) comp.destroy();
 
 		this._compMap.delete(comp.constructor || comp);
