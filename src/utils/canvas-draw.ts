@@ -6,20 +6,20 @@ import { TPoint } from '@/data/geom';
 
 export class CanvasDraw {
 
-	readonly canvas: HTMLCanvasElement;
-	readonly width: number;
-	readonly height: number;
+	public readonly canvas: HTMLCanvasElement;
+	public readonly width: number;
+	public readonly height: number;
 
-	getTexture() {
+	/**
+	 * 
+	 * @returns New Texture from Canvas content.
+	 */
+	public getTexture() {
 
 		return BaseTexture.from(this.canvas);
 	}
 
-	getContext() {
-
-		return this.canvas.getContext('2d');
-
-	}
+	public getContext() { return this.canvas.getContext('2d'); }
 
 	constructor(width: number, height: number) {
 
@@ -38,16 +38,14 @@ export class CanvasDraw {
 	 * Create sprite from current image.
 	 * @returns 
 	 */
-	toSprite() {
-		return Sprite.from(this.canvas);
-	}
+	public toSprite() { return Sprite.from(this.canvas); }
 
 	/**
 	 * Create radial gradient. x,y will default to canvas center.
 	 * @param x 
 	 * @param y 
 	 */
-	gradRadial(gradient: Gradient, r0: number, r1: number, x?: number, y?: number) {
+	public gradRadial(gradient: Gradient, r0: number, r1: number, x?: number, y?: number) {
 
 		const ctx = this.canvas.getContext('2d')!;
 
@@ -73,7 +71,7 @@ export class CanvasDraw {
 	 * @param {Point} p1
 	 * @param {Gradient} gradient
 	 */
-	gradFill(p0: TPoint, p1: TPoint, gradient: Gradient) {
+	public gradFill(p0: TPoint, p1: TPoint, gradient: Gradient) {
 
 		const ctx = this.canvas.getContext('2d')!;
 
@@ -90,14 +88,14 @@ export class CanvasDraw {
 	 *
 	 * @param {number} color
 	 */
-	fill(color: number) {
+	public fill(color: number) {
 		const ctx = this.canvas.getContext('2d');
 		ctx!.fillStyle = htmlStr(color);
 		ctx!.fillRect(0, 0, this.width, this.height);
 
 	}
 
-	clear() {
+	public clear() {
 		const ctx = this.canvas.getContext('2d');
 		ctx?.clearRect(0, 0, this.width, this.height);
 	}

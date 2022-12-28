@@ -2,13 +2,13 @@ import { htmlStr, rgbaStr } from '../utils/color-utils';
 
 export class Gradient {
 
-	colors: number[];
+	public readonly colors: number[];
 
 	/**
 	 * @property {number[]} stops - percent stops of each color.
 	 * first step should start at 0, last should be 1.
 	 */
-	stops: number[];
+	public readonly stops: number[];
 
 	constructor(colors: number[], stops: number[]) {
 
@@ -20,7 +20,7 @@ export class Gradient {
 	/**
 	 * Create a linear gradient object for the context which may include alpha.
 	 */
-	toAlphaLinear(ctx: CanvasRenderingContext2D, x0: number, y0: number, x1: number, y1: number) {
+	public toAlphaLinear(ctx: CanvasRenderingContext2D, x0: number, y0: number, x1: number, y1: number) {
 
 		const grad = ctx.createLinearGradient(x0, y0, x1, y1);
 		this.addAlphaStops(grad);
@@ -31,7 +31,7 @@ export class Gradient {
 	/**
 	 * Create a radial gradient object for the context that includes alpha channel.
 	 */
-	toAlphaRadial(ctx: CanvasRenderingContext2D, r0: number, r1: number, x: number = 0, y: number = 0) {
+	public toAlphaRadial(ctx: CanvasRenderingContext2D, r0: number, r1: number, x: number = 0, y: number = 0) {
 
 		const grad = ctx.createRadialGradient(x, y, r0, x, y, r1);
 		this.addAlphaStops(grad);
@@ -42,7 +42,7 @@ export class Gradient {
 	/**
 	 * Create a linear gradient object for the context. alpha is ignored.
 	 */
-	toLinear(ctx: CanvasRenderingContext2D, x0: number, y0: number, x1: number, y1: number) {
+	public toLinear(ctx: CanvasRenderingContext2D, x0: number, y0: number, x1: number, y1: number) {
 
 		const grad = ctx.createLinearGradient(x0, y0, x1, y1);
 		this.addStops(grad);
@@ -54,7 +54,7 @@ export class Gradient {
 	/**
 	 * Create a radial gradient object for the context. alpha is ignored.
 	 */
-	toRadial(ctx: CanvasRenderingContext2D, r0: number, r1: number, x: number = 0, y: number = 0) {
+	public toRadial(ctx: CanvasRenderingContext2D, r0: number, r1: number, x: number = 0, y: number = 0) {
 
 		const grad = ctx.createRadialGradient(x, y, r0, x, y, r1);
 		this.addStops(grad);
@@ -65,7 +65,7 @@ export class Gradient {
 	/**
 	 * Add gradient stops which include an alpha component.
 	 */
-	addAlphaStops(grad: CanvasGradient) {
+	public addAlphaStops(grad: CanvasGradient) {
 		for (let i = 0; i < this.stops.length; i++) {
 			grad.addColorStop(this.stops[i], rgbaStr(this.colors[i]));
 		}
@@ -75,7 +75,7 @@ export class Gradient {
 	 * Add the Gradient color steps to the CanvasGradient with no alpha.
 	 * @param {CanvasGradient} grad
 	 */
-	addStops(grad: CanvasGradient) {
+	public addStops(grad: CanvasGradient) {
 
 		for (let i = 0; i < this.stops.length; i++) {
 
@@ -88,7 +88,7 @@ export class Gradient {
 	/**
 	 * Ensure stops are nondecreasing between 0 and 1.
 	 */
-	normalize() {
+	public repair() {
 
 		const a = this.stops;
 		let prev = 0;

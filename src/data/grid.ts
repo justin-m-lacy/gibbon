@@ -55,7 +55,7 @@ export class Grid<T extends Positionable> {
      * @param range 
      * @param item 
      */
-    addToRange(range: GridRange, item: T) {
+    public addToRange(range: GridRange, item: T) {
 
         const maxR = range.maxRow;
         const maxC = range.maxCol;
@@ -68,7 +68,7 @@ export class Grid<T extends Positionable> {
 
     }
 
-    removeFromRange(range: GridRange, item: T) {
+    public removeFromRange(range: GridRange, item: T) {
 
         const maxR = range.maxRow;
         const maxC = range.maxCol;
@@ -85,7 +85,7 @@ export class Grid<T extends Positionable> {
      * Get hits matching item.
      * @param results 
      */
-    getHits(item: T, results: T[] = [], range?: GridRange) {
+    public getHits(item: T, results: T[] = [], range?: GridRange) {
 
         range = range ?? this.getRange(item);
 
@@ -108,7 +108,7 @@ export class Grid<T extends Positionable> {
      * @param item 
      * @param result - Optional grid range in which to place results.
      */
-    getRange(item: T, result?: GridRange) {
+    public getRange(item: T, result?: GridRange) {
 
         result = result ?? new GridRange();
 
@@ -153,7 +153,7 @@ export class Grid<T extends Positionable> {
      * @param range 
      * @param results 
      */
-    getItems(range: GridRange, results: T[] = []) {
+    public getItems(range: GridRange, results: T[] = []) {
 
         const maxR = range.maxRow;
         const maxC = range.maxCol;
@@ -168,7 +168,7 @@ export class Grid<T extends Positionable> {
 
     }
 
-    addItem(item: T) {
+    public addItem(item: T) {
 
         let minRow = Math.floor((item.y - item.height / 2) / this.cellHeight);
         if (minRow < 0) {
@@ -204,7 +204,7 @@ export class Grid<T extends Positionable> {
         }
 
     }
-    removeItem(go: T) {
+    public removeItem(go: T) {
         let minRow = Math.floor((go.y - go.height / 2) / this.cellHeight);
         if (minRow < 0) {
             minRow = 0;

@@ -5,7 +5,7 @@ export class GridCell<T extends Positionable> {
 
     private items: Array<T> = [];
 
-    clear() {
+    public clear() {
         this.items.length = 0;
     }
 
@@ -16,7 +16,7 @@ export class GridCell<T extends Positionable> {
      * @param results - optional results array.
      * @returns 
      */
-    getHits(object: T, results: T[] = []) {
+    public getHits(object: T, results: T[] = []) {
 
 
         for (let i = this.items.length - 1; i >= 0; i--) {
@@ -31,7 +31,7 @@ export class GridCell<T extends Positionable> {
 
     }
 
-    getItems(results: T[] = []) {
+    public getItems(results: T[] = []) {
         for (let i = this.items.length - 1; i >= 0; i--) {
             if (results.indexOf(this.items[i]) < 0) {
                 results.push(this.items[i]);
@@ -40,14 +40,14 @@ export class GridCell<T extends Positionable> {
         return results;
     }
 
-    addItem(go: T) {
+    public addItem(go: T) {
 
         if (this.items.indexOf(go) < 0) {
             this.items.push(go);
         }
     }
 
-    removeItem(go: T) {
+    public removeItem(go: T) {
 
         for (let i = this.items.length - 1; i >= 0; i--) {
 

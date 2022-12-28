@@ -13,7 +13,7 @@ export class GridRange {
         this.maxCol = maxCol;
     }
 
-    equals(gr: GridRange) {
+    public equals(gr: GridRange) {
         return this.minRow === gr.minRow && this.maxRow === gr.maxRow && this.minCol === gr.maxCol && this.maxCol === gr.maxCol;
     }
 
