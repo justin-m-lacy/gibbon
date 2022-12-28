@@ -1,17 +1,32 @@
 import { Matrix, Polygon } from 'pixi.js';
 import { TPoint } from '../data/geom';
 
+export const PI_2 = 2 * Math.PI;
+
 export const clampTo2Pi = (v: number) => {
-	if (v > 2 * Math.PI || v < -2 * Math.PI) v %= 2 * Math.PI;
+	return (v > PI_2 || v < -PI_2) ? v %= PI_2 : v;
 }
 
+
 /**
- * Clamp angle in radians in [-2*Math.PI,2*Math.PI] to [-Math.PI, Math.PI]
+ * Clamp angle to [-Math.PI, Math.PI]
  */
 export const clampToPi = (a: number) => {
-	return a > Math.PI ? a - 2 * Math.PI :
-		(a < -Math.PI ? a + 2 * Math.PI : a);
+
+
+	a = a % PI_2;
+
+	if (a > Math.PI) {
+		a -= PI_2;
+	} else if (a < -Math.PI) {
+		a += PI_2;
+	}
+
+	return a;
 }
+
+
+
 
 export const getLength = (p: TPoint): number => {
 	return Math.sqrt(p.x * p.x + p.y * p.y);
