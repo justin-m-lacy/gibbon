@@ -34,7 +34,6 @@
   },
   "include": [
     "./index.ts",
-    "./src/utils/*.ts",
     "./src/**/*.ts",
     "./src/**/*.d.ts",
     "./src/**/*.tsx",

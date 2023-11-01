@@ -127,7 +127,7 @@ export class Camera extends Component<DisplayObject> {
 	 * Call when view size has changed.
 	 * @param rect 
 	 */
-	resized(rect: Rectangle) {
+	resized(rect: { x: number, y: number, width: number, height: number }) {
 
 		this._viewRect.width = rect.width;
 		this._viewRect.height = rect.height;

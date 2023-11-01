@@ -1,5 +1,4 @@
-import { Container } from 'pixi.js';
-import type { DisplayObject } from 'pixi.js';
+import { Container, type DisplayObject } from 'pixi.js';
 import type { Game } from './game';
 
 export type LayerData = {
@@ -13,7 +12,7 @@ export type LayerOptions = {
 	objects?: Container,
 	background?: Container,
 	uiLayer?: Container,
-	foreground?: Container,
+	foreground?: DisplayObject,
 	layers?: LayerData[]
 }
 /**
@@ -24,35 +23,16 @@ export type LayerOptions = {
  */
 export class LayerManager {
 
-	//get layers() { return this._layers;}
+	get background() { return this._background; }
+	get foreground() { return this._foreground; }
+	get objectLayer() { return this._objectLayer; }
 
-	/**
-	 * @property {DisplayObject}
-	 */
-	get background(): DisplayObject | undefined { return this._background; }
+	get uiLayer() { return this._uiLayer; }
 
-	/**
-	 * @property {DisplayObject}
-	 */
-	get foreground(): DisplayObject | undefined { return this._foreground; }
-
-	/**
-	 * @property {Container}
-	 */
-	get objectLayer(): Container { return this._objectLayer; }
-
-	/**
-	 * @property {Container}
-	 */
-	get uiLayer(): Container | undefined { return this._uiLayer; }
-
-	/**
-	 * @property {number}
-	 */
 	get layerCount() { return this._objectLayer.parent.children.length }
 
 	_foreground?: DisplayObject;
-	_background?: DisplayObject;
+	_background?: Container;
 	_objectLayer: Container;
 	_uiLayer?: Container;
 

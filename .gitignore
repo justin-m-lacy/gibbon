@@ -14,3 +14,4 @@ types
 
 # js mapping files
 lib/*.map
+.vscode/settings.json

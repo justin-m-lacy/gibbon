@@ -1,6 +1,6 @@
-import { Circle, Graphics, Rectangle, Polygon, Ellipse, GraphicsData, RoundedRectangle, Point, DisplayObject, RenderTexture, AbstractRenderer, Container, SHAPES, autoDetectRenderer } from 'pixi.js';
+import { Circle, Graphics, Rectangle, Polygon, Ellipse, GraphicsData, RoundedRectangle, Point, DisplayObject, RenderTexture, IRenderer, Container, SHAPES, autoDetectRenderer } from 'pixi.js';
 
-export const drawToTexture = (d: DisplayObject, renderer?: AbstractRenderer) => {
+export const drawToTexture = (d: DisplayObject, renderer?: IRenderer) => {
 
 	const bounds = d.getBounds();
 	const renderTex: RenderTexture =
@@ -19,8 +19,6 @@ export const drawToTexture = (d: DisplayObject, renderer?: AbstractRenderer) => 
  * Object itself placed at the Shape's x,y location.
  * @param data - Shape and drawing data.
  * @param container - Container to add created graphic to.
- * @returns {PIXI.GraphicsData|Object} graphicsData - information on how to draw the shape.
- * @returns {?Graphics}
  */
 export const createShape = (data: GraphicsData, container?: Container) => {
 

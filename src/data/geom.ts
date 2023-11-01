@@ -24,3 +24,18 @@ export interface IPoint {
 
     set(x: number, y: number): this;
 }
+
+export type Rectangle = {
+    x: number,
+    y: number,
+    width: number,
+    height: number
+}
+export interface IRectangle {
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+
+    contains(pt: TPoint): boolean;
+}

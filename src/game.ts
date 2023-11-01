@@ -1,4 +1,4 @@
-import { DisplayObject, Container, Application, Ticker, Rectangle } from 'pixi.js';
+import { DisplayObject, Container, Application, Ticker } from 'pixi.js';
 import { LayerManager, LayerOptions } from './layerManager';
 import { Engine } from './engine';
 import { Actor } from './core/actor';
@@ -8,7 +8,6 @@ import { Library } from './library';
 import { Tween } from 'tweedle.js';
 import { tweenOf } from './utils/tweens';
 import { contains } from './utils/array-utils';
-import { WheelControl } from './input/mouse-wheel';
 import EventEmitter from 'eventemitter3';
 import type { IUpdater } from './engine';
 import { EngineEvent } from './events/engine-events';
@@ -28,7 +27,7 @@ export class Game {
 	get app(): Application { return this._app; }
 
 	/**
-	 * @property {PIXI.Renderer} renderer - renderer for application.
+	 * renderer for application.
 	 * Convenience accessor. Cache for quick access.
 	 */
 	get renderer() { return this._app.renderer; }
@@ -57,9 +56,9 @@ export class Game {
 	get uiLayer(): Container { return this.layerManager._uiLayer!; }
 
 	/**
-	 * @property {PIXI.Container} backgroundLayer
+	 * @property {Container} backgroundLayer
 	 */
-	get backgroundLayer(): DisplayObject | undefined { return this._layerManager?.background; }
+	get backgroundLayer() { return this._layerManager?.background; }
 
 	/**
 	 * @property ticker - Game Ticker.
@@ -173,7 +172,7 @@ export class Game {
 			this.app.renderer.resize(
 				w,
 				h);
-			this._emitter.emit(EngineEvent.ScreenResized, new Rectangle(0, 0, w, h));
+			this._emitter.emit(EngineEvent.ScreenResized, { x: 0, y: 0, width: 0, height: 0 });
 		};
 		window.addEventListener('resize', resizer);
 
@@ -321,20 +320,6 @@ export class Game {
 
 		return new Tween(target).to(props, time);
 
-	}
-
-	/**
-	 * Enable mouse wheel events.
-	 */
-	enableWheel() {
-		WheelControl.enableWheel(this.app);
-	}
-
-	/**
-	 * Disable wheel events.
-	 */
-	disableWheel() {
-		WheelControl.disableWheel(this.app);
 	}
 
 }

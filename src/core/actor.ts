@@ -1,5 +1,4 @@
-import { Point, DisplayObject, Container } from 'pixi.js';
-import { EventEmitter } from '@pixi/utils';
+import { Point, DisplayObject, Container, utils, DisplayObjectEvents } from 'pixi.js';
 import type { Group } from './group';
 import { Game } from '../game';
 import { Component } from './component';
@@ -33,12 +32,12 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	/**
 	 * @property {Game} game
 	 */
-	get game(): G { return Game.current as G; }
+	get game() { return Game.current as G; }
 
 	/**
 	 * @property {Group} group - owning group of the actor, if any.
 	 */
-	get group(): Group | null { return this._group; }
+	get group() { return this._group; }
 	set group(v: Group | null) { this._group = v; }
 
 	/**
@@ -77,21 +76,21 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	set position(v) { this._position.set(v.x, v.y); }
 
 	/**
-	 * @property {number} x
+	 * @property x
 	 */
-	get x(): number { return this._position.x; }
+	get x() { return this._position.x; }
 	set x(v: number) { this._position.x = v; }
 
 	/**
-	 * @property {number} y
+	 * @property y
 	 */
 	get y(): number { return this._position.y; }
 	set y(v: number) { this._position.y = v; }
 
 	/**
-	 * @property {number} rotation - Rotation in radians.
+	 * @property rotation - Rotation in radians.
 	 */
-	get rotation(): number { return this._rotation; }
+	get rotation() { return this._rotation; }
 	set rotation(v) {
 		if (v > 2 * Math.PI || v < -2 * Math.PI) v %= 2 * Math.PI;
 		this._rotation = v;
@@ -107,7 +106,7 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	get height() { return this.clip?.getBounds().height ?? 0; }
 
 	/**
-	 * @property {boolean} interactive - Set the interactivity for the Actor.
+	 * @property interactive - Set the interactivity for the Actor.
 	 * The setting is ignored if the Actor has no clip.
 	 */
 	get interactive() { return this.clip?.interactive ?? false }
@@ -117,7 +116,7 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 		}
 	}
 
-	get sleeping(): boolean { return this._sleep; }
+	get sleeping() { return this._sleep; }
 	set sleep(v: boolean) { this._sleep = v; }
 
 	/**
@@ -166,7 +165,7 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	 */
 	private _isAdded: boolean = false;
 
-	readonly emitter: EventEmitter;
+	readonly emitter: utils.EventEmitter<DisplayObjectEvents>;
 
 	protected _sleep: boolean = false;
 
@@ -196,8 +195,8 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 
 	/**
 	 *
-	 * @param {DisplayObject} [clip=null]
-	 * @param {Point} [pos=null]
+	 * @param [clip=null]
+	 * @param [pos=null]
 	 */
 	constructor(clip?: T | null, pos?: IPoint | null) {
 
@@ -223,7 +222,7 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 
 		this._active = true;
 
-		this.emitter = clip || new EventEmitter();
+		this.emitter = clip ?? new utils.EventEmitter();
 		this.clip = clip ?? undefined;
 
 	}
@@ -262,12 +261,11 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 
 	/**
 	 *
-	 * @param {string} evt
-	 * @param {function} func
-	 * @param {*} [context=null]
-	 * @returns {PIXI.utils.EventEmitter}
+	 * @param evt
+	 * @param func
+	 * @returns
 	 */
-	on(evt: string, func: EventEmitter.ListenerFn, context?: any) {
+	on(evt: string, func: utils.EventEmitter.ListenerFn, context?: any) {
 		if (this.clip != null) {
 			return this.clip.on(evt, func, context);
 		}
@@ -280,7 +278,7 @@ export class Actor<T extends DisplayObject = DisplayObject, G extends Game = Gam
 	 * Wrap emitter off()
 	 * @param  {...any} args
 	 */
-	off(e: string, fn?: EventEmitter.ListenerFn, context?: any) {
+	off(e: string, fn?: utils.EventEmitter.ListenerFn, context?: any) {
 		this.emitter.off(e, fn, context);
 	}
 
