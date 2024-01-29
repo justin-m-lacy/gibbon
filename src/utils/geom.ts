@@ -13,7 +13,6 @@ export const clampTo2Pi = (v: number) => {
  */
 export const clampToPi = (a: number) => {
 
-
 	a = a % PI_2;
 
 	if (a > Math.PI) {
@@ -28,14 +27,14 @@ export const clampToPi = (a: number) => {
 
 
 
-export const getLength = (p: TPoint): number => {
+export const getLength = (p: TPoint) => {
 	return Math.sqrt(p.x * p.x + p.y * p.y);
 }
 
 /**
  * Returns the distance between two points.
  */
-export const dist = (p1: TPoint, p2: TPoint): number => {
+export const dist = (p1: TPoint, p2: TPoint) => {
 	const dx = p2.x - p1.x, dy = p2.y - p1.y;
 	return Math.sqrt(dx * dx + dy * dy);
 }
@@ -53,13 +52,13 @@ export const getTravelPt = (points: TPoint[], dist: number) => {
 	let curPt, prevPt = points[0];
 	let curDist = 0;
 
-	let dx, dy, d;
+	let d;
 	for (let i = 1; i < count; i++) {
 
 		curPt = points[i];
 
-		dx = curPt.x - prevPt.x;
-		dy = curPt.y - prevPt.y;
+		const dx = curPt.x - prevPt.x;
+		const dy = curPt.y - prevPt.y;
 		d = Math.sqrt(dx * dx + dy * dy);
 
 		if ((curDist + d) >= dist) {

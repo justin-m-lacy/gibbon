@@ -5,12 +5,10 @@ import type { IPoint } from '../data/geom';
 export class Mover extends Component {
 
 	/**
-	 * @property {number} rotation - wraps actor rotation in radians.
+	 * @property rotation - wraps actor rotation in radians.
 	 */
 	get rotation() { return this.actor!.rotation; }
-	set rotation(v) {
-		this.actor!.rotation = v;
-	}
+	set rotation(v: number) { this.actor!.rotation = v; }
 
 	/**
 	 * @property  position
@@ -27,7 +25,7 @@ export class Mover extends Component {
 	/**
 	  * @property {number} velocityMax - Maximum absolute value of velocity.
 	  */
-	get velocityMax(): number { return this._speedMax; }
+	get velocityMax() { return this._speedMax; }
 	set velocityMax(v: number) { this._speedMax = v; }
 
 	/**

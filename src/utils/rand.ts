@@ -26,7 +26,6 @@ export const randFloat = (min: number, max: number) => { return min + (Math.rand
 * @param {number} maxPoints
 * @param {number} minRadius
 * @param {number} maxRadius
-* @returns {PIXI.Polygon}
 */
 export function randPoly(minPoints = 3, maxPoints = 4, minRadius = 4, maxRadius = 10) {
 
@@ -34,10 +33,10 @@ export function randPoly(minPoints = 3, maxPoints = 4, minRadius = 4, maxRadius 
 	const step = 2 * Math.PI / maxPoints;
 
 	const pts = new Array(len);
-	let r, theta = 0;
+	let theta = 0;
 	for (let i = 0; i < len; i++) {
 
-		r = minRadius + Math.random() * (maxRadius - minRadius);
+		const r = minRadius + Math.random() * (maxRadius - minRadius);
 		pts[i] = new Point(r * Math.cos(theta), r * Math.sin(theta));
 
 		theta += step;
