@@ -1,3 +1,4 @@
+import { IPoint } from './data/geom';
 import { Constructor, isConstructor, Clonable, isClonable } from './utils/types';
 import type { Actor } from './core/actor';
 
@@ -25,7 +26,7 @@ export class Library {
 	 * @param {string} name 
 	 * @returns {?Object} Object created, or null.
 	 */
-	instance<T>(name: string) {
+	instance<T>(name: string, p?: IPoint | null) {
 
 		const item = this._lib.get(name);
 		if (!item) return null;
