@@ -1,6 +1,7 @@
-import { Circle, Graphics, Rectangle, Polygon, Ellipse, GraphicsData, RoundedRectangle, Point, DisplayObject, RenderTexture, IRenderer, Container, SHAPES, autoDetectRenderer } from 'pixi.js';
+import { Circle, Graphics, Rectangle, Polygon, Ellipse, GraphicsData, RoundedRectangle, Point, DisplayObject, RenderTexture, Container, autoDetectRenderer, SHAPES } from 'pixi.js';
+import * as PIXI from 'pixi.js';
 
-export const drawToTexture = (d: DisplayObject, renderer?: IRenderer) => {
+export const drawToTexture = (d: DisplayObject, renderer?: PIXI.Renderer) => {
 
 	const bounds = d.getBounds();
 	const renderTex: RenderTexture =

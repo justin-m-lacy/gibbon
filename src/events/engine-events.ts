@@ -3,13 +3,11 @@ import type { Collider2d } from '../components/collider2d';
 import type { Component } from '../core/component';
 import type { DisplayObject } from 'pixi.js';
 import type EventEmitter from 'eventemitter3';
-import type { EventNames } from 'eventemitter3';
-
 
 /**
  * Ensure string|symbol events are converted to { [string]:(EventListener)} format.
  */
-export type EventObject<E extends EventEmitter.ValidEventTypes> = E extends string | symbol ? Record<E, EventEmitter.EventListener<E, EventNames<E>>> : E;
+export type EventObject<E extends EventEmitter.ValidEventTypes> = E extends string | symbol ? Record<E, EventEmitter.EventListener<E, EventEmitter.EventNames<E>>> : E;
 
 
 export type CombineEvents<E1 extends EventEmitter.ValidEventTypes, E2 extends EventEmitter.ValidEventTypes> = EventObject<E1> & EventObject<E2>;

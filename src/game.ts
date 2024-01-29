@@ -1,4 +1,5 @@
-import { DisplayObject, Container, Application, Ticker } from 'pixi.js';
+import { Assets } from 'pixi.js';
+import { DisplayObject, Container, Point, Application, Ticker, Rectangle } from 'pixi.js';
 import { LayerManager, LayerOptions } from './layerManager';
 import { Engine } from './engine';
 import { Actor } from './core/actor';
@@ -36,6 +37,12 @@ export class Game {
 	 * @property {PIXI.Container} stage
 	 */
 	get stage() { return this._app.stage; }
+
+	/**
+	 * @property loader
+	 */
+	get loader() { return this._loader; }
+	set loader(v) { this._loader = v; }
 
 	/**
 	 * @property {PIXI.Rectangle} screen - Screen/View Rectangle.
@@ -95,6 +102,8 @@ export class Game {
 
 	private readonly _app: Application;
 
+	private _loader: typeof Assets;
+
 	private readonly _groups: Group[] = [];
 
 	/**
@@ -122,6 +131,7 @@ export class Game {
 		this.app.stage.hitArea = this._app.screen;
 
 		Game.current = this;
+		this._loader = Assets;
 
 		this._engine = new Engine(new Ticker());
 
