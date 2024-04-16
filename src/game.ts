@@ -182,7 +182,7 @@ export class Game {
 			this.app.renderer.resize(
 				w,
 				h);
-			this._emitter.emit(EngineEvent.ScreenResized, { x: 0, y: 0, width: 0, height: 0 });
+			this._emitter.emit(EngineEvent.ScreenResized, { x: 0, y: 0, width: w, height: h });
 		};
 		window.addEventListener('resize', resizer);
 
